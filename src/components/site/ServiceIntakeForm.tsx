@@ -126,14 +126,14 @@ export function ServiceIntakeForm({ service }: { service: ServiceConfig }) {
           </div>
           <div className="space-y-3 p-5 text-sm">
             <p className="text-muted-foreground">
-              <strong className="text-foreground">To:</strong> {values.email || "you@example.com"}
+              <strong className="text-foreground">To:</strong> {values['email'] || "you@example.com"}
             </p>
             <p className="text-muted-foreground">
               <strong className="text-foreground">Subject:</strong> {service.title} request {reference}{" "}
               received
             </p>
             <div className="rounded-lg bg-muted/50 p-4 leading-relaxed text-muted-foreground">
-              <p>Hi {values.fullName || "there"},</p>
+              <p>Hi {values['fullName'] || "there"},</p>
               <p className="mt-3">{CONFIRMATION_COPY}</p>
               <p className="mt-3">— Meridian Client Services</p>
             </div>
