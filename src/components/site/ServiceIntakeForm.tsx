@@ -5,6 +5,7 @@ import { FileUploader, type LocalFile } from "@/components/site/FileUploader";
 import { TrustBanner } from "@/components/site/SiteFooter";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { DatePicker } from "@/components/ui/date-picker";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import {
@@ -64,6 +65,14 @@ function Field({
             ))}
           </SelectContent>
         </Select>
+      ) : field.type === "date" ? (
+        <DatePicker
+          id={id}
+          value={value}
+          onChange={onChange}
+          required={field.required}
+          placeholder={field.placeholder || "Select date..."}
+        />
       ) : (
         <Input
           id={id}

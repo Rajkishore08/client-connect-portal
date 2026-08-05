@@ -1,8 +1,8 @@
 import { Link, createFileRoute } from "@tanstack/react-router";
-import { ArrowRight, CalendarCheck, Clock, Lock, MapPin, MessagesSquare, ShieldCheck, Zap } from "lucide-react";
+import { ArrowRight, CalendarCheck, Clock, Lock, MessagesSquare, ShieldCheck } from "lucide-react";
 
 import { CategoryExplorer } from "@/components/site/CategoryExplorer";
-import { QuickServiceSelector } from "@/components/site/QuickServiceSelector";
+import { InteractiveCapabilitiesGallery } from "@/components/site/InteractiveCapabilitiesGallery";
 import { TrustBanner } from "@/components/site/SiteFooter";
 import { StepsBanner } from "@/components/site/StepsBanner";
 import { TurnaroundEstimator } from "@/components/site/TurnaroundEstimator";
@@ -38,49 +38,45 @@ const TRUST_BADGES = [
 function Home() {
   return (
     <main>
-      {/* Hero Section with Quick Service Selector */}
-      <section className="hero-wash border-b border-border">
-        <div className="mx-auto max-w-6xl px-4 py-12 sm:px-6 sm:py-16">
-          <div className="grid gap-10 lg:grid-cols-[1.2fr_1fr] items-center">
-            <div>
-              <span className="inline-flex items-center gap-2 rounded-full border border-border bg-card px-3.5 py-1.5 text-xs font-bold text-foreground">
-                <ShieldCheck className="h-4 w-4 text-primary" />
-                Walk-Ins Welcome • Chicago HQ Office
-              </span>
-              <h1 className="mt-4 text-3xl font-black leading-tight sm:text-5xl">
-                Expedited Passport &amp; Visa Solutions — Fast, Secure &amp; Easy.
-              </h1>
-              <p className="mt-4 text-base leading-relaxed text-muted-foreground sm:text-lg">
-                Get your US passport or foreign visa expedited in as little as 1–14 days. Avoid 5–7 week government delays with guaranteed error-free preparation.
-              </p>
-              <div className="mt-6 flex flex-col gap-3 sm:flex-row">
-                <Button asChild size="lg" className="h-12 text-base font-bold">
-                  <a href="#services">
-                    Explore Services <ArrowRight className="h-4 w-4" />
-                  </a>
-                </Button>
-                <Button asChild size="lg" variant="outline" className="h-12 text-base">
-                  <Link to="/book">
-                    <CalendarCheck className="h-4 w-4" /> Schedule Visit / Call
-                  </Link>
-                </Button>
-              </div>
-            </div>
+      {/* Left-Aligned Clean Hero Section */}
+      <section className="hero-wash border-b border-border py-14 sm:py-20">
+        <div className="mx-auto max-w-6xl px-4 sm:px-6">
+          <div className="max-w-3xl">
+            <span className="inline-flex items-center gap-2 rounded-full border border-border bg-card/80 px-3.5 py-1.5 text-xs font-bold text-foreground shadow-xs">
+              <ShieldCheck className="h-4 w-4 text-primary" />
+              Walk-Ins Welcome • Chicago HQ Office
+            </span>
 
-            {/* Hero Interactive Quick Selector */}
-            <div>
-              <QuickServiceSelector />
+            <h1 className="mt-5 text-4xl font-black leading-tight tracking-tight sm:text-6xl text-foreground">
+              Expedited Passport &amp; Visa Solutions — <span className="text-primary">Fast, Secure &amp; Easy.</span>
+            </h1>
+
+            <p className="mt-4 text-base leading-relaxed text-muted-foreground sm:text-lg">
+              Get your US passport or foreign visa expedited in as little as 1–14 days. Avoid 5–7 week government delays with guaranteed error-free preparation.
+            </p>
+
+            <div className="mt-7 flex flex-col gap-3 sm:flex-row sm:items-center">
+              <Button asChild size="lg" className="h-12 px-7 text-base font-bold">
+                <a href="#services">
+                  Explore Services <ArrowRight className="h-4 w-4 ml-1" />
+                </a>
+              </Button>
+              <Button asChild size="lg" variant="outline" className="h-12 px-7 text-base font-medium">
+                <Link to="/book">
+                  <CalendarCheck className="h-4 w-4 mr-1.5" /> Schedule Visit / Call
+                </Link>
+              </Button>
             </div>
           </div>
 
-          <ul className="mt-10 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+          <ul className="mt-12 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
             {TRUST_BADGES.map((badge) => (
               <li
                 key={badge.label}
-                className="flex items-center gap-3 rounded-xl border border-border bg-card/80 px-4 py-3 backdrop-blur-sm shadow-xs"
+                className="flex items-center gap-3 rounded-xl border border-border bg-card/80 px-4 py-3.5 backdrop-blur-sm shadow-xs"
               >
                 <badge.icon className="h-4.5 w-4.5 shrink-0 text-primary" />
-                <span className="min-w-0 text-xs sm:text-sm font-semibold">{badge.label}</span>
+                <span className="min-w-0 text-xs sm:text-sm font-semibold text-foreground">{badge.label}</span>
               </li>
             ))}
           </ul>
@@ -88,6 +84,13 @@ function Home() {
       </section>
 
       <div className="mx-auto max-w-6xl space-y-12 px-4 py-12 sm:px-6 sm:py-16">
+        {/* Interactive Capabilities Gallery matching user design */}
+        <InteractiveCapabilitiesGallery
+          badgeText="TAILORED EXPERTISE"
+          mainHeading="Expedited Passport & Core Capabilities"
+          mainSubheading="Explore our end-to-end expedited passport renewals, OCI applications, and digital services tailored for fast delivery."
+        />
+
         {/* 3-Step Process Banner */}
         <StepsBanner />
 

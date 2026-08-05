@@ -138,3 +138,7 @@
     ),
     radial-gradient(100% 80% at 100% 0%, var(--color-accent) 0%, transparent 65%);
 }
+
+@utility writing-vertical-rl {
+  writing-mode: vertical-rl;
+}
