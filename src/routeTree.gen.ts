@@ -10,14 +10,22 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as BookRouteImport } from './routes/book'
 import { Route as DigitalMarketingRouteImport } from './routes/digital-marketing'
 import { Route as PassportRouteImport } from './routes/passport'
+import { Route as TrackRouteImport } from './routes/track'
+import { Route as WebDevelopmentRouteImport } from './routes/web-development'
 import { Route as PassportIndexRouteImport } from './routes/passport.index'
 import { Route as PassportServiceRouteImport } from './routes/passport.$service'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const BookRoute = BookRouteImport.update({
+  id: '/book',
+  path: '/book',
   getParentRoute: () => rootRouteImport,
 } as any)
 const DigitalMarketingRoute = DigitalMarketingRouteImport.update({
@@ -28,6 +36,16 @@ const DigitalMarketingRoute = DigitalMarketingRouteImport.update({
 const PassportRoute = PassportRouteImport.update({
   id: '/passport',
   path: '/passport',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const TrackRoute = TrackRouteImport.update({
+  id: '/track',
+  path: '/track',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const WebDevelopmentRoute = WebDevelopmentRouteImport.update({
+  id: '/web-development',
+  path: '/web-development',
   getParentRoute: () => rootRouteImport,
 } as any)
 const PassportIndexRoute = PassportIndexRouteImport.update({
@@ -43,22 +61,31 @@ const PassportServiceRoute = PassportServiceRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/book': typeof BookRoute
   '/digital-marketing': typeof DigitalMarketingRoute
   '/passport': typeof PassportRouteWithChildren
+  '/track': typeof TrackRoute
+  '/web-development': typeof WebDevelopmentRoute
   '/passport/$service': typeof PassportServiceRoute
   '/passport/': typeof PassportIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/book': typeof BookRoute
   '/digital-marketing': typeof DigitalMarketingRoute
+  '/track': typeof TrackRoute
+  '/web-development': typeof WebDevelopmentRoute
   '/passport/$service': typeof PassportServiceRoute
   '/passport': typeof PassportIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/book': typeof BookRoute
   '/digital-marketing': typeof DigitalMarketingRoute
   '/passport': typeof PassportRouteWithChildren
+  '/track': typeof TrackRoute
+  '/web-development': typeof WebDevelopmentRoute
   '/passport/$service': typeof PassportServiceRoute
   '/passport/': typeof PassportIndexRoute
 }
@@ -66,25 +93,41 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/book'
     | '/digital-marketing'
     | '/passport'
+    | '/track'
+    | '/web-development'
     | '/passport/$service'
     | '/passport/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/digital-marketing' | '/passport/$service' | '/passport'
+  to:
+    | '/'
+    | '/book'
+    | '/digital-marketing'
+    | '/track'
+    | '/web-development'
+    | '/passport/$service'
+    | '/passport'
   id:
     | '__root__'
     | '/'
+    | '/book'
     | '/digital-marketing'
     | '/passport'
+    | '/track'
+    | '/web-development'
     | '/passport/$service'
     | '/passport/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  BookRoute: typeof BookRoute
   DigitalMarketingRoute: typeof DigitalMarketingRoute
   PassportRoute: typeof PassportRouteWithChildren
+  TrackRoute: typeof TrackRoute
+  WebDevelopmentRoute: typeof WebDevelopmentRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -94,6 +137,13 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/book': {
+      id: '/book'
+      path: '/book'
+      fullPath: '/book'
+      preLoaderRoute: typeof BookRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/digital-marketing': {
@@ -108,6 +158,20 @@ declare module '@tanstack/react-router' {
       path: '/passport'
       fullPath: '/passport'
       preLoaderRoute: typeof PassportRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/track': {
+      id: '/track'
+      path: '/track'
+      fullPath: '/track'
+      preLoaderRoute: typeof TrackRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/web-development': {
+      id: '/web-development'
+      path: '/web-development'
+      fullPath: '/web-development'
+      preLoaderRoute: typeof WebDevelopmentRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/passport/': {
@@ -143,8 +207,11 @@ const PassportRouteWithChildren = PassportRoute._addFileChildren(
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  BookRoute: BookRoute,
   DigitalMarketingRoute: DigitalMarketingRoute,
   PassportRoute: PassportRouteWithChildren,
+  TrackRoute: TrackRoute,
+  WebDevelopmentRoute: WebDevelopmentRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

@@ -45,8 +45,8 @@ function StepRow({
   icon: typeof FileText;
   title: string;
   status: TrackStatus;
-  reference?: string;
-  last?: boolean;
+  reference?: string | undefined;
+  last?: boolean | undefined;
 }) {
   const done = status === "Completed";
   return (
