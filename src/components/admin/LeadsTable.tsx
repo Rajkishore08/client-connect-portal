@@ -1,5 +1,5 @@
 import { ChevronDown, FileSpreadsheet, RefreshCw, Search } from "lucide-react";
-import { useMemo, useState } from "react";
+import { Fragment, useMemo, useState } from "react";
 import { toast } from "sonner";
 
 import { Badge } from "@/components/ui/badge";
@@ -165,8 +165,8 @@ export function LeadsTable() {
             </thead>
             <tbody>
               {rows.map((lead) => (
-                <>
-                  <tr key={lead.id} className="border-t border-border align-middle">
+                <Fragment key={lead.id}>
+                  <tr className="border-t border-border align-middle">
                     <td className="whitespace-nowrap px-4 py-3 text-muted-foreground">{lead.date}</td>
                     <td className="px-4 py-3 font-medium">{lead.name}</td>
                     <td className="px-4 py-3 text-muted-foreground">{lead.email}</td>
@@ -210,7 +210,7 @@ export function LeadsTable() {
                     </td>
                   </tr>
                   {expanded === lead.id && (
-                    <tr key={`${lead.id}-detail`} className="border-t border-border bg-muted/30">
+                    <tr className="border-t border-border bg-muted/30">
                       <td colSpan={10} className="px-4 py-5">
                         <div className="grid gap-6 lg:grid-cols-[1.2fr_1fr]">
                           <div>
@@ -288,7 +288,7 @@ export function LeadsTable() {
                       </td>
                     </tr>
                   )}
-                </>
+                </Fragment>
               ))}
               {rows.length === 0 && (
                 <tr className="border-t border-border">
