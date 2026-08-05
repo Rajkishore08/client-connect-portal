@@ -10,6 +10,7 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AccountRouteImport } from './routes/account'
 import { Route as AdminRouteImport } from './routes/admin'
 import { Route as BookRouteImport } from './routes/book'
 import { Route as DigitalMarketingRouteImport } from './routes/digital-marketing'
@@ -18,12 +19,19 @@ import { Route as PrivacyRouteImport } from './routes/privacy'
 import { Route as TermsRouteImport } from './routes/terms'
 import { Route as TrackRouteImport } from './routes/track'
 import { Route as WebDevelopmentRouteImport } from './routes/web-development'
+import { Route as AuthLoginRouteImport } from './routes/auth.login'
+import { Route as AuthSignupRouteImport } from './routes/auth.signup'
 import { Route as PassportIndexRouteImport } from './routes/passport.index'
 import { Route as PassportServiceRouteImport } from './routes/passport.$service'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AccountRoute = AccountRouteImport.update({
+  id: '/account',
+  path: '/account',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AdminRoute = AdminRouteImport.update({
@@ -66,6 +74,16 @@ const WebDevelopmentRoute = WebDevelopmentRouteImport.update({
   path: '/web-development',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AuthLoginRoute = AuthLoginRouteImport.update({
+  id: '/auth/login',
+  path: '/auth/login',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AuthSignupRoute = AuthSignupRouteImport.update({
+  id: '/auth/signup',
+  path: '/auth/signup',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const PassportIndexRoute = PassportIndexRouteImport.update({
   id: '/',
   path: '/',
@@ -79,6 +97,7 @@ const PassportServiceRoute = PassportServiceRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/account': typeof AccountRoute
   '/admin': typeof AdminRoute
   '/book': typeof BookRoute
   '/digital-marketing': typeof DigitalMarketingRoute
@@ -87,11 +106,14 @@ export interface FileRoutesByFullPath {
   '/terms': typeof TermsRoute
   '/track': typeof TrackRoute
   '/web-development': typeof WebDevelopmentRoute
+  '/auth/login': typeof AuthLoginRoute
+  '/auth/signup': typeof AuthSignupRoute
   '/passport/$service': typeof PassportServiceRoute
   '/passport/': typeof PassportIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/account': typeof AccountRoute
   '/admin': typeof AdminRoute
   '/book': typeof BookRoute
   '/digital-marketing': typeof DigitalMarketingRoute
@@ -99,12 +121,15 @@ export interface FileRoutesByTo {
   '/terms': typeof TermsRoute
   '/track': typeof TrackRoute
   '/web-development': typeof WebDevelopmentRoute
+  '/auth/login': typeof AuthLoginRoute
+  '/auth/signup': typeof AuthSignupRoute
   '/passport/$service': typeof PassportServiceRoute
   '/passport': typeof PassportIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/account': typeof AccountRoute
   '/admin': typeof AdminRoute
   '/book': typeof BookRoute
   '/digital-marketing': typeof DigitalMarketingRoute
@@ -113,6 +138,8 @@ export interface FileRoutesById {
   '/terms': typeof TermsRoute
   '/track': typeof TrackRoute
   '/web-development': typeof WebDevelopmentRoute
+  '/auth/login': typeof AuthLoginRoute
+  '/auth/signup': typeof AuthSignupRoute
   '/passport/$service': typeof PassportServiceRoute
   '/passport/': typeof PassportIndexRoute
 }
@@ -120,6 +147,7 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/account'
     | '/admin'
     | '/book'
     | '/digital-marketing'
@@ -128,11 +156,14 @@ export interface FileRouteTypes {
     | '/terms'
     | '/track'
     | '/web-development'
+    | '/auth/login'
+    | '/auth/signup'
     | '/passport/$service'
     | '/passport/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/account'
     | '/admin'
     | '/book'
     | '/digital-marketing'
@@ -140,11 +171,14 @@ export interface FileRouteTypes {
     | '/terms'
     | '/track'
     | '/web-development'
+    | '/auth/login'
+    | '/auth/signup'
     | '/passport/$service'
     | '/passport'
   id:
     | '__root__'
     | '/'
+    | '/account'
     | '/admin'
     | '/book'
     | '/digital-marketing'
@@ -153,12 +187,15 @@ export interface FileRouteTypes {
     | '/terms'
     | '/track'
     | '/web-development'
+    | '/auth/login'
+    | '/auth/signup'
     | '/passport/$service'
     | '/passport/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AccountRoute: typeof AccountRoute
   AdminRoute: typeof AdminRoute
   BookRoute: typeof BookRoute
   DigitalMarketingRoute: typeof DigitalMarketingRoute
@@ -167,6 +204,8 @@ export interface RootRouteChildren {
   TermsRoute: typeof TermsRoute
   TrackRoute: typeof TrackRoute
   WebDevelopmentRoute: typeof WebDevelopmentRoute
+  AuthLoginRoute: typeof AuthLoginRoute
+  AuthSignupRoute: typeof AuthSignupRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -176,6 +215,13 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/account': {
+      id: '/account'
+      path: '/account'
+      fullPath: '/account'
+      preLoaderRoute: typeof AccountRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/admin': {
@@ -234,6 +280,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof WebDevelopmentRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/auth/login': {
+      id: '/auth/login'
+      path: '/auth/login'
+      fullPath: '/auth/login'
+      preLoaderRoute: typeof AuthLoginRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/auth/signup': {
+      id: '/auth/signup'
+      path: '/auth/signup'
+      fullPath: '/auth/signup'
+      preLoaderRoute: typeof AuthSignupRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/passport/': {
       id: '/passport/'
       path: '/'
@@ -267,6 +327,7 @@ const PassportRouteWithChildren = PassportRoute._addFileChildren(
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AccountRoute: AccountRoute,
   AdminRoute: AdminRoute,
   BookRoute: BookRoute,
   DigitalMarketingRoute: DigitalMarketingRoute,
@@ -275,6 +336,8 @@ const rootRouteChildren: RootRouteChildren = {
   TermsRoute: TermsRoute,
   TrackRoute: TrackRoute,
   WebDevelopmentRoute: WebDevelopmentRoute,
+  AuthLoginRoute: AuthLoginRoute,
+  AuthSignupRoute: AuthSignupRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

@@ -14,6 +14,7 @@ import { ChatWidget } from "@/components/site/ChatWidget";
 import { SiteFooter } from "@/components/site/SiteFooter";
 import { SiteHeader } from "@/components/site/SiteHeader";
 import { Toaster } from "@/components/ui/sonner";
+import { AuthProvider } from "@/lib/auth-context";
 
 import appCss from "../styles.css?url";
 
@@ -127,16 +128,18 @@ function RootComponent() {
 
   return (
     <QueryClientProvider client={queryClient}>
-      <div className="flex min-h-screen flex-col">
-        {!isAdmin && <SiteHeader />}
-        <div className="flex-1">
-          {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
-          <Outlet />
+      <AuthProvider>
+        <div className="flex min-h-screen flex-col">
+          {!isAdmin && <SiteHeader />}
+          <div className="flex-1">
+            {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
+            <Outlet />
+          </div>
+          {!isAdmin && <SiteFooter />}
         </div>
-        {!isAdmin && <SiteFooter />}
-      </div>
-      {!isAdmin && <ChatWidget />}
-      <Toaster position="top-center" />
+        {!isAdmin && <ChatWidget />}
+        <Toaster position="top-center" />
+      </AuthProvider>
     </QueryClientProvider>
   );
 }
