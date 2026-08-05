@@ -5,7 +5,7 @@ import {
   Globe2,
   Megaphone,
   MonitorSmartphone,
-  Passport,
+  BookUser,
   Sparkles,
 } from "lucide-react";
 import { useState } from "react";
@@ -36,7 +36,7 @@ export function PassportList() {
           className="group flex items-start gap-3 rounded-xl border border-border bg-card p-4 transition-all hover:border-primary hover:shadow-[var(--shadow-card)]"
         >
           <span className="grid h-9 w-9 shrink-0 place-items-center rounded-lg bg-primary-soft text-primary">
-            <Passport className="h-4.5 w-4.5" />
+            <BookUser className="h-4.5 w-4.5" />
           </span>
           <span className="min-w-0 flex-1">
             <span className="flex flex-wrap items-center gap-2">
@@ -152,7 +152,7 @@ const CATEGORY_UI = [
     slug: "passport" as const,
     title: "Passport & Visa Services",
     blurb: "6 services — renewals, OCI, surrender, emergency, e-visa, lost passports.",
-    icon: Passport,
+    icon: BookUser,
     render: () => <PassportList />,
     href: "/passport" as const,
   },
