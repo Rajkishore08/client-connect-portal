@@ -12,6 +12,7 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as PassportRouteImport } from './routes/passport'
 import { Route as PassportIndexRouteImport } from './routes/passport.index'
+import { Route as PassportServiceRouteImport } from './routes/passport.$service'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -28,28 +29,36 @@ const PassportIndexRoute = PassportIndexRouteImport.update({
   path: '/',
   getParentRoute: () => PassportRoute,
 } as any)
+const PassportServiceRoute = PassportServiceRouteImport.update({
+  id: '/$service',
+  path: '/$service',
+  getParentRoute: () => PassportRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/passport': typeof PassportRouteWithChildren
+  '/passport/$service': typeof PassportServiceRoute
   '/passport/': typeof PassportIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/passport/$service': typeof PassportServiceRoute
   '/passport': typeof PassportIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/passport': typeof PassportRouteWithChildren
+  '/passport/$service': typeof PassportServiceRoute
   '/passport/': typeof PassportIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/passport' | '/passport/'
+  fullPaths: '/' | '/passport' | '/passport/$service' | '/passport/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/passport'
-  id: '__root__' | '/' | '/passport' | '/passport/'
+  to: '/' | '/passport/$service' | '/passport'
+  id: '__root__' | '/' | '/passport' | '/passport/$service' | '/passport/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -80,14 +89,23 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PassportIndexRouteImport
       parentRoute: typeof PassportRoute
     }
+    '/passport/$service': {
+      id: '/passport/$service'
+      path: '/$service'
+      fullPath: '/passport/$service'
+      preLoaderRoute: typeof PassportServiceRouteImport
+      parentRoute: typeof PassportRoute
+    }
   }
 }
 
 interface PassportRouteChildren {
+  PassportServiceRoute: typeof PassportServiceRoute
   PassportIndexRoute: typeof PassportIndexRoute
 }
 
 const PassportRouteChildren: PassportRouteChildren = {
+  PassportServiceRoute: PassportServiceRoute,
   PassportIndexRoute: PassportIndexRoute,
 }
 
