@@ -14,6 +14,8 @@ import { Route as AdminRouteImport } from './routes/admin'
 import { Route as BookRouteImport } from './routes/book'
 import { Route as DigitalMarketingRouteImport } from './routes/digital-marketing'
 import { Route as PassportRouteImport } from './routes/passport'
+import { Route as PrivacyRouteImport } from './routes/privacy'
+import { Route as TermsRouteImport } from './routes/terms'
 import { Route as TrackRouteImport } from './routes/track'
 import { Route as WebDevelopmentRouteImport } from './routes/web-development'
 import { Route as PassportIndexRouteImport } from './routes/passport.index'
@@ -44,6 +46,16 @@ const PassportRoute = PassportRouteImport.update({
   path: '/passport',
   getParentRoute: () => rootRouteImport,
 } as any)
+const PrivacyRoute = PrivacyRouteImport.update({
+  id: '/privacy',
+  path: '/privacy',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const TermsRoute = TermsRouteImport.update({
+  id: '/terms',
+  path: '/terms',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const TrackRoute = TrackRouteImport.update({
   id: '/track',
   path: '/track',
@@ -71,6 +83,8 @@ export interface FileRoutesByFullPath {
   '/book': typeof BookRoute
   '/digital-marketing': typeof DigitalMarketingRoute
   '/passport': typeof PassportRouteWithChildren
+  '/privacy': typeof PrivacyRoute
+  '/terms': typeof TermsRoute
   '/track': typeof TrackRoute
   '/web-development': typeof WebDevelopmentRoute
   '/passport/$service': typeof PassportServiceRoute
@@ -81,6 +95,8 @@ export interface FileRoutesByTo {
   '/admin': typeof AdminRoute
   '/book': typeof BookRoute
   '/digital-marketing': typeof DigitalMarketingRoute
+  '/privacy': typeof PrivacyRoute
+  '/terms': typeof TermsRoute
   '/track': typeof TrackRoute
   '/web-development': typeof WebDevelopmentRoute
   '/passport/$service': typeof PassportServiceRoute
@@ -93,6 +109,8 @@ export interface FileRoutesById {
   '/book': typeof BookRoute
   '/digital-marketing': typeof DigitalMarketingRoute
   '/passport': typeof PassportRouteWithChildren
+  '/privacy': typeof PrivacyRoute
+  '/terms': typeof TermsRoute
   '/track': typeof TrackRoute
   '/web-development': typeof WebDevelopmentRoute
   '/passport/$service': typeof PassportServiceRoute
@@ -106,6 +124,8 @@ export interface FileRouteTypes {
     | '/book'
     | '/digital-marketing'
     | '/passport'
+    | '/privacy'
+    | '/terms'
     | '/track'
     | '/web-development'
     | '/passport/$service'
@@ -116,6 +136,8 @@ export interface FileRouteTypes {
     | '/admin'
     | '/book'
     | '/digital-marketing'
+    | '/privacy'
+    | '/terms'
     | '/track'
     | '/web-development'
     | '/passport/$service'
@@ -127,6 +149,8 @@ export interface FileRouteTypes {
     | '/book'
     | '/digital-marketing'
     | '/passport'
+    | '/privacy'
+    | '/terms'
     | '/track'
     | '/web-development'
     | '/passport/$service'
@@ -139,6 +163,8 @@ export interface RootRouteChildren {
   BookRoute: typeof BookRoute
   DigitalMarketingRoute: typeof DigitalMarketingRoute
   PassportRoute: typeof PassportRouteWithChildren
+  PrivacyRoute: typeof PrivacyRoute
+  TermsRoute: typeof TermsRoute
   TrackRoute: typeof TrackRoute
   WebDevelopmentRoute: typeof WebDevelopmentRoute
 }
@@ -178,6 +204,20 @@ declare module '@tanstack/react-router' {
       path: '/passport'
       fullPath: '/passport'
       preLoaderRoute: typeof PassportRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/privacy': {
+      id: '/privacy'
+      path: '/privacy'
+      fullPath: '/privacy'
+      preLoaderRoute: typeof PrivacyRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/terms': {
+      id: '/terms'
+      path: '/terms'
+      fullPath: '/terms'
+      preLoaderRoute: typeof TermsRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/track': {
@@ -231,9 +271,21 @@ const rootRouteChildren: RootRouteChildren = {
   BookRoute: BookRoute,
   DigitalMarketingRoute: DigitalMarketingRoute,
   PassportRoute: PassportRouteWithChildren,
+  PrivacyRoute: PrivacyRoute,
+  TermsRoute: TermsRoute,
   TrackRoute: TrackRoute,
   WebDevelopmentRoute: WebDevelopmentRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
+
+import type { getRouter } from './router.tsx'
+import type { startInstance } from './start.ts'
+declare module '@tanstack/react-start' {
+  interface Register {
+    ssr: true
+    router: Awaited<ReturnType<typeof getRouter>>
+    config: Awaited<ReturnType<typeof startInstance.getOptions>>
+  }
+}

@@ -1,10 +1,9 @@
-<!-- LOVABLE:BEGIN -->
-> [!IMPORTANT]
-> This project is connected to [Lovable](https://lovable.dev). Avoid rewriting
-> published git history — force pushing, or rebasing/amending/squashing commits
-> that are already pushed — as it rewrites history on Lovable's side and the
-> user will likely lose their project history.
->
-> Commits you push to the connected branch sync back to Lovable and show up in
-> the editor, so keep the branch in a working state.
-<!-- LOVABLE:END -->
+# AGENTS.md — One World Solutions Portal
+
+## Project Overview
+Enterprise Client Services & Intake Portal built with React 19, TanStack Start, TanStack Router, TailwindCSS v4, Vite, and TypeScript.
+
+## Core Rules & Architecture
+1. Maintain strict TypeScript safety and explicit types for all services and mock data.
+2. Keep UI clean, responsive, and aligned with modern enterprise aesthetic standards.
+3. Ensure accessibility (a11y) and proper SEO metadata across all routes.

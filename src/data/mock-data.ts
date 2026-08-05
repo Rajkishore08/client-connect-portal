@@ -563,3 +563,89 @@ export const TRUST_COPY = {
 
 export const CONFIRMATION_COPY =
   "Thank you. We have received your request. Our team will review it and contact you shortly with next steps and the exact documents to prepare. Official government / VFS fees are paid by you directly to the respective authorities.";
+
+export interface SpeedTier {
+  id: string;
+  name: string;
+  turnaround: string;
+  serviceFee: number;
+  govFee: number;
+  popular?: boolean;
+  emergency?: boolean;
+  description: string;
+}
+
+export const SPEED_TIERS: SpeedTier[] = [
+  {
+    id: "same-day",
+    name: "24-Hour Emergency Rush",
+    turnaround: "1 Business Day",
+    serviceFee: 349,
+    govFee: 209.50,
+    emergency: true,
+    description: "For immediate travel within 24–48 hours. Direct priority concierge handler.",
+  },
+  {
+    id: "express",
+    name: "2–4 Day Expedited",
+    turnaround: "2 to 4 Days",
+    serviceFee: 249,
+    govFee: 209.50,
+    popular: true,
+    description: "Fast-track processing for travel within the next 1–2 weeks.",
+  },
+  {
+    id: "fast-track",
+    name: "5–7 Day Fast-Track",
+    turnaround: "5 to 7 Days",
+    serviceFee: 179,
+    govFee: 209.50,
+    description: "Accelerated review with full pre-verification of all documents.",
+  },
+  {
+    id: "standard-expedited",
+    name: "8–14 Day Standard Expedited",
+    turnaround: "8 to 14 Days",
+    serviceFee: 119,
+    govFee: 209.50,
+    description: "Standard guided processing, guaranteed zero-rejection submission.",
+  },
+];
+
+export interface ShippingOption {
+  id: string;
+  name: string;
+  fee: number;
+  estimatedTime: string;
+}
+
+export const SHIPPING_OPTIONS: ShippingOption[] = [
+  { id: "fedex-overnight", name: "FedEx Priority Overnight (Return)", fee: 39, estimatedTime: "Next Morning Delivery" },
+  { id: "fedex-2day", name: "FedEx 2-Day Express", fee: 25, estimatedTime: "2 Business Days" },
+  { id: "office-pickup", name: "In-Office Pickup (Chicago HQ)", fee: 0, estimatedTime: "Same Day Ready" },
+];
+
+export const OFFICE_LOCATION = {
+  address: "180 N LaSalle St #106, Chicago, IL 60601, USA",
+  phone: "+1 (312) 925-3278",
+  email: "support@oneworldsolutions.com",
+  hours: "Mon-Fri: 8:30 AM - 5:00 PM | Sat: 10:00 AM - 2:00 PM",
+  walkInStatus: "Walk-Ins Welcome — No Appointment Required",
+};
+
+export const QUICK_SERVICE_OPTIONS = [
+  { group: "Passport Services", slug: "passport-renewal", title: "Passport Renewal" },
+  { group: "Passport Services", slug: "new-passport", title: "New US Passport" },
+  { group: "Passport Services", slug: "child-passport", title: "Child Passport" },
+  { group: "Passport Services", slug: "lost-damaged-passport", title: "Lost or Damaged Passport" },
+  { group: "Passport Services", slug: "oci", title: "OCI (Overseas Citizen of India)" },
+  { group: "Passport Services", slug: "renunciation", title: "Renunciation / Surrender" },
+  { group: "Passport Services", slug: "emergency-certificate", title: "Emergency Certificate" },
+  { group: "Visa Services", slug: "e-visa", title: "India E-Visa" },
+  { group: "Visa Services", slug: "e-visa", title: "Brazil E-Visa" },
+  { group: "Visa Services", slug: "e-visa", title: "Kenya E-Visa" },
+  { group: "Visa Services", slug: "e-visa", title: "Vietnam E-Visa" },
+  { group: "Visa Services", slug: "e-visa", title: "China Business / Tourist Visa" },
+  { group: "Visa Services", slug: "e-visa", title: "UK ETA Visa" },
+];
+

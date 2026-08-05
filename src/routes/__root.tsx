@@ -16,7 +16,6 @@ import { SiteHeader } from "@/components/site/SiteHeader";
 import { Toaster } from "@/components/ui/sonner";
 
 import appCss from "../styles.css?url";
-import { reportLovableError } from "../lib/lovable-error-reporting";
 
 function NotFoundComponent() {
   return (
@@ -43,9 +42,6 @@ function NotFoundComponent() {
 function ErrorComponent({ error, reset }: { error: Error; reset: () => void }) {
   console.error(error);
   const router = useRouter();
-  useEffect(() => {
-    reportLovableError(error, { boundary: "tanstack_root_error_component" });
-  }, [error]);
 
   return (
     <div className="flex min-h-screen items-center justify-center bg-background px-4">
@@ -83,13 +79,13 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Meridian Client Services — Passport, Visa & Digital Services" },
+      { title: "One World Solutions — Client Intake Portal & Digital Services" },
       {
         name: "description",
         content:
-          "Guided intake for passport, visa, digital marketing and web development services. Private service company — not affiliated with any government body.",
+          "Enterprise intake portal for passport, visa, digital marketing, and web development services by One World Solutions.",
       },
-      { name: "author", content: "Meridian Client Services" },
+      { name: "author", content: "One World Solutions" },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
     ],

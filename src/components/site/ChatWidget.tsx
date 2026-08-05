@@ -21,7 +21,7 @@ const QUICK_REPLIES = [
 const GREETING: ChatMessage = {
   id: "greeting",
   role: "assistant",
-  text: "Hi! I'm the Meridian assistant. I can help with document checklists, application tracking, or booking a consultation. What do you need?",
+  text: "Hi! I'm the One World Solutions assistant. I can help with document checklists, application tracking, or booking a consultation. What do you need?",
 };
 
 export function ChatWidget() {
@@ -73,7 +73,7 @@ export function ChatWidget() {
               <Bot className="h-4.5 w-4.5" />
             </span>
             <div className="min-w-0 flex-1">
-              <p className="truncate text-sm font-semibold">Meridian Assistant</p>
+              <p className="truncate text-sm font-semibold">One World Solutions Assistant</p>
               <p className="text-xs text-muted-foreground">Typically replies instantly</p>
             </div>
             <Button variant="ghost" size="icon" aria-label="Close chat" onClick={() => setOpen(false)}>

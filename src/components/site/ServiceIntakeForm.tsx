@@ -1,4 +1,4 @@
-import { CheckCircle2, ClipboardList, Loader2, Mail } from "lucide-react";
+import { CheckCircle2, ClipboardList, Flame, Loader2, Mail, Printer, Truck, Zap } from "lucide-react";
 import { useState } from "react";
 
 import { FileUploader, type LocalFile } from "@/components/site/FileUploader";
@@ -18,8 +18,11 @@ import { Textarea } from "@/components/ui/textarea";
 import {
   CONFIRMATION_COPY,
   SHARED_APPLICANT_FIELDS,
+  SHIPPING_OPTIONS,
+  SPEED_TIERS,
   type ServiceConfig,
   type ServiceField,
+  type SpeedTier,
 } from "@/data/mock-data";
 import { submitServiceRequest, uploadDocuments } from "@/lib/backend-stubs";
 
@@ -76,9 +79,21 @@ function Field({
   );
 }
 
+const defaultTier: SpeedTier = SPEED_TIERS[1] ?? {
+  id: "express",
+  name: "2–4 Day Expedited",
+  turnaround: "2 to 4 Days",
+  serviceFee: 249,
+  govFee: 209.50,
+  popular: true,
+  description: "Fast-track processing for travel within the next 1–2 weeks.",
+};
+
 export function ServiceIntakeForm({ service }: { service: ServiceConfig }) {
   const [values, setValues] = useState<Record<string, string>>({});
   const [files, setFiles] = useState<LocalFile[]>([]);
+  const [selectedTier, setSelectedTier] = useState<SpeedTier>(defaultTier);
+  const [shippingId, setShippingId] = useState<string>("fedex-overnight");
   const [status, setStatus] = useState<"idle" | "saving" | "done" | "error">("idle");
   const [reference, setReference] = useState("");
 
@@ -88,12 +103,15 @@ export function ServiceIntakeForm({ service }: { service: ServiceConfig }) {
     e.preventDefault();
     setStatus("saving");
     try {
-      // TODO: replace with Supabase Storage upload + insert
       await uploadDocuments([]);
       const res = await submitServiceRequest({
         category: "Passport & Visa Services",
         service: service.title,
-        fields: values,
+        fields: {
+          ...values,
+          speedTier: selectedTier.name,
+          shippingMethod: shippingId,
+        },
         fileNames: files.map((f) => f.name),
       });
       setReference(res.reference);
@@ -102,6 +120,10 @@ export function ServiceIntakeForm({ service }: { service: ServiceConfig }) {
     } catch {
       setStatus("error");
     }
+  };
+
+  const handlePrintChecklist = () => {
+    window.print();
   };
 
   if (status === "done") {
@@ -115,8 +137,13 @@ export function ServiceIntakeForm({ service }: { service: ServiceConfig }) {
           <p className="mx-auto mt-3 max-w-xl text-sm leading-relaxed text-muted-foreground">
             {CONFIRMATION_COPY}
           </p>
-          <div className="mx-auto mt-6 inline-flex items-center gap-2 rounded-full bg-primary-soft px-4 py-2 text-sm font-semibold text-primary">
-            Reference {reference}
+          <div className="mx-auto mt-6 inline-flex flex-col gap-1 items-center">
+            <span className="rounded-full bg-primary-soft px-4 py-2 text-sm font-semibold text-primary">
+              Reference {reference}
+            </span>
+            <span className="text-xs text-muted-foreground mt-1">
+              Selected Speed Tier: <strong>{selectedTier.name}</strong>
+            </span>
           </div>
         </div>
 
@@ -135,7 +162,7 @@ export function ServiceIntakeForm({ service }: { service: ServiceConfig }) {
             <div className="rounded-lg bg-muted/50 p-4 leading-relaxed text-muted-foreground">
               <p>Hi {values['fullName'] || "there"},</p>
               <p className="mt-3">{CONFIRMATION_COPY}</p>
-              <p className="mt-3">— Meridian Client Services</p>
+              <p className="mt-3">— One World Solutions</p>
             </div>
           </div>
         </div>
@@ -147,13 +174,28 @@ export function ServiceIntakeForm({ service }: { service: ServiceConfig }) {
 
   return (
     <form onSubmit={submit} className="space-y-6">
+      {/* 1. Required Document Checklist */}
       <section className="surface-card p-5 sm:p-6">
-        <h2 className="flex items-center gap-2 text-lg font-bold">
-          <ClipboardList className="h-5 w-5 text-primary" /> Documents You'll Need
-        </h2>
-        <p className="mt-1.5 text-sm text-muted-foreground">
-          Have these ready before you start filling in the form below.
-        </p>
+        <div className="flex items-center justify-between gap-4">
+          <div>
+            <h2 className="flex items-center gap-2 text-lg font-bold">
+              <ClipboardList className="h-5 w-5 text-primary" /> Documents You'll Need
+            </h2>
+            <p className="mt-1 text-sm text-muted-foreground">
+              Prepare these documents for submission or walk-in appointment.
+            </p>
+          </div>
+          <Button
+            type="button"
+            variant="outline"
+            size="sm"
+            onClick={handlePrintChecklist}
+            className="hidden sm:inline-flex gap-1.5 text-xs"
+          >
+            <Printer className="h-3.5 w-3.5" /> Print Checklist
+          </Button>
+        </div>
+
         <ul className="mt-4 grid gap-2.5 sm:grid-cols-2">
           {service.checklist.map((item) => (
             <li
@@ -167,8 +209,56 @@ export function ServiceIntakeForm({ service }: { service: ServiceConfig }) {
         </ul>
       </section>
 
+      {/* 2. Processing Speed Tier Selector */}
+      <section className="surface-card p-5 sm:p-6">
+        <div className="flex items-center gap-2 mb-1">
+          <Zap className="h-5 w-5 text-accent" />
+          <h2 className="text-lg font-bold">Select Processing Speed Tier</h2>
+        </div>
+        <p className="text-sm text-muted-foreground">
+          Choose how quickly you need your travel document processed.
+        </p>
+
+        <div className="mt-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+          {SPEED_TIERS.map((tier) => {
+            const isSelected = selectedTier.id === tier.id;
+            return (
+              <button
+                key={tier.id}
+                type="button"
+                onClick={() => setSelectedTier(tier)}
+                className={`relative flex flex-col justify-between rounded-xl border p-3.5 text-left transition-all ${
+                  isSelected
+                    ? "border-primary bg-primary-soft/60 ring-2 ring-primary/20 shadow-xs"
+                    : "border-border bg-background hover:border-muted-foreground/30"
+                }`}
+              >
+                {tier.emergency && (
+                  <span className="mb-2 inline-block self-start rounded bg-destructive px-1.5 py-0.5 text-[9px] font-bold text-destructive-foreground uppercase">
+                    24h Emergency
+                  </span>
+                )}
+                <div>
+                  <div className="font-bold text-sm text-foreground">{tier.name}</div>
+                  <div className="mt-1 text-xs text-primary font-bold">
+                    ${tier.serviceFee} <span className="text-[10px] text-muted-foreground">service fee</span>
+                  </div>
+                  <p className="mt-1.5 text-[11px] text-muted-foreground leading-tight">
+                    {tier.description}
+                  </p>
+                </div>
+                <div className="mt-3 text-[11px] font-semibold text-muted-foreground border-t border-border/50 pt-2">
+                  Turnaround: <span className="text-foreground">{tier.turnaround}</span>
+                </div>
+              </button>
+            );
+          })}
+        </div>
+      </section>
+
       <TrustBanner />
 
+      {/* 3. Applicant Details & Fields */}
       <section className="surface-card p-5 sm:p-6">
         <h2 className="text-lg font-bold">Applicant details</h2>
         <div className="mt-4 grid gap-4 sm:grid-cols-2">
@@ -193,6 +283,43 @@ export function ServiceIntakeForm({ service }: { service: ServiceConfig }) {
           </>
         )}
 
+        {/* 4. Shipping / Delivery Method */}
+        <div className="mt-8">
+          <h3 className="text-base font-semibold flex items-center gap-2">
+            <Truck className="h-4 w-4 text-primary" /> Return Delivery &amp; Shipping Option
+          </h3>
+          <p className="mt-1 text-xs text-muted-foreground">
+            Select how you would like your completed document delivered.
+          </p>
+
+          <div className="mt-3 grid gap-2.5 sm:grid-cols-3">
+            {SHIPPING_OPTIONS.map((ship) => (
+              <label
+                key={ship.id}
+                className={`flex cursor-pointer items-start gap-3 rounded-xl border p-3 text-xs transition-all ${
+                  shippingId === ship.id
+                    ? "border-primary bg-primary-soft/40 shadow-xs"
+                    : "border-border bg-background"
+                }`}
+              >
+                <input
+                  type="radio"
+                  name="shipping"
+                  value={ship.id}
+                  checked={shippingId === ship.id}
+                  onChange={() => setShippingId(ship.id)}
+                  className="mt-0.5"
+                />
+                <div>
+                  <div className="font-bold text-foreground">{ship.name}</div>
+                  <div className="mt-0.5 text-muted-foreground">${ship.fee} • {ship.estimatedTime}</div>
+                </div>
+              </label>
+            ))}
+          </div>
+        </div>
+
+        {/* 5. Document Upload */}
         <div className="mt-8">
           <h3 className="text-base font-semibold">Upload supporting documents</h3>
           <p className="mt-1 text-sm text-muted-foreground">
@@ -209,9 +336,9 @@ export function ServiceIntakeForm({ service }: { service: ServiceConfig }) {
           </p>
         )}
 
-        <Button type="submit" className="mt-6 h-12 w-full text-base" disabled={status === "saving"}>
+        <Button type="submit" className="mt-8 h-12 w-full text-base font-bold" disabled={status === "saving"}>
           {status === "saving" && <Loader2 className="h-4 w-4 animate-spin" />}
-          Submit request
+          Submit request ({selectedTier.name})
         </Button>
       </section>
     </form>
