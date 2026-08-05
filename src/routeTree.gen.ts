@@ -10,6 +10,7 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as DigitalMarketingRouteImport } from './routes/digital-marketing'
 import { Route as PassportRouteImport } from './routes/passport'
 import { Route as PassportIndexRouteImport } from './routes/passport.index'
 import { Route as PassportServiceRouteImport } from './routes/passport.$service'
@@ -17,6 +18,11 @@ import { Route as PassportServiceRouteImport } from './routes/passport.$service'
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DigitalMarketingRoute = DigitalMarketingRouteImport.update({
+  id: '/digital-marketing',
+  path: '/digital-marketing',
   getParentRoute: () => rootRouteImport,
 } as any)
 const PassportRoute = PassportRouteImport.update({
@@ -37,32 +43,47 @@ const PassportServiceRoute = PassportServiceRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/digital-marketing': typeof DigitalMarketingRoute
   '/passport': typeof PassportRouteWithChildren
   '/passport/$service': typeof PassportServiceRoute
   '/passport/': typeof PassportIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/digital-marketing': typeof DigitalMarketingRoute
   '/passport/$service': typeof PassportServiceRoute
   '/passport': typeof PassportIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/digital-marketing': typeof DigitalMarketingRoute
   '/passport': typeof PassportRouteWithChildren
   '/passport/$service': typeof PassportServiceRoute
   '/passport/': typeof PassportIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/passport' | '/passport/$service' | '/passport/'
+  fullPaths:
+    | '/'
+    | '/digital-marketing'
+    | '/passport'
+    | '/passport/$service'
+    | '/passport/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/passport/$service' | '/passport'
-  id: '__root__' | '/' | '/passport' | '/passport/$service' | '/passport/'
+  to: '/' | '/digital-marketing' | '/passport/$service' | '/passport'
+  id:
+    | '__root__'
+    | '/'
+    | '/digital-marketing'
+    | '/passport'
+    | '/passport/$service'
+    | '/passport/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  DigitalMarketingRoute: typeof DigitalMarketingRoute
   PassportRoute: typeof PassportRouteWithChildren
 }
 
@@ -73,6 +94,13 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/digital-marketing': {
+      id: '/digital-marketing'
+      path: '/digital-marketing'
+      fullPath: '/digital-marketing'
+      preLoaderRoute: typeof DigitalMarketingRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/passport': {
@@ -115,6 +143,7 @@ const PassportRouteWithChildren = PassportRoute._addFileChildren(
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  DigitalMarketingRoute: DigitalMarketingRoute,
   PassportRoute: PassportRouteWithChildren,
 }
 export const routeTree = rootRouteImport
