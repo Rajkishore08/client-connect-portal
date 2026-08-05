@@ -11,6 +11,7 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as PassportRouteImport } from './routes/passport'
+import { Route as PassportIndexRouteImport } from './routes/passport.index'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -22,31 +23,38 @@ const PassportRoute = PassportRouteImport.update({
   path: '/passport',
   getParentRoute: () => rootRouteImport,
 } as any)
+const PassportIndexRoute = PassportIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => PassportRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
-  '/passport': typeof PassportRoute
+  '/passport': typeof PassportRouteWithChildren
+  '/passport/': typeof PassportIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
-  '/passport': typeof PassportRoute
+  '/passport': typeof PassportIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
-  '/passport': typeof PassportRoute
+  '/passport': typeof PassportRouteWithChildren
+  '/passport/': typeof PassportIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/passport'
+  fullPaths: '/' | '/passport' | '/passport/'
   fileRoutesByTo: FileRoutesByTo
   to: '/' | '/passport'
-  id: '__root__' | '/' | '/passport'
+  id: '__root__' | '/' | '/passport' | '/passport/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
-  PassportRoute: typeof PassportRoute
+  PassportRoute: typeof PassportRouteWithChildren
 }
 
 declare module '@tanstack/react-router' {
@@ -65,12 +73,31 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PassportRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/passport/': {
+      id: '/passport/'
+      path: '/'
+      fullPath: '/passport/'
+      preLoaderRoute: typeof PassportIndexRouteImport
+      parentRoute: typeof PassportRoute
+    }
   }
 }
 
+interface PassportRouteChildren {
+  PassportIndexRoute: typeof PassportIndexRoute
+}
+
+const PassportRouteChildren: PassportRouteChildren = {
+  PassportIndexRoute: PassportIndexRoute,
+}
+
+const PassportRouteWithChildren = PassportRoute._addFileChildren(
+  PassportRouteChildren,
+)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
-  PassportRoute: PassportRoute,
+  PassportRoute: PassportRouteWithChildren,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
