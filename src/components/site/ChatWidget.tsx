@@ -59,10 +59,14 @@ export function ChatWidget() {
         <Button
           onClick={() => setOpen(true)}
           size="lg"
-          className="fixed bottom-5 right-5 z-50 h-14 rounded-full px-5 shadow-[var(--shadow-lift)]"
+          className="fixed bottom-5 right-5 z-50 h-13 rounded-full px-5 shadow-lift bg-slate-900 text-white hover:bg-slate-800 transition-all hover:scale-105 active:scale-95 border border-slate-700/80"
         >
-          <MessageCircle className="h-5 w-5" />
-          <span className="ml-1 hidden sm:inline">Ask a question</span>
+          <span className="relative flex h-2.5 w-2.5 mr-2">
+            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+            <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-emerald-500"></span>
+          </span>
+          <Bot className="h-4.5 w-4.5 text-primary" />
+          <span className="ml-2 font-bold text-xs">Ask One World AI</span>
         </Button>
       )}
 

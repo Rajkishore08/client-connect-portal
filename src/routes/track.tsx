@@ -13,16 +13,16 @@ import { lookupApplication } from "@/lib/backend-stubs";
 export const Route = createFileRoute("/track")({
   head: () => ({
     meta: [
-      { title: "Track My Application — Meridian Client Services" },
+      { title: "Track My Intake & Project Status — One World Solutions Agency" },
       {
         name: "description",
         content:
-          "Enter your reference number or email to follow your application through government form preparation, VFS processing and courier delivery.",
+          "Enter your reference number or email to follow your passport renewal, web software milestone, or digital marketing campaign in real time.",
       },
-      { property: "og:title", content: "Track My Application" },
+      { property: "og:title", content: "Track My Application & Project Status | One World Solutions" },
       {
         property: "og:description",
-        content: "Live three-step status for your passport or visa application.",
+        content: "Live status tracking for passport, web dev, and digital marketing intakes.",
       },
     ],
   }),

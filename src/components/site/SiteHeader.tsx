@@ -3,6 +3,7 @@ import { Link } from "@tanstack/react-router";
 import {
   Bell,
   ChevronDown,
+  Clock,
   Code,
   FileText,
   LogOut,
@@ -10,6 +11,8 @@ import {
   Megaphone,
   Menu,
   Phone,
+  PhoneCall,
+  Search,
   ShieldCheck,
   User,
   UserCheck,
@@ -42,25 +45,23 @@ export function SiteHeader() {
   return (
     <header className="sticky top-0 z-40 border-b border-border/80 bg-background/90 backdrop-blur-md">
       {/* Top Location & Hotline Bar */}
-      <div className="bg-primary px-4 py-2 text-primary-foreground text-xs sm:px-6">
-        <div className="mx-auto flex max-w-6xl flex-wrap items-center justify-between gap-2">
-          <div className="flex items-center gap-2 font-medium">
-            <span className="inline-flex items-center gap-1 rounded bg-accent px-2 py-0.5 text-[11px] font-bold text-accent-foreground">
-              WALK-INS WELCOME
+      <div className="bg-slate-900 text-slate-200 px-4 py-1.5 text-xs sm:px-6 border-b border-slate-800">
+        <div className="mx-auto flex max-w-6xl items-center justify-between gap-4 text-[11px] sm:text-xs">
+          <div className="flex items-center gap-4">
+            <span className="inline-flex items-center gap-1.5 font-medium">
+              <MapPin className="h-3.5 w-3.5 text-primary" /> Chicago HQ
             </span>
-            <span className="hidden sm:inline-flex items-center gap-1">
-              <MapPin className="h-3.5 w-3.5 opacity-80" />
-              {OFFICE_LOCATION.address}
+            <span className="hidden md:inline-flex items-center gap-1.5 text-slate-400">
+              <Clock className="h-3.5 w-3.5 text-slate-400" /> Open Today (9AM - 6PM)
             </span>
           </div>
-          <div className="flex items-center gap-4 text-[11px] sm:text-xs">
-            <span className="hidden md:inline">{OFFICE_LOCATION.hours}</span>
+          <div className="flex items-center gap-3">
             <a
               href={`tel:${OFFICE_LOCATION.phone.replace(/[^0-9+]/g, "")}`}
-              className="flex items-center gap-1 font-bold hover:underline"
+              className="flex items-center gap-1.5 font-bold text-white hover:text-primary transition-colors"
             >
-              <Phone className="h-3.5 w-3.5" />
-              {OFFICE_LOCATION.phone}
+              <PhoneCall className="h-3.5 w-3.5 text-primary" />
+              <span>{OFFICE_LOCATION.phone}</span>
             </a>
           </div>
         </div>
@@ -69,18 +70,12 @@ export function SiteHeader() {
       {/* Main Header Container */}
       <div className="mx-auto flex max-w-6xl items-center justify-between px-4 py-3 sm:px-6">
         {/* Brand Logo & Name */}
-        <Link to="/" className="flex items-center gap-3">
-          <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-primary text-primary-foreground shadow-sm">
-            <ShieldCheck className="h-6 w-6" />
-          </div>
-          <div>
-            <div className="text-lg font-black leading-tight tracking-tight text-foreground">
-              One World Solutions
-            </div>
-            <div className="text-[11px] font-medium text-muted-foreground">
-              Client Services &amp; Expedited Intake
-            </div>
-          </div>
+        <Link to="/" className="flex items-center gap-3 group py-1">
+          <img
+            src="/logo-rect.png"
+            alt="One World Solutions"
+            className="h-11 sm:h-13 lg:h-15 max-h-16 w-auto object-contain transition-transform group-hover:scale-[1.02]"
+          />
         </Link>
 
         {/* Desktop Navigation */}
@@ -100,42 +95,41 @@ export function SiteHeader() {
                 Services <ChevronDown className="h-4 w-4 opacity-70" />
               </button>
             </DropdownMenuTrigger>
-            <DropdownMenuContent align="start" className="w-72 p-2">
-              <DropdownMenuLabel className="text-xs font-bold text-muted-foreground">
-                POPULAR PASSPORT &amp; VISA
+            <DropdownMenuContent align="start" className="w-80 p-2 space-y-1">
+              {/* Pillar 1: Passport & Visa */}
+              <DropdownMenuLabel className="text-[11px] font-mono font-bold text-primary uppercase tracking-wider">
+                01. PASSPORT &amp; VISA CONCIERGE
               </DropdownMenuLabel>
-              <div className="space-y-1">
-                {PASSPORT_SERVICES.slice(0, 4).map((s) => (
-                  <DropdownMenuItem key={s.slug} asChild>
-                    <Link
-                      to="/passport/$service"
-                      params={{ service: s.slug }}
-                      className="cursor-pointer text-xs pl-3 py-1.5 font-medium"
-                    >
-                      {s.title}
-                    </Link>
-                  </DropdownMenuItem>
-                ))}
-                <DropdownMenuItem asChild>
-                  <Link to="/passport" className="cursor-pointer text-xs pl-3 py-1.5 font-bold text-primary">
-                    View All 6 Passport Services →
-                  </Link>
-                </DropdownMenuItem>
-              </div>
-
-              <DropdownMenuSeparator />
-
-              {/* Digital Marketing */}
               <DropdownMenuItem asChild>
-                <Link to="/digital-marketing" className="cursor-pointer text-xs py-2 font-medium flex items-center gap-2">
-                  <Megaphone className="h-3.5 w-3.5 text-accent" /> Digital Marketing Services
+                <Link to="/passport" className="cursor-pointer text-xs py-1.5 font-bold flex items-center justify-between">
+                  <span>Explore Passport &amp; OCI Services</span>
+                  <span className="text-[10px] text-muted-foreground font-normal">6 Services →</span>
                 </Link>
               </DropdownMenuItem>
 
-              {/* Web Development */}
+              <DropdownMenuSeparator />
+
+              {/* Pillar 2: Web & Custom Software */}
+              <DropdownMenuLabel className="text-[11px] font-mono font-bold text-primary uppercase tracking-wider">
+                02. WEB &amp; CUSTOM SOFTWARE DEV
+              </DropdownMenuLabel>
               <DropdownMenuItem asChild>
-                <Link to="/web-development" className="cursor-pointer text-xs py-2 font-medium flex items-center gap-2">
-                  <Code className="h-3.5 w-3.5 text-primary" /> Website &amp; Enterprise Development
+                <Link to="/web-development" className="cursor-pointer text-xs py-1.5 font-bold flex items-center justify-between">
+                  <span>Web Apps, SaaS &amp; UI/UX Design</span>
+                  <span className="text-[10px] text-muted-foreground font-normal">Learn More →</span>
+                </Link>
+              </DropdownMenuItem>
+
+              <DropdownMenuSeparator />
+
+              {/* Pillar 3: Digital Marketing */}
+              <DropdownMenuLabel className="text-[11px] font-mono font-bold text-primary uppercase tracking-wider">
+                03. DIGITAL MARKETING &amp; GROWTH
+              </DropdownMenuLabel>
+              <DropdownMenuItem asChild>
+                <Link to="/digital-marketing" className="cursor-pointer text-xs py-1.5 font-bold flex items-center justify-between">
+                  <span>SEO, PPC Ads &amp; Lead Growth</span>
+                  <span className="text-[10px] text-muted-foreground font-normal">Learn More →</span>
                 </Link>
               </DropdownMenuItem>
             </DropdownMenuContent>
@@ -143,10 +137,11 @@ export function SiteHeader() {
 
           <Link
             to="/track"
-            activeProps={{ className: "bg-primary-soft text-primary font-bold" }}
-            className="rounded-lg px-3 py-2 text-sm font-medium text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
+            activeProps={{ className: "bg-primary text-primary-foreground font-bold shadow-xs" }}
+            className="inline-flex items-center gap-1.5 rounded-full bg-primary-soft/80 border border-primary/20 px-3.5 py-1.5 text-xs font-semibold text-primary transition-all hover:bg-primary hover:text-primary-foreground shadow-2xs"
           >
-            Track Application
+            <Search className="h-3.5 w-3.5" />
+            <span>Track Application</span>
           </Link>
 
           {/* User Account / Sign In Controls */}
@@ -216,8 +211,13 @@ export function SiteHeader() {
         {/* Mobile Navigation Drawer */}
         <Sheet open={open} onOpenChange={setOpen}>
           <SheetTrigger asChild>
-            <Button variant="outline" size="icon" className="lg:hidden" aria-label="Open menu">
-              <Menu className="h-5 w-5" />
+            <Button
+              variant="outline"
+              size="icon"
+              className="lg:hidden rounded-xl border border-border/90 bg-card shadow-xs hover:bg-accent focus:ring-2 focus:ring-primary/30"
+              aria-label="Open menu"
+            >
+              <Menu className="h-5 w-5 text-foreground" />
             </Button>
           </SheetTrigger>
           <SheetContent side="right" className="w-[86vw] max-w-sm overflow-y-auto">

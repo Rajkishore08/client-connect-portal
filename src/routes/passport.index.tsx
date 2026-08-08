@@ -1,20 +1,22 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { CheckCircle2, ShieldCheck, Star } from "lucide-react";
 
 import { PassportList } from "@/components/site/CategoryExplorer";
 import { InteractiveCapabilitiesGallery } from "@/components/site/InteractiveCapabilitiesGallery";
 import { TrustBanner } from "@/components/site/SiteFooter";
 import { StepsBanner } from "@/components/site/StepsBanner";
+import { Badge } from "@/components/ui/badge";
 
 export const Route = createFileRoute("/passport/")({
   head: () => ({
     meta: [
-      { title: "Passport & Visa Services — One World Solutions" },
+      { title: "Expedited Passport & OCI Services — One World Solutions Agency" },
       {
         name: "description",
         content:
-          "Passport renewal, OCI, renunciation, emergency certificate, e-visa and lost passport assistance with clear document checklists.",
+          "Expedited US passport renewal, OCI cards, renunciation, emergency certificates & e-visas. Rated 4.9/5 by 2,500+ travelers in Chicago.",
       },
-      { property: "og:title", content: "Passport & Visa Services — One World Solutions" },
+      { property: "og:title", content: "Expedited Passport & Visa Concierge | One World Solutions" },
       {
         property: "og:description",
         content: "Six guided passport and visa services with document checklists shown upfront.",
@@ -81,20 +83,48 @@ const EXACT_PASSPORT_CAPABILITIES = [
 function PassportIndex() {
   return (
     <main className="mx-auto max-w-6xl space-y-10 px-4 py-10 sm:px-6 sm:py-14">
-      <header>
-        <h1 className="text-3xl font-extrabold sm:text-4xl text-foreground">
-          Passport &amp; Visa Services
+      <header className="space-y-4">
+        <div className="flex items-center gap-2 flex-wrap">
+          <Badge variant="outline" className="text-xs font-bold text-primary border-primary/30">
+            PILLAR 01 • PASSPORT &amp; VISA CONCIERGE
+          </Badge>
+          <div className="inline-flex items-center gap-1 text-xs font-semibold text-amber-900 bg-amber-500/10 px-2.5 py-0.5 rounded-full border border-amber-500/30">
+            <Star className="h-3.5 w-3.5 fill-amber-500 text-amber-500" /> 4.9/5 Rating (2,500+ Processed)
+          </div>
+        </div>
+
+        <h1 className="text-3xl font-black sm:text-5xl text-foreground tracking-tight">
+          Get Your Passport &amp; OCI Handled —{" "}
+          <span className="text-primary underline decoration-primary/30 underline-offset-4">
+            Without the Confusion.
+          </span>
         </h1>
-        <p className="mt-3 max-w-2xl text-base leading-relaxed text-muted-foreground">
-          Choose a service below to review exact document requirements, calculate turnaround speed, and launch your intake.
+        
+        <p className="max-w-3xl text-base leading-relaxed text-muted-foreground sm:text-lg">
+          Double-verified form preparation, VFS match audit, 256-bit encrypted document vault, and 24-hour emergency rush filing. Select your service below to review exact document checklists.
         </p>
+
+        <div className="pt-1 flex flex-wrap items-center gap-x-6 gap-y-2 text-xs font-semibold text-slate-700">
+          <span className="inline-flex items-center gap-1.5">
+            <CheckCircle2 className="h-4 w-4 text-emerald-600" />
+            24-Hour Same-Day Rush Available
+          </span>
+          <span className="inline-flex items-center gap-1.5">
+            <CheckCircle2 className="h-4 w-4 text-emerald-600" />
+            Guaranteed Error-Free Filing
+          </span>
+          <span className="inline-flex items-center gap-1.5">
+            <CheckCircle2 className="h-4 w-4 text-emerald-600" />
+            Chicago HQ Walk-Ins Welcome
+          </span>
+        </div>
       </header>
 
-      {/* Interactive Capabilities Gallery with Exact 6 Passport Services */}
+      {/* Interactive Capabilities Gallery */}
       <InteractiveCapabilitiesGallery
         items={EXACT_PASSPORT_CAPABILITIES}
         badgeText="PASSPORT & VISA SOLUTIONS"
-        mainHeading="Expedited Passport & Visa Capabilities"
+        mainHeading="Expedited Passport &amp; OCI Capabilities"
         mainSubheading="Select any of our 6 core passport & visa services to start your guided intake."
       />
 
@@ -102,7 +132,7 @@ function PassportIndex() {
       <TrustBanner />
 
       <section className="pt-4">
-        <h2 className="text-2xl font-bold mb-4">All Guided Passport &amp; Visa Intake Forms</h2>
+        <h2 className="text-2xl font-black mb-4">All Guided Passport &amp; Visa Intake Forms</h2>
         <PassportList />
       </section>
     </main>

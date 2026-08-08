@@ -1,20 +1,22 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { CheckCircle2, Code2, Layers, Terminal } from "lucide-react";
 
 import { WebServiceGrid } from "@/components/site/CategoryExplorer";
 import { InteractiveCapabilitiesGallery } from "@/components/site/InteractiveCapabilitiesGallery";
 import { TrustBanner } from "@/components/site/SiteFooter";
 import { StepsBanner } from "@/components/site/StepsBanner";
+import { Badge } from "@/components/ui/badge";
 
 export const Route = createFileRoute("/web-development")({
   head: () => ({
     meta: [
-      { title: "Website & Enterprise Software Development — One World Solutions" },
+      { title: "Web Development, Custom Software & UI/UX Design — One World Solutions Agency" },
       {
         name: "description",
         content:
-          "Landing pages, portfolios, web apps, AI systems, ERP and SaaS platforms, MVPs and API integrations.",
+          "Custom web application development, SaaS platforms, UI/UX design systems, AI agents, and mobile apps by One World Solutions in Chicago.",
       },
-      { property: "og:title", content: "Website & Software Development — One World Solutions" },
+      { property: "og:title", content: "Web & Custom Software Engineering | One World Solutions" },
       {
         property: "og:description",
         content: "Custom web design, AI systems, SaaS platforms, and enterprise software engineering.",
@@ -77,21 +79,49 @@ const WEB_CAPABILITIES = [
 function WebDevelopmentPage() {
   return (
     <main className="mx-auto max-w-6xl space-y-10 px-4 py-10 sm:px-6 sm:py-14">
-      <header>
-        <h1 className="text-3xl font-extrabold sm:text-4xl text-foreground">
-          Core Engineering Capabilities
+      <header className="space-y-4">
+        <div className="flex items-center gap-2 flex-wrap">
+          <Badge variant="outline" className="text-xs font-bold text-primary border-primary/30">
+            PILLAR 02 • WEB DEVELOPMENT, CUSTOM SOFTWARE &amp; UI/UX
+          </Badge>
+          <Badge variant="secondary" className="text-xs font-bold gap-1">
+            <Code2 className="h-3.5 w-3.5 text-primary" /> 150+ Web Projects Built
+          </Badge>
+        </div>
+
+        <h1 className="text-3xl font-black sm:text-5xl text-foreground tracking-tight">
+          Custom Web Apps, Software &amp; UI/UX —{" "}
+          <span className="text-primary underline decoration-primary/30 underline-offset-4">
+            Engineered for Growth.
+          </span>
         </h1>
-        <p className="mt-3 max-w-2xl text-base leading-relaxed text-muted-foreground">
-          We build end-to-end AI systems, SaaS platforms, web apps, and mobile applications tailored for growth.
+
+        <p className="max-w-3xl text-base leading-relaxed text-muted-foreground sm:text-lg">
+          We build high-performance web applications, enterprise SaaS portals, bespoke UI/UX design systems, and autonomous AI agents tailored for your business goals.
         </p>
+
+        <div className="pt-1 flex flex-wrap items-center gap-x-6 gap-y-2 text-xs font-semibold text-slate-700">
+          <span className="inline-flex items-center gap-1.5">
+            <CheckCircle2 className="h-4 w-4 text-emerald-600" />
+            React / Next.js / TypeScript Stack
+          </span>
+          <span className="inline-flex items-center gap-1.5">
+            <CheckCircle2 className="h-4 w-4 text-emerald-600" />
+            Full Code Ownership &amp; IP Protection
+          </span>
+          <span className="inline-flex items-center gap-1.5">
+            <CheckCircle2 className="h-4 w-4 text-emerald-600" />
+            99.9% Cloud Uptime Guarantee
+          </span>
+        </div>
       </header>
 
       {/* Interactive Capabilities Gallery */}
       <InteractiveCapabilitiesGallery
         items={WEB_CAPABILITIES}
-        badgeText="TAILORED EXPERTISE"
+        badgeText="SOFTWARE & UI/UX EXCELLENCE"
         mainHeading="Core Engineering Capabilities"
-        mainSubheading="We build end-to-end AI systems, SaaS platforms, and mobile apps tailored for growth."
+        mainSubheading="Explore our custom web applications, SaaS platforms, and UI/UX design systems engineered for scale."
       />
 
       <StepsBanner compact />

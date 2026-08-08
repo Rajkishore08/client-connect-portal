@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64" fill="none">
+  <!-- Globe Base Gradient -->
+  <defs>
+    <linearGradient id="globeGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0F52FF" />
+      <stop offset="100%" stop-color="#123B7A" />
+    </linearGradient>
+    <linearGradient id="swooshGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#F5393B" />
+      <stop offset="100%" stop-color="#D92D20" />
+    </linearGradient>
+  </defs>
+
+  <!-- Blue Globe Circle -->
+  <circle cx="32" cy="32" r="22" fill="url(#globeGrad)" />
+  
+  <!-- City Skyline Silhouette Overlay -->
+  <path d="M16 44V34H20V44H22V28H28V44H30V32H34V44H48V44Z" fill="#0A2540" />
+  <rect x="24" y="32" width="1.5" height="2" fill="#4CC9FF" opacity="0.9"/>
+  <rect x="26" y="32" width="1.5" height="2" fill="#4CC9FF" opacity="0.9"/>
+  <rect x="24" y="36" width="1.5" height="2" fill="#4CC9FF" opacity="0.9"/>
+  <rect x="26" y="36" width="1.5" height="2" fill="#4CC9FF" opacity="0.9"/>
+
+  <!-- White Continent Silhouette -->
+  <path d="M26 22C28 20 32 21 34 23C36 25 38 24 40 22C41 26 39 29 36 30C33 31 31 34 32 37C30 39 28 36 26 34Z" fill="white" opacity="0.85"/>
+
+  <!-- Red Flight Orbit Swoosh -->
+  <path d="M10 46C14 52 26 56 38 48C48 41 53 29 50 18" stroke="url(#swooshGrad)" stroke-width="4.5" stroke-linecap="round"/>
+  
+  <!-- Red Airplane Mark -->
+  <path d="M50 16L54 8L46 12L42 10L43 14L39 16L46 18L50 16Z" fill="url(#swooshGrad)"/>
+</svg>

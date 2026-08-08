@@ -1,155 +1,468 @@
 import { Link, createFileRoute } from "@tanstack/react-router";
-import { ArrowRight, CalendarCheck, Clock, Lock, MessagesSquare, ShieldCheck } from "lucide-react";
+import {
+  ArrowRight,
+  CalendarCheck,
+  CheckCircle2,
+  Code2,
+  Globe,
+  Layers,
+  Megaphone,
+  ShieldCheck,
+  Sparkles,
+  Star,
+  Terminal,
+  TrendingUp,
+  Zap,
+} from "lucide-react";
 
 import { CategoryExplorer } from "@/components/site/CategoryExplorer";
 import { InteractiveCapabilitiesGallery } from "@/components/site/InteractiveCapabilitiesGallery";
 import { TrustBanner } from "@/components/site/SiteFooter";
 import { StepsBanner } from "@/components/site/StepsBanner";
 import { TurnaroundEstimator } from "@/components/site/TurnaroundEstimator";
+import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import GradientWaves from "@/components/ui/GradientWaves";
 
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "One World Solutions — Expedited Passport, Visa & Digital Services" },
+      { title: "One World Solutions — Passport, Software & Digital Marketing Agency" },
       {
         name: "description",
         content:
-          "Fast, secure, and stress-free expedited passport and visa solutions by One World Solutions. Walk-ins welcome & emergency 24-hour rush processing available.",
+          "Chicago premier multi-service agency for expedited passports & OCI, custom web & software development, and digital marketing growth.",
       },
-      { property: "og:title", content: "One World Solutions — Client Intake Portal" },
+      { property: "og:title", content: "One World Solutions — 3 Specialized Agency Divisions" },
       {
         property: "og:description",
         content:
-          "Expedited US Passport renewal, OCI, E-Visas, digital marketing, and web development intake.",
+          "Helping individuals travel confidently and businesses scale smarter across Passport Concierge, Web Software & Digital Marketing.",
       },
     ],
   }),
   component: Home,
 });
 
-const TRUST_BADGES = [
+const SOCIAL_PROOF_METRICS = [
+  { label: "Google Rating", value: "4.9 / 5.0", sub: "⭐ 340+ Verified Reviews" },
+  { label: "Satisfied Clients", value: "2,500+", sub: "Passports, Web & Marketing" },
+  { label: "US States Served", value: "35+ States", sub: "Nationwide Intake & Expediting" },
+  { label: "Success Rate", value: "98.6%", sub: "Guaranteed Zero-Error Filing" },
+];
+
+const EQUAL_DIVISIONS = [
   {
     icon: ShieldCheck,
-    title: "Walk-Ins & Online",
-    desc: "Chicago HQ or remote intake",
+    title: "Passport & Visa Services",
+    subtitle: "Renewals • OCI • Emergency 24H",
+    desc: "Guided form preparation, VFS compliance verification, and 24-hour emergency hand-carry filing.",
+    link: "/passport",
+    badge: "24H Rush Available",
+    highlights: ["Adult & Minor Renewals", "OCI & Renunciation", "E-Visa & Lost Replacements"],
   },
   {
-    icon: Clock,
-    title: "24H Emergency Rush",
-    desc: "Same-day expedited queue",
+    icon: Code2,
+    title: "Custom Software & Web Dev",
+    subtitle: "Web Apps • SaaS • UI/UX Design",
+    desc: "Scalable React/Next.js web applications, modern UI/UX design systems, and cloud infrastructure.",
+    link: "/web-development",
+    badge: "Enterprise Ready",
+    highlights: ["React & Next.js Platforms", "Bespoke UI/UX Design Systems", "API & Cloud Architecture"],
   },
   {
-    icon: Lock,
-    title: "Confidential Handling",
-    desc: "100% document encryption",
-  },
-  {
-    icon: MessagesSquare,
-    title: "Direct Support",
-    desc: "Dedicated case concierge",
+    icon: Megaphone,
+    title: "Digital Marketing & Growth",
+    subtitle: "SEO • PPC Ads • Lead Funnels",
+    desc: "Data-driven Search Engine Optimization, Google Ads campaigns, and lead conversion funnels.",
+    link: "/digital-marketing",
+    badge: "High ROI Focus",
+    highlights: ["Technical SEO & Local Search", "Targeted Google Ads PPC", "Conversion Rate Audits"],
   },
 ];
 
 function Home() {
   return (
     <main>
-      {/* Animated Hero Section */}
-      <section className="relative overflow-hidden hero-wash border-b border-border py-10 sm:py-20">
-        {/* Animated WebGL Canvas Waves - Vivid & High Contrast Colors */}
+      {/* High-Impact Hero Section with World Network Atmosphere */}
+      <section className="relative overflow-hidden hero-wash border-b border-border py-12 sm:py-20 lg:py-24">
+        {/* Animated WebGL Canvas Waves */}
         <GradientWaves
-          horizonColor="#085a6a"
-          waveColor="#0284c7"
-          crestColor="#38bdf8"
-          speed={0.4}
-          amplitude={2.8}
-          waveScale={0.65}
-          waveRatio={0.9}
-          opacity={0.8}
-          brightness={1.1}
+          horizonColor="#EFF6FF"
+          waveColor="#93C5FD"
+          crestColor="#2563EB"
+          opacity={0.35}
+          speed={0.3}
+          amplitude={2.2}
+          waveScale={0.55}
+          waveRatio={0.85}
+          brightness={1.05}
           mouseInteraction={true}
           grain={true}
-          grainIntensity={0.03}
+          grainIntensity={0.02}
         />
 
+        {/* Subtle World Map Latitude Arcs Texture (2% Opacity) */}
+        <div className="absolute inset-0 pointer-events-none opacity-[0.03] bg-[radial-gradient(#2563eb_1.5px,transparent_1.5px)] [background-size:32px_32px]" />
+
         <div className="relative z-10 mx-auto max-w-6xl px-4 sm:px-6">
-          <div className="max-w-3xl">
-            <span className="inline-flex items-center gap-1.5 rounded-full border border-border/80 bg-card/90 px-3 py-1 text-[11px] font-bold text-foreground shadow-sm backdrop-blur-md sm:px-3.5 sm:py-1.5 sm:text-xs">
-              <ShieldCheck className="h-3.5 w-3.5 text-primary shrink-0 sm:h-4 sm:w-4" />
-              <span>Walk-Ins Welcome • Chicago HQ</span>
-            </span>
+          <div className="grid lg:grid-cols-[1.15fr_0.95fr] items-center gap-10 lg:gap-14">
+            
+            {/* Left Column: Story-Driven Headline & Proof */}
+            <div className="space-y-6">
+              {/* Top Trust Badge */}
+              <div className="inline-flex items-center gap-2 rounded-full border border-amber-500/30 bg-amber-500/10 px-3.5 py-1 text-xs font-medium text-amber-900 shadow-2xs backdrop-blur-md dark:text-amber-300">
+                <span className="flex items-center gap-1 text-amber-600">
+                  <Star className="h-3.5 w-3.5 fill-amber-500 text-amber-500" />
+                  <Star className="h-3.5 w-3.5 fill-amber-500 text-amber-500" />
+                  <Star className="h-3.5 w-3.5 fill-amber-500 text-amber-500" />
+                  <Star className="h-3.5 w-3.5 fill-amber-500 text-amber-500" />
+                  <Star className="h-3.5 w-3.5 fill-amber-500 text-amber-500" />
+                </span>
+                <span>Trusted Across USA • Chicago HQ</span>
+              </div>
 
-            <h1 className="mt-4 text-3xl font-black leading-tight tracking-tight sm:text-5xl lg:text-6xl text-foreground drop-shadow-sm">
-              Expedited Passport &amp; Visa Solutions — <span className="text-primary">Fast, Secure &amp; Easy.</span>
-            </h1>
+              {/* Story-Driven Headline */}
+              <h1 className="text-3xl font-extrabold leading-[1.15] tracking-tight sm:text-5xl lg:text-6xl text-foreground">
+                One Agency. <br className="hidden sm:inline" />
+                Three Specialized Divisions.
+              </h1>
 
-            <p className="mt-3 text-sm leading-relaxed text-slate-800 font-medium sm:text-lg drop-shadow-xs">
-              Get your US passport or foreign visa expedited in as little as 1–14 days. Avoid 5–7 week government delays with guaranteed error-free preparation.
-            </p>
+              {/* Story Subtitle */}
+              <p className="text-base leading-relaxed text-muted-foreground font-normal sm:text-lg max-w-xl">
+                Helping individuals travel confidently and businesses scale smarter — with expedited passport handling, custom web software development, and high-ROI digital marketing.
+              </p>
 
-            <div className="mt-6 grid grid-cols-1 gap-2.5 sm:flex sm:items-center sm:gap-3">
-              <Button asChild size="lg" className="h-11 px-6 text-sm font-bold shadow-lg shadow-primary/30 sm:h-12 sm:px-7 sm:text-base">
-                <a href="#services">
-                  Explore Services <ArrowRight className="h-4 w-4 ml-1" />
-                </a>
-              </Button>
-              <Button asChild size="lg" variant="outline" className="h-11 px-6 text-sm font-medium bg-card/90 backdrop-blur-md shadow-xs sm:h-12 sm:px-7 sm:text-base">
-                <Link to="/book">
-                  <CalendarCheck className="h-4 w-4 mr-1.5" /> Schedule Visit / Call
-                </Link>
-              </Button>
+              {/* Primary & Secondary Action CTAs */}
+              <div className="pt-2 grid grid-cols-1 gap-3 sm:flex sm:items-center sm:gap-4">
+                <Button asChild size="lg" className="h-12 px-8 text-sm font-semibold shadow-xl shadow-primary/20 hover:scale-[1.02] active:scale-[0.98] transition-all">
+                  <a href="#divisions">
+                    Explore Services <ArrowRight className="h-4.5 w-4.5 ml-1.5" />
+                  </a>
+                </Button>
+                <Button asChild size="lg" variant="outline" className="h-12 px-7 text-sm font-semibold bg-primary-soft/50 border-primary/20 text-primary hover:bg-primary hover:text-primary-foreground transition-all">
+                  <Link to="/book">
+                    <CalendarCheck className="h-4.5 w-4.5 mr-2" /> Book Consultation
+                  </Link>
+                </Button>
+              </div>
+
+              {/* Immediate Social Proof Bar Under Buttons (Point #12) */}
+              <div className="pt-3 border-t border-border/60 flex flex-wrap items-center gap-x-5 gap-y-2 text-xs text-muted-foreground font-medium">
+                <span className="flex items-center gap-1 font-bold text-foreground">
+                  <Star className="h-3.5 w-3.5 fill-amber-500 text-amber-500" /> 4.9/5 Google Rating
+                </span>
+                <span>•</span>
+                <span>2,500+ Happy Clients</span>
+                <span>•</span>
+                <span>35+ States Served</span>
+                <span>•</span>
+                <span className="text-emerald-700 font-semibold">98.6% Success</span>
+              </div>
             </div>
-          </div>
 
-          {/* High-End Enterprise Trust Bar */}
-          <div className="mt-8 sm:mt-12 rounded-2xl border border-border/80 bg-card/90 p-4 sm:p-5 backdrop-blur-md shadow-md">
-            <ul className="grid grid-cols-2 gap-4 lg:grid-cols-4 lg:divide-x lg:divide-border/60">
-              {TRUST_BADGES.map((badge, idx) => (
-                <li
-                  key={badge.title}
-                  className={`flex items-center gap-3 ${idx > 0 ? "lg:pl-6" : ""}`}
-                >
-                  <span className="grid h-10 w-10 shrink-0 place-items-center rounded-xl bg-primary-soft text-primary shadow-xs">
-                    <badge.icon className="h-5 w-5" />
-                  </span>
-                  <div className="min-w-0">
-                    <span className="block text-xs sm:text-sm font-extrabold text-foreground leading-tight truncate">
-                      {badge.title}
-                    </span>
-                    <span className="block text-[11px] font-medium text-muted-foreground truncate mt-0.5">
-                      {badge.desc}
+            {/* Right Column: Branded Multi-Service Visual Illustration Anchor (Point #1) */}
+            <div className="relative">
+              <div className="glass-panel relative overflow-hidden rounded-3xl p-6 sm:p-8 shadow-glass space-y-6">
+                {/* Official Brand Symbol Visual Motif */}
+                <div className="flex items-center justify-between border-b border-border/60 pb-4">
+                  <div className="flex items-center gap-3">
+                    <img src="/logo-symbol.png" alt="One World Symbol" className="h-10 w-auto object-contain" />
+                    <div>
+                      <h3 className="text-sm font-bold text-foreground">One World Ecosystem</h3>
+                      <p className="text-[11px] text-muted-foreground">Connecting People. Powering Businesses.</p>
+                    </div>
+                  </div>
+                  <Badge variant="outline" className="text-[10px] font-mono border-primary/30 text-primary">
+                    GLOBAL PLATFORM
+                  </Badge>
+                </div>
+
+                {/* 3 Interlocking Floating Division Nodes */}
+                <div className="space-y-3 relative z-10">
+                  {/* Node 1: Passport */}
+                  <div className="group glass-card flex items-center justify-between p-3.5 rounded-xl border border-white/80 bg-white/80 hover:border-primary/40 hover:bg-white transition-all shadow-2xs">
+                    <div className="flex items-center gap-3">
+                      <span className="h-8 w-8 rounded-lg bg-emerald-500/10 text-emerald-600 grid place-items-center font-bold">
+                        🛂
+                      </span>
+                      <div>
+                        <p className="text-xs font-bold text-foreground group-hover:text-primary transition-colors">Passport &amp; Visa Concierge</p>
+                        <p className="text-[11px] text-muted-foreground">24H Expedited Filing Active</p>
+                      </div>
+                    </div>
+                    <span className="text-[10px] font-semibold text-emerald-700 bg-emerald-500/10 px-2 py-0.5 rounded-full">
+                      VFS Approved
                     </span>
                   </div>
-                </li>
-              ))}
-            </ul>
+
+                  {/* Node 2: Software */}
+                  <div className="group glass-card flex items-center justify-between p-3.5 rounded-xl border border-white/80 bg-white/80 hover:border-primary/40 hover:bg-white transition-all shadow-2xs">
+                    <div className="flex items-center gap-3">
+                      <span className="h-8 w-8 rounded-lg bg-blue-500/10 text-blue-600 grid place-items-center font-bold">
+                        💻
+                      </span>
+                      <div>
+                        <p className="text-xs font-bold text-foreground group-hover:text-primary transition-colors">Custom Software &amp; SaaS</p>
+                        <p className="text-[11px] text-muted-foreground">React / Next.js / Cloud</p>
+                      </div>
+                    </div>
+                    <span className="text-[10px] font-semibold text-blue-700 bg-blue-500/10 px-2 py-0.5 rounded-full">
+                      100% IP Code
+                    </span>
+                  </div>
+
+                  {/* Node 3: Marketing */}
+                  <div className="group glass-card flex items-center justify-between p-3.5 rounded-xl border border-white/80 bg-white/80 hover:border-primary/40 hover:bg-white transition-all shadow-2xs">
+                    <div className="flex items-center gap-3">
+                      <span className="h-8 w-8 rounded-lg bg-purple-500/10 text-purple-600 grid place-items-center font-bold">
+                        📈
+                      </span>
+                      <div>
+                        <p className="text-xs font-bold text-foreground group-hover:text-primary transition-colors">Digital Growth &amp; SEO</p>
+                        <p className="text-[11px] text-muted-foreground">High-ROI PPC Campaigns</p>
+                      </div>
+                    </div>
+                    <span className="text-[10px] font-semibold text-purple-700 bg-purple-500/10 px-2 py-0.5 rounded-full">
+                      3.4x Avg. ROI
+                    </span>
+                  </div>
+                </div>
+
+                <div className="pt-2 text-center">
+                  <p className="text-[11px] text-muted-foreground font-medium">
+                    Integrated solutions designed for seamless execution.
+                  </p>
+                </div>
+              </div>
+            </div>
+
           </div>
         </div>
       </section>
 
-      <div className="mx-auto max-w-6xl space-y-10 px-4 py-8 sm:space-y-12 sm:px-6 sm:py-16">
-        {/* Interactive Capabilities Gallery */}
-        <InteractiveCapabilitiesGallery
-          badgeText="TAILORED EXPERTISE"
-          mainHeading="Expedited Passport & Core Capabilities"
-          mainSubheading="Explore our end-to-end expedited passport renewals, OCI applications, and digital services tailored for fast delivery."
-        />
+      {/* Social Proof Statistics Strip */}
+      <section className="glass-card bg-white/60 border-y border-border/60 backdrop-blur-md py-6 sm:py-8">
+        <div className="mx-auto max-w-6xl px-4 sm:px-6">
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-6 text-center divide-x-0 sm:divide-x divide-border/60">
+            {SOCIAL_PROOF_METRICS.map((item) => (
+              <div key={item.label} className="space-y-1 p-2">
+                <p className="text-2xl sm:text-3xl font-extrabold text-foreground tracking-tight">{item.value}</p>
+                <p className="text-xs font-semibold text-primary">{item.label}</p>
+                <p className="text-[11px] text-muted-foreground font-normal">{item.sub}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Choose Your Division — 3 Equal Division Cards (Points #3, #4) */}
+      <section id="divisions" className="scroll-mt-24 mx-auto max-w-6xl px-4 py-14 sm:px-6 sm:py-20 space-y-10">
+        <div className="text-center max-w-2xl mx-auto space-y-3">
+          <Badge variant="outline" className="text-xs font-medium text-primary border-primary/30">
+            CHOOSE YOUR DIVISION
+          </Badge>
+          <h2 className="text-3xl font-extrabold sm:text-4xl text-foreground">
+            Three Equal Pillars of Excellence
+          </h2>
+          <p className="text-sm text-muted-foreground font-normal leading-relaxed">
+            Select any division below to explore guided intake forms, project scope calculators, and strategy consultations.
+          </p>
+        </div>
+
+        {/* 3 Equal Division Cards: Same Height, Same Visual Weight */}
+        <div className="grid gap-6 md:grid-cols-3">
+          {EQUAL_DIVISIONS.map((div) => (
+            <div
+              key={div.title}
+              className="group glass-card flex flex-col justify-between p-6 sm:p-7 rounded-3xl border border-white/80 bg-white/75 hover:bg-white/95 hover:border-primary/50 transition-all hover:-translate-y-1.5 shadow-card hover:shadow-lift"
+            >
+              <div className="space-y-4">
+                <div className="flex items-center justify-between">
+                  <div className="h-12 w-12 rounded-2xl bg-primary-soft text-primary font-bold grid place-items-center shadow-xs group-hover:bg-primary group-hover:text-primary-foreground transition-colors">
+                    <div.icon className="h-6 w-6" />
+                  </div>
+                  <Badge variant="secondary" className="text-[10px] font-medium">
+                    {div.badge}
+                  </Badge>
+                </div>
+
+                <div className="space-y-1">
+                  <h3 className="text-lg font-bold text-foreground group-hover:text-primary transition-colors">
+                    {div.title}
+                  </h3>
+                  <p className="text-xs font-semibold text-primary">{div.subtitle}</p>
+                </div>
+
+                <p className="text-xs leading-relaxed text-muted-foreground font-normal">
+                  {div.desc}
+                </p>
+
+                <div className="pt-2 space-y-2 border-t border-border/60">
+                  {div.highlights.map((h) => (
+                    <div key={h} className="flex items-center gap-2 text-xs font-normal text-slate-700">
+                      <CheckCircle2 className="h-3.5 w-3.5 text-emerald-600 shrink-0" />
+                      <span>{h}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              <div className="pt-6">
+                <Button asChild variant="outline" className="w-full font-semibold group-hover:bg-primary group-hover:text-primary-foreground group-hover:border-primary transition-all">
+                  <Link to={div.link}>
+                    Explore Division <ArrowRight className="h-4 w-4 ml-1.5" />
+                  </Link>
+                </Button>
+              </div>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* 3 Core Division Detailed Showcases */}
+      <div className="mx-auto max-w-6xl space-y-16 px-4 pb-16 sm:px-6 sm:pb-20">
+        
+        {/* PASSPORT & VISA DIVISION SHOWCASE */}
+        <section className="space-y-6 border-t border-border/60 pt-12">
+          <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4">
+            <div>
+              <Badge variant="secondary" className="mb-2 text-xs font-medium">
+                DIVISION 01 • PASSPORT &amp; VISA
+              </Badge>
+              <h2 className="text-2xl font-bold sm:text-3xl text-foreground">Passport &amp; Visa Concierge Services</h2>
+              <p className="mt-1 text-sm text-muted-foreground font-normal">
+                24-Hour emergency rush processing, adult/minor renewals, OCI cards, and e-visas with guaranteed error-free preparation.
+              </p>
+            </div>
+            <Button asChild variant="outline" className="font-semibold shrink-0">
+              <Link to="/passport">
+                View Passport Services <ArrowRight className="h-4 w-4 ml-1" />
+              </Link>
+            </Button>
+          </div>
+
+          <InteractiveCapabilitiesGallery
+            badgeText="PASSPORT & VISA SOLUTIONS"
+            mainHeading="Expedited Passport & OCI Capabilities"
+            mainSubheading="Select any of our 6 core passport & visa services to start your guided intake."
+          />
+        </section>
+
+        {/* WEB & CUSTOM SOFTWARE DIVISION SHOWCASE */}
+        <section className="surface-card p-6 sm:p-10 rounded-3xl border border-border/80 bg-card space-y-6">
+          <div className="grid lg:grid-cols-[1.2fr_1fr] items-center gap-8">
+            <div className="space-y-4">
+              <Badge variant="secondary" className="text-xs font-medium">
+                DIVISION 02 • SOFTWARE &amp; UI/UX
+              </Badge>
+              <h2 className="text-2xl font-extrabold sm:text-3xl text-foreground">
+                Web Development, Custom Software &amp; UI/UX Design
+              </h2>
+              <p className="text-sm leading-relaxed text-muted-foreground font-normal">
+                We build high-performance web applications, enterprise SaaS platforms, and modern UI/UX design systems engineered for scale. From landing pages to full-stack cloud applications.
+              </p>
+              <div className="grid grid-cols-2 gap-3 pt-2 text-xs font-medium">
+                <div className="flex items-center gap-2">
+                  <Terminal className="h-4 w-4 text-primary" /> React / Next.js / TypeScript
+                </div>
+                <div className="flex items-center gap-2">
+                  <Layers className="h-4 w-4 text-primary" /> Custom UI/UX Design Systems
+                </div>
+                <div className="flex items-center gap-2">
+                  <CheckCircle2 className="h-4 w-4 text-emerald-600" /> Full-Stack API Integration
+                </div>
+                <div className="flex items-center gap-2">
+                  <CheckCircle2 className="h-4 w-4 text-emerald-600" /> Cloud &amp; Serverless Backend
+                </div>
+              </div>
+              <div className="pt-2">
+                <Button asChild size="lg" className="h-11 font-semibold">
+                  <Link to="/web-development">
+                    Explore Software Development <ArrowRight className="h-4 w-4 ml-1" />
+                  </Link>
+                </Button>
+              </div>
+            </div>
+
+            <div className="rounded-2xl border border-border bg-muted/30 p-6 space-y-4">
+              <h3 className="text-base font-bold text-foreground flex items-center gap-2">
+                <Code2 className="h-5 w-5 text-primary" /> Software Development Intake
+              </h3>
+              <p className="text-xs text-muted-foreground font-normal leading-relaxed">
+                Need a custom web app, mobile-friendly portal, or UI redesign? Tell us about your project for a scope &amp; turnaround estimate.
+              </p>
+              <Button asChild variant="outline" className="w-full font-semibold">
+                <Link to="/web-development">Start Web Dev Intake</Link>
+              </Button>
+            </div>
+          </div>
+        </section>
+
+        {/* DIGITAL MARKETING DIVISION SHOWCASE */}
+        <section className="surface-card p-6 sm:p-10 rounded-3xl border border-border/80 bg-card space-y-6">
+          <div className="grid lg:grid-cols-[1.2fr_1fr] items-center gap-8">
+            <div className="space-y-4">
+              <Badge variant="secondary" className="text-xs font-medium">
+                DIVISION 03 • DIGITAL MARKETING
+              </Badge>
+              <h2 className="text-2xl font-extrabold sm:text-3xl text-foreground">
+                Digital Marketing, SEO &amp; Performance Growth
+              </h2>
+              <p className="text-sm leading-relaxed text-muted-foreground font-normal">
+                Accelerate your business with data-backed Search Engine Optimization (SEO), targeted Google Ads PPC campaigns, social media marketing, and conversion rate optimization.
+              </p>
+              <div className="grid grid-cols-2 gap-3 pt-2 text-xs font-medium">
+                <div className="flex items-center gap-2">
+                  <TrendingUp className="h-4 w-4 text-primary" /> Local &amp; National SEO Audit
+                </div>
+                <div className="flex items-center gap-2">
+                  <Megaphone className="h-4 w-4 text-primary" /> Google &amp; Social Ads Campaigns
+                </div>
+                <div className="flex items-center gap-2">
+                  <CheckCircle2 className="h-4 w-4 text-emerald-600" /> Conversion Funnel Audits
+                </div>
+                <div className="flex items-center gap-2">
+                  <CheckCircle2 className="h-4 w-4 text-emerald-600" /> Real-Time Analytics &amp; ROI
+                </div>
+              </div>
+              <div className="pt-2">
+                <Button asChild size="lg" className="h-11 font-semibold">
+                  <Link to="/digital-marketing">
+                    Explore Digital Marketing <ArrowRight className="h-4 w-4 ml-1" />
+                  </Link>
+                </Button>
+              </div>
+            </div>
+
+            <div className="rounded-2xl border border-border bg-muted/30 p-6 space-y-4">
+              <h3 className="text-base font-bold text-foreground flex items-center gap-2">
+                <Megaphone className="h-5 w-5 text-primary" /> Growth Marketing Inquiry
+              </h3>
+              <p className="text-xs text-muted-foreground font-normal leading-relaxed">
+                Ready to scale your online presence and acquire high-intent customers? Get a free marketing strategy consultation.
+              </p>
+              <Button asChild variant="outline" className="w-full font-semibold">
+                <Link to="/digital-marketing">Request Marketing Plan</Link>
+              </Button>
+            </div>
+          </div>
+        </section>
 
         {/* 3-Step Process Banner */}
         <StepsBanner />
 
-        {/* Turnaround & Speed Estimator */}
+        {/* Turnaround Speed Estimator */}
         <TurnaroundEstimator />
 
         {/* Disclaimer Banner */}
         <TrustBanner />
 
-        {/* Services Category Explorer */}
+        {/* Unified Category Explorer with 3 Divisions */}
         <section id="services" className="scroll-mt-24">
-          <h2 className="text-2xl font-extrabold sm:text-3xl">Select a Service Category</h2>
-          <p className="mt-1 text-sm text-muted-foreground">
-            Tap a category below to explore services, requirements, and start your intake.
+          <h2 className="text-2xl font-bold sm:text-3xl text-foreground">Explore All 3 Divisions</h2>
+          <p className="mt-1 text-sm text-muted-foreground font-normal">
+            Tap a category below to explore services, requirements, and launch your intake.
           </p>
           <div className="mt-6">
             <CategoryExplorer />
@@ -159,14 +472,14 @@ function Home() {
         {/* Tracking Card */}
         <section className="surface-card grid gap-6 p-6 sm:p-8 lg:grid-cols-[1.3fr_1fr]">
           <div>
-            <h2 className="text-xl font-bold sm:text-2xl">Track Your Active Application</h2>
-            <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
-              Follow your passport or visa application status through government preparation, submission, VFS, and FedEx delivery.
+            <h2 className="text-xl font-bold sm:text-2xl text-foreground">Track Your Active Intake or Project</h2>
+            <p className="mt-2 text-sm leading-relaxed text-muted-foreground font-normal">
+              Follow your passport renewal status or active web application milestone in real time.
             </p>
           </div>
           <div className="flex items-end">
-            <Button asChild variant="outline" size="lg" className="h-12 w-full text-base font-bold">
-              <Link to="/track">Track My Application</Link>
+            <Button asChild variant="outline" size="lg" className="h-12 w-full text-sm font-semibold">
+              <Link to="/track">Track My Intake Status</Link>
             </Button>
           </div>
         </section>

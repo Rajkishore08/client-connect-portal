@@ -161,9 +161,9 @@ type UniformDict = Record<string, { value: unknown }>;
 const ctxMap = new WeakMap<HTMLDivElement, OglContext>();
 
 export function GradientWaves({
-  horizonColor = "#E0F2FE",
-  waveColor = "#7DD3FC",
-  crestColor = "#09758A",
+  horizonColor = "#F8FAFC",
+  waveColor = "#E2E8F0",
+  crestColor = "#94A3B8",
   speed = 0.3,
   amplitude = 2.2,
   waveScale = 0.5,
