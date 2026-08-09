@@ -45,22 +45,22 @@ export function SiteHeader() {
   return (
     <header className="sticky top-0 z-40 border-b border-border/80 bg-background/90 backdrop-blur-md">
       {/* Top Location & Hotline Bar */}
-      <div className="bg-slate-900 text-slate-200 px-4 py-1.5 text-xs sm:px-6 border-b border-slate-800">
-        <div className="mx-auto flex max-w-[1440px] items-center justify-between gap-4 text-[11px] sm:text-xs px-2 sm:px-6 lg:px-10">
-          <div className="flex items-center gap-4">
-            <span className="inline-flex items-center gap-1.5 font-medium">
-              <MapPin className="h-3.5 w-3.5 text-primary" /> Chicago HQ
+      <div className="bg-slate-900 text-slate-200 px-2 py-1.5 text-xs sm:px-6 border-b border-slate-800">
+        <div className="mx-auto flex max-w-[1440px] items-center justify-between gap-2 text-[10px] sm:text-xs px-1 sm:px-6 lg:px-10">
+          <div className="flex items-center gap-2">
+            <span className="inline-flex items-center gap-1 font-medium truncate">
+              <MapPin className="h-3 w-3 text-primary shrink-0" /> Chicago HQ
             </span>
             <span className="hidden md:inline-flex items-center gap-1.5 text-slate-400">
               <Clock className="h-3.5 w-3.5 text-slate-400" /> Open Today (9AM - 6PM)
             </span>
           </div>
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-2 shrink-0">
             <a
               href={`tel:${OFFICE_LOCATION.phone.replace(/[^0-9+]/g, "")}`}
-              className="flex items-center gap-1.5 font-bold text-white hover:text-primary transition-colors"
+              className="flex items-center gap-1 font-bold text-white hover:text-primary transition-colors text-[10px] sm:text-xs"
             >
-              <PhoneCall className="h-3.5 w-3.5 text-primary" />
+              <PhoneCall className="h-3 w-3 text-primary shrink-0" />
               <span>{OFFICE_LOCATION.phone}</span>
             </a>
           </div>
@@ -68,13 +68,13 @@ export function SiteHeader() {
       </div>
 
       {/* Main Header Container */}
-      <div className="mx-auto flex max-w-[1440px] items-center justify-between px-4 py-3 sm:px-6 lg:px-10">
+      <div className="mx-auto flex max-w-[1440px] items-center justify-between px-2.5 sm:px-6 lg:px-10 py-2.5 sm:py-3">
         {/* Brand Logo & Name */}
-        <Link to="/" className="flex items-center gap-3 group py-0.5 shrink-0">
+        <Link to="/" className="flex items-center gap-2 group py-0.5 shrink-0 max-w-[70%] sm:max-w-none">
           <img
             src="/logo-rect.webp"
             alt="One World Solutions"
-            className="h-8 sm:h-10 lg:h-11 max-h-12 w-auto object-contain transition-transform group-hover:scale-[1.02] shrink-0"
+            className="h-7 sm:h-10 lg:h-11 max-h-12 w-auto object-contain transition-transform group-hover:scale-[1.02] shrink-0"
           />
         </Link>
 

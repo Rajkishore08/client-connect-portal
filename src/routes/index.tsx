@@ -114,13 +114,13 @@ function Home() {
         {/* Brand Network Texture Overlay */}
         <div className="absolute inset-0 pointer-events-none opacity-[0.03] bg-[radial-gradient(#0F52FF_1.5px,transparent_1.5px)] [background-size:32px_32px]" />
 
-        <div className="relative z-10 mx-auto max-w-[1440px] px-4 sm:px-8 lg:px-12">
-          <div className="grid lg:grid-cols-[1.15fr_0.95fr] items-center gap-8 lg:gap-14">
+        <div className="relative z-10 mx-auto max-w-[1440px] px-3 sm:px-8 lg:px-12">
+          <div className="grid lg:grid-cols-[1.15fr_0.95fr] items-center gap-6 lg:gap-14">
             
             {/* Left Column: Story & Transformation-Focused Hero */}
-            <div className="space-y-4 sm:space-y-6">
+            <div className="space-y-3.5 sm:space-y-6">
               {/* Top Trust Badge */}
-              <div className="glass-pill max-w-full inline-flex items-center gap-1.5 px-3 py-1.5 text-[11px] sm:text-xs font-semibold text-slate-800 backdrop-blur-md">
+              <div className="glass-pill max-w-full inline-flex items-center gap-1.5 px-2.5 py-1 text-[10px] sm:text-xs font-semibold text-slate-800 backdrop-blur-md">
                 <span className="flex items-center gap-0.5 text-amber-500 shrink-0">
                   <Star className="h-3 w-3 sm:h-3.5 sm:w-3.5 fill-amber-500 text-amber-500" />
                   <Star className="h-3 w-3 sm:h-3.5 sm:w-3.5 fill-amber-500 text-amber-500" />
@@ -131,8 +131,8 @@ function Home() {
                 <span className="font-semibold text-slate-900 truncate">Rated 4.9/5 • Chicago HQ • USA</span>
               </div>
 
-              {/* High-Contrast Transformation Headline */}
-              <h1 className="text-[clamp(1.7rem,6.2vw,3.75rem)] font-extrabold leading-[1.12] tracking-tight text-foreground font-display">
+              {/* High-Contrast Transformation Headline (Ultra-Responsive for iPhone 5/6/7/SE) */}
+              <h1 className="text-[clamp(1.25rem,5.2vw,3.75rem)] font-extrabold leading-[1.15] tracking-tight text-foreground font-display break-words">
                 Helping People Cross Borders <br className="hidden sm:inline" />
                 <span className="bg-gradient-to-r from-blue-700 via-primary to-blue-900 bg-clip-text text-transparent font-extrabold">
                   &amp; Businesses Scale Worldwide.
