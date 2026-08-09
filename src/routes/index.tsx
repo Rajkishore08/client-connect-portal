@@ -117,130 +117,142 @@ function Home() {
         <div className="relative z-10 mx-auto max-w-[1440px] px-4 sm:px-8 lg:px-12">
           <div className="grid lg:grid-cols-[1.15fr_0.95fr] items-center gap-10 lg:gap-14">
             
-            {/* Left Column: Story-Driven Headline & Proof */}
+            {/* Left Column: Story & Transformation-Focused Hero */}
             <div className="space-y-6">
               {/* Top Trust Badge */}
-              <div className="glass-pill inline-flex items-center gap-2 px-4 py-1.5 text-xs font-medium text-slate-800 backdrop-blur-md">
-                <span className="flex items-center gap-1 text-amber-500">
-                  <Star className="h-3.5 w-3.5 fill-amber-500" />
-                  <Star className="h-3.5 w-3.5 fill-amber-500" />
-                  <Star className="h-3.5 w-3.5 fill-amber-500" />
-                  <Star className="h-3.5 w-3.5 fill-amber-500" />
-                  <Star className="h-3.5 w-3.5 fill-amber-500" />
+              <div className="glass-pill inline-flex items-center gap-2 px-4 py-1.5 text-xs font-semibold text-slate-800 backdrop-blur-md">
+                <span className="flex items-center gap-0.5 text-amber-500">
+                  <Star className="h-3.5 w-3.5 fill-amber-500 text-amber-500" />
+                  <Star className="h-3.5 w-3.5 fill-amber-500 text-amber-500" />
+                  <Star className="h-3.5 w-3.5 fill-amber-500 text-amber-500" />
+                  <Star className="h-3.5 w-3.5 fill-amber-500 text-amber-500" />
+                  <Star className="h-3.5 w-3.5 fill-amber-500 text-amber-500" />
                 </span>
-                <span className="font-semibold text-slate-900">Trusted Across USA • Chicago HQ</span>
+                <span className="font-semibold text-slate-900">Rated 4.9/5 • Chicago HQ • Nationwide USA</span>
               </div>
 
-              {/* Headline */}
-              <h1 className="text-3xl font-extrabold leading-[1.15] tracking-tight sm:text-5xl lg:text-6xl text-foreground">
-                One Agency. <br className="hidden sm:inline" />
-                Three Specialized Divisions.
+              {/* Transformation Headline */}
+              <h1 className="text-3.5xl font-extrabold leading-[1.12] tracking-tight sm:text-5xl lg:text-6xl text-foreground font-display">
+                Helping People Cross Borders <br className="hidden sm:inline" />
+                <span className="bg-gradient-to-r from-blue-600 via-primary to-accent bg-clip-text text-transparent">
+                  &amp; Businesses Scale Worldwide.
+                </span>
               </h1>
 
-              {/* Subtitle */}
-              <p className="text-base leading-relaxed text-muted-foreground font-normal sm:text-lg max-w-xl">
-                Helping individuals travel confidently and businesses scale smarter — with expedited passport handling, custom web software development, and high-ROI digital marketing.
+              {/* Outcome-Focused Subheadline */}
+              <p className="text-sm leading-relaxed text-muted-foreground font-normal sm:text-lg max-w-xl">
+                We simplify international travel, build world-class digital products, and accelerate business growth—all under one trusted global partner.
               </p>
 
-              {/* CTAs */}
+              {/* CTAs (56-60px Full-Width Touch-Friendly Layout on Mobile) */}
               <div className="pt-2 grid grid-cols-1 gap-3 sm:flex sm:items-center sm:gap-4">
-                <Button asChild size="lg" className="h-12 px-8 text-sm font-semibold shadow-xl shadow-primary/25 hover:scale-[1.02] active:scale-[0.98] transition-all bg-primary text-primary-foreground">
+                <Button asChild size="lg" className="h-14 sm:h-13 px-8 text-base font-bold shadow-xl shadow-primary/25 hover:scale-[1.02] active:scale-[0.98] transition-all bg-primary text-primary-foreground">
                   <a href="#divisions">
-                    Explore Services <ArrowRight className="h-4.5 w-4.5 ml-1.5" />
+                    Get Started Today <ArrowRight className="h-5 w-5 ml-2" />
                   </a>
                 </Button>
-                <Button asChild size="lg" variant="outline" className="glass-card h-12 px-7 text-sm font-semibold text-primary hover:bg-primary hover:text-primary-foreground transition-all">
+                <Button asChild size="lg" variant="outline" className="glass-card h-14 sm:h-13 px-7 text-base font-bold text-primary hover:bg-primary hover:text-primary-foreground transition-all">
                   <Link to="/book">
-                    <CalendarCheck className="h-4.5 w-4.5 mr-2" /> Book Consultation
+                    <CalendarCheck className="h-5 w-5 mr-2" /> Book Free Consultation
                   </Link>
                 </Button>
               </div>
 
-              {/* Social Proof Bar */}
-              <div className="pt-3 border-t border-border/60 flex flex-wrap items-center gap-x-5 gap-y-2 text-xs text-muted-foreground font-medium">
-                <span className="flex items-center gap-1 font-bold text-foreground">
-                  <Star className="h-3.5 w-3.5 fill-amber-500 text-amber-500" /> 4.9/5 Google Rating
-                </span>
-                <span>•</span>
-                <span>2,500+ Happy Clients</span>
-                <span>•</span>
-                <span>35+ States Served</span>
-                <span>•</span>
-                <span className="text-emerald-700 font-semibold">98.6% Success</span>
+              {/* Trust Section Metrics Grid (2x2 on Mobile, 4-Columns on Desktop) */}
+              <div className="pt-4 grid grid-cols-2 sm:grid-cols-4 gap-3 border-t border-border/60">
+                <div className="p-3.5 rounded-2xl glass-card text-center space-y-0.5">
+                  <p className="text-xl sm:text-2xl font-extrabold text-foreground tracking-tight font-display">4.9/5</p>
+                  <p className="text-[11px] font-bold text-primary">340+ Reviews</p>
+                </div>
+                <div className="p-3.5 rounded-2xl glass-card text-center space-y-0.5">
+                  <p className="text-xl sm:text-2xl font-extrabold text-foreground tracking-tight font-display">2,500+</p>
+                  <p className="text-[11px] font-bold text-primary">Happy Clients</p>
+                </div>
+                <div className="p-3.5 rounded-2xl glass-card text-center space-y-0.5">
+                  <p className="text-xl sm:text-2xl font-extrabold text-foreground tracking-tight font-display">35+ States</p>
+                  <p className="text-[11px] font-bold text-primary">USA Network</p>
+                </div>
+                <div className="p-3.5 rounded-2xl glass-card text-center space-y-0.5">
+                  <p className="text-xl sm:text-2xl font-extrabold text-emerald-700 tracking-tight font-display">98.6%</p>
+                  <p className="text-[11px] font-bold text-emerald-700">Success Rate</p>
+                </div>
               </div>
             </div>
 
-            {/* Right Column: High-Contrast Glassmorphic Visual Illustration Anchor */}
-            <div className="relative z-10">
+            {/* Right Column: Premium Visual Composition featuring Chicago Skyline & Interlocking Ecosystem */}
+            <div className="relative z-10 mt-6 lg:mt-0">
               <div className="glass-panel relative overflow-hidden p-6 sm:p-8 shadow-glass rounded-3xl border border-white/90">
-                {/* Official Brand Symbol Visual Motif */}
-                <div className="flex items-center justify-between border-b border-white/60 pb-4">
+                {/* Background Chicago & World Flight Map Visual Backdrop */}
+                <div className="absolute inset-0 pointer-events-none opacity-10 bg-[radial-gradient(#0F52FF_2px,transparent_2px)] [background-size:24px_24px]" />
+
+                {/* Official Brand Symbol & Chicago HQ Motif */}
+                <div className="relative z-10 flex items-center justify-between border-b border-white/60 pb-4">
                   <div className="flex items-center gap-3">
-                    <img src="/logo-symbol.webp" alt="One World Symbol" className="h-11 w-auto object-contain" />
+                    <img src="/logo-symbol.webp" alt="One World Symbol" className="h-12 w-auto object-contain" />
                     <div>
                       <h3 className="text-sm font-bold text-foreground">One World Ecosystem</h3>
-                      <p className="text-[11px] text-muted-foreground font-medium">Connecting People. Powering Businesses.</p>
+                      <p className="text-[11px] text-muted-foreground font-medium">Chicago HQ • Global Operations</p>
                     </div>
                   </div>
-                  <Badge variant="outline" className="glass-pill text-[10px] font-mono text-primary font-bold border-primary/30 px-2.5">
-                    GLOBAL PLATFORM
+                  <Badge variant="outline" className="glass-pill text-[10px] font-mono text-primary font-bold border-primary/30 px-3 py-1">
+                    FORTUNE 500 READY
                   </Badge>
                 </div>
 
-                {/* 3 Interlocking Floating Glass Nodes */}
-                <div className="space-y-3 relative z-10">
-                  {/* Node 1: Passport */}
-                  <div className="glass-card group flex items-center justify-between p-3.5 rounded-2xl border border-white/80 hover:bg-white hover:border-primary/50 transition-all shadow-2xs">
-                    <div className="flex items-center gap-3 min-w-0">
-                      <span className="h-10 w-10 shrink-0 rounded-xl bg-emerald-500/15 text-emerald-700 grid place-items-center shadow-2xs">
-                        <ShieldCheck className="h-5 w-5 text-emerald-700" />
+                {/* 3 Interlocking Floating Glass Division Cards */}
+                <div className="space-y-3.5 pt-4 relative z-10">
+                  {/* Card 1: Passport & Visa */}
+                  <div className="glass-card group flex items-center justify-between p-4 rounded-2xl border border-white/80 hover:bg-white hover:border-primary/50 transition-all shadow-2xs">
+                    <div className="flex items-center gap-3.5 min-w-0">
+                      <span className="h-11 w-11 shrink-0 rounded-2xl bg-emerald-500/15 text-emerald-700 grid place-items-center shadow-2xs">
+                        <ShieldCheck className="h-5.5 w-5.5 text-emerald-700" />
                       </span>
                       <div className="min-w-0">
                         <p className="text-xs font-bold text-foreground group-hover:text-primary transition-colors truncate">Passport &amp; Visa Concierge</p>
-                        <p className="text-[11px] text-muted-foreground font-normal truncate">24H Expedited Filing Active</p>
+                        <p className="text-[11px] text-muted-foreground font-normal truncate">24H Rush Expediting &amp; VFS Audit</p>
                       </div>
                     </div>
-                    <span className="text-[10px] font-semibold text-emerald-700 bg-emerald-500/10 px-2.5 py-0.5 rounded-full border border-emerald-500/20 shrink-0 ml-2">
-                      VFS Approved
+                    <span className="text-[10px] font-bold text-emerald-700 bg-emerald-500/10 px-2.5 py-1 rounded-full border border-emerald-500/20 shrink-0 ml-2">
+                      VFS Compliant
                     </span>
                   </div>
 
-                  {/* Node 2: Software */}
-                  <div className="glass-card group flex items-center justify-between p-3.5 rounded-2xl border border-white/80 hover:bg-white hover:border-primary/50 transition-all shadow-2xs">
-                    <div className="flex items-center gap-3 min-w-0">
-                      <span className="h-10 w-10 shrink-0 rounded-xl bg-blue-500/15 text-blue-700 grid place-items-center shadow-2xs">
-                        <Code2 className="h-5 w-5 text-blue-700" />
+                  {/* Card 2: Custom Software & SaaS */}
+                  <div className="glass-card group flex items-center justify-between p-4 rounded-2xl border border-white/80 hover:bg-white hover:border-primary/50 transition-all shadow-2xs">
+                    <div className="flex items-center gap-3.5 min-w-0">
+                      <span className="h-11 w-11 shrink-0 rounded-2xl bg-blue-500/15 text-blue-700 grid place-items-center shadow-2xs">
+                        <Code2 className="h-5.5 w-5.5 text-blue-700" />
                       </span>
                       <div className="min-w-0">
                         <p className="text-xs font-bold text-foreground group-hover:text-primary transition-colors truncate">Custom Software &amp; SaaS</p>
-                        <p className="text-[11px] text-muted-foreground font-normal truncate">React / Next.js / Cloud</p>
+                        <p className="text-[11px] text-muted-foreground font-normal truncate">React / Next.js / Cloud Platforms</p>
                       </div>
                     </div>
-                    <span className="text-[10px] font-semibold text-blue-700 bg-blue-500/10 px-2.5 py-0.5 rounded-full border border-blue-500/20 shrink-0 ml-2">
+                    <span className="text-[10px] font-bold text-blue-700 bg-blue-500/10 px-2.5 py-1 rounded-full border border-blue-500/20 shrink-0 ml-2">
                       100% IP Code
                     </span>
                   </div>
 
-                  {/* Node 3: Marketing */}
-                  <div className="glass-card group flex items-center justify-between p-3.5 rounded-2xl border border-white/80 hover:bg-white hover:border-primary/50 transition-all shadow-2xs">
-                    <div className="flex items-center gap-3 min-w-0">
-                      <span className="h-10 w-10 shrink-0 rounded-xl bg-purple-500/15 text-purple-700 grid place-items-center shadow-2xs">
-                        <TrendingUp className="h-5 w-5 text-purple-700" />
+                  {/* Card 3: Digital Growth & Marketing */}
+                  <div className="glass-card group flex items-center justify-between p-4 rounded-2xl border border-white/80 hover:bg-white hover:border-primary/50 transition-all shadow-2xs">
+                    <div className="flex items-center gap-3.5 min-w-0">
+                      <span className="h-11 w-11 shrink-0 rounded-2xl bg-purple-500/15 text-purple-700 grid place-items-center shadow-2xs">
+                        <TrendingUp className="h-5.5 w-5.5 text-purple-700" />
                       </span>
                       <div className="min-w-0">
-                        <p className="text-xs font-bold text-foreground group-hover:text-primary transition-colors truncate">Digital Growth &amp; SEO</p>
-                        <p className="text-[11px] text-muted-foreground font-normal truncate">High-ROI PPC Campaigns</p>
+                        <p className="text-xs font-bold text-foreground group-hover:text-primary transition-colors truncate">Digital Growth &amp; Marketing</p>
+                        <p className="text-[11px] text-muted-foreground font-normal truncate">High-ROI Campaigns &amp; Conversion</p>
                       </div>
                     </div>
-                    <span className="text-[10px] font-semibold text-purple-700 bg-purple-500/10 px-2.5 py-0.5 rounded-full border border-purple-500/20 shrink-0 ml-2">
+                    <span className="text-[10px] font-bold text-purple-700 bg-purple-500/10 px-2.5 py-1 rounded-full border border-purple-500/20 shrink-0 ml-2">
                       3.4x Avg. ROI
                     </span>
                   </div>
                 </div>
 
-                <div className="pt-2 text-center">
+                <div className="pt-3 text-center">
                   <p className="text-[11px] text-muted-foreground font-medium">
-                    Integrated solutions designed for seamless execution.
+                    Integrated solutions designed for seamless enterprise execution.
                   </p>
                 </div>
               </div>
