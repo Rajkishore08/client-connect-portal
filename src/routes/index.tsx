@@ -132,7 +132,7 @@ function Home() {
               </div>
 
               {/* Transformation Headline */}
-              <h1 className="text-3.5xl font-extrabold leading-[1.12] tracking-tight sm:text-5xl lg:text-6xl text-foreground font-display">
+              <h1 className="text-[2.25rem] font-extrabold leading-[1.14] tracking-tight sm:text-5xl lg:text-6xl text-foreground font-display">
                 Helping People Cross Borders <br className="hidden sm:inline" />
                 <span className="bg-gradient-to-r from-blue-600 via-primary to-accent bg-clip-text text-transparent">
                   &amp; Businesses Scale Worldwide.
