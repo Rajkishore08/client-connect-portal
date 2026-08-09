@@ -58,7 +58,7 @@ export function AccordionGallery({
   stagger = 0.06,
   trigger = "hover",
   showLabels = true,
-  grayscale = true,
+  grayscale = false,
   className = "",
 }: AccordionGalleryProps) {
   const rootRef = useRef<HTMLDivElement | null>(null);

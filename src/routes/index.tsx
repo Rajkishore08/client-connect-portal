@@ -16,9 +16,11 @@ import {
 } from "lucide-react";
 
 import { CategoryExplorer } from "@/components/site/CategoryExplorer";
+import { FaqSection } from "@/components/site/FaqSection";
 import { InteractiveCapabilitiesGallery } from "@/components/site/InteractiveCapabilitiesGallery";
 import { TrustBanner } from "@/components/site/SiteFooter";
 import { StepsBanner } from "@/components/site/StepsBanner";
+import { Testimonials } from "@/components/site/Testimonials";
 import { TurnaroundEstimator } from "@/components/site/TurnaroundEstimator";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -37,7 +39,7 @@ export const Route = createFileRoute("/")({
       {
         property: "og:description",
         content:
-          "Helping individuals travel confidently and businesses scale smarter across Passport Concierge, Web Software & Digital Marketing.",
+          "Connecting People. Powering Businesses. Travel Smarter. Build Better. Grow Faster.",
       },
     ],
   }),
@@ -45,7 +47,7 @@ export const Route = createFileRoute("/")({
 });
 
 const SOCIAL_PROOF_METRICS = [
-  { label: "Google Rating", value: "4.9 / 5.0", sub: "⭐ 340+ Verified Reviews" },
+  { label: "Google Rating", value: "4.9 / 5.0", sub: "340+ Verified Reviews" },
   { label: "Satisfied Clients", value: "2,500+", sub: "Passports, Web & Marketing" },
   { label: "US States Served", value: "35+ States", sub: "Nationwide Intake & Expediting" },
   { label: "Success Rate", value: "98.6%", sub: "Guaranteed Zero-Error Filing" },
@@ -83,14 +85,21 @@ const EQUAL_DIVISIONS = [
 
 function Home() {
   return (
-    <main>
-      {/* High-Impact Hero Section with World Network Atmosphere */}
-      <section className="relative overflow-hidden hero-wash border-b border-border py-12 sm:py-20 lg:py-24">
+    <main className="relative overflow-hidden">
+      {/* Background Radial Light Glow Orbs for High Glassmorphism Contrast */}
+      <div className="pointer-events-none fixed inset-0 z-0">
+        <div className="absolute top-[10%] left-[-10%] h-[500px] w-[500px] rounded-full bg-blue-500/15 blur-[120px]" />
+        <div className="absolute top-[30%] right-[-10%] h-[500px] w-[500px] rounded-full bg-red-500/12 blur-[140px]" />
+        <div className="absolute top-[60%] left-[20%] h-[600px] w-[600px] rounded-full bg-sky-400/15 blur-[150px]" />
+      </div>
+
+      {/* High-Impact Hero Section */}
+      <section className="relative z-10 hero-wash border-b border-border/70 py-12 sm:py-20 lg:py-24">
         {/* Animated WebGL Canvas Waves */}
         <GradientWaves
-          horizonColor="#EFF6FF"
+          horizonColor="#EFF4FF"
           waveColor="#93C5FD"
-          crestColor="#2563EB"
+          crestColor="#0F52FF"
           opacity={0.35}
           speed={0.3}
           amplitude={2.2}
@@ -102,52 +111,52 @@ function Home() {
           grainIntensity={0.02}
         />
 
-        {/* Subtle World Map Latitude Arcs Texture (2% Opacity) */}
-        <div className="absolute inset-0 pointer-events-none opacity-[0.03] bg-[radial-gradient(#2563eb_1.5px,transparent_1.5px)] [background-size:32px_32px]" />
+        {/* Brand Network Texture Overlay */}
+        <div className="absolute inset-0 pointer-events-none opacity-[0.03] bg-[radial-gradient(#0F52FF_1.5px,transparent_1.5px)] [background-size:32px_32px]" />
 
-        <div className="relative z-10 mx-auto max-w-6xl px-4 sm:px-6">
+        <div className="relative z-10 mx-auto max-w-[1440px] px-4 sm:px-8 lg:px-12">
           <div className="grid lg:grid-cols-[1.15fr_0.95fr] items-center gap-10 lg:gap-14">
             
             {/* Left Column: Story-Driven Headline & Proof */}
             <div className="space-y-6">
               {/* Top Trust Badge */}
-              <div className="inline-flex items-center gap-2 rounded-full border border-amber-500/30 bg-amber-500/10 px-3.5 py-1 text-xs font-medium text-amber-900 shadow-2xs backdrop-blur-md dark:text-amber-300">
-                <span className="flex items-center gap-1 text-amber-600">
-                  <Star className="h-3.5 w-3.5 fill-amber-500 text-amber-500" />
-                  <Star className="h-3.5 w-3.5 fill-amber-500 text-amber-500" />
-                  <Star className="h-3.5 w-3.5 fill-amber-500 text-amber-500" />
-                  <Star className="h-3.5 w-3.5 fill-amber-500 text-amber-500" />
-                  <Star className="h-3.5 w-3.5 fill-amber-500 text-amber-500" />
+              <div className="glass-pill inline-flex items-center gap-2 px-4 py-1.5 text-xs font-medium text-slate-800 backdrop-blur-md">
+                <span className="flex items-center gap-1 text-amber-500">
+                  <Star className="h-3.5 w-3.5 fill-amber-500" />
+                  <Star className="h-3.5 w-3.5 fill-amber-500" />
+                  <Star className="h-3.5 w-3.5 fill-amber-500" />
+                  <Star className="h-3.5 w-3.5 fill-amber-500" />
+                  <Star className="h-3.5 w-3.5 fill-amber-500" />
                 </span>
-                <span>Trusted Across USA • Chicago HQ</span>
+                <span className="font-semibold text-slate-900">Trusted Across USA • Chicago HQ</span>
               </div>
 
-              {/* Story-Driven Headline */}
+              {/* Headline */}
               <h1 className="text-3xl font-extrabold leading-[1.15] tracking-tight sm:text-5xl lg:text-6xl text-foreground">
                 One Agency. <br className="hidden sm:inline" />
                 Three Specialized Divisions.
               </h1>
 
-              {/* Story Subtitle */}
+              {/* Subtitle */}
               <p className="text-base leading-relaxed text-muted-foreground font-normal sm:text-lg max-w-xl">
                 Helping individuals travel confidently and businesses scale smarter — with expedited passport handling, custom web software development, and high-ROI digital marketing.
               </p>
 
-              {/* Primary & Secondary Action CTAs */}
+              {/* CTAs */}
               <div className="pt-2 grid grid-cols-1 gap-3 sm:flex sm:items-center sm:gap-4">
-                <Button asChild size="lg" className="h-12 px-8 text-sm font-semibold shadow-xl shadow-primary/20 hover:scale-[1.02] active:scale-[0.98] transition-all">
+                <Button asChild size="lg" className="h-12 px-8 text-sm font-semibold shadow-xl shadow-primary/25 hover:scale-[1.02] active:scale-[0.98] transition-all bg-primary text-primary-foreground">
                   <a href="#divisions">
                     Explore Services <ArrowRight className="h-4.5 w-4.5 ml-1.5" />
                   </a>
                 </Button>
-                <Button asChild size="lg" variant="outline" className="h-12 px-7 text-sm font-semibold bg-primary-soft/50 border-primary/20 text-primary hover:bg-primary hover:text-primary-foreground transition-all">
+                <Button asChild size="lg" variant="outline" className="glass-card h-12 px-7 text-sm font-semibold text-primary hover:bg-primary hover:text-primary-foreground transition-all">
                   <Link to="/book">
                     <CalendarCheck className="h-4.5 w-4.5 mr-2" /> Book Consultation
                   </Link>
                 </Button>
               </div>
 
-              {/* Immediate Social Proof Bar Under Buttons (Point #12) */}
+              {/* Social Proof Bar */}
               <div className="pt-3 border-t border-border/60 flex flex-wrap items-center gap-x-5 gap-y-2 text-xs text-muted-foreground font-medium">
                 <span className="flex items-center gap-1 font-bold text-foreground">
                   <Star className="h-3.5 w-3.5 fill-amber-500 text-amber-500" /> 4.9/5 Google Rating
@@ -161,69 +170,69 @@ function Home() {
               </div>
             </div>
 
-            {/* Right Column: Branded Multi-Service Visual Illustration Anchor (Point #1) */}
-            <div className="relative">
-              <div className="glass-panel relative overflow-hidden rounded-3xl p-6 sm:p-8 shadow-glass space-y-6">
+            {/* Right Column: High-Contrast Glassmorphic Visual Illustration Anchor */}
+            <div className="relative z-10">
+              <div className="glass-panel relative overflow-hidden p-6 sm:p-8 shadow-glass rounded-3xl border border-white/90">
                 {/* Official Brand Symbol Visual Motif */}
-                <div className="flex items-center justify-between border-b border-border/60 pb-4">
+                <div className="flex items-center justify-between border-b border-white/60 pb-4">
                   <div className="flex items-center gap-3">
-                    <img src="/logo-symbol.png" alt="One World Symbol" className="h-10 w-auto object-contain" />
+                    <img src="/logo-symbol.webp" alt="One World Symbol" className="h-11 w-auto object-contain" />
                     <div>
                       <h3 className="text-sm font-bold text-foreground">One World Ecosystem</h3>
-                      <p className="text-[11px] text-muted-foreground">Connecting People. Powering Businesses.</p>
+                      <p className="text-[11px] text-muted-foreground font-medium">Connecting People. Powering Businesses.</p>
                     </div>
                   </div>
-                  <Badge variant="outline" className="text-[10px] font-mono border-primary/30 text-primary">
+                  <Badge variant="outline" className="glass-pill text-[10px] font-mono text-primary font-bold border-primary/30 px-2.5">
                     GLOBAL PLATFORM
                   </Badge>
                 </div>
 
-                {/* 3 Interlocking Floating Division Nodes */}
+                {/* 3 Interlocking Floating Glass Nodes */}
                 <div className="space-y-3 relative z-10">
                   {/* Node 1: Passport */}
-                  <div className="group glass-card flex items-center justify-between p-3.5 rounded-xl border border-white/80 bg-white/80 hover:border-primary/40 hover:bg-white transition-all shadow-2xs">
-                    <div className="flex items-center gap-3">
-                      <span className="h-8 w-8 rounded-lg bg-emerald-500/10 text-emerald-600 grid place-items-center font-bold">
-                        🛂
+                  <div className="glass-card group flex items-center justify-between p-3.5 rounded-2xl border border-white/80 hover:bg-white hover:border-primary/50 transition-all shadow-2xs">
+                    <div className="flex items-center gap-3 min-w-0">
+                      <span className="h-10 w-10 shrink-0 rounded-xl bg-emerald-500/15 text-emerald-700 grid place-items-center shadow-2xs">
+                        <ShieldCheck className="h-5 w-5 text-emerald-700" />
                       </span>
-                      <div>
-                        <p className="text-xs font-bold text-foreground group-hover:text-primary transition-colors">Passport &amp; Visa Concierge</p>
-                        <p className="text-[11px] text-muted-foreground">24H Expedited Filing Active</p>
+                      <div className="min-w-0">
+                        <p className="text-xs font-bold text-foreground group-hover:text-primary transition-colors truncate">Passport &amp; Visa Concierge</p>
+                        <p className="text-[11px] text-muted-foreground font-normal truncate">24H Expedited Filing Active</p>
                       </div>
                     </div>
-                    <span className="text-[10px] font-semibold text-emerald-700 bg-emerald-500/10 px-2 py-0.5 rounded-full">
+                    <span className="text-[10px] font-semibold text-emerald-700 bg-emerald-500/10 px-2.5 py-0.5 rounded-full border border-emerald-500/20 shrink-0 ml-2">
                       VFS Approved
                     </span>
                   </div>
 
                   {/* Node 2: Software */}
-                  <div className="group glass-card flex items-center justify-between p-3.5 rounded-xl border border-white/80 bg-white/80 hover:border-primary/40 hover:bg-white transition-all shadow-2xs">
-                    <div className="flex items-center gap-3">
-                      <span className="h-8 w-8 rounded-lg bg-blue-500/10 text-blue-600 grid place-items-center font-bold">
-                        💻
+                  <div className="glass-card group flex items-center justify-between p-3.5 rounded-2xl border border-white/80 hover:bg-white hover:border-primary/50 transition-all shadow-2xs">
+                    <div className="flex items-center gap-3 min-w-0">
+                      <span className="h-10 w-10 shrink-0 rounded-xl bg-blue-500/15 text-blue-700 grid place-items-center shadow-2xs">
+                        <Code2 className="h-5 w-5 text-blue-700" />
                       </span>
-                      <div>
-                        <p className="text-xs font-bold text-foreground group-hover:text-primary transition-colors">Custom Software &amp; SaaS</p>
-                        <p className="text-[11px] text-muted-foreground">React / Next.js / Cloud</p>
+                      <div className="min-w-0">
+                        <p className="text-xs font-bold text-foreground group-hover:text-primary transition-colors truncate">Custom Software &amp; SaaS</p>
+                        <p className="text-[11px] text-muted-foreground font-normal truncate">React / Next.js / Cloud</p>
                       </div>
                     </div>
-                    <span className="text-[10px] font-semibold text-blue-700 bg-blue-500/10 px-2 py-0.5 rounded-full">
+                    <span className="text-[10px] font-semibold text-blue-700 bg-blue-500/10 px-2.5 py-0.5 rounded-full border border-blue-500/20 shrink-0 ml-2">
                       100% IP Code
                     </span>
                   </div>
 
                   {/* Node 3: Marketing */}
-                  <div className="group glass-card flex items-center justify-between p-3.5 rounded-xl border border-white/80 bg-white/80 hover:border-primary/40 hover:bg-white transition-all shadow-2xs">
-                    <div className="flex items-center gap-3">
-                      <span className="h-8 w-8 rounded-lg bg-purple-500/10 text-purple-600 grid place-items-center font-bold">
-                        📈
+                  <div className="glass-card group flex items-center justify-between p-3.5 rounded-2xl border border-white/80 hover:bg-white hover:border-primary/50 transition-all shadow-2xs">
+                    <div className="flex items-center gap-3 min-w-0">
+                      <span className="h-10 w-10 shrink-0 rounded-xl bg-purple-500/15 text-purple-700 grid place-items-center shadow-2xs">
+                        <TrendingUp className="h-5 w-5 text-purple-700" />
                       </span>
-                      <div>
-                        <p className="text-xs font-bold text-foreground group-hover:text-primary transition-colors">Digital Growth &amp; SEO</p>
-                        <p className="text-[11px] text-muted-foreground">High-ROI PPC Campaigns</p>
+                      <div className="min-w-0">
+                        <p className="text-xs font-bold text-foreground group-hover:text-primary transition-colors truncate">Digital Growth &amp; SEO</p>
+                        <p className="text-[11px] text-muted-foreground font-normal truncate">High-ROI PPC Campaigns</p>
                       </div>
                     </div>
-                    <span className="text-[10px] font-semibold text-purple-700 bg-purple-500/10 px-2 py-0.5 rounded-full">
+                    <span className="text-[10px] font-semibold text-purple-700 bg-purple-500/10 px-2.5 py-0.5 rounded-full border border-purple-500/20 shrink-0 ml-2">
                       3.4x Avg. ROI
                     </span>
                   </div>
@@ -242,8 +251,8 @@ function Home() {
       </section>
 
       {/* Social Proof Statistics Strip */}
-      <section className="glass-card bg-white/60 border-y border-border/60 backdrop-blur-md py-6 sm:py-8">
-        <div className="mx-auto max-w-6xl px-4 sm:px-6">
+      <section className="glass-card relative z-10 border-y border-white/80 py-6 sm:py-8 backdrop-blur-md">
+        <div className="mx-auto max-w-[1440px] px-4 sm:px-8 lg:px-12">
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-6 text-center divide-x-0 sm:divide-x divide-border/60">
             {SOCIAL_PROOF_METRICS.map((item) => (
               <div key={item.label} className="space-y-1 p-2">
@@ -256,10 +265,10 @@ function Home() {
         </div>
       </section>
 
-      {/* Choose Your Division — 3 Equal Division Cards (Points #3, #4) */}
-      <section id="divisions" className="scroll-mt-24 mx-auto max-w-6xl px-4 py-14 sm:px-6 sm:py-20 space-y-10">
+      {/* Choose Your Division — 3 Equal Division Cards */}
+      <section id="divisions" className="relative z-10 scroll-mt-24 mx-auto max-w-[1440px] px-4 sm:px-8 lg:px-12 py-14 sm:py-20 space-y-10">
         <div className="text-center max-w-2xl mx-auto space-y-3">
-          <Badge variant="outline" className="text-xs font-medium text-primary border-primary/30">
+          <Badge variant="outline" className="glass-pill text-xs font-semibold text-primary border-primary/30 px-3 py-1">
             CHOOSE YOUR DIVISION
           </Badge>
           <h2 className="text-3xl font-extrabold sm:text-4xl text-foreground">
@@ -270,19 +279,19 @@ function Home() {
           </p>
         </div>
 
-        {/* 3 Equal Division Cards: Same Height, Same Visual Weight */}
+        {/* 3 Equal Division Cards: Glassmorphism Enabled */}
         <div className="grid gap-6 md:grid-cols-3">
           {EQUAL_DIVISIONS.map((div) => (
             <div
               key={div.title}
-              className="group glass-card flex flex-col justify-between p-6 sm:p-7 rounded-3xl border border-white/80 bg-white/75 hover:bg-white/95 hover:border-primary/50 transition-all hover:-translate-y-1.5 shadow-card hover:shadow-lift"
+              className="group glass-card flex flex-col justify-between p-6 sm:p-7 rounded-3xl border border-white/80 hover:border-primary/50 transition-all hover:-translate-y-1.5 shadow-card hover:shadow-lift"
             >
               <div className="space-y-4">
                 <div className="flex items-center justify-between">
-                  <div className="h-12 w-12 rounded-2xl bg-primary-soft text-primary font-bold grid place-items-center shadow-xs group-hover:bg-primary group-hover:text-primary-foreground transition-colors">
+                  <div className="h-12 w-12 rounded-2xl bg-primary-soft text-primary font-bold grid place-items-center shadow-2xs group-hover:bg-primary group-hover:text-primary-foreground transition-colors">
                     <div.icon className="h-6 w-6" />
                   </div>
-                  <Badge variant="secondary" className="text-[10px] font-medium">
+                  <Badge variant="secondary" className="glass-pill text-[10px] font-medium border-border/80">
                     {div.badge}
                   </Badge>
                 </div>
@@ -309,9 +318,9 @@ function Home() {
               </div>
 
               <div className="pt-6">
-                <Button asChild variant="outline" className="w-full font-semibold group-hover:bg-primary group-hover:text-primary-foreground group-hover:border-primary transition-all">
+                <Button asChild className="w-full font-bold bg-primary text-primary-foreground hover:bg-blue-700 shadow-md transition-all group-hover:shadow-lift">
                   <Link to={div.link}>
-                    Explore Division <ArrowRight className="h-4 w-4 ml-1.5" />
+                    Explore Division <ArrowRight className="h-4 w-4 ml-1.5 transition-transform group-hover:translate-x-1" />
                   </Link>
                 </Button>
               </div>
@@ -321,13 +330,13 @@ function Home() {
       </section>
 
       {/* 3 Core Division Detailed Showcases */}
-      <div className="mx-auto max-w-6xl space-y-16 px-4 pb-16 sm:px-6 sm:pb-20">
+      <div className="relative z-10 mx-auto max-w-[1440px] px-4 sm:px-8 lg:px-12 space-y-16 pb-16 sm:pb-20">
         
         {/* PASSPORT & VISA DIVISION SHOWCASE */}
         <section className="space-y-6 border-t border-border/60 pt-12">
           <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4">
             <div>
-              <Badge variant="secondary" className="mb-2 text-xs font-medium">
+              <Badge variant="secondary" className="glass-pill mb-2 text-xs font-semibold">
                 DIVISION 01 • PASSPORT &amp; VISA
               </Badge>
               <h2 className="text-2xl font-bold sm:text-3xl text-foreground">Passport &amp; Visa Concierge Services</h2>
@@ -335,7 +344,7 @@ function Home() {
                 24-Hour emergency rush processing, adult/minor renewals, OCI cards, and e-visas with guaranteed error-free preparation.
               </p>
             </div>
-            <Button asChild variant="outline" className="font-semibold shrink-0">
+            <Button asChild variant="outline" className="glass-card font-semibold shrink-0">
               <Link to="/passport">
                 View Passport Services <ArrowRight className="h-4 w-4 ml-1" />
               </Link>
@@ -350,10 +359,10 @@ function Home() {
         </section>
 
         {/* WEB & CUSTOM SOFTWARE DIVISION SHOWCASE */}
-        <section className="surface-card p-6 sm:p-10 rounded-3xl border border-border/80 bg-card space-y-6">
+        <section className="glass-panel p-6 sm:p-10 rounded-3xl border border-white/90 space-y-6 shadow-glass">
           <div className="grid lg:grid-cols-[1.2fr_1fr] items-center gap-8">
             <div className="space-y-4">
-              <Badge variant="secondary" className="text-xs font-medium">
+              <Badge variant="secondary" className="glass-pill text-xs font-semibold">
                 DIVISION 02 • SOFTWARE &amp; UI/UX
               </Badge>
               <h2 className="text-2xl font-extrabold sm:text-3xl text-foreground">
@@ -377,7 +386,7 @@ function Home() {
                 </div>
               </div>
               <div className="pt-2">
-                <Button asChild size="lg" className="h-11 font-semibold">
+                <Button asChild size="lg" className="h-11 font-semibold shadow-md">
                   <Link to="/web-development">
                     Explore Software Development <ArrowRight className="h-4 w-4 ml-1" />
                   </Link>
@@ -385,14 +394,14 @@ function Home() {
               </div>
             </div>
 
-            <div className="rounded-2xl border border-border bg-muted/30 p-6 space-y-4">
+            <div className="glass-card rounded-2xl p-6 space-y-4 border border-white/80">
               <h3 className="text-base font-bold text-foreground flex items-center gap-2">
                 <Code2 className="h-5 w-5 text-primary" /> Software Development Intake
               </h3>
               <p className="text-xs text-muted-foreground font-normal leading-relaxed">
                 Need a custom web app, mobile-friendly portal, or UI redesign? Tell us about your project for a scope &amp; turnaround estimate.
               </p>
-              <Button asChild variant="outline" className="w-full font-semibold">
+              <Button asChild variant="outline" className="glass-card w-full font-semibold">
                 <Link to="/web-development">Start Web Dev Intake</Link>
               </Button>
             </div>
@@ -400,10 +409,10 @@ function Home() {
         </section>
 
         {/* DIGITAL MARKETING DIVISION SHOWCASE */}
-        <section className="surface-card p-6 sm:p-10 rounded-3xl border border-border/80 bg-card space-y-6">
+        <section className="glass-panel p-6 sm:p-10 rounded-3xl border border-white/90 space-y-6 shadow-glass">
           <div className="grid lg:grid-cols-[1.2fr_1fr] items-center gap-8">
             <div className="space-y-4">
-              <Badge variant="secondary" className="text-xs font-medium">
+              <Badge variant="secondary" className="glass-pill text-xs font-semibold">
                 DIVISION 03 • DIGITAL MARKETING
               </Badge>
               <h2 className="text-2xl font-extrabold sm:text-3xl text-foreground">
@@ -427,7 +436,7 @@ function Home() {
                 </div>
               </div>
               <div className="pt-2">
-                <Button asChild size="lg" className="h-11 font-semibold">
+                <Button asChild size="lg" className="h-11 font-semibold shadow-md">
                   <Link to="/digital-marketing">
                     Explore Digital Marketing <ArrowRight className="h-4 w-4 ml-1" />
                   </Link>
@@ -435,14 +444,14 @@ function Home() {
               </div>
             </div>
 
-            <div className="rounded-2xl border border-border bg-muted/30 p-6 space-y-4">
+            <div className="glass-card rounded-2xl p-6 space-y-4 border border-white/80">
               <h3 className="text-base font-bold text-foreground flex items-center gap-2">
                 <Megaphone className="h-5 w-5 text-primary" /> Growth Marketing Inquiry
               </h3>
               <p className="text-xs text-muted-foreground font-normal leading-relaxed">
                 Ready to scale your online presence and acquire high-intent customers? Get a free marketing strategy consultation.
               </p>
-              <Button asChild variant="outline" className="w-full font-semibold">
+              <Button asChild variant="outline" className="glass-card w-full font-semibold">
                 <Link to="/digital-marketing">Request Marketing Plan</Link>
               </Button>
             </div>
@@ -469,16 +478,22 @@ function Home() {
           </div>
         </section>
 
+        {/* Client Success Stories & Testimonials (PRD Section 7) */}
+        <Testimonials />
+
+        {/* Frequently Asked Questions Accordion (PRD Section 8) */}
+        <FaqSection />
+
         {/* Tracking Card */}
-        <section className="surface-card grid gap-6 p-6 sm:p-8 lg:grid-cols-[1.3fr_1fr]">
+        <section className="glass-panel grid gap-6 p-6 sm:p-8 lg:grid-cols-[1.3fr_1fr] rounded-3xl border border-white/90">
           <div>
             <h2 className="text-xl font-bold sm:text-2xl text-foreground">Track Your Active Intake or Project</h2>
             <p className="mt-2 text-sm leading-relaxed text-muted-foreground font-normal">
-              Follow your passport renewal status or active web application milestone in real time.
+              Follow your passport renewal status, custom web application milestone, or digital marketing campaign performance in real time.
             </p>
           </div>
           <div className="flex items-end">
-            <Button asChild variant="outline" size="lg" className="h-12 w-full text-sm font-semibold">
+            <Button asChild variant="outline" size="lg" className="glass-card h-12 w-full text-sm font-semibold">
               <Link to="/track">Track My Intake Status</Link>
             </Button>
           </div>

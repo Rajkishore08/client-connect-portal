@@ -142,13 +142,13 @@ export function InteractiveCapabilitiesGallery({
                     : "flex-1 border border-border/80 bg-muted/60 opacity-85 hover:opacity-100 hover:border-primary/50"
                 )}
               >
-                {/* Background Image */}
+                {/* Background Image — Full Color Always */}
                 <img
                   src={item.image}
                   alt={item.title}
                   className={cn(
                     "absolute inset-0 h-full w-full object-cover transition-transform duration-700",
-                    isActive ? "scale-105 filter-none" : "scale-100 grayscale brightness-90"
+                    isActive ? "scale-105 saturate-120" : "scale-100 saturate-100 opacity-95 group-hover:scale-105"
                   )}
                 />
 
@@ -157,8 +157,8 @@ export function InteractiveCapabilitiesGallery({
                   className={cn(
                     "absolute inset-0 transition-opacity duration-300",
                     isActive
-                      ? "bg-gradient-to-t from-slate-950/90 via-slate-950/40 to-transparent"
-                      : "bg-slate-900/40"
+                      ? "bg-gradient-to-t from-slate-950/90 via-slate-950/30 to-transparent"
+                      : "bg-gradient-to-t from-slate-950/75 via-slate-950/20 to-transparent"
                   )}
                 />
 

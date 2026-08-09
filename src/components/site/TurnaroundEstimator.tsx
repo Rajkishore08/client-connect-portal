@@ -1,8 +1,8 @@
-import { Check, Clock, Flame, ShieldAlert, Truck } from "lucide-react";
+import { Check, Clock, Code2, Flame, Megaphone, ShieldAlert, Sparkles } from "lucide-react";
 import { useState } from "react";
 
 import { Button } from "@/components/ui/button";
-import { SHIPPING_OPTIONS, SPEED_TIERS, SpeedTier } from "@/data/mock-data";
+import { SPEED_TIERS, SpeedTier } from "@/data/mock-data";
 
 const defaultTier: SpeedTier = SPEED_TIERS[1] ?? {
   id: "express",
@@ -14,138 +14,218 @@ const defaultTier: SpeedTier = SPEED_TIERS[1] ?? {
   description: "Fast-track processing for travel within the next 1–2 weeks.",
 };
 
-const defaultShipping = SHIPPING_OPTIONS[0] ?? {
-  id: "fedex-overnight",
-  name: "FedEx Priority Overnight (Return)",
-  fee: 39,
-  estimatedTime: "Next Morning Delivery",
-};
-
 export function TurnaroundEstimator() {
+  const [activeDivision, setActiveDivision] = useState<"passport" | "web" | "marketing">("passport");
   const [selectedTier, setSelectedTier] = useState<SpeedTier>(defaultTier);
-  const [shippingId, setShippingId] = useState<string>("fedex-overnight");
-
-  const selectedShipping = SHIPPING_OPTIONS.find((s) => s.id === shippingId) ?? defaultShipping;
-  const shippingFee = selectedShipping.fee;
-  const totalCost = selectedTier.serviceFee + selectedTier.govFee + shippingFee;
 
   // Calculate estimated completion date
-  const getEstimatedDate = (turnaroundDays: number) => {
+  const getEstimatedDate = (days: number) => {
     const d = new Date();
-    d.setDate(d.getDate() + turnaroundDays);
+    d.setDate(d.getDate() + days);
     return d.toLocaleDateString("en-US", { weekday: "short", month: "short", day: "numeric" });
   };
 
-  const turnaroundDaysMap: Record<string, number> = {
-    "same-day": 1,
-    express: 3,
-    "fast-track": 6,
-    "standard-expedited": 10,
-  };
-
-  const estimatedDelivery = getEstimatedDate(turnaroundDaysMap[selectedTier.id] || 3);
-
   return (
-    <section className="rounded-3xl border border-border bg-card p-6 sm:p-8 shadow-[var(--shadow-lift)]">
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-border pb-6">
-        <div>
-          <span className="inline-flex items-center gap-1.5 rounded-full bg-accent/20 px-3 py-1 text-xs font-bold text-accent-foreground">
-            <Flame className="h-3.5 w-3.5 text-accent" /> Expedited Speed Calculator
-          </span>
-          <h2 className="mt-2 text-2xl font-extrabold sm:text-3xl">Turnaround &amp; Fee Estimator</h2>
-          <p className="mt-1 text-sm text-muted-foreground">
-            Compare processing speed tiers vs standard 5–7 weeks government delays.
+    <section className="glass-panel relative overflow-hidden p-6 sm:p-10 shadow-glass rounded-3xl border border-white/80">
+      <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-6 border-b border-border/60 pb-6">
+        <div className="space-y-2">
+          <div className="inline-flex items-center gap-1.5 rounded-full bg-primary-soft border border-primary/30 px-3 py-1 text-xs font-bold text-primary">
+            <Sparkles className="h-3.5 w-3.5" /> 3-Division Scope &amp; Speed Calculator
+          </div>
+          <h2 className="text-2xl font-black sm:text-3xl text-foreground">Estimate Your Project &amp; Delivery Speed</h2>
+          <p className="text-sm text-muted-foreground font-normal max-w-xl">
+            Select a division below to estimate turnaround timelines, fees, and guaranteed delivery dates.
           </p>
         </div>
 
-        <div className="rounded-2xl bg-muted/60 p-3 text-right">
-          <p className="text-xs text-muted-foreground">Estimated Delivery Date</p>
-          <p className="text-lg font-extrabold text-primary">{estimatedDelivery}</p>
+        {/* Division Selector Tabs */}
+        <div className="flex items-center gap-1.5 rounded-2xl bg-white/70 p-1.5 border border-white/90 shadow-2xs backdrop-blur-md">
+          <button
+            type="button"
+            onClick={() => setActiveDivision("passport")}
+            className={`rounded-xl px-3.5 py-2 text-xs font-bold transition-all ${
+              activeDivision === "passport"
+                ? "bg-primary text-primary-foreground shadow-xs"
+                : "text-muted-foreground hover:text-foreground"
+            }`}
+          >
+            🛂 Passport &amp; Visa
+          </button>
+          <button
+            type="button"
+            onClick={() => setActiveDivision("web")}
+            className={`rounded-xl px-3.5 py-2 text-xs font-bold transition-all ${
+              activeDivision === "web"
+                ? "bg-primary text-primary-foreground shadow-xs"
+                : "text-muted-foreground hover:text-foreground"
+            }`}
+          >
+            💻 Software &amp; UI/UX
+          </button>
+          <button
+            type="button"
+            onClick={() => setActiveDivision("marketing")}
+            className={`rounded-xl px-3.5 py-2 text-xs font-bold transition-all ${
+              activeDivision === "marketing"
+                ? "bg-primary text-primary-foreground shadow-xs"
+                : "text-muted-foreground hover:text-foreground"
+            }`}
+          >
+            📈 Marketing &amp; SEO
+          </button>
         </div>
       </div>
 
-      {/* Speed Tiers Grid */}
-      <div className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-        {SPEED_TIERS.map((tier) => {
-          const isSelected = selectedTier.id === tier.id;
-          return (
-            <button
-              key={tier.id}
-              type="button"
-              onClick={() => setSelectedTier(tier)}
-              className={`relative flex flex-col justify-between rounded-2xl border p-4 text-left transition-all ${
-                isSelected
-                  ? "border-primary bg-primary-soft/50 ring-2 ring-primary/20 shadow-md"
-                  : "border-border bg-background hover:border-muted-foreground/40"
-              }`}
-            >
-              {tier.emergency && (
-                <span className="absolute -top-2.5 left-4 rounded-md bg-destructive px-2 py-0.5 text-[10px] font-bold text-destructive-foreground uppercase tracking-wide">
-                  24-Hour Emergency
-                </span>
-              )}
-              {tier.popular && (
-                <span className="absolute -top-2.5 left-4 rounded-md bg-accent px-2 py-0.5 text-[10px] font-bold text-accent-foreground uppercase tracking-wide">
-                  Most Popular
-                </span>
-              )}
+      {/* Division 01: Passport Tiers */}
+      {activeDivision === "passport" && (
+        <div className="mt-8 space-y-6">
+          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+            {SPEED_TIERS.map((tier) => {
+              const isSelected = selectedTier.id === tier.id;
+              return (
+                <button
+                  key={tier.id}
+                  type="button"
+                  onClick={() => setSelectedTier(tier)}
+                  className={`group glass-card relative flex flex-col justify-between p-5 text-left transition-all rounded-2xl border ${
+                    isSelected
+                      ? "border-primary bg-white ring-2 ring-primary/30 shadow-lift"
+                      : "border-white/80 bg-white/70 hover:bg-white hover:border-primary/40"
+                  }`}
+                >
+                  {tier.emergency && (
+                    <span className="absolute -top-2.5 left-4 rounded-md bg-accent px-2.5 py-0.5 text-[10px] font-bold text-white uppercase tracking-wide shadow-2xs">
+                      24H Emergency
+                    </span>
+                  )}
+                  {tier.popular && (
+                    <span className="absolute -top-2.5 left-4 rounded-md bg-primary px-2.5 py-0.5 text-[10px] font-bold text-primary-foreground uppercase tracking-wide shadow-2xs">
+                      Most Popular
+                    </span>
+                  )}
 
-              <div>
-                <div className="flex items-center justify-between mt-1">
-                  <h3 className="text-base font-bold text-foreground">{tier.name}</h3>
-                  {isSelected && <Check className="h-4 w-4 text-primary shrink-0" />}
-                </div>
+                  <div>
+                    <div className="flex items-center justify-between mt-1">
+                      <h3 className="text-sm font-bold text-foreground">{tier.name}</h3>
+                      {isSelected && <Check className="h-4 w-4 text-primary shrink-0" />}
+                    </div>
 
-                <div className="mt-2 flex items-baseline gap-1">
-                  <span className="text-2xl font-black text-foreground">${tier.serviceFee}</span>
-                  <span className="text-xs text-muted-foreground">service fee</span>
-                </div>
+                    <div className="mt-2 flex items-baseline gap-1">
+                      <span className="text-2xl font-black text-foreground">${tier.serviceFee}</span>
+                      <span className="text-xs text-muted-foreground font-normal">agency fee</span>
+                    </div>
 
-                <p className="mt-2 text-xs leading-relaxed text-muted-foreground">{tier.description}</p>
-              </div>
+                    <p className="mt-2 text-xs leading-relaxed text-muted-foreground font-normal">
+                      {tier.description}
+                    </p>
+                  </div>
 
-              <div className="mt-4 border-t border-border/60 pt-3 text-xs">
-                <span className="font-semibold text-foreground">Turnaround:</span>{" "}
-                <span className="text-primary font-bold">{tier.turnaround}</span>
-              </div>
-            </button>
-          );
-        })}
-      </div>
+                  <div className="mt-4 pt-3 border-t border-border/60 flex items-center justify-between text-xs">
+                    <span className="font-semibold text-primary">{tier.turnaround}</span>
+                    <span className="text-muted-foreground font-medium">Gov: ${tier.govFee}</span>
+                  </div>
+                </button>
+              );
+            })}
+          </div>
 
-      {/* Shipping Option & Live Price Summary */}
-      <div className="mt-8 rounded-2xl bg-muted/40 p-5 grid gap-6 md:grid-cols-[1.5fr_1fr] items-center">
-        <div>
-          <label className="block text-xs font-bold uppercase tracking-wider text-muted-foreground mb-2">
-            <Truck className="inline h-3.5 w-3.5 mr-1" /> Return Delivery &amp; Courier Option
-          </label>
-          <div className="grid gap-2 sm:grid-cols-3">
-            {SHIPPING_OPTIONS.map((ship) => (
-              <button
-                key={ship.id}
-                type="button"
-                onClick={() => setShippingId(ship.id)}
-                className={`rounded-xl border p-2.5 text-left text-xs transition-all ${
-                  shippingId === ship.id
-                    ? "border-primary bg-card font-semibold shadow-xs"
-                    : "border-border bg-background text-muted-foreground hover:text-foreground"
-                }`}
-              >
-                <div className="font-bold text-foreground">{ship.name}</div>
-                <div className="mt-1 text-[11px] text-muted-foreground">${ship.fee} • {ship.estimatedTime}</div>
-              </button>
-            ))}
+          <div className="glass-card p-4 rounded-2xl border border-white/90 bg-white/80 flex flex-col sm:flex-row items-center justify-between gap-4">
+            <div className="space-y-0.5">
+              <p className="text-xs font-semibold text-primary">Selected Passport Speed: {selectedTier.name}</p>
+              <p className="text-xs text-muted-foreground">Estimated Delivery: <strong className="text-foreground">{getEstimatedDate(selectedTier.id === "same-day" ? 1 : selectedTier.id === "express" ? 3 : 7)}</strong></p>
+            </div>
+            <Button size="lg" className="font-bold shadow-md">
+              Launch Passport Intake →
+            </Button>
           </div>
         </div>
+      )}
 
-        <div className="rounded-xl bg-card border border-border p-4 text-center sm:text-right">
-          <p className="text-xs text-muted-foreground">Total Estimated Cost (Service + Govt + Shipping)</p>
-          <p className="text-3xl font-black text-foreground mt-1">${totalCost.toFixed(2)}</p>
-          <p className="text-[11px] text-muted-foreground mt-0.5">
-            Includes ${selectedTier.serviceFee} service + ${selectedTier.govFee} govt fee + ${shippingFee} shipping
-          </p>
+      {/* Division 02: Software & UI/UX Tiers */}
+      {activeDivision === "web" && (
+        <div className="mt-8 space-y-6">
+          <div className="grid gap-4 sm:grid-cols-3">
+            <div className="glass-card p-5 space-y-3 border border-white/80 bg-white/70">
+              <div className="flex items-center justify-between">
+                <span className="text-xs font-bold text-primary uppercase">Starter Web Package</span>
+                <Code2 className="h-4 w-4 text-primary" />
+              </div>
+              <p className="text-2xl font-black text-foreground">1 to 2 Weeks</p>
+              <p className="text-xs text-muted-foreground">Custom landing page or portfolio with responsive UI/UX and SEO setup.</p>
+              <div className="pt-2 text-xs font-semibold text-emerald-700 flex items-center gap-1">
+                <Check className="h-3.5 w-3.5" /> 100% Code Ownership
+              </div>
+            </div>
+
+            <div className="glass-card p-5 space-y-3 border border-primary/40 bg-white shadow-lift ring-2 ring-primary/20">
+              <div className="flex items-center justify-between">
+                <span className="text-xs font-bold text-primary uppercase">Full SaaS / Web App Sprint</span>
+                <span className="rounded bg-primary px-2 py-0.5 text-[10px] font-bold text-white">Popular</span>
+              </div>
+              <p className="text-2xl font-black text-foreground">2 to 4 Weeks</p>
+              <p className="text-xs text-muted-foreground">React / Next.js full-stack platform with auth, database, and payment integration.</p>
+              <div className="pt-2 text-xs font-semibold text-emerald-700 flex items-center gap-1">
+                <Check className="h-3.5 w-3.5" /> Cloud Serverless Deployment
+              </div>
+            </div>
+
+            <div className="glass-card p-5 space-y-3 border border-white/80 bg-white/70">
+              <div className="flex items-center justify-between">
+                <span className="text-xs font-bold text-primary uppercase">Enterprise Custom Software</span>
+                <Sparkles className="h-4 w-4 text-primary" />
+              </div>
+              <p className="text-2xl font-black text-foreground">4 to 8 Weeks</p>
+              <p className="text-xs text-muted-foreground">Custom ERP, client intake portal, AI agent workflows, and API architecture.</p>
+              <div className="pt-2 text-xs font-semibold text-emerald-700 flex items-center gap-1">
+                <Check className="h-3.5 w-3.5" /> Dedicated SLA &amp; Support
+              </div>
+            </div>
+          </div>
         </div>
-      </div>
+      )}
+
+      {/* Division 03: Marketing Tiers */}
+      {activeDivision === "marketing" && (
+        <div className="mt-8 space-y-6">
+          <div className="grid gap-4 sm:grid-cols-3">
+            <div className="glass-card p-5 space-y-3 border border-white/80 bg-white/70">
+              <div className="flex items-center justify-between">
+                <span className="text-xs font-bold text-primary uppercase">SEO Audit &amp; Fixes</span>
+                <Megaphone className="h-4 w-4 text-primary" />
+              </div>
+              <p className="text-2xl font-black text-foreground">7-Day Turnaround</p>
+              <p className="text-xs text-muted-foreground">Complete technical SEO audit, keyword strategy, and on-page optimization.</p>
+              <div className="pt-2 text-xs font-semibold text-emerald-700 flex items-center gap-1">
+                <Check className="h-3.5 w-3.5" /> Ranking Report Included
+              </div>
+            </div>
+
+            <div className="glass-card p-5 space-y-3 border border-primary/40 bg-white shadow-lift ring-2 ring-primary/20">
+              <div className="flex items-center justify-between">
+                <span className="text-xs font-bold text-primary uppercase">PPC &amp; Paid Lead Sprint</span>
+                <span className="rounded bg-accent px-2 py-0.5 text-[10px] font-bold text-white">High ROI</span>
+              </div>
+              <p className="text-2xl font-black text-foreground">14-Day Launch</p>
+              <p className="text-xs text-muted-foreground">Google Ads campaign setup, negative keyword filters, and landing page audit.</p>
+              <div className="pt-2 text-xs font-semibold text-emerald-700 flex items-center gap-1">
+                <Check className="h-3.5 w-3.5" /> 3.4x Avg. ROI Target
+              </div>
+            </div>
+
+            <div className="glass-card p-5 space-y-3 border border-white/80 bg-white/70">
+              <div className="flex items-center justify-between">
+                <span className="text-xs font-bold text-primary uppercase">Full Growth Management</span>
+                <Flame className="h-4 w-4 text-accent" />
+              </div>
+              <p className="text-2xl font-black text-foreground">30-Day Cycles</p>
+              <p className="text-xs text-muted-foreground">Full-service SEO, Google &amp; Social Ads, content creation, and conversion optimization.</p>
+              <div className="pt-2 text-xs font-semibold text-emerald-700 flex items-center gap-1">
+                <Check className="h-3.5 w-3.5" /> No Lock-in Contracts
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </section>
   );
 }

@@ -46,7 +46,7 @@ export function SiteHeader() {
     <header className="sticky top-0 z-40 border-b border-border/80 bg-background/90 backdrop-blur-md">
       {/* Top Location & Hotline Bar */}
       <div className="bg-slate-900 text-slate-200 px-4 py-1.5 text-xs sm:px-6 border-b border-slate-800">
-        <div className="mx-auto flex max-w-6xl items-center justify-between gap-4 text-[11px] sm:text-xs">
+        <div className="mx-auto flex max-w-[1440px] items-center justify-between gap-4 text-[11px] sm:text-xs px-2 sm:px-6 lg:px-10">
           <div className="flex items-center gap-4">
             <span className="inline-flex items-center gap-1.5 font-medium">
               <MapPin className="h-3.5 w-3.5 text-primary" /> Chicago HQ
@@ -68,34 +68,64 @@ export function SiteHeader() {
       </div>
 
       {/* Main Header Container */}
-      <div className="mx-auto flex max-w-6xl items-center justify-between px-4 py-3 sm:px-6">
+      <div className="mx-auto flex max-w-[1440px] items-center justify-between px-4 py-3 sm:px-6 lg:px-10">
         {/* Brand Logo & Name */}
-        <Link to="/" className="flex items-center gap-3 group py-1">
+        <Link to="/" className="flex items-center gap-3 group py-0.5 shrink-0">
           <img
-            src="/logo-rect.png"
+            src="/logo-rect.webp"
             alt="One World Solutions"
-            className="h-11 sm:h-13 lg:h-15 max-h-16 w-auto object-contain transition-transform group-hover:scale-[1.02]"
+            className="h-8 sm:h-10 lg:h-11 max-h-12 w-auto object-contain transition-transform group-hover:scale-[1.02] shrink-0"
           />
         </Link>
 
-        {/* Desktop Navigation */}
-        <nav className="hidden items-center gap-1 lg:flex">
+        {/* Desktop Navigation — Responsive Breakdown for lg and xl */}
+        <nav className="hidden items-center gap-1 lg:flex shrink-0">
           <Link
             to="/"
             activeProps={{ className: "bg-primary-soft text-primary font-bold" }}
-            className="rounded-lg px-3 py-2 text-sm font-medium text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
+            className="rounded-xl px-2.5 py-2 text-xs font-semibold text-muted-foreground transition-colors hover:bg-muted hover:text-foreground whitespace-nowrap"
           >
             Home
           </Link>
 
-          {/* Accordion / Accordion Gallery Dropdown Menu for Services */}
+          {/* Service 01: Passport & Visa */}
+          <Link
+            to="/passport"
+            activeProps={{ className: "bg-primary-soft text-primary font-bold" }}
+            className="hidden xl:inline-flex items-center gap-1.5 rounded-xl px-2.5 py-2 text-xs font-semibold text-muted-foreground transition-colors hover:bg-muted hover:text-foreground whitespace-nowrap"
+          >
+            <ShieldCheck className="h-3.5 w-3.5 text-primary shrink-0" />
+            <span>Passport &amp; Visa</span>
+          </Link>
+
+          {/* Service 02: Software & Web Dev */}
+          <Link
+            to="/web-development"
+            activeProps={{ className: "bg-primary-soft text-primary font-bold" }}
+            className="hidden xl:inline-flex items-center gap-1.5 rounded-xl px-2.5 py-2 text-xs font-semibold text-muted-foreground transition-colors hover:bg-muted hover:text-foreground whitespace-nowrap"
+          >
+            <Code className="h-3.5 w-3.5 text-primary shrink-0" />
+            <span>Software &amp; Web Dev</span>
+          </Link>
+
+          {/* Service 03: Digital Marketing */}
+          <Link
+            to="/digital-marketing"
+            activeProps={{ className: "bg-primary-soft text-primary font-bold" }}
+            className="hidden xl:inline-flex items-center gap-1.5 rounded-xl px-2.5 py-2 text-xs font-semibold text-muted-foreground transition-colors hover:bg-muted hover:text-foreground whitespace-nowrap"
+          >
+            <Megaphone className="h-3.5 w-3.5 text-accent shrink-0" />
+            <span>Digital Marketing</span>
+          </Link>
+
+          {/* Accordion / Services Dropdown */}
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <button className="inline-flex items-center gap-1 rounded-lg px-3 py-2 text-sm font-medium text-muted-foreground transition-colors hover:bg-muted hover:text-foreground">
-                Services <ChevronDown className="h-4 w-4 opacity-70" />
+              <button className="inline-flex items-center gap-1 rounded-xl px-2.5 py-2 text-xs font-semibold text-muted-foreground transition-colors hover:bg-muted hover:text-foreground whitespace-nowrap">
+                <span>Services</span> <ChevronDown className="h-3.5 w-3.5 opacity-70 shrink-0" />
               </button>
             </DropdownMenuTrigger>
-            <DropdownMenuContent align="start" className="w-80 p-2 space-y-1">
+            <DropdownMenuContent align="start" className="w-80 p-2 space-y-1 glass-panel">
               {/* Pillar 1: Passport & Visa */}
               <DropdownMenuLabel className="text-[11px] font-mono font-bold text-primary uppercase tracking-wider">
                 01. PASSPORT &amp; VISA CONCIERGE
@@ -138,9 +168,9 @@ export function SiteHeader() {
           <Link
             to="/track"
             activeProps={{ className: "bg-primary text-primary-foreground font-bold shadow-xs" }}
-            className="inline-flex items-center gap-1.5 rounded-full bg-primary-soft/80 border border-primary/20 px-3.5 py-1.5 text-xs font-semibold text-primary transition-all hover:bg-primary hover:text-primary-foreground shadow-2xs"
+            className="inline-flex items-center gap-1.5 rounded-full bg-primary-soft/80 border border-primary/20 px-3 py-1.5 text-xs font-semibold text-primary transition-all hover:bg-primary hover:text-primary-foreground shadow-2xs whitespace-nowrap shrink-0"
           >
-            <Search className="h-3.5 w-3.5" />
+            <Search className="h-3.5 w-3.5 shrink-0" />
             <span>Track Application</span>
           </Link>
 

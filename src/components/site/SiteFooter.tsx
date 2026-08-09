@@ -23,11 +23,11 @@ export function TrustBanner({ className = "" }: { className?: string }) {
 export function SiteFooter() {
   return (
     <footer className="mt-20 border-t border-border bg-card">
-      <div className="mx-auto max-w-6xl px-4 py-12 sm:px-6">
+      <div className="mx-auto max-w-[1440px] px-4 sm:px-8 lg:px-12 py-12">
         <div className="grid gap-10 md:grid-cols-[1.4fr_1fr_1fr_1fr]">
           <div className="min-w-0 space-y-3">
             <Link to="/" className="inline-block">
-              <img src="/logo-rect.png" alt="One World Solutions" className="h-8 w-auto object-contain" />
+              <img src="/logo-rect.webp" alt="One World Solutions" className="h-8 w-auto object-contain" />
             </Link>
             <p className="text-xs font-semibold text-primary">
               Connecting People. Powering Businesses.
