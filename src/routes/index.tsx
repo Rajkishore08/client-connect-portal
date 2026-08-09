@@ -94,7 +94,7 @@ function Home() {
       </div>
 
       {/* High-Impact Hero Section */}
-      <section className="relative z-10 hero-wash border-b border-border/70 py-12 sm:py-20 lg:py-24">
+      <section className="relative z-10 hero-wash border-b border-border/70 pt-4 pb-8 sm:py-20 lg:py-24">
         {/* Animated WebGL Canvas Waves */}
         <GradientWaves
           horizonColor="#EFF4FF"
@@ -115,73 +115,73 @@ function Home() {
         <div className="absolute inset-0 pointer-events-none opacity-[0.03] bg-[radial-gradient(#0F52FF_1.5px,transparent_1.5px)] [background-size:32px_32px]" />
 
         <div className="relative z-10 mx-auto max-w-[1440px] px-4 sm:px-8 lg:px-12">
-          <div className="grid lg:grid-cols-[1.15fr_0.95fr] items-center gap-10 lg:gap-14">
+          <div className="grid lg:grid-cols-[1.15fr_0.95fr] items-center gap-8 lg:gap-14">
             
             {/* Left Column: Story & Transformation-Focused Hero */}
-            <div className="space-y-6">
+            <div className="space-y-4 sm:space-y-6">
               {/* Top Trust Badge */}
-              <div className="glass-pill inline-flex items-center gap-2 px-4 py-1.5 text-xs font-semibold text-slate-800 backdrop-blur-md">
-                <span className="flex items-center gap-0.5 text-amber-500">
-                  <Star className="h-3.5 w-3.5 fill-amber-500 text-amber-500" />
-                  <Star className="h-3.5 w-3.5 fill-amber-500 text-amber-500" />
-                  <Star className="h-3.5 w-3.5 fill-amber-500 text-amber-500" />
-                  <Star className="h-3.5 w-3.5 fill-amber-500 text-amber-500" />
-                  <Star className="h-3.5 w-3.5 fill-amber-500 text-amber-500" />
+              <div className="glass-pill max-w-full inline-flex items-center gap-1.5 px-3 py-1.5 text-[11px] sm:text-xs font-semibold text-slate-800 backdrop-blur-md">
+                <span className="flex items-center gap-0.5 text-amber-500 shrink-0">
+                  <Star className="h-3 w-3 sm:h-3.5 sm:w-3.5 fill-amber-500 text-amber-500" />
+                  <Star className="h-3 w-3 sm:h-3.5 sm:w-3.5 fill-amber-500 text-amber-500" />
+                  <Star className="h-3 w-3 sm:h-3.5 sm:w-3.5 fill-amber-500 text-amber-500" />
+                  <Star className="h-3 w-3 sm:h-3.5 sm:w-3.5 fill-amber-500 text-amber-500" />
+                  <Star className="h-3 w-3 sm:h-3.5 sm:w-3.5 fill-amber-500 text-amber-500" />
                 </span>
-                <span className="font-semibold text-slate-900">Rated 4.9/5 • Chicago HQ • Nationwide USA</span>
+                <span className="font-semibold text-slate-900 truncate">Rated 4.9/5 • Chicago HQ • USA</span>
               </div>
 
-              {/* Transformation Headline */}
-              <h1 className="text-[2.25rem] font-extrabold leading-[1.14] tracking-tight sm:text-5xl lg:text-6xl text-foreground font-display">
+              {/* High-Contrast Transformation Headline */}
+              <h1 className="text-[clamp(1.7rem,6.2vw,3.75rem)] font-extrabold leading-[1.12] tracking-tight text-foreground font-display">
                 Helping People Cross Borders <br className="hidden sm:inline" />
-                <span className="bg-gradient-to-r from-blue-600 via-primary to-accent bg-clip-text text-transparent">
+                <span className="bg-gradient-to-r from-blue-700 via-primary to-blue-900 bg-clip-text text-transparent font-extrabold">
                   &amp; Businesses Scale Worldwide.
                 </span>
               </h1>
 
               {/* Outcome-Focused Subheadline */}
-              <p className="text-sm leading-relaxed text-muted-foreground font-normal sm:text-lg max-w-xl">
+              <p className="text-xs sm:text-lg leading-relaxed text-muted-foreground font-normal max-w-xl">
                 We simplify international travel, build world-class digital products, and accelerate business growth—all under one trusted global partner.
               </p>
 
-              {/* CTAs (56-60px Full-Width Touch-Friendly Layout on Mobile) */}
-              <div className="pt-2 grid grid-cols-1 gap-3 sm:flex sm:items-center sm:gap-4">
-                <Button asChild size="lg" className="h-14 sm:h-13 px-8 text-base font-bold shadow-xl shadow-primary/25 hover:scale-[1.02] active:scale-[0.98] transition-all bg-primary text-primary-foreground">
+              {/* CTAs (Full-Width Touch-Friendly Buttons on Mobile) */}
+              <div className="pt-1 grid grid-cols-1 gap-2.5 sm:flex sm:items-center sm:gap-4">
+                <Button asChild size="lg" className="w-full sm:w-auto h-12 sm:h-13 px-6 text-sm sm:text-base font-bold shadow-xl shadow-primary/25 hover:scale-[1.02] active:scale-[0.98] transition-all bg-primary text-primary-foreground">
                   <a href="#divisions">
-                    Get Started Today <ArrowRight className="h-5 w-5 ml-2" />
+                    Get Started Today <ArrowRight className="h-4.5 w-4.5 ml-2 shrink-0" />
                   </a>
                 </Button>
-                <Button asChild size="lg" variant="outline" className="glass-card h-14 sm:h-13 px-7 text-base font-bold text-primary hover:bg-primary hover:text-primary-foreground transition-all">
+                <Button asChild size="lg" variant="outline" className="glass-card w-full sm:w-auto h-12 sm:h-13 px-6 text-sm sm:text-base font-bold text-primary hover:bg-primary hover:text-primary-foreground transition-all">
                   <Link to="/book">
-                    <CalendarCheck className="h-5 w-5 mr-2" /> Book Free Consultation
+                    <CalendarCheck className="h-4.5 w-4.5 mr-2 shrink-0" /> Book Free Consultation
                   </Link>
                 </Button>
               </div>
 
               {/* Trust Section Metrics Grid (2x2 on Mobile, 4-Columns on Desktop) */}
-              <div className="pt-4 grid grid-cols-2 sm:grid-cols-4 gap-3 border-t border-border/60">
-                <div className="p-3.5 rounded-2xl glass-card text-center space-y-0.5">
-                  <p className="text-xl sm:text-2xl font-extrabold text-foreground tracking-tight font-display">4.9/5</p>
-                  <p className="text-[11px] font-bold text-primary">340+ Reviews</p>
+              <div className="pt-3 grid grid-cols-2 sm:grid-cols-4 gap-2 sm:gap-3 border-t border-border/60">
+                <div className="p-2.5 sm:p-3.5 rounded-2xl glass-card text-center space-y-0.5">
+                  <p className="text-lg sm:text-2xl font-extrabold text-foreground tracking-tight font-display">4.9/5</p>
+                  <p className="text-[10px] sm:text-[11px] font-bold text-primary">340+ Reviews</p>
                 </div>
-                <div className="p-3.5 rounded-2xl glass-card text-center space-y-0.5">
-                  <p className="text-xl sm:text-2xl font-extrabold text-foreground tracking-tight font-display">2,500+</p>
-                  <p className="text-[11px] font-bold text-primary">Happy Clients</p>
+                <div className="p-2.5 sm:p-3.5 rounded-2xl glass-card text-center space-y-0.5">
+                  <p className="text-lg sm:text-2xl font-extrabold text-foreground tracking-tight font-display">2,500+</p>
+                  <p className="text-[10px] sm:text-[11px] font-bold text-primary">Happy Clients</p>
                 </div>
-                <div className="p-3.5 rounded-2xl glass-card text-center space-y-0.5">
-                  <p className="text-xl sm:text-2xl font-extrabold text-foreground tracking-tight font-display">35+ States</p>
-                  <p className="text-[11px] font-bold text-primary">USA Network</p>
+                <div className="p-2.5 sm:p-3.5 rounded-2xl glass-card text-center space-y-0.5">
+                  <p className="text-lg sm:text-2xl font-extrabold text-foreground tracking-tight font-display">35+ States</p>
+                  <p className="text-[10px] sm:text-[11px] font-bold text-primary">USA Network</p>
                 </div>
-                <div className="p-3.5 rounded-2xl glass-card text-center space-y-0.5">
-                  <p className="text-xl sm:text-2xl font-extrabold text-emerald-700 tracking-tight font-display">98.6%</p>
-                  <p className="text-[11px] font-bold text-emerald-700">Success Rate</p>
+                <div className="p-2.5 sm:p-3.5 rounded-2xl glass-card text-center space-y-0.5">
+                  <p className="text-lg sm:text-2xl font-extrabold text-emerald-700 tracking-tight font-display">98.6%</p>
+                  <p className="text-[10px] sm:text-[11px] font-bold text-emerald-700">Success Rate</p>
                 </div>
               </div>
             </div>
 
             {/* Right Column: Premium Visual Composition featuring Chicago Skyline & Interlocking Ecosystem */}
             <div className="relative z-10 mt-6 lg:mt-0">
-              <div className="glass-panel relative overflow-hidden p-6 sm:p-8 shadow-glass rounded-3xl border border-white/90">
+              <div className="glass-panel relative overflow-hidden p-4 sm:p-8 shadow-glass rounded-3xl border border-white/90">
                 {/* Background Chicago & World Flight Map Visual Backdrop */}
                 <div className="absolute inset-0 pointer-events-none opacity-10 bg-[radial-gradient(#0F52FF_2px,transparent_2px)] [background-size:24px_24px]" />
 
