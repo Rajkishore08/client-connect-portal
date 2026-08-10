@@ -156,7 +156,7 @@ function Home() {
                 >
                   Get Started Today <ArrowRight className="h-5 w-5 ml-2 shrink-0" />
                 </Button>
-                <Button asChild size="lg" variant="outline" className="w-full sm:w-auto h-13 px-7 text-base font-bold bg-white/90 border-slate-200 text-slate-800 hover:bg-white transition-all rounded-2xl shadow-sm">
+                <Button asChild size="lg" variant="outline" className="w-full sm:w-auto h-13 px-7 text-base font-bold bg-white/90 border-slate-200 text-slate-800 hover:bg-white transition-all rounded-2xl shadow-sm cursor-pointer">
                   <Link to="/book">
                     <CalendarCheck className="h-5 w-5 mr-2 shrink-0 text-primary" /> Book Free Consultation
                   </Link>

@@ -3,7 +3,7 @@ import { Badge } from "@/components/ui/badge";
 
 const REVIEWS = [
   {
-    name: "Dr. Rajesh K. Patel",
+    name: "Dr. Raj K. Patel",
     role: "NRI Entrepreneur",
     location: "Chicago, IL",
     service: "Passport Renewal & OCI",

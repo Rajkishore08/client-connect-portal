@@ -128,16 +128,22 @@ function RootComponent() {
   const pathname = useRouterState({ select: (s) => s.location.pathname });
   const isAdmin = pathname.startsWith("/admin");
 
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      window.scrollTo({ top: 0, behavior: "instant" });
+    }
+  }, [pathname]);
+
   return (
     <QueryClientProvider client={queryClient}>
       <AuthProvider>
         <PageLoader />
-        <div className="flex min-h-screen flex-col">
+        <div className="flex min-h-screen flex-col bg-background font-sans antialiased">
           {!isAdmin && <SiteHeader />}
-          <div className="flex-1">
+          <main key={pathname} className="flex-1 animate-in fade-in slide-in-from-bottom-1.5 duration-300 ease-out">
             {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
             <Outlet />
-          </div>
+          </main>
           {!isAdmin && <SiteFooter />}
         </div>
         {!isAdmin && <ChatWidget />}

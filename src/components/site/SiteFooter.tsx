@@ -7,13 +7,13 @@ import { OFFICE_LOCATION, TRUST_COPY } from "@/data/mock-data";
 export function TrustBanner({ className = "" }: { className?: string }) {
   return (
     <div
-      className={`rounded-xl border border-border bg-primary-soft/70 p-4 text-sm leading-relaxed text-accent-foreground ${className}`}
+      className={`rounded-2xl border border-blue-200/80 bg-blue-50/80 p-4.5 text-sm leading-relaxed text-slate-800 shadow-xs ${className}`}
     >
       <div className="flex gap-3">
-        <Info className="mt-0.5 h-4 w-4 shrink-0" />
-        <div className="min-w-0 space-y-2">
-          <p className="font-medium">{TRUST_COPY.disclaimer}</p>
-          <p className="text-muted-foreground">{TRUST_COPY.fees}</p>
+        <Info className="mt-0.5 h-4 w-4 shrink-0 text-blue-600" />
+        <div className="min-w-0 space-y-1">
+          <p className="font-bold text-slate-900">{TRUST_COPY.disclaimer}</p>
+          <p className="text-xs text-slate-600 leading-relaxed font-medium">{TRUST_COPY.fees}</p>
         </div>
       </div>
     </div>

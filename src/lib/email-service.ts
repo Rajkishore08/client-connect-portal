@@ -56,6 +56,10 @@ export function generateBrandedHtmlEmail(options: {
   ctaText?: string;
   ctaLink?: string;
 }): string {
+  const origin = typeof window !== "undefined" && window.location?.origin ? window.location.origin : "";
+  const logoPngUrl = origin ? `${origin}/logo-rect.png` : "/logo-rect.png";
+  const logoWebpUrl = origin ? `${origin}/logo-rect.webp` : "/logo-rect.webp";
+
   return `<!DOCTYPE html>
 <html>
 <head>
@@ -69,21 +73,26 @@ export function generateBrandedHtmlEmail(options: {
       <td align="center">
         <table role="presentation" width="100%" border="0" cellspacing="0" cellpadding="0" style="max-width: 600px; background-color: #ffffff; border-radius: 20px; overflow: hidden; border: 1px solid #e2e8f0; box-shadow: 0 10px 25px rgba(0,0,0,0.05);">
           
-          <!-- Header Banner with Official Branding -->
+          <!-- Header Banner with Official Company Rectangular Logo (Bright High-Contrast Background) -->
           <tr>
-            <td style="background-color: #0B1527; padding: 28px 32px; text-align: left;">
+            <td style="background-color: #ffffff; padding: 24px 32px; text-align: left; border-bottom: 1px solid #e2e8f0;">
               <table role="presentation" width="100%" border="0" cellspacing="0" cellpadding="0">
                 <tr>
-                  <td>
-                    <div style="font-size: 20px; font-weight: 900; color: #ffffff; letter-spacing: -0.5px; font-family: sans-serif;">
-                      ONE WORLD <span style="color: #0F52FF;">SOLUTIONS</span>
-                    </div>
-                    <div style="font-size: 10px; font-weight: 700; color: #94a3b8; text-transform: uppercase; letter-spacing: 1.5px; margin-top: 2px;">
-                      Global Concierge &amp; Digital Engineering
-                    </div>
+                  <td style="vertical-align: middle;">
+                    <a href="${origin || '#'}" target="_blank" style="text-decoration: none; display: inline-block;">
+                      <picture>
+                        <source srcset="${logoWebpUrl}" type="image/webp" />
+                        <img 
+                          src="${logoPngUrl}" 
+                          alt="One World Solutions" 
+                          height="40"
+                          style="height: 40px; width: auto; max-width: 240px; display: block; border: 0; outline: none; text-decoration: none; object-fit: contain;" 
+                        />
+                      </picture>
+                    </a>
                   </td>
                   <td align="right" style="vertical-align: middle;">
-                    <span style="display: inline-block; background-color: rgba(15,82,255,0.25); border: 1px solid rgba(15,82,255,0.4); color: #60a5fa; font-size: 10px; font-weight: 800; text-transform: uppercase; padding: 4px 10px; border-radius: 20px; letter-spacing: 0.5px;">
+                    <span style="display: inline-block; background-color: #eff6ff; border: 1px solid #bfdbfe; color: #1d4ed8; font-size: 10px; font-weight: 800; text-transform: uppercase; padding: 5px 12px; border-radius: 20px; letter-spacing: 0.5px;">
                       Chicago HQ
                     </span>
                   </td>

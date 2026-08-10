@@ -43,7 +43,7 @@ const DEFAULT_MOCK_APPLICATIONS: SavedApplication[] = [
     progressPercent: 85,
     submittedAt: "2026-08-01",
     lastUpdated: "Today at 2:15 PM",
-    applicantName: "Rajesh Kumar",
+    applicantName: "Raj",
     details: "Expedited State Dept Processing • Waybill #7890241829",
   },
   {
@@ -55,7 +55,7 @@ const DEFAULT_MOCK_APPLICATIONS: SavedApplication[] = [
     progressPercent: 60,
     submittedAt: "2026-07-20",
     lastUpdated: "Yesterday at 11:30 AM",
-    applicantName: "Rajesh Kumar",
+    applicantName: "Raj",
     details: "VFS Chicago Consulate Desk • Match Code #CHI-9921",
   },
   {
@@ -67,7 +67,7 @@ const DEFAULT_MOCK_APPLICATIONS: SavedApplication[] = [
     progressPercent: 100,
     submittedAt: "2026-06-15",
     lastUpdated: "2026-06-18",
-    applicantName: "Rajesh Kumar",
+    applicantName: "Raj",
     details: "Issued by CGI Chicago • Travel Clearance Approved",
   },
 ];
@@ -133,9 +133,9 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     // Default demo logged-in user so the user can immediately test sessions if desired
     return {
       id: "usr-demo-01",
-      name: "Rajesh Kumar",
-      email: "rajesh.kumar@example.com",
-      avatar: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=200",
+      name: "Raj",
+      email: "raj@example.com",
+      avatar: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=200",
       provider: "google",
       createdAt: "2026-01-15",
     };
@@ -182,8 +182,9 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const login = async (email: string, _pass: string): Promise<boolean> => {
     const newUser: UserProfile = {
       id: `usr-${Date.now()}`,
-      name: email.split("@")[0] || "User",
+      name: email.split("@")[0] || "Raj",
       email,
+      avatar: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=200",
       provider: "email",
       createdAt: new Date().toISOString().split("T")[0]!,
     };
@@ -195,9 +196,9 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const loginWithGoogle = async (): Promise<boolean> => {
     const googleUser: UserProfile = {
       id: `usr-google-${Date.now()}`,
-      name: "Rajesh Kumar",
-      email: "rajesh.kumar@gmail.com",
-      avatar: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=200",
+      name: "Raj",
+      email: "raj@gmail.com",
+      avatar: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=200",
       provider: "google",
       createdAt: new Date().toISOString().split("T")[0]!,
     };

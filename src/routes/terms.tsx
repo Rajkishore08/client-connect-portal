@@ -64,8 +64,25 @@ function TermsPage() {
           </p>
         </section>
 
+        <section className="space-y-2">
+          <h2 className="text-base font-bold text-foreground">5. Refund &amp; Cancellation Policy</h2>
+          <p className="text-muted-foreground">
+            <strong>Applicant Error Non-Refundability:</strong> No refunds will be provided if delays, government rejections, or processing issues occur due to errors, inaccuracies, missing details, fraudulent documents, or personal circumstances on the applicant’s side. 
+          </p>
+          <p className="text-muted-foreground">
+            <strong>Eligible Refunds:</strong> A full or partial refund of our service fee will be issued <strong>strictly and exclusively</strong> if the processing failure or procedural error originates directly from One World Solutions' administrative handling.
+          </p>
+        </section>
+
+        <section className="space-y-2">
+          <h2 className="text-base font-bold text-foreground">6. Source Code Acquisition &amp; Commercial IP Buyout</h2>
+          <p className="text-muted-foreground">
+            Standard software and web development scopes cover fully managed deployment, hosted cloud infrastructure, and operational software access. Clients requesting complete source code delivery, master GitHub repository transfer, and full commercial IP acquisition are subject to a <strong>200% (2x) project total fee multiplier</strong>, finalized during the initial project scoping phase.
+          </p>
+        </section>
+
         <section className="space-y-2 border-t border-border pt-4">
-          <h2 className="text-base font-bold text-foreground">5. Contact Information &amp; Office Location</h2>
+          <h2 className="text-base font-bold text-foreground">6. Contact Information &amp; Office Location</h2>
           <div className="text-muted-foreground space-y-1 text-xs sm:text-sm">
             <p><strong>One World Solutions Headquarters</strong></p>
             <p>{OFFICE_LOCATION.address}</p>

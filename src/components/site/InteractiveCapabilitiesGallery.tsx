@@ -146,6 +146,10 @@ export function InteractiveCapabilitiesGallery({
                 <img
                   src={item.image}
                   alt={item.title}
+                  onError={(e) => {
+                    (e.currentTarget as HTMLImageElement).src =
+                      "https://images.unsplash.com/photo-1518770660439-4636190af475?q=80&w=1200";
+                  }}
                   className={cn(
                     "absolute inset-0 h-full w-full object-cover transition-transform duration-700",
                     isActive ? "scale-105 saturate-120" : "scale-100 saturate-100 opacity-95 group-hover:scale-105"
