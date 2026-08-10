@@ -33,11 +33,11 @@ export interface AccordionGalleryProps {
 }
 
 const DEFAULT_ITEMS: AccordionGalleryItem[] = [
-  { image: "https://images.unsplash.com/photo-1544717305-2782549b5136?q=80&w=1000", label: "Passport Renewal", link: "/passport/us-passport-renewal" },
-  { image: "https://images.unsplash.com/photo-1526772662000-3f88f10405ff?q=80&w=1000", label: "OCI Card Services", link: "/passport/oci-card" },
-  { image: "https://images.unsplash.com/photo-1512453979798-5ea266f8880c?q=80&w=1000", label: "E-Visa & Tourist Visas", link: "/passport/e-visa-services" },
-  { image: "https://images.unsplash.com/photo-1436491865332-7a61a109cc05?q=80&w=1000", label: "Emergency Rush 24H", link: "/passport/us-passport-renewal" },
-  { image: "https://images.unsplash.com/photo-1569154941061-e231b4725ef1?q=80&w=1000", label: "Passport Surrender", link: "/passport/renunciation-surrender" },
+  { image: "https://images.unsplash.com/photo-1544717305-2782549b5136?q=80&w=1000", label: "Passport Renewal", link: "/passport/passport-renewal" },
+  { image: "https://images.unsplash.com/photo-1526772662000-3f88f10405ff?q=80&w=1000", label: "OCI Card Services", link: "/passport/oci" },
+  { image: "https://images.unsplash.com/photo-1512453979798-5ea266f8880c?q=80&w=1000", label: "E-Visa & Tourist Visas", link: "/passport/e-visa" },
+  { image: "https://images.unsplash.com/photo-1436491865332-7a61a109cc05?q=80&w=1000", label: "Emergency Rush 24H", link: "/passport/lost-damaged-passport" },
+  { image: "https://images.unsplash.com/photo-1569154941061-e231b4725ef1?q=80&w=1000", label: "Passport Surrender", link: "/passport/renunciation" },
 ];
 
 export function AccordionGallery({

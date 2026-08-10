@@ -78,101 +78,52 @@ export function SiteHeader() {
           />
         </Link>
 
-        {/* Desktop Navigation — Responsive Breakdown for lg and xl */}
-        <nav className="hidden items-center gap-1 lg:flex shrink-0">
+        {/* Desktop Navigation — Matching Lovable Design Specs */}
+        <nav className="hidden items-center gap-2 lg:flex shrink-0">
           <Link
             to="/"
-            activeProps={{ className: "bg-primary-soft text-primary font-bold" }}
-            className="rounded-xl px-2.5 py-2 text-xs font-semibold text-muted-foreground transition-colors hover:bg-muted hover:text-foreground whitespace-nowrap"
+            activeProps={{ className: "bg-blue-50 text-blue-600 font-bold" }}
+            className="rounded-full px-4 py-2 text-xs font-semibold text-slate-700 transition-colors hover:bg-slate-100 whitespace-nowrap"
           >
             Home
           </Link>
 
-          {/* Service 01: Passport & Visa */}
-          <Link
-            to="/passport"
-            activeProps={{ className: "bg-primary-soft text-primary font-bold" }}
-            className="hidden xl:inline-flex items-center gap-1.5 rounded-xl px-2.5 py-2 text-xs font-semibold text-muted-foreground transition-colors hover:bg-muted hover:text-foreground whitespace-nowrap"
+          <a
+            href="#divisions"
+            className="rounded-full px-4 py-2 text-xs font-semibold text-slate-700 transition-colors hover:bg-slate-100 whitespace-nowrap"
           >
-            <ShieldCheck className="h-3.5 w-3.5 text-primary shrink-0" />
-            <span>Passport &amp; Visa</span>
-          </Link>
+            Categories
+          </a>
 
-          {/* Service 02: Software & Web Dev */}
           <Link
-            to="/web-development"
-            activeProps={{ className: "bg-primary-soft text-primary font-bold" }}
-            className="hidden xl:inline-flex items-center gap-1.5 rounded-xl px-2.5 py-2 text-xs font-semibold text-muted-foreground transition-colors hover:bg-muted hover:text-foreground whitespace-nowrap"
+            to="/book"
+            activeProps={{ className: "bg-blue-50 text-blue-600 font-bold" }}
+            className="rounded-full px-4 py-2 text-xs font-semibold text-slate-700 transition-colors hover:bg-slate-100 whitespace-nowrap"
           >
-            <Code className="h-3.5 w-3.5 text-primary shrink-0" />
-            <span>Software &amp; Web Dev</span>
+            Book Consultation
           </Link>
-
-          {/* Service 03: Digital Marketing */}
-          <Link
-            to="/digital-marketing"
-            activeProps={{ className: "bg-primary-soft text-primary font-bold" }}
-            className="hidden xl:inline-flex items-center gap-1.5 rounded-xl px-2.5 py-2 text-xs font-semibold text-muted-foreground transition-colors hover:bg-muted hover:text-foreground whitespace-nowrap"
-          >
-            <Megaphone className="h-3.5 w-3.5 text-accent shrink-0" />
-            <span>Digital Marketing</span>
-          </Link>
-
-          {/* Accordion / Services Dropdown */}
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <button className="inline-flex items-center gap-1 rounded-xl px-2.5 py-2 text-xs font-semibold text-muted-foreground transition-colors hover:bg-muted hover:text-foreground whitespace-nowrap">
-                <span>Services</span> <ChevronDown className="h-3.5 w-3.5 opacity-70 shrink-0" />
-              </button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent align="start" className="w-80 p-2 space-y-1 glass-panel">
-              {/* Pillar 1: Passport & Visa */}
-              <DropdownMenuLabel className="text-[11px] font-mono font-bold text-primary uppercase tracking-wider">
-                01. PASSPORT &amp; VISA CONCIERGE
-              </DropdownMenuLabel>
-              <DropdownMenuItem asChild>
-                <Link to="/passport" className="cursor-pointer text-xs py-1.5 font-bold flex items-center justify-between">
-                  <span>Explore Passport &amp; OCI Services</span>
-                  <span className="text-[10px] text-muted-foreground font-normal">6 Services →</span>
-                </Link>
-              </DropdownMenuItem>
-
-              <DropdownMenuSeparator />
-
-              {/* Pillar 2: Web & Custom Software */}
-              <DropdownMenuLabel className="text-[11px] font-mono font-bold text-primary uppercase tracking-wider">
-                02. WEB &amp; CUSTOM SOFTWARE DEV
-              </DropdownMenuLabel>
-              <DropdownMenuItem asChild>
-                <Link to="/web-development" className="cursor-pointer text-xs py-1.5 font-bold flex items-center justify-between">
-                  <span>Web Apps, SaaS &amp; UI/UX Design</span>
-                  <span className="text-[10px] text-muted-foreground font-normal">Learn More →</span>
-                </Link>
-              </DropdownMenuItem>
-
-              <DropdownMenuSeparator />
-
-              {/* Pillar 3: Digital Marketing */}
-              <DropdownMenuLabel className="text-[11px] font-mono font-bold text-primary uppercase tracking-wider">
-                03. DIGITAL MARKETING &amp; GROWTH
-              </DropdownMenuLabel>
-              <DropdownMenuItem asChild>
-                <Link to="/digital-marketing" className="cursor-pointer text-xs py-1.5 font-bold flex items-center justify-between">
-                  <span>SEO, PPC Ads &amp; Lead Growth</span>
-                  <span className="text-[10px] text-muted-foreground font-normal">Learn More →</span>
-                </Link>
-              </DropdownMenuItem>
-            </DropdownMenuContent>
-          </DropdownMenu>
 
           <Link
             to="/track"
-            activeProps={{ className: "bg-primary text-primary-foreground font-bold shadow-xs" }}
-            className="inline-flex items-center gap-1.5 rounded-full bg-primary-soft/80 border border-primary/20 px-3 py-1.5 text-xs font-semibold text-primary transition-all hover:bg-primary hover:text-primary-foreground shadow-2xs whitespace-nowrap shrink-0"
+            activeProps={{ className: "bg-blue-50 text-blue-600 font-bold" }}
+            className="rounded-full px-4 py-2 text-xs font-semibold text-slate-700 transition-colors hover:bg-slate-100 whitespace-nowrap"
           >
-            <Search className="h-3.5 w-3.5 shrink-0" />
-            <span>Track Application</span>
+            Track Application
           </Link>
+
+          <Link
+            to="/admin"
+            activeProps={{ className: "bg-blue-50 text-blue-600 font-bold" }}
+            className="rounded-full px-4 py-2 text-xs font-semibold text-slate-700 transition-colors hover:bg-slate-100 whitespace-nowrap"
+          >
+            Admin Portal
+          </Link>
+
+          {/* Right Header Get Started Pill Button */}
+          <Button asChild size="sm" className="rounded-full bg-primary hover:bg-blue-700 text-white font-bold text-xs px-5 py-2 shadow-md shadow-primary/20 transition-transform active:scale-95 ml-2 cursor-pointer">
+            <a href="#divisions">Get Started</a>
+          </Button>
+        </nav>
 
           {/* User Account / Sign In Controls */}
           {user ? (
@@ -236,7 +187,6 @@ export function SiteHeader() {
           <Button asChild size="sm" variant="outline" className="ml-2 font-bold text-xs border-primary/40 text-primary">
             <Link to="/book">Schedule Visit</Link>
           </Button>
-        </nav>
 
         {/* Mobile Navigation Drawer */}
         <Sheet open={open} onOpenChange={setOpen}>

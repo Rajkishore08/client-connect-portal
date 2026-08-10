@@ -29,6 +29,11 @@ const FAQS = [
     pillar: "General Intake",
   },
   {
+    q: "How and when is pricing finalized for my application or software project?",
+    a: "We do not list fixed prices online because every case is unique. Service quotes and pricing are reviewed and finalized during your 1-on-1 scoping consultation meeting after our team reviews your specific intake form and documents.",
+    pillar: "Pricing & Quotes",
+  },
+  {
     q: "How does your secure document vault protect sensitive passport paperwork?",
     a: "All documents submitted through our intake forms are stored with 256-bit AES end-to-end encryption in compliance with US and international privacy standards.",
     pillar: "Security & Vault",

@@ -19,9 +19,9 @@ const DEFAULT_CAPABILITIES: CapabilityItem[] = [
     title: "US Passport Renewal",
     subtitle: "24-Hour to 14-Day Speed Tiers",
     description:
-      "Fast-track your US passport renewal with error-free application preparation, DS-82 form validation, and guaranteed expedited State Department queue processing.",
+      "Fast-track your US & Indian passport renewal with error-free application preparation, DS-82 form validation, and guaranteed expedited State Department queue processing.",
     image: "https://images.unsplash.com/photo-1544717305-2782549b5136?q=80&w=1200",
-    link: "/passport/us-passport-renewal",
+    link: "/passport/passport-renewal",
     tag: "Most Popular",
   },
   {
@@ -31,7 +31,7 @@ const DEFAULT_CAPABILITIES: CapabilityItem[] = [
     description:
       "Seamless OCI application processing for NRIs and foreign spouses. Includes complete VFS document audit, photo compliance check, and end-to-end courier tracking.",
     image: "https://images.unsplash.com/photo-1526772662000-3f88f10405ff?q=80&w=1200",
-    link: "/passport/oci-card",
+    link: "/passport/oci",
     tag: "NRI Specialty",
   },
   {
@@ -41,7 +41,7 @@ const DEFAULT_CAPABILITIES: CapabilityItem[] = [
     description:
       "Guaranteed electronic visa filing for international business & travel. Receive official electronic travel authorizations directly in your email in 24–48 hours.",
     image: "https://images.unsplash.com/photo-1512453979798-5ea266f8880c?q=80&w=1200",
-    link: "/passport/e-visa-services",
+    link: "/passport/e-visa",
   },
   {
     id: "04",
@@ -50,7 +50,7 @@ const DEFAULT_CAPABILITIES: CapabilityItem[] = [
     description:
       "Immediate emergency appointment booking & hand-carry courier dispatch for urgent flight departures scheduled within 24 to 48 hours.",
     image: "https://images.unsplash.com/photo-1436491865332-7a61a109cc05?q=80&w=1200",
-    link: "/passport/us-passport-renewal",
+    link: "/passport/lost-damaged-passport",
     tag: "Emergency Rush",
   },
   {
@@ -60,7 +60,7 @@ const DEFAULT_CAPABILITIES: CapabilityItem[] = [
     description:
       "Official surrender certificate filing and Indian passport cancellation following naturalization, fully compliant with Ministry of External Affairs regulations.",
     image: "https://images.unsplash.com/photo-1569154941061-e231b4725ef1?q=80&w=1200",
-    link: "/passport/renunciation-surrender",
+    link: "/passport/renunciation",
   },
 ];
 

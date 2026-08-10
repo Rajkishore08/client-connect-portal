@@ -1,5 +1,7 @@
 import { useState } from "react";
+import { format, addDays } from "date-fns";
 import {
+  AlertCircle,
   ArrowLeft,
   ArrowRight,
   CalendarCheck,
@@ -26,6 +28,7 @@ import {
 } from "lucide-react";
 
 import { FileUploader, type LocalFile } from "@/components/site/FileUploader";
+import { DatePicker } from "@/components/ui/date-picker";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
@@ -37,13 +40,6 @@ import {
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
 import { submitServiceRequest, uploadDocuments } from "@/lib/backend-stubs";
 
@@ -100,10 +96,11 @@ const SUB_SERVICES: Record<string, { id: string; name: string; desc: string }[]>
 };
 
 const TIME_SLOTS = [
-  "9:00 AM CST",
-  "11:30 AM CST",
-  "2:00 PM CST",
-  "4:30 PM CST",
+  { time: "9:00 AM CST", label: "Morning" },
+  { time: "11:30 AM CST", label: "Midday" },
+  { time: "2:00 PM CST", label: "Afternoon" },
+  { time: "4:30 PM CST", label: "Late Afternoon" },
+  { time: "6:00 PM CST", label: "Evening" },
 ];
 
 export function ServiceIntakeWizardModal({
@@ -124,23 +121,47 @@ export function ServiceIntakeWizardModal({
   const [notes, setNotes] = useState("");
   const [files, setFiles] = useState<LocalFile[]>([]);
 
-  // Slot Booking
-  const [selectedDate, setSelectedDate] = useState<string>("Tomorrow");
+  // Field Validation Errors
+  const [errors, setErrors] = useState<{ fullName?: string; email?: string; phone?: string }>({});
+
+  // Slot Booking (Interactive Calendar + Time Slot Grid)
+  const [selectedDate, setSelectedDate] = useState<string>(
+    format(addDays(new Date(), 1), "yyyy-MM-dd")
+  );
   const [selectedSlot, setSelectedSlot] = useState<string>("9:00 AM CST");
 
   // Submission State
   const [submitting, setSubmitting] = useState(false);
   const [referenceNumber, setReferenceNumber] = useState<string | null>(null);
 
+  const validateStep2 = () => {
+    const newErrors: { fullName?: string; email?: string; phone?: string } = {};
+
+    if (!fullName.trim() || fullName.trim().length < 2) {
+      newErrors.fullName = "Please enter your full name (at least 2 characters).";
+    }
+
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!email.trim() || !emailRegex.test(email.trim())) {
+      newErrors.email = "Please enter a valid email address (e.g. name@domain.com).";
+    }
+
+    const digits = phone.replace(/\D/g, "");
+    if (!phone.trim() || digits.length < 10) {
+      newErrors.phone = "Please enter a valid phone number (at least 10 digits).";
+    }
+
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
+
   const handleNextStep = () => {
     if (step === 1) {
       setStep(2);
     } else if (step === 2) {
-      if (!fullName || !email || !phone) {
-        alert("Please fill in your name, email, and phone number.");
-        return;
+      if (validateStep2()) {
+        setStep(3);
       }
-      setStep(3);
     }
   };
 
@@ -184,13 +205,16 @@ export function ServiceIntakeWizardModal({
       setEmail("");
       setPhone("");
       setNotes("");
+      setErrors({});
     }, 300);
   };
+
+  const progressPercent = referenceNumber ? 100 : step === 1 ? 33 : step === 2 ? 66 : 95;
 
   return (
     <Dialog open={open} onOpenChange={resetAndClose}>
       <DialogContent className="max-w-2xl w-[95vw] p-0 overflow-hidden border border-slate-200 bg-white shadow-2xl rounded-3xl">
-        {/* Modal Header */}
+        {/* Animated Top Header */}
         <div className="bg-slate-900 text-white p-5 sm:p-6 relative overflow-hidden">
           <div className="absolute -top-12 -right-12 h-40 w-40 rounded-full bg-blue-600/20 blur-2xl pointer-events-none" />
           <div className="relative z-10 flex items-center justify-between">
@@ -205,38 +229,53 @@ export function ServiceIntakeWizardModal({
                 </DialogDescription>
               </div>
             </div>
+            <button
+              type="button"
+              onClick={resetAndClose}
+              className="h-8 w-8 rounded-full bg-slate-800 hover:bg-slate-700 text-slate-300 grid place-items-center transition-colors cursor-pointer"
+            >
+              <X className="h-4 w-4" />
+            </button>
           </div>
 
-          {/* Stepper Progress Indicator */}
-          {!referenceNumber && (
-            <div className="mt-5 grid grid-cols-3 gap-2 border-t border-slate-800 pt-4">
-              <div className={`flex items-center gap-2 text-xs font-semibold ${step >= 1 ? "text-blue-400" : "text-slate-500"}`}>
-                <span className={`h-6 w-6 rounded-full grid place-items-center text-[11px] font-bold ${step >= 1 ? "bg-blue-600 text-white" : "bg-slate-800 text-slate-400"}`}>
-                  1
-                </span>
-                <span className="hidden sm:inline">Service</span>
-              </div>
-              <div className={`flex items-center gap-2 text-xs font-semibold ${step >= 2 ? "text-blue-400" : "text-slate-500"}`}>
-                <span className={`h-6 w-6 rounded-full grid place-items-center text-[11px] font-bold ${step >= 2 ? "bg-blue-600 text-white" : "bg-slate-800 text-slate-400"}`}>
-                  2
-                </span>
-                <span className="hidden sm:inline">Details</span>
-              </div>
-              <div className={`flex items-center gap-2 text-xs font-semibold ${step >= 3 ? "text-blue-400" : "text-slate-500"}`}>
-                <span className={`h-6 w-6 rounded-full grid place-items-center text-[11px] font-bold ${step >= 3 ? "bg-blue-600 text-white" : "bg-slate-800 text-slate-400"}`}>
-                  3
-                </span>
-                <span className="hidden sm:inline">Confirm</span>
-              </div>
+          {/* Stepper Progress Bar */}
+          <div className="mt-5 space-y-2 border-t border-slate-800 pt-4">
+            <div className="h-1.5 w-full rounded-full bg-slate-800 overflow-hidden">
+              <div
+                className="h-full bg-gradient-to-r from-blue-500 via-primary to-emerald-400 transition-all duration-500 ease-out"
+                style={{ width: `${progressPercent}%` }}
+              />
             </div>
-          )}
+            {!referenceNumber && (
+              <div className="grid grid-cols-3 gap-2 text-[11px] font-semibold">
+                <div className={`flex items-center gap-1.5 ${step >= 1 ? "text-blue-400" : "text-slate-500"}`}>
+                  <span className={`h-4.5 w-4.5 rounded-full grid place-items-center text-[10px] font-bold ${step >= 1 ? "bg-blue-600 text-white" : "bg-slate-800 text-slate-400"}`}>
+                    {step > 1 ? <Check className="h-3 w-3" /> : "1"}
+                  </span>
+                  <span>1. Category</span>
+                </div>
+                <div className={`flex items-center gap-1.5 ${step >= 2 ? "text-blue-400" : "text-slate-500"}`}>
+                  <span className={`h-4.5 w-4.5 rounded-full grid place-items-center text-[10px] font-bold ${step >= 2 ? "bg-blue-600 text-white" : "bg-slate-800 text-slate-400"}`}>
+                    {step > 2 ? <Check className="h-3 w-3" /> : "2"}
+                  </span>
+                  <span>2. Applicant Details</span>
+                </div>
+                <div className={`flex items-center gap-1.5 ${step >= 3 ? "text-blue-400" : "text-slate-500"}`}>
+                  <span className={`h-4.5 w-4.5 rounded-full grid place-items-center text-[10px] font-bold ${step >= 3 ? "bg-blue-600 text-white" : "bg-slate-800 text-slate-400"}`}>
+                    3
+                  </span>
+                  <span>3. Slot &amp; Confirm</span>
+                </div>
+              </div>
+            )}
+          </div>
         </div>
 
-        {/* Modal Body */}
-        <div className="p-5 sm:p-6 max-h-[75vh] overflow-y-auto space-y-6">
+        {/* Modal Body with Smooth Slide-in Micro-Animations */}
+        <div className="p-5 sm:p-6 max-h-[72vh] overflow-y-auto space-y-6">
           {referenceNumber ? (
             /* Success Screen */
-            <div className="py-6 text-center space-y-5">
+            <div className="py-6 text-center space-y-5 animate-in fade-in zoom-in-95 duration-300">
               <div className="h-16 w-16 rounded-full bg-emerald-500/15 text-emerald-600 grid place-items-center mx-auto shadow-sm">
                 <CheckCircle2 className="h-8 w-8 text-emerald-600 animate-bounce" />
               </div>
@@ -246,13 +285,13 @@ export function ServiceIntakeWizardModal({
                 </Badge>
                 <h3 className="text-xl font-extrabold text-slate-900 font-display">Intake Submitted Successfully!</h3>
                 <p className="text-xs sm:text-sm text-slate-600">
-                  Our team has assigned your case file. A senior consultant will reach out before your reserved slot: <strong className="text-slate-900">{selectedDate} at {selectedSlot}</strong>.
+                  Our senior consultant team has received your file. We will connect with you on <strong className="text-slate-900">{selectedDate} at {selectedSlot}</strong>.
                 </p>
               </div>
 
               <div className="p-4 rounded-2xl bg-slate-50 border border-slate-200 text-left space-y-2 text-xs text-slate-600">
                 <div className="flex items-center justify-between">
-                  <span className="font-bold text-slate-900">Service Assigned:</span>
+                  <span className="font-bold text-slate-900">Service:</span>
                   <span className="font-semibold text-primary">{SUB_SERVICES[category]?.find((s) => s.id === subService)?.name}</span>
                 </div>
                 <div className="flex items-center justify-between">
@@ -265,14 +304,14 @@ export function ServiceIntakeWizardModal({
                 </div>
               </div>
 
-              <Button onClick={resetAndClose} className="w-full h-12 font-bold bg-primary text-white hover:bg-blue-700">
+              <Button onClick={resetAndClose} className="w-full h-12 font-bold bg-primary text-white hover:bg-blue-700 cursor-pointer">
                 Done &amp; Return to Portal
               </Button>
             </div>
           ) : step === 1 ? (
             /* STEP 1: Select Category & Service */
-            <div className="space-y-5">
-              <div className="space-y-1">
+            <div className="space-y-5 animate-in fade-in slide-in-from-right-4 duration-300">
+              <div className="space-y-1.5">
                 <Label className="text-xs font-bold uppercase tracking-wider text-slate-500">1. Select Division</Label>
                 <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
                   {CATEGORIES.map((cat) => {
@@ -286,9 +325,9 @@ export function ServiceIntakeWizardModal({
                           setCategory(cat.id);
                           setSubService(SUB_SERVICES[cat.id]?.[0]?.id || "");
                         }}
-                        className={`p-3.5 rounded-2xl border text-left transition-all flex flex-col justify-between cursor-pointer ${
+                        className={`p-3.5 rounded-2xl border text-left transition-all flex flex-col justify-between cursor-pointer hover:scale-[1.01] active:scale-[0.99] ${
                           selected
-                            ? "bg-blue-50/80 border-primary shadow-xs ring-1 ring-primary/20"
+                            ? "bg-blue-50/90 border-primary shadow-sm ring-2 ring-primary/20"
                             : "bg-white border-slate-200 hover:border-slate-300"
                         }`}
                       >
@@ -296,7 +335,7 @@ export function ServiceIntakeWizardModal({
                           <span className={`h-8 w-8 rounded-xl grid place-items-center ${selected ? "bg-primary text-white" : "bg-slate-100 text-slate-600"}`}>
                             <Icon className="h-4 w-4" />
                           </span>
-                          {selected && <Check className="h-4 w-4 text-primary" />}
+                          {selected && <Check className="h-4 w-4 text-primary font-bold" />}
                         </div>
                         <div className="mt-3">
                           <p className="text-xs font-bold text-slate-900">{cat.title}</p>
@@ -307,9 +346,9 @@ export function ServiceIntakeWizardModal({
                 </div>
               </div>
 
-              {/* Sub-Service Dropdown / Cards */}
+              {/* Sub-Service Selection Grid */}
               <div className="space-y-2">
-                <Label className="text-xs font-bold uppercase tracking-wider text-slate-500">2. Select Sub-Service</Label>
+                <Label className="text-xs font-bold uppercase tracking-wider text-slate-500">2. Select Specific Service</Label>
                 <div className="grid grid-cols-1 gap-2">
                   {SUB_SERVICES[category]?.map((sub) => {
                     const selected = subService === sub.id;
@@ -335,15 +374,15 @@ export function ServiceIntakeWizardModal({
                 </div>
               </div>
 
-              {/* Urgency Speed Tier */}
+              {/* Speed Tier Selection */}
               <div className="space-y-2">
-                <Label className="text-xs font-bold uppercase tracking-wider text-slate-500">3. Speed Tier</Label>
+                <Label className="text-xs font-bold uppercase tracking-wider text-slate-500">3. Select Processing Speed</Label>
                 <div className="grid grid-cols-2 gap-3">
                   <button
                     type="button"
                     onClick={() => setSpeed("standard")}
                     className={`p-3 rounded-xl border text-left cursor-pointer transition-all ${
-                      speed === "standard" ? "bg-slate-900 text-white border-slate-900" : "bg-slate-50 text-slate-800 border-slate-200"
+                      speed === "standard" ? "bg-slate-900 text-white border-slate-900 font-bold" : "bg-slate-50 text-slate-800 border-slate-200"
                     }`}
                   >
                     <p className="text-xs font-bold flex items-center gap-1.5">
@@ -355,7 +394,7 @@ export function ServiceIntakeWizardModal({
                     type="button"
                     onClick={() => setSpeed("rush")}
                     className={`p-3 rounded-xl border text-left cursor-pointer transition-all ${
-                      speed === "rush" ? "bg-amber-500 text-slate-950 border-amber-500 font-bold" : "bg-slate-50 text-slate-800 border-slate-200"
+                      speed === "rush" ? "bg-amber-500 text-slate-950 border-amber-500 font-bold shadow-xs" : "bg-slate-50 text-slate-800 border-slate-200"
                     }`}
                   >
                     <p className="text-xs font-extrabold flex items-center gap-1.5">
@@ -367,9 +406,10 @@ export function ServiceIntakeWizardModal({
               </div>
             </div>
           ) : step === 2 ? (
-            /* STEP 2: Personal Details & Document Dropzone */
-            <div className="space-y-4">
+            /* STEP 2: Personal Details & Document Dropzone with Input Validation */
+            <div className="space-y-4 animate-in fade-in slide-in-from-right-4 duration-300">
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                {/* Full Name */}
                 <div className="space-y-1.5">
                   <Label htmlFor="wiz-name" className="text-xs font-bold text-slate-700">Full Name *</Label>
                   <Input
@@ -377,10 +417,20 @@ export function ServiceIntakeWizardModal({
                     required
                     placeholder="e.g. Rahul Sharma"
                     value={fullName}
-                    onChange={(e) => setFullName(e.target.value)}
-                    className="h-10 text-xs"
+                    onChange={(e) => {
+                      setFullName(e.target.value);
+                      if (errors.fullName) setErrors(({ fullName: _, ...rest }) => rest);
+                    }}
+                    className={`h-10 text-xs transition-colors ${errors.fullName ? "border-red-500 focus-visible:ring-red-500 bg-red-50/30" : ""}`}
                   />
+                  {errors.fullName && (
+                    <p className="text-[11px] font-semibold text-red-600 flex items-center gap-1">
+                      <AlertCircle className="h-3 w-3 shrink-0" /> {errors.fullName}
+                    </p>
+                  )}
                 </div>
+
+                {/* USA Phone Number */}
                 <div className="space-y-1.5">
                   <Label htmlFor="wiz-phone" className="text-xs font-bold text-slate-700">USA Phone Number *</Label>
                   <Input
@@ -388,12 +438,21 @@ export function ServiceIntakeWizardModal({
                     required
                     placeholder="+1 (312) 000-0000"
                     value={phone}
-                    onChange={(e) => setPhone(e.target.value)}
-                    className="h-10 text-xs"
+                    onChange={(e) => {
+                      setPhone(e.target.value);
+                      if (errors.phone) setErrors(({ phone: _, ...rest }) => rest);
+                    }}
+                    className={`h-10 text-xs transition-colors ${errors.phone ? "border-red-500 focus-visible:ring-red-500 bg-red-50/30" : ""}`}
                   />
+                  {errors.phone && (
+                    <p className="text-[11px] font-semibold text-red-600 flex items-center gap-1">
+                      <AlertCircle className="h-3 w-3 shrink-0" /> {errors.phone}
+                    </p>
+                  )}
                 </div>
               </div>
 
+              {/* Email Address */}
               <div className="space-y-1.5">
                 <Label htmlFor="wiz-email" className="text-xs font-bold text-slate-700">Email Address *</Label>
                 <Input
@@ -402,17 +461,26 @@ export function ServiceIntakeWizardModal({
                   required
                   placeholder="rahul@example.com"
                   value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  className="h-10 text-xs"
+                  onChange={(e) => {
+                    setEmail(e.target.value);
+                    if (errors.email) setErrors(({ email: _, ...rest }) => rest);
+                  }}
+                  className={`h-10 text-xs transition-colors ${errors.email ? "border-red-500 focus-visible:ring-red-500 bg-red-50/30" : ""}`}
                 />
+                {errors.email && (
+                  <p className="text-[11px] font-semibold text-red-600 flex items-center gap-1">
+                    <AlertCircle className="h-3 w-3 shrink-0" /> {errors.email}
+                  </p>
+                )}
               </div>
 
+              {/* Notes */}
               <div className="space-y-1.5">
-                <Label htmlFor="wiz-notes" className="text-xs font-bold text-slate-700">Notes / Requirements</Label>
+                <Label htmlFor="wiz-notes" className="text-xs font-bold text-slate-700">Notes / Case Requirements (Optional)</Label>
                 <Textarea
                   id="wiz-notes"
                   rows={2}
-                  placeholder="Mention urgency, preferred passport dates, or software requirements..."
+                  placeholder="Mention urgency, preferred passport dates, or custom software requirements..."
                   value={notes}
                   onChange={(e) => setNotes(e.target.value)}
                   className="text-xs resize-none"
@@ -430,43 +498,64 @@ export function ServiceIntakeWizardModal({
             </div>
           ) : (
             /* STEP 3: Consultation Slot & Confirmation Preview */
-            <div className="space-y-5">
-              <div className="p-4 rounded-2xl bg-blue-50/80 border border-blue-200/80 space-y-2">
-                <p className="text-xs font-bold text-primary uppercase tracking-wider flex items-center gap-1.5">
-                  <CalendarCheck className="h-4 w-4" /> Reserve Free 15-Min Scoping Slot
-                </p>
-                <p className="text-xs text-slate-600">
-                  Select your preferred time slot for our team to review your documents and provide exact steps.
-                </p>
+            <div className="space-y-4 animate-in fade-in slide-in-from-right-4 duration-300">
+              <div className="p-4 rounded-2xl bg-blue-50/80 border border-blue-200/80 space-y-3">
+                <div className="space-y-1">
+                  <p className="text-xs font-bold text-primary uppercase tracking-wider flex items-center gap-1.5">
+                    <CalendarCheck className="h-4 w-4" /> Reserve Free 15-Min Scoping Slot
+                  </p>
+                  <p className="text-xs text-slate-600">
+                    Select your preferred date and time slot for our team to review your documents.
+                  </p>
+                </div>
 
-                <div className="pt-2 grid grid-cols-2 gap-2">
-                  <Select value={selectedDate} onValueChange={setSelectedDate}>
-                    <SelectTrigger className="h-10 text-xs bg-white">
-                      <SelectValue placeholder="Select day" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="Today">Today (Urgent)</SelectItem>
-                      <SelectItem value="Tomorrow">Tomorrow</SelectItem>
-                      <SelectItem value="In 2 Days">In 2 Days</SelectItem>
-                    </SelectContent>
-                  </Select>
+                {/* Calendar Date Picker */}
+                <div className="space-y-1.5">
+                  <Label className="text-xs font-bold text-slate-700">Select Date</Label>
+                  <DatePicker
+                    value={selectedDate}
+                    onChange={setSelectedDate}
+                    placeholder="Pick consultation date"
+                    className="bg-white"
+                  />
+                </div>
 
-                  <Select value={selectedSlot} onValueChange={setSelectedSlot}>
-                    <SelectTrigger className="h-10 text-xs bg-white">
-                      <SelectValue placeholder="Select time" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      {TIME_SLOTS.map((t) => (
-                        <SelectItem key={t} value={t}>{t}</SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
+                {/* Interactive Visual Time Slot Selection Grid */}
+                <div className="space-y-1.5 pt-1">
+                  <Label className="text-xs font-bold text-slate-700">Select Time Slot (CST)</Label>
+                  <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
+                    {TIME_SLOTS.map((slot) => {
+                      const active = selectedSlot === slot.time;
+                      return (
+                        <button
+                          key={slot.time}
+                          type="button"
+                          onClick={() => setSelectedSlot(slot.time)}
+                          className={`p-2.5 rounded-xl border text-left cursor-pointer transition-all ${
+                            active
+                              ? "bg-primary text-white border-primary shadow-xs font-bold ring-2 ring-primary/30"
+                              : "bg-white text-slate-800 border-slate-200 hover:border-slate-300 font-medium"
+                          }`}
+                        >
+                          <p className="text-xs font-bold flex items-center gap-1">
+                            <Clock className="h-3 w-3 shrink-0" /> {slot.time}
+                          </p>
+                          <p className={`text-[10px] ${active ? "text-blue-100" : "text-slate-500"}`}>{slot.label}</p>
+                        </button>
+                      );
+                    })}
+                  </div>
                 </div>
               </div>
 
               {/* Summary Card */}
               <div className="p-4 rounded-2xl bg-slate-50 border border-slate-200 space-y-2 text-xs">
-                <p className="font-bold text-slate-900 border-b border-slate-200 pb-2">Intake Summary</p>
+                <p className="font-bold text-slate-900 border-b border-slate-200 pb-2 flex items-center justify-between">
+                  <span>Intake Summary</span>
+                  <Badge variant="outline" className="bg-blue-50 text-primary border-primary/30 text-[10px]">
+                    Ready to Submit
+                  </Badge>
+                </p>
                 <div className="flex justify-between">
                   <span className="text-slate-500">Service:</span>
                   <span className="font-bold text-slate-900">{SUB_SERVICES[category]?.find((s) => s.id === subService)?.name}</span>
@@ -495,12 +584,12 @@ export function ServiceIntakeWizardModal({
               <Button
                 variant="outline"
                 onClick={() => setStep((s) => s - 1)}
-                className="h-11 px-4 text-xs font-semibold text-slate-700 hover:bg-white"
+                className="h-11 px-4 text-xs font-semibold text-slate-700 hover:bg-white cursor-pointer"
               >
                 <ArrowLeft className="h-4 w-4 mr-1.5" /> Back
               </Button>
             ) : (
-              <Button variant="ghost" onClick={resetAndClose} className="h-11 px-4 text-xs font-semibold text-slate-500">
+              <Button variant="ghost" onClick={resetAndClose} className="h-11 px-4 text-xs font-semibold text-slate-500 cursor-pointer">
                 Cancel
               </Button>
             )}
@@ -508,7 +597,7 @@ export function ServiceIntakeWizardModal({
             {step < 3 ? (
               <Button
                 onClick={handleNextStep}
-                className="h-11 px-6 text-xs font-bold bg-primary text-white hover:bg-blue-700 ml-auto shadow-md"
+                className="h-11 px-6 text-xs font-bold bg-primary text-white hover:bg-blue-700 ml-auto shadow-md cursor-pointer"
               >
                 Continue to Step {step + 1} <ArrowRight className="h-4 w-4 ml-1.5" />
               </Button>
@@ -516,7 +605,7 @@ export function ServiceIntakeWizardModal({
               <Button
                 disabled={submitting}
                 onClick={handleFinalSubmit}
-                className="h-11 px-7 text-xs font-bold bg-emerald-600 text-white hover:bg-emerald-700 ml-auto shadow-lg shadow-emerald-600/20"
+                className="h-11 px-7 text-xs font-bold bg-emerald-600 text-white hover:bg-emerald-700 ml-auto shadow-lg shadow-emerald-600/20 cursor-pointer"
               >
                 {submitting ? (
                   <>

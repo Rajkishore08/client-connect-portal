@@ -32,9 +32,9 @@ export function TurnaroundEstimator() {
           <div className="inline-flex items-center gap-1.5 rounded-full bg-primary-soft border border-primary/30 px-3 py-1 text-xs font-bold text-primary">
             <Sparkles className="h-3.5 w-3.5" /> 3-Division Scope &amp; Speed Calculator
           </div>
-          <h2 className="text-2xl font-black sm:text-3xl text-foreground">Estimate Your Project &amp; Delivery Speed</h2>
+          <h2 className="text-2xl font-black sm:text-3xl text-foreground">Estimate Your Delivery Speed &amp; Timeline</h2>
           <p className="text-sm text-muted-foreground font-normal max-w-xl">
-            Select a division below to estimate turnaround timelines, fees, and guaranteed delivery dates.
+            Select a division below to estimate turnaround timelines and guaranteed delivery dates. Pricing is reviewed and finalized during your 1-on-1 consultation meeting after document review.
           </p>
         </div>
 
@@ -110,9 +110,9 @@ export function TurnaroundEstimator() {
                       {isSelected && <Check className="h-4 w-4 text-primary shrink-0" />}
                     </div>
 
-                    <div className="mt-2 flex items-baseline gap-1">
-                      <span className="text-2xl font-black text-foreground">${tier.serviceFee}</span>
-                      <span className="text-xs text-muted-foreground font-normal">agency fee</span>
+                    <div className="mt-2 flex flex-col gap-0.5">
+                      <span className="text-lg font-extrabold text-primary">Custom Quote</span>
+                      <span className="text-[10px] text-slate-500 font-medium">Finalized during scoping consultation</span>
                     </div>
 
                     <p className="mt-2 text-xs leading-relaxed text-muted-foreground font-normal">
@@ -122,7 +122,7 @@ export function TurnaroundEstimator() {
 
                   <div className="mt-4 pt-3 border-t border-border/60 flex items-center justify-between text-xs">
                     <span className="font-semibold text-primary">{tier.turnaround}</span>
-                    <span className="text-muted-foreground font-medium">Gov: ${tier.govFee}</span>
+                    <span className="text-muted-foreground font-medium text-[11px]">Quote on Call</span>
                   </div>
                 </button>
               );
