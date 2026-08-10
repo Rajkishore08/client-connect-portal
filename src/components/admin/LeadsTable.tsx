@@ -16,6 +16,7 @@ import {
 import { Textarea } from "@/components/ui/textarea";
 import { LEADS, type Lead, type LeadStatus, type TrackStatus } from "@/data/mock-data";
 import { exportLeadsToExcel } from "@/lib/backend-stubs";
+import { sendStatusUpdateEmail } from "@/lib/email-service";
 
 const STATUSES: LeadStatus[] = ["New", "In Progress", "Contacted", "Closed"];
 const TRACK_STATUSES: TrackStatus[] = ["Not Started", "In Progress", "Completed"];
@@ -57,8 +58,26 @@ export function LeadsTable() {
   const current = Math.min(page, pageCount);
   const rows = filtered.slice((current - 1) * PAGE_SIZE, current * PAGE_SIZE);
 
-  const updateLead = (id: string, patch: Partial<Lead>) =>
-    setLeads((prev) => prev.map((l) => (l.id === id ? { ...l, ...patch } : l)));
+  const updateLead = (id: string, patch: Partial<Lead>) => {
+    setLeads((prev) =>
+      prev.map((l) => {
+        if (l.id === id) {
+          const updated = { ...l, ...patch };
+          if (patch.status && patch.status !== l.status) {
+            sendStatusUpdateEmail({
+              name: l.name,
+              email: l.email,
+              service: l.service,
+              reference: l.reference,
+              newStatus: patch.status,
+            });
+          }
+          return updated;
+        }
+        return l;
+      })
+    );
+  };
 
   const updateTracking = (id: string, key: keyof Lead["tracking"], patch: { status?: TrackStatus; ref?: string }) =>
     setLeads((prev) =>
@@ -267,7 +286,7 @@ export function LeadsTable() {
                               />
                             </div>
                             <div>
-                              <h4 className="text-sm font-semibold">Uploaded documents</h4>
+                              <h4 className="text-sm font-semibold text-slate-900">Uploaded documents</h4>
                               {lead.documents.length === 0 ? (
                                 <p className="mt-2 text-sm text-muted-foreground">None uploaded.</p>
                               ) : (
@@ -280,6 +299,40 @@ export function LeadsTable() {
                                 </ul>
                               )}
                             </div>
+
+                            {/* Client Email Generator Bar */}
+                            <div className="pt-2 border-t border-slate-200/80 space-y-2">
+                              <h4 className="text-xs font-bold uppercase tracking-wider text-slate-600">Quick Client Email Generator</h4>
+                              <div className="flex flex-wrap items-center gap-2">
+                                <Button
+                                  type="button"
+                                  variant="outline"
+                                  size="sm"
+                                  onClick={() => {
+                                    const emailBody = `Dear ${lead.name},\n\nThank you for submitting your intake request for ${lead.service} (Ref: ${lead.reference}).\n\nOur team has received your documents and will review your file during your scheduled consultation. Please ensure you have your original passport and proof of address ready.\n\nWarm regards,\nOne World Solutions Concierge Team\nChicago HQ`;
+                                    navigator.clipboard.writeText(emailBody);
+                                    toast.success("Confirmation Email Copied", { description: "Email template copied to clipboard!" });
+                                  }}
+                                  className="text-xs font-bold text-slate-800 bg-white hover:bg-blue-50 hover:text-blue-700 cursor-pointer"
+                                >
+                                  Copy Intake Confirmation
+                                </Button>
+                                <Button
+                                  type="button"
+                                  variant="outline"
+                                  size="sm"
+                                  onClick={() => {
+                                    const emailBody = `Dear ${lead.name},\n\nFollowing up on your intake #${lead.reference} (${lead.service}).\n\nWe require an updated passport photo with a plain white background before we can file your application with VFS/Embassy.\n\nWarm regards,\nOne World Solutions Concierge Team`;
+                                    navigator.clipboard.writeText(emailBody);
+                                    toast.success("Follow-up Email Copied", { description: "Document request copied to clipboard!" });
+                                  }}
+                                  className="text-xs font-bold text-slate-800 bg-white hover:bg-emerald-50 hover:text-emerald-700 cursor-pointer"
+                                >
+                                  Copy Document Request
+                                </Button>
+                              </div>
+                            </div>
+
                             <p className="text-xs text-muted-foreground">
                               Reference {lead.reference}
                             </p>

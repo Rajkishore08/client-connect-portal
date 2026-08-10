@@ -42,6 +42,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { submitServiceRequest, uploadDocuments } from "@/lib/backend-stubs";
+import { sendIntakeConfirmationEmail } from "@/lib/email-service";
 
 interface WizardProps {
   open: boolean;
@@ -188,6 +189,15 @@ export function ServiceIntakeWizardModal({
       });
 
       setReferenceNumber(res.reference);
+
+      // Automated Email Dispatch
+      sendIntakeConfirmationEmail({
+        name: fullName,
+        email,
+        service: SUB_SERVICES[category]?.find((s) => s.id === subService)?.name || subService,
+        reference: res.reference,
+        consultationSlot: `${selectedDate} at ${selectedSlot}`,
+      });
     } catch (err) {
       console.error(err);
     } finally {

@@ -4,6 +4,7 @@ import { useState } from "react";
 
 import { AdminDashboard } from "@/components/admin/AdminDashboard";
 import { AdminLogin } from "@/components/admin/AdminLogin";
+import { EmailAutomationManager } from "@/components/admin/EmailAutomationManager";
 import { LeadsTable } from "@/components/admin/LeadsTable";
 import { ServicesManager } from "@/components/admin/ServicesManager";
 import { Button } from "@/components/ui/button";
@@ -55,7 +56,8 @@ function AdminPage() {
           <TabsList className="w-full justify-start overflow-x-auto sm:w-auto">
             <TabsTrigger value="dashboard">Dashboard</TabsTrigger>
             <TabsTrigger value="leads">Enquiries &amp; Leads</TabsTrigger>
-            <TabsTrigger value="services">Services &amp; Pricing</TabsTrigger>
+            <TabsTrigger value="services">Services Catalog</TabsTrigger>
+            <TabsTrigger value="emails">Automated Mailing &amp; Logs</TabsTrigger>
           </TabsList>
           <TabsContent value="dashboard" className="mt-6">
             <AdminDashboard />
@@ -65,6 +67,9 @@ function AdminPage() {
           </TabsContent>
           <TabsContent value="services" className="mt-6">
             <ServicesManager />
+          </TabsContent>
+          <TabsContent value="emails" className="mt-6">
+            <EmailAutomationManager />
           </TabsContent>
         </Tabs>
       </main>
