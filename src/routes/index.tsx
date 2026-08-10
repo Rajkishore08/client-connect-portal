@@ -15,9 +15,12 @@ import {
   Zap,
 } from "lucide-react";
 
+import { useState } from "react";
 import { CategoryExplorer } from "@/components/site/CategoryExplorer";
 import { FaqSection } from "@/components/site/FaqSection";
 import { InteractiveCapabilitiesGallery } from "@/components/site/InteractiveCapabilitiesGallery";
+
+import { ServiceIntakeWizardModal } from "@/components/site/ServiceIntakeWizardModal";
 import { TrustBanner } from "@/components/site/SiteFooter";
 import { StepsBanner } from "@/components/site/StepsBanner";
 import { Testimonials } from "@/components/site/Testimonials";
@@ -84,6 +87,8 @@ const EQUAL_DIVISIONS = [
 ];
 
 function Home() {
+  const [wizardOpen, setWizardOpen] = useState(false);
+
   return (
     <main className="relative overflow-hidden">
       {/* Background Radial Light Glow Orbs for High Glassmorphism Contrast */}
@@ -146,10 +151,12 @@ function Home() {
 
               {/* CTAs (Full-Width Touch-Friendly Buttons on Mobile) */}
               <div className="pt-1 grid grid-cols-1 gap-2.5 sm:flex sm:items-center sm:gap-4">
-                <Button asChild size="lg" className="w-full sm:w-auto h-12 sm:h-13 px-6 text-sm sm:text-base font-bold shadow-xl shadow-primary/25 hover:scale-[1.02] active:scale-[0.98] transition-all bg-primary text-primary-foreground">
-                  <a href="#divisions">
-                    Get Started Today <ArrowRight className="h-4.5 w-4.5 ml-2 shrink-0" />
-                  </a>
+                <Button
+                  size="lg"
+                  onClick={() => setWizardOpen(true)}
+                  className="w-full sm:w-auto h-12 sm:h-13 px-6 text-sm sm:text-base font-bold shadow-xl shadow-primary/25 hover:scale-[1.02] active:scale-[0.98] transition-all bg-primary text-primary-foreground cursor-pointer"
+                >
+                  Get Started Today <ArrowRight className="h-4.5 w-4.5 ml-2 shrink-0" />
                 </Button>
                 <Button asChild size="lg" variant="outline" className="glass-card w-full sm:w-auto h-12 sm:h-13 px-6 text-sm sm:text-base font-bold text-primary hover:bg-primary hover:text-primary-foreground transition-all">
                   <Link to="/book">
@@ -511,6 +518,9 @@ function Home() {
           </div>
         </section>
       </div>
+
+      {/* Guided 3-Step Express Intake Modal */}
+      <ServiceIntakeWizardModal open={wizardOpen} onOpenChange={setWizardOpen} />
     </main>
   );
 }
