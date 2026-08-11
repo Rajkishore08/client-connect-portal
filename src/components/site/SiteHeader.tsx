@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link } from "@tanstack/react-router";
 import {
   Bell,
@@ -43,12 +43,26 @@ import { useAuth } from "@/lib/auth-context";
 
 export function SiteHeader() {
   const [open, setOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
   const { user, unreadCount, logout } = useAuth();
 
+  useEffect(() => {
+    const handleScroll = () => {
+      setScrolled(window.scrollY > 20);
+    };
+    handleScroll();
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
   return (
-    <header className="sticky top-0 z-40 border-b border-border/80 bg-background/90 backdrop-blur-md">
+    <header className="sticky top-0 z-50 w-full transition-all duration-300 pointer-events-none">
       {/* Top Location & Hotline Bar */}
-      <div className="bg-slate-900 text-slate-200 px-2 py-1.5 text-xs sm:px-6 border-b border-slate-800">
+      <div
+        className={`bg-slate-900 text-slate-200 px-2 text-xs sm:px-6 border-b border-slate-800 transition-all duration-300 overflow-hidden pointer-events-auto ${
+          scrolled ? "max-h-0 opacity-0 py-0 border-none" : "max-h-12 opacity-100 py-1.5"
+        }`}
+      >
         <div className="mx-auto flex max-w-[1440px] items-center justify-between gap-2 text-[10px] sm:text-xs px-1 sm:px-6 lg:px-10">
           <div className="flex items-center gap-2">
             <span className="inline-flex items-center gap-1 font-medium truncate">
@@ -70,16 +84,25 @@ export function SiteHeader() {
         </div>
       </div>
 
-      {/* Main Header Container */}
-      <div className="mx-auto flex max-w-[1440px] items-center justify-between px-2.5 sm:px-6 lg:px-10 py-2.5 sm:py-3">
-        {/* Brand Logo & Name */}
-        <Link to="/" className="flex items-center gap-2 group py-0.5 shrink-0 max-w-[70%] sm:max-w-none">
-          <img
-            src="/logo-rect.webp"
-            alt="One World Solutions"
-            className="h-7 sm:h-10 lg:h-11 max-h-12 w-auto object-contain transition-transform group-hover:scale-[1.02] shrink-0"
-          />
-        </Link>
+      {/* Main Capsule Header Container */}
+      <div className="px-3 sm:px-6 w-full flex justify-center pt-1.5 sm:pt-2">
+        <div
+          className={`pointer-events-auto transition-all duration-300 ease-out flex items-center justify-between w-full ${
+            scrolled
+              ? "max-w-[1120px] my-1.5 px-4 sm:px-6 py-2 rounded-full border border-slate-200/90 bg-white/85 backdrop-blur-xl shadow-xl shadow-slate-900/10"
+              : "max-w-[1440px] py-2.5 sm:py-3 px-2 sm:px-6 border-b border-border/80 bg-background/90 backdrop-blur-md"
+          }`}
+        >
+          {/* Brand Logo & Name */}
+          <Link to="/" className="flex items-center gap-2 group py-0.5 shrink-0 max-w-[70%] sm:max-w-none">
+            <img
+              src="/logo-rect.webp"
+              alt="One World Solutions"
+              className={`w-auto object-contain transition-all duration-300 group-hover:scale-[1.02] shrink-0 ${
+                scrolled ? "h-6 sm:h-8" : "h-7 sm:h-10 lg:h-11 max-h-12"
+              }`}
+            />
+          </Link>
 
         {/* Desktop Navigation — Matching Lovable Design Specs */}
         <nav className="hidden items-center gap-2 lg:flex shrink-0">
@@ -381,6 +404,7 @@ export function SiteHeader() {
           </SheetContent>
         </Sheet>
       </div>
-    </header>
-  );
+    </div>
+  </header>
+);
 }
