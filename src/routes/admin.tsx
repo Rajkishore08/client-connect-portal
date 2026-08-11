@@ -50,7 +50,7 @@ function AdminPage() {
             <div className="flex items-center gap-4 shrink-0">
               <Link to="/" className="flex items-center gap-2.5 group">
                 <picture>
-                  <source srcset="/logo-rect.webp" type="image/webp" />
+                  <source srcSet="/logo-rect.webp" type="image/webp" />
                   <img
                     src="/logo-rect.png"
                     alt="One World Solutions"

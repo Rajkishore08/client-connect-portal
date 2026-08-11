@@ -8,9 +8,17 @@
 const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 
 export interface SubmissionPayload {
-  category: string;
-  service: string;
-  fields: Record<string, string>;
+  category?: string;
+  service?: string;
+  serviceSlug?: string;
+  serviceTitle?: string;
+  applicantName?: string;
+  applicantEmail?: string;
+  phoneUsa?: string;
+  speedTierId?: string;
+  shippingOptionId?: string;
+  fileUrls?: string[];
+  fields?: Record<string, string | undefined>;
   fileNames?: string[];
 }
 
@@ -21,11 +29,13 @@ export async function submitServiceRequest(payload: SubmissionPayload) {
   return { ok: true as const, reference: `REF-${Math.floor(100000 + Math.random() * 899999)}` };
 }
 
-export async function uploadDocuments(files: File[]) {
+export async function uploadDocuments(files: any[]): Promise<string[]> {
   // TODO: replace with Supabase Storage upload
   console.info("[stub] uploadDocuments", files.map((f) => f.name));
   await delay(600);
-  return { ok: true as const };
+  return files.map(
+    (f, i) => f.dataUrl || `https://storage.oneworldsolutions.com/uploads/${Date.now()}-${i}-${f.name || "document"}`
+  );
 }
 
 export async function adminSignIn(email: string, password: string) {

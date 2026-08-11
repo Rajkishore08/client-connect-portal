@@ -1,9 +1,10 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { CheckCircle2, Megaphone, Search, Target, TrendingUp, Zap } from "lucide-react";
+import { ArrowRight, CheckCircle2, Megaphone, Search, Target, TrendingUp, Zap } from "lucide-react";
 
 import { MarketingPanel } from "@/components/site/CategoryExplorer";
 import { TrustBanner } from "@/components/site/SiteFooter";
 import { StepsBanner } from "@/components/site/StepsBanner";
+import { UniversalServiceIntakeForm } from "@/components/site/UniversalServiceIntakeForm";
 import { Badge } from "@/components/ui/badge";
 
 export const Route = createFileRoute("/digital-marketing")({
@@ -27,24 +28,28 @@ export const Route = createFileRoute("/digital-marketing")({
 
 const MARKETING_SERVICES = [
   {
+    id: "seo-authority",
     icon: Search,
     title: "Search Engine Optimization (SEO)",
     desc: "Dominate search rankings for high-intent keywords. Complete technical audit, on-page optimization, and authoritative backlink building.",
     tag: "High ROI",
   },
   {
+    id: "google-meta-ppc",
     icon: Target,
     title: "Google Ads & PPC Campaigns",
     desc: "Immediate targeted lead generation with optimized ad copy, negative keyword filters, and conversion-focused landing pages.",
     tag: "Instant Leads",
   },
   {
+    id: "cro-funnels",
     icon: TrendingUp,
     title: "Conversion Rate Optimization (CRO)",
     desc: "Turn existing website traffic into paying clients with behavioral heatmaps, A/B testing, and frictionless intake forms.",
     tag: "Revenue Boost",
   },
   {
+    id: "social-branding",
     icon: Megaphone,
     title: "Social Media & Brand Growth",
     desc: "Strategic content creation, multi-platform brand management, and targeted social ad campaigns designed for customer trust.",
@@ -97,27 +102,43 @@ function DigitalMarketingPage() {
         {MARKETING_SERVICES.map((item) => (
           <div
             key={item.title}
-            className="surface-card p-6 rounded-2xl border border-border/80 bg-card hover:border-primary/50 transition-all space-y-3 shadow-xs"
+            className="group p-6 rounded-2xl border border-border/80 bg-card hover:border-primary/50 transition-all space-y-4 shadow-xs flex flex-col justify-between"
           >
-            <div className="flex items-center justify-between">
-              <span className="h-10 w-10 rounded-xl bg-primary-soft text-primary font-bold grid place-items-center shadow-xs">
-                <item.icon className="h-5 w-5" />
-              </span>
-              <Badge variant="secondary" className="text-[10px] font-bold">
-                {item.tag}
-              </Badge>
+            <div className="space-y-3">
+              <div className="flex items-center justify-between">
+                <span className="h-10 w-10 rounded-xl bg-primary-soft text-primary font-bold grid place-items-center shadow-xs group-hover:scale-105 transition-transform">
+                  <item.icon className="h-5 w-5" />
+                </span>
+                <Badge variant="secondary" className="text-[10px] font-bold">
+                  {item.tag}
+                </Badge>
+              </div>
+              <h3 className="text-base font-extrabold text-foreground group-hover:text-primary transition-colors">{item.title}</h3>
+              <p className="text-xs leading-relaxed text-muted-foreground">{item.desc}</p>
             </div>
-            <h3 className="text-base font-extrabold text-foreground">{item.title}</h3>
-            <p className="text-xs leading-relaxed text-muted-foreground">{item.desc}</p>
+
+            <a
+              href="#marketing-intake"
+              className="pt-2 border-t border-slate-100 flex items-center justify-between text-xs font-bold text-primary hover:underline"
+            >
+              <span>Request Custom Growth Scope</span>
+              <ArrowRight className="h-3.5 w-3.5 group-hover:translate-x-1 transition-transform" />
+            </a>
           </div>
         ))}
       </section>
 
       <StepsBanner compact />
+
+      {/* Dedicated Interactive Digital Marketing Intake Form Section */}
+      <section id="marketing-intake" className="scroll-mt-24">
+        <UniversalServiceIntakeForm category="digital-marketing" />
+      </section>
+
       <TrustBanner />
 
       <section className="pt-2">
-        <h2 className="text-2xl font-black mb-4">Request a Custom Digital Marketing Plan</h2>
+        <h2 className="text-2xl font-black mb-4">Explore Digital Growth Capabilities</h2>
         <MarketingPanel />
       </section>
     </main>

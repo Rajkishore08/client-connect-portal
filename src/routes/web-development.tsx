@@ -37,6 +37,7 @@ import { useState } from "react";
 
 import { InteractiveCapabilitiesGallery } from "@/components/site/InteractiveCapabilitiesGallery";
 import { TrustBanner } from "@/components/site/SiteFooter";
+import { UniversalServiceIntakeForm } from "@/components/site/UniversalServiceIntakeForm";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -603,10 +604,13 @@ function WebDevelopmentPage() {
                   </p>
                 </div>
 
-                <div className="pt-3 border-t border-slate-100 flex items-center justify-between text-xs font-bold text-blue-600 group-hover:translate-x-1 transition-transform">
-                  <span>Explore Capabilities</span>
-                  <ArrowRight className="h-4 w-4" />
-                </div>
+                <a
+                  href="#intake-form"
+                  className="pt-3 border-t border-slate-100 flex items-center justify-between text-xs font-bold text-blue-600 hover:text-blue-700 transition-colors"
+                >
+                  <span>Request Proposal &amp; Scope Intake</span>
+                  <ArrowRight className="h-4 w-4 group-hover:translate-x-1 transition-transform" />
+                </a>
               </div>
             );
           })}
@@ -890,6 +894,11 @@ function WebDevelopmentPage() {
             </span>
           </div>
         </div>
+      </section>
+
+      {/* Dedicated Interactive Web Development Intake Form Section */}
+      <section id="intake-form" className="scroll-mt-24">
+        <UniversalServiceIntakeForm category="web-development" />
       </section>
 
       {/* Interactive FAQ Accordion */}
