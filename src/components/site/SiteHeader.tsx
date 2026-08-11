@@ -41,6 +41,8 @@ import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { OFFICE_LOCATION, PASSPORT_SERVICES } from "@/data/mock-data";
 import { useAuth } from "@/lib/auth-context";
 
+import { motion } from "framer-motion";
+
 export function SiteHeader() {
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
@@ -84,13 +86,32 @@ export function SiteHeader() {
         </div>
       </div>
 
-      {/* Main Capsule Header Container */}
-      <div className="px-3 sm:px-6 w-full flex justify-center pt-1.5 sm:pt-2">
-        <div
-          className={`pointer-events-auto transition-all duration-300 ease-out flex items-center justify-between w-full ${
-            scrolled
-              ? "max-w-[1120px] my-1.5 px-4 sm:px-6 py-2 rounded-full border border-slate-200/90 bg-white/85 backdrop-blur-xl shadow-xl shadow-slate-900/10"
-              : "max-w-[1440px] py-2.5 sm:py-3 px-2 sm:px-6 border-b border-border/80 bg-background/90 backdrop-blur-md"
+      {/* Main Capsule Header Container with Smooth Spring Layout Animation */}
+      <div className="px-3 sm:px-6 w-full flex justify-center">
+        <motion.div
+          layout
+          initial={false}
+          animate={{
+            maxWidth: scrolled ? "1120px" : "1440px",
+            borderRadius: scrolled ? "9999px" : "16px",
+            paddingTop: scrolled ? "8px" : "12px",
+            paddingBottom: scrolled ? "8px" : "12px",
+            paddingLeft: scrolled ? "24px" : "24px",
+            paddingRight: scrolled ? "24px" : "24px",
+            marginTop: scrolled ? "6px" : "4px",
+            backgroundColor: scrolled ? "rgba(255, 255, 255, 0.88)" : "rgba(255, 255, 255, 0.95)",
+            boxShadow: scrolled
+              ? "0 20px 30px -10px rgba(15, 23, 42, 0.12), 0 10px 15px -5px rgba(15, 23, 42, 0.08)"
+              : "0 1px 3px 0 rgba(0, 0, 0, 0.05)",
+          }}
+          transition={{
+            type: "spring",
+            stiffness: 260,
+            damping: 26,
+            mass: 0.7,
+          }}
+          className={`pointer-events-auto flex items-center justify-between w-full border backdrop-blur-xl ${
+            scrolled ? "border-slate-200/90" : "border-slate-200/60"
           }`}
         >
           {/* Brand Logo & Name */}
@@ -403,7 +424,7 @@ export function SiteHeader() {
             </div>
           </SheetContent>
         </Sheet>
-      </div>
+      </motion.div>
     </div>
   </header>
 );
