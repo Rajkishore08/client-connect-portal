@@ -1,4 +1,4 @@
-import { Bot, MessageCircle, Send, Sparkles, X } from "lucide-react";
+import { Bot, MessageCircle, RotateCcw, Send, Sparkles, X } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 
 import { Button } from "@/components/ui/button";
@@ -136,15 +136,28 @@ export function ChatWidget() {
               </p>
             </div>
           </div>
-          <Button
-            variant="ghost"
-            size="icon"
-            aria-label="Minimize chat"
-            onClick={() => setOpen(false)}
-            className="h-8 w-8 rounded-full text-slate-500 hover:bg-slate-100"
-          >
-            <X className="h-4.5 w-4.5" />
-          </Button>
+          <div className="flex items-center gap-1">
+            <Button
+              variant="ghost"
+              size="icon"
+              aria-label="Reset chat history"
+              title="Reset Conversation"
+              onClick={() => setMessages([GREETING])}
+              className="h-8 w-8 rounded-full text-slate-400 hover:text-slate-700 hover:bg-slate-100"
+            >
+              <RotateCcw className="h-3.5 w-3.5" />
+            </Button>
+
+            <Button
+              variant="ghost"
+              size="icon"
+              aria-label="Minimize chat"
+              onClick={() => setOpen(false)}
+              className="h-8 w-8 rounded-full text-slate-500 hover:bg-slate-100"
+            >
+              <X className="h-4.5 w-4.5" />
+            </Button>
+          </div>
         </div>
 
         {/* Messages Body */}
