@@ -1,4 +1,4 @@
-import { Check, Clock, Code2, Flame, Megaphone, ShieldAlert, Sparkles } from "lucide-react";
+import { Check, Clock, Code2, Flame, Megaphone, ShieldAlert, ShieldCheck, Sparkles, TrendingUp } from "lucide-react";
 import { useState } from "react";
 
 import { Button } from "@/components/ui/button";
@@ -27,52 +27,51 @@ export function TurnaroundEstimator() {
 
   return (
     <section className="glass-panel relative overflow-hidden p-6 sm:p-10 shadow-glass rounded-3xl border border-white/80">
-      <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-6 border-b border-border/60 pb-6">
-        <div className="space-y-2">
-          <div className="inline-flex items-center gap-1.5 rounded-full bg-primary-soft border border-primary/30 px-3 py-1 text-xs font-bold text-primary">
-            <Sparkles className="h-3.5 w-3.5" /> 3-Division Scope &amp; Speed Calculator
+      <div className="surface-card p-6 sm:p-8 space-y-6">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-border/60 pb-6">
+          <div>
+            <h2 className="text-xl font-bold text-foreground sm:text-2xl">Turnaround &amp; Scope Calculator</h2>
+            <p className="mt-1 text-xs text-muted-foreground">
+              Select your division and required urgency tier to calculate live completion estimates.
+            </p>
           </div>
-          <h2 className="text-2xl font-black sm:text-3xl text-foreground">Estimate Your Delivery Speed &amp; Timeline</h2>
-          <p className="text-sm text-muted-foreground font-normal max-w-xl">
-            Select a division below to estimate turnaround timelines and guaranteed delivery dates. Pricing is reviewed and finalized during your 1-on-1 consultation meeting after document review.
-          </p>
-        </div>
 
-        {/* Division Selector Tabs */}
-        <div className="flex items-center gap-1.5 rounded-2xl bg-white/70 p-1.5 border border-white/90 shadow-2xs backdrop-blur-md">
-          <button
-            type="button"
-            onClick={() => setActiveDivision("passport")}
-            className={`rounded-xl px-3.5 py-2 text-xs font-bold transition-all ${
-              activeDivision === "passport"
-                ? "bg-primary text-primary-foreground shadow-xs"
-                : "text-muted-foreground hover:text-foreground"
-            }`}
-          >
-            🛂 Passport &amp; Visa
-          </button>
-          <button
-            type="button"
-            onClick={() => setActiveDivision("web")}
-            className={`rounded-xl px-3.5 py-2 text-xs font-bold transition-all ${
-              activeDivision === "web"
-                ? "bg-primary text-primary-foreground shadow-xs"
-                : "text-muted-foreground hover:text-foreground"
-            }`}
-          >
-            💻 Software &amp; UI/UX
-          </button>
-          <button
-            type="button"
-            onClick={() => setActiveDivision("marketing")}
-            className={`rounded-xl px-3.5 py-2 text-xs font-bold transition-all ${
-              activeDivision === "marketing"
-                ? "bg-primary text-primary-foreground shadow-xs"
-                : "text-muted-foreground hover:text-foreground"
-            }`}
-          >
-            📈 Marketing &amp; SEO
-          </button>
+          {/* Division Switcher */}
+          <div className="flex items-center gap-1 rounded-2xl bg-muted/60 p-1.5 border border-border/60">
+            <button
+              type="button"
+              onClick={() => setActiveDivision("passport")}
+              className={`rounded-xl px-3 py-1.5 text-xs font-bold transition-all flex items-center gap-1.5 ${
+                activeDivision === "passport"
+                  ? "bg-primary text-primary-foreground shadow-xs"
+                  : "text-muted-foreground hover:text-foreground"
+              }`}
+            >
+              <ShieldCheck className="h-3.5 w-3.5 shrink-0" /> Passport &amp; Visa
+            </button>
+            <button
+              type="button"
+              onClick={() => setActiveDivision("web")}
+              className={`rounded-xl px-3 py-1.5 text-xs font-bold transition-all flex items-center gap-1.5 ${
+                activeDivision === "web"
+                  ? "bg-primary text-primary-foreground shadow-xs"
+                  : "text-muted-foreground hover:text-foreground"
+              }`}
+            >
+              <Code2 className="h-3.5 w-3.5 shrink-0" /> Software &amp; UI/UX
+            </button>
+            <button
+              type="button"
+              onClick={() => setActiveDivision("marketing")}
+              className={`rounded-xl px-3 py-1.5 text-xs font-bold transition-all flex items-center gap-1.5 ${
+                activeDivision === "marketing"
+                  ? "bg-primary text-primary-foreground shadow-xs"
+                  : "text-muted-foreground hover:text-foreground"
+              }`}
+            >
+              <TrendingUp className="h-3.5 w-3.5 shrink-0" /> Marketing &amp; SEO
+            </button>
+          </div>
         </div>
       </div>
 

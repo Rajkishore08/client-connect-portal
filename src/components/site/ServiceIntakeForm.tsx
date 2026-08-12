@@ -247,8 +247,8 @@ export function ServiceIntakeForm({ service }: { service: ServiceConfig }) {
                 )}
                 <div>
                   <div className="font-bold text-sm text-foreground">{tier.name}</div>
-                  <div className="mt-1 text-xs text-primary font-bold">
-                    ${tier.serviceFee} <span className="text-[10px] text-muted-foreground">service fee</span>
+                  <div className="mt-1 text-[11px] text-primary font-bold">
+                    Finalized in Consultation
                   </div>
                   <p className="mt-1.5 text-[11px] text-muted-foreground leading-tight">
                     {tier.description}

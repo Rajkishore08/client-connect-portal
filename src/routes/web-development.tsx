@@ -514,8 +514,8 @@ function WebDevelopmentPage() {
               metalness={0.0}
             />
             <div className="absolute bottom-3 left-3 right-3 bg-white/80 backdrop-blur-md px-3.5 py-2 rounded-xl border border-white/60 text-center pointer-events-none">
-              <p className="text-[11px] font-bold text-slate-700">
-                🤖 Move cursor or click to interact with our 3D AI Engineering Assistant
+              <p className="text-[11px] font-bold text-slate-700 flex items-center justify-center gap-1.5">
+                <Bot className="h-3.5 w-3.5 text-blue-600 shrink-0" /> Move cursor or click to interact with our 3D AI Engineering Assistant
               </p>
             </div>
           </div>

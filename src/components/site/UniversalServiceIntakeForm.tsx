@@ -91,17 +91,33 @@ const SERVICE_CATALOG = {
       { id: "evisa", name: "Global E-Visa Permit", desc: "India, UK ETA, Brazil & Kenya permit filing" },
     ],
     scopeOptions: ["Standard Adult", "Minor (Under 18)", "Spouse / Naturalized", "Emergency Hand Carry"],
-    budgetTiers: ["Standard ($149 Service)", "2–4 Day Expedited ($249 Service)", "24H Emergency Rush ($449 Service)"],
+    budgetTiers: ["Standard Expedited", "2–4 Day Expedited", "24H Emergency Rush (Custom Quote)"],
     timelines: ["24–48 Hours", "3–5 Days", "1–2 Weeks", "Standard Processing"],
   },
 };
 
 const TIME_SLOTS = [
+  "08:30 AM CST",
   "09:00 AM CST",
+  "09:30 AM CST",
+  "10:00 AM CST",
   "10:30 AM CST",
+  "11:00 AM CST",
+  "11:30 AM CST",
+  "12:00 PM CST",
+  "12:30 PM CST",
   "01:00 PM CST",
+  "01:30 PM CST",
+  "02:00 PM CST",
   "02:30 PM CST",
+  "03:00 PM CST",
+  "03:30 PM CST",
   "04:00 PM CST",
+  "04:30 PM CST",
+  "05:00 PM CST",
+  "05:30 PM CST",
+  "06:00 PM CST",
+  "06:30 PM CST",
 ];
 
 export function UniversalServiceIntakeForm({

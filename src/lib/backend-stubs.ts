@@ -84,7 +84,7 @@ export async function sendChatMessage(message: string, history: { role: string; 
   const refMatch = raw.match(/\b(OWS|REF|CHI)-[A-Z0-9-]+\b/i);
   if (refMatch) {
     const refId = refMatch[0].toUpperCase();
-    return `🔍 **Live Application Tracking Status for #${refId}:**
+    return `[TRACKING STATUS] **Live Application Tracking Status for #${refId}:**
 
 • **Current Phase:** VFS / Senior Audit Completed — Document Verified
 • **Processing Hub:** Chicago, Illinois USA Operations Desk
@@ -92,7 +92,7 @@ export async function sendChatMessage(message: string, history: { role: string; 
 • **Dispatch Status:** Scheduled for Direct Embassy Courier Handover
 • **Estimated Completion:** Within 24–48 Business Hours
 
-👉 Have urgent updates? Chat directly with your assigned specialist on WhatsApp Business at **+1 (417) 569-0711**.`;
+[NEXT STEPS] Have urgent updates? Chat directly with your assigned specialist on WhatsApp Business at **+1 (417) 569-0711**.`;
   }
 
   // Edge Case 1: Greetings & Casual Conversational Inputs
@@ -105,23 +105,23 @@ export async function sendChatMessage(message: string, history: { role: string; 
     text.startsWith("who are you") ||
     text.startsWith("what can you do")
   ) {
-    return `Hello! 👋 I am the **One World Solutions AI Concierge**. I can immediately assist you with:
+    return `Hello! I am the **One World Solutions AI Concierge**. I can immediately assist you with:
 
-1. 🌐 **Web Development & SaaS Platforms** (React, Next.js, AI Agents, Vector Search, MVP Sprints)
-2. 📈 **Digital Marketing & Growth** (Technical SEO, Google/Meta PPC Ads, CRO Funnels, Analytics)
-3. 🛂 **Passport & Visa Services** (24-Hour Emergency Intake, Renewals, OCI & Surrender)
+1. **Web Development & SaaS Platforms** (React, Next.js, AI Agents, Vector Search, MVP Sprints)
+2. **Digital Marketing & Growth** (Technical SEO, Google/Meta PPC Ads, CRO Funnels, Analytics)
+3. **Passport & Visa Services** (24-Hour Emergency Intake, Renewals, OCI & Surrender)
 
 How can I assist your business or travel needs today? You can also message us directly on WhatsApp Business at **+1 (417) 569-0711**.`;
   }
 
   // Edge Case 2: Thanks / Gratitude
   if (text.includes("thank") || text.includes("thanks") || text.includes("great") || text.includes("awesome")) {
-    return "You're very welcome! 😊 If you need further assistance with your application or project scoping, feel free to ask or connect with us on WhatsApp at **+1 (417) 569-0711**.";
+    return "You are very welcome! If you need further assistance with your application or project scoping, feel free to ask or connect with us on WhatsApp at **+1 (417) 569-0711**.";
   }
 
   // Edge Case 3: Web Dev — AI Agents & RAG Vector Engine
   if (text.includes("ai agent") || text.includes("rag") || text.includes("vector") || text.includes("llm") || text.includes("bot")) {
-    return `🤖 **AI Agent & RAG Engineering Capability:**
+    return `[AI DIVISION] **AI Agent & RAG Engineering Capability:**
 
 We design autonomous AI agents and Retrieval-Augmented Generation (RAG) vector engines:
 
@@ -129,19 +129,19 @@ We design autonomous AI agents and Retrieval-Augmented Generation (RAG) vector e
 • **Use Cases:** Automated document search, 24/7 intelligent client intake bots, multi-modal file parsing, and customer support automation.
 • **Security:** Enterprise data privacy, strict API key isolation, and SOC-2 compliant vector indexing.
 
-👉 Request an AI architecture consultation on our **Web Development** page or chat on WhatsApp at **+1 (417) 569-0711**.`;
+[NEXT STEPS] Request an AI architecture consultation on our **Web Development** page or chat on WhatsApp at **+1 (417) 569-0711**.`;
   }
 
   // Edge Case 4: Web Dev — Tech Stack, IP & Source Code Buyout Policy
   if (text.includes("stack") || text.includes("ownership") || text.includes("nda") || text.includes("github") || text.includes("buyout") || text.includes("ip")) {
-    return `💻 **Tech Stack, IP Ownership & NDA Terms:**
+    return `[TECH SPEC] **Tech Stack, IP Ownership & NDA Terms:**
 
 • **Core Framework:** React 19, Next.js (App Router), TypeScript, Tailwind CSS, Python / FastAPI, PostgreSQL & Supabase.
 • **IP Ownership:** 100% Master GitHub repository control delivered upon project completion.
 • **NDA Protection:** All project briefs, user data, and commercial source code are protected under strict Non-Disclosure Agreements.
 • **Source Code Buyout:** Standard plans include cloud deployment. Complete source code buyout & IP transfer is available at **2x (double)** the project base estimate.
 
-👉 Submit your PRD or project brief on the **Web Development** page to receive a formal proposal.`;
+[NEXT STEPS] Submit your PRD or project brief on the **Web Development** page to receive a formal proposal.`;
   }
 
   // Edge Case 5: Web Dev General & App Building
@@ -154,18 +154,18 @@ We design autonomous AI agents and Retrieval-Augmented Generation (RAG) vector e
     text.includes("mobile") ||
     text.includes("redesign")
   ) {
-    return `🚀 **Web Development & Custom Software Services:**
+    return `[WEB DIVISION] **Web Development & Custom Software Services:**
 
 • **Full-Stack Web Apps:** High-converting corporate web portals, SaaS platforms, and dynamic web applications.
 • **Mobile Applications:** Cross-platform iOS & Android mobile apps with offline synchronization.
 • **Rapid MVP Launch:** Prototype to production launch in 2–4 week sprints.
 
-👉 Request a custom scope intake directly on our **Web Development** page.`;
+[NEXT STEPS] Request a custom scope intake directly on our **Web Development** page.`;
   }
 
   // Edge Case 6: Digital Marketing — Technical SEO & Keyword Ranking
   if (text.includes("seo") || text.includes("keyword") || text.includes("backlink") || text.includes("rank")) {
-    return `🔍 **Search Engine Optimization (SEO) Division:**
+    return `[SEO DIVISION] **Search Engine Optimization (SEO) Division:**
 
 We deliver top-tier Google rankings for high-intent business terms:
 
@@ -173,93 +173,93 @@ We deliver top-tier Google rankings for high-intent business terms:
 • **On-Page & Off-Page:** Semantic keyword optimization, authoritative backlink building, and content velocity engines.
 • **Local & Global SEO:** Dominate Chicago local listings and nationwide commercial queries.
 
-👉 Request a complimentary SEO audit on our **Digital Marketing** page.`;
+[NEXT STEPS] Request a complimentary SEO audit on our **Digital Marketing** page.`;
   }
 
   // Edge Case 7: Digital Marketing — Paid Ads (PPC) & Google/Meta Campaigns
   if (text.includes("ppc") || text.includes("ads") || text.includes("google ad") || text.includes("facebook") || text.includes("meta")) {
-    return `🎯 **Google Ads & PPC Campaign Management:**
+    return `[PPC DIVISION] **Google Ads & PPC Campaign Management:**
 
 • **High-ROI Ad Sprints:** Targeted Google Search, Display, and Meta PPC ad campaigns engineered for instant lead acquisition.
 • **Negative Keyword Filters:** Strict negative keyword filtering to eliminate wasted budget and maximize Return On Ad Spend (ROAS).
 • **Conversion Landing Pages:** Custom high-converting landing page funnels paired with live tracking pixel analytics.
 
-👉 Request a PPC audit on our **Digital Marketing** page or call **+1 (417) 569-0711**.`;
+[NEXT STEPS] Request a PPC audit on our **Digital Marketing** page or call **+1 (417) 569-0711**.`;
   }
 
   // Edge Case 8: Digital Marketing General & ROI Analytics
   if (text.includes("marketing") || text.includes("cro") || text.includes("funnel") || text.includes("growth") || text.includes("lead")) {
-    return `📈 **Digital Growth & Performance Division:**
+    return `[GROWTH DIVISION] **Digital Growth & Performance Division:**
 
 • **Average Client ROI:** 3.4x measurable revenue growth across client portfolios.
 • **Conversion Rate Optimization:** Heatmap behavioral analysis, A/B testing, and intake optimization.
 • **No Long-Term Contracts:** Flexible monthly growth sprints with live analytics dashboards.
 
-👉 Submit your campaign targets on our **Digital Marketing** page.`;
+[NEXT STEPS] Submit your campaign targets on our **Digital Marketing** page.`;
   }
 
   // Edge Case 9: Passport — 24-Hour Emergency Rush & Lost/Stolen Passport
   if (text.includes("24") || text.includes("emergency") || text.includes("urgent") || text.includes("lost") || text.includes("stolen")) {
-    return `🚨 **24-Hour Emergency Rush & Lost Passport Intake:**
+    return `[URGENT INTAKE] **24-Hour Emergency Rush & Lost Passport Intake:**
 
 • **24H Emergency Rush:** Complete end-to-end application processing, form preparation, and document pre-audit completed within 24 hours.
 • **Lost/Stolen Passport:** Requires police report, surviving photo ID, and updated photos. Flagged for immediate priority concierge handling.
 • **Direct Embassy Dispatch:** Completed passport & visa documents are dispatched directly to your registered address by official consulate couriers.
 
-👉 Start your rush filing on our **Passport Services** page or call **+1 (417) 569-0711**.`;
+[NEXT STEPS] Start your rush filing on our **Passport Services** page or call **+1 (417) 569-0711**.`;
   }
 
   // Edge Case 10: Passport — OCI & Renunciation / Surrender Certificate
   if (text.includes("oci") || text.includes("renunciation") || text.includes("surrender")) {
-    return `🛂 **OCI & Passport Surrender Concierge:**
+    return `[PASSPORT DIVISION] **OCI & Passport Surrender Concierge:**
 
 • **OCI Card Requirements:** Naturalization certificate, old Indian passport (all pages), US passport copy, photos & US proof of address.
 • **Renunciation / Surrender:** Indian passport surrender certificate filing in compliance with consulate guidelines.
 • **Turnaround:** Full guided form audit to prevent rejection delays.
 
-👉 Review document checklists on our **OCI & Renunciation** service pages.`;
+[NEXT STEPS] Review document checklists on our **OCI & Renunciation** service pages.`;
   }
 
   // Edge Case 11: Passport & Visa General / E-Visas
   if (text.includes("passport") || text.includes("visa") || text.includes("evisa") || text.includes("renewal")) {
-    return `🛂 **Passport & Visa Services:**
+    return `[PASSPORT DIVISION] **Passport & Visa Services:**
 
 • **Passport Renewals:** US & Indian passport renewal assistance with guided form preparation.
 • **Global E-Visas:** Fast electronic visa processing for India, UK ETA, Brazil, Kenya, and Vietnam.
 • **Direct Embassy Shipping:** Finished passports are delivered directly to your registered address by official embassy couriers.
 
-👉 Select your exact service on our **Passport Services** page.`;
+[NEXT STEPS] Select your exact service on our **Passport Services** page.`;
   }
 
   // Edge Case 12: Pricing, Fees & Scoping Policy
   if (text.includes("fee") || text.includes("cost") || text.includes("price") || text.includes("quote")) {
-    return `💰 **Transparent Pricing & Fee Structure:**
+    return `[PRICING POLICY] **Transparent Pricing & Fee Structure:**
 
 • **Custom Proposals:** Quotes are provided after reviewing your specific intake document or project scope.
 • **Government & Consulate Fees:** Official government and embassy fees are paid directly to those authorities.
 • **No Hidden Fees:** 100% upfront quote guarantee before work begins.
 
-👉 Book a free 30-minute scoping call on our **Book Consultation** page or WhatsApp **+1 (417) 569-0711**.`;
+[NEXT STEPS] Book a free 30-minute scoping call on our **Book Consultation** page or WhatsApp **+1 (417) 569-0711**.`;
   }
 
   // Edge Case 13: Location, Contact & Booking
   if (text.includes("book") || text.includes("consult") || text.includes("location") || text.includes("address") || text.includes("phone") || text.includes("whatsapp")) {
-    return `📍 **Office & Direct Contact Details:**
+    return `[CONTACT INFO] **Office & Direct Contact Details:**
 
 • **Location:** Chicago, Illinois USA.
 • **WhatsApp Business:** **+1 (417) 569-0711** (Direct instant chat).
 • **Phone Hotline:** **+1 (417) 569-0711**.
 • **Walk-Ins:** Walk-ins welcome at our Chicago location. Scheduling a consultation ensures dedicated specialist time.
 
-👉 Reserve a time slot on our **Book Consultation** page.`;
+[NEXT STEPS] Reserve a time slot on our **Book Consultation** page.`;
   }
 
   // Default Intelligent Fallback Response
-  return `I've received your request! I am the **One World Solutions AI Concierge**. Here is how we can immediately assist you:
+  return `I have received your request! I am the **One World Solutions AI Concierge**. Here is how we can immediately assist you:
 
-1. 🌐 **Web Development & Custom Software:** Custom Web Apps, Enterprise SaaS, AI Agents, RAG Vector Search & UI/UX.
-2. 📈 **Digital Marketing & Growth:** SEO Keyword Ranking, Google/Meta PPC Ads, CRO Funnels & 3.4x ROI Sprints.
-3. 🛂 **Passport & Visa Concierge:** 24-Hour Emergency Rush, Renewals, OCI Cards & Renunciation.
+1. **Web Development & Custom Software:** Custom Web Apps, Enterprise SaaS, AI Agents, RAG Vector Search & UI/UX.
+2. **Digital Marketing & Growth:** SEO Keyword Ranking, Google/Meta PPC Ads, CRO Funnels & 3.4x ROI Sprints.
+3. **Passport & Visa Concierge:** 24-Hour Emergency Rush, Renewals, OCI Cards & Renunciation.
 
 How can I help you today? Feel free to ask a specific question or message us directly on WhatsApp Business at **+1 (417) 569-0711**.`;
 }
