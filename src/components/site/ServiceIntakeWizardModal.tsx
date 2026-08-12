@@ -446,7 +446,7 @@ export function ServiceIntakeWizardModal({
                   <Input
                     id="wiz-phone"
                     required
-                    placeholder="+1 (312) 000-0000"
+                    placeholder="+1 (417) 569-0711"
                     value={phone}
                     onChange={(e) => {
                       setPhone(e.target.value);

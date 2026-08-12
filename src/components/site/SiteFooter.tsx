@@ -114,7 +114,7 @@ export function SiteFooter() {
 
         <div className="mt-12 pt-6 border-t border-border/60 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-muted-foreground">
           <p>© {new Date().getFullYear()} One World Solutions. All rights reserved.</p>
-          <p className="text-[11px]">Chicago HQ Office • Expedited Intake &amp; Digital Agency</p>
+          <p className="text-[11px]">Chicago, Illinois USA • Expedited Intake &amp; Digital Agency</p>
         </div>
       </div>
     </footer>

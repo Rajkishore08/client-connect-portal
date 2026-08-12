@@ -583,7 +583,7 @@ export const SPEED_TIERS: SpeedTier[] = [
     serviceFee: 349,
     govFee: 209.50,
     emergency: true,
-    description: "For immediate travel within 24–48 hours. Direct priority concierge handler.",
+    description: "End-to-end application processing and form filling within 24 hrs. Direct priority concierge handler.",
   },
   {
     id: "express",
@@ -627,7 +627,9 @@ export const SHIPPING_OPTIONS: ShippingOption[] = [
 
 export const OFFICE_LOCATION = {
   address: "180 N LaSalle St #106, Chicago, IL 60601, USA",
-  phone: "+1 (312) 925-3278",
+  phone: "+1 (417) 569-0711",
+  whatsapp: "+1 (417) 569-0711",
+  whatsappLink: "https://wa.me/14175690711",
   email: "support@oneworldsolutions.com",
   hours: "Mon-Fri: 8:30 AM - 5:00 PM | Sat: 10:00 AM - 2:00 PM",
   walkInStatus: "Walk-Ins Welcome — No Appointment Required",

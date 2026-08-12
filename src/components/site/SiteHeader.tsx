@@ -11,6 +11,7 @@ import {
   MapPin,
   Megaphone,
   Menu,
+  MessageSquare,
   Phone,
   PhoneCall,
   Plane,
@@ -67,17 +68,24 @@ export function SiteHeader() {
       >
         <div className="mx-auto flex max-w-[1440px] items-center justify-between gap-2 text-[10px] sm:text-xs px-1 sm:px-6 lg:px-10">
           <div className="flex items-center gap-2">
-            <span className="inline-flex items-center gap-1 font-medium truncate">
-              <MapPin className="h-3 w-3 text-primary shrink-0" /> Chicago HQ
-            </span>
-            <span className="hidden md:inline-flex items-center gap-1.5 text-slate-400">
-              <Clock className="h-3.5 w-3.5 text-slate-400" /> Open Today (9AM - 6PM)
+            <span className="inline-flex items-center gap-1 font-bold text-white truncate">
+              <MapPin className="h-3 w-3 text-primary shrink-0" /> Chicago, Illinois USA
             </span>
           </div>
-          <div className="flex items-center gap-2 shrink-0">
+          <div className="flex items-center gap-2 sm:gap-4 shrink-0">
+            <a
+              href="https://wa.me/14175690711"
+              target="_blank"
+              rel="noreferrer"
+              className="flex items-center gap-1 font-bold text-emerald-400 hover:text-emerald-300 transition-colors text-[10px] sm:text-xs"
+            >
+              <MessageSquare className="h-3 w-3 text-emerald-400 shrink-0" />
+              <span>WhatsApp: +1 (417) 569-0711</span>
+            </a>
+            <span className="hidden sm:inline text-slate-700">|</span>
             <a
               href={`tel:${OFFICE_LOCATION.phone.replace(/[^0-9+]/g, "")}`}
-              className="flex items-center gap-1 font-bold text-white hover:text-primary transition-colors text-[10px] sm:text-xs"
+              className="hidden sm:flex items-center gap-1 font-bold text-white hover:text-primary transition-colors text-[10px] sm:text-xs"
             >
               <PhoneCall className="h-3 w-3 text-primary shrink-0" />
               <span>{OFFICE_LOCATION.phone}</span>

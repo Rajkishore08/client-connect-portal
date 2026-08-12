@@ -1,5 +1,5 @@
 import { format } from "date-fns";
-import { CalendarCheck, CheckCircle2, Clock, Loader2 } from "lucide-react";
+import { CalendarCheck, CheckCircle2, Clock, Loader2, MessageCircle } from "lucide-react";
 import { useState } from "react";
 
 import { Button } from "@/components/ui/button";
@@ -66,6 +66,25 @@ export function BookingWidget() {
 
   return (
     <form onSubmit={submit} className="grid gap-6 lg:grid-cols-2">
+      <div className="lg:col-span-2 rounded-2xl bg-emerald-50 border border-emerald-200 p-4 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs">
+        <div className="flex items-center gap-3">
+          <span className="h-10 w-10 rounded-xl bg-emerald-600 text-white grid place-items-center font-bold shrink-0">
+            <MessageCircle className="h-5 w-5" />
+          </span>
+          <div>
+            <p className="font-extrabold text-slate-900 text-sm">Need Urgent Assistance?</p>
+            <p className="text-slate-600">Chat directly with our team on WhatsApp Business for instant document guidance.</p>
+          </div>
+        </div>
+        <a
+          href="https://wa.me/14175690711"
+          target="_blank"
+          rel="noreferrer"
+          className="rounded-full bg-emerald-600 hover:bg-emerald-700 text-white px-5 py-2 font-bold text-xs shrink-0 transition-transform active:scale-95 shadow-sm"
+        >
+          WhatsApp: +1 (417) 569-0711
+        </a>
+      </div>
       <div className="surface-card p-4 sm:p-6">
         <h3 className="flex items-center gap-2 text-base font-semibold">
           <CalendarCheck className="h-4.5 w-4.5 text-primary" /> Pick a date

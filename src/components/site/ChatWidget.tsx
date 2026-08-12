@@ -11,21 +11,36 @@ interface ChatMessage {
   text: string;
 }
 
-const QUICK_REPLIES = [
-  "Track my application",
-  "I lost my passport",
-  "Book a consultation",
-  "What are the fees?",
-];
+const PILLAR_QUICK_REPLIES = {
+  web: [
+    "Build a Custom Web App / SaaS",
+    "AI Agents & RAG Engine Scoping",
+    "Tech Stack & Development Cost",
+    "UI/UX Redesign & MVP Launch",
+  ],
+  marketing: [
+    "Request Free Technical SEO Audit",
+    "High-ROI Google & Meta PPC Ads",
+    "Conversion Rate Optimization (CRO)",
+    "Monthly ROI & Lead Analytics",
+  ],
+  passport: [
+    "24-Hour Emergency Rush Intake",
+    "Expedited Passport Renewal Checklist",
+    "OCI Application Requirements",
+    "Track Active Filing Status",
+  ],
+};
 
 const GREETING: ChatMessage = {
   id: "greeting",
   role: "assistant",
-  text: "Hi! I'm the One World Solutions AI assistant. I can help with document checklists, application tracking, custom software intake, or booking a consultation. How can I assist you today?",
+  text: "Hello! I am the One World Solutions AI Concierge. Select a division below (Web Development, Digital Marketing, or Passport Services) or ask any question for an instant in-depth technical analysis.",
 };
 
 export function ChatWidget() {
   const [open, setOpen] = useState(false);
+  const [activePillar, setActivePillar] = useState<"web" | "marketing" | "passport">("web");
   const [messages, setMessages] = useState<ChatMessage[]>([GREETING]);
   const [input, setInput] = useState("");
   const [typing, setTyping] = useState(false);
@@ -163,13 +178,64 @@ export function ChatWidget() {
 
         {/* Quick Suggestions & Input Bar */}
         <div className="space-y-3 border-t border-slate-100 bg-white p-3.5">
-          <div className="flex flex-wrap gap-1.5">
-            {QUICK_REPLIES.map((q) => (
+          <a
+            href="https://wa.me/14175690711"
+            target="_blank"
+            rel="noreferrer"
+            className="flex items-center justify-between rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white px-3.5 py-2 text-xs font-bold transition-all shadow-sm group"
+          >
+            <span className="flex items-center gap-2">
+              <MessageCircle className="h-4 w-4 fill-white text-emerald-600 group-hover:scale-110 transition-transform" />
+              <span>Chat on WhatsApp Business</span>
+            </span>
+            <span className="text-[10px] bg-emerald-800/60 px-2 py-0.5 rounded-md font-mono">+1 (417) 569-0711</span>
+          </a>
+
+          {/* Division Selector Tabs */}
+          <div className="flex items-center gap-1 border-b border-slate-100 pb-2 overflow-x-auto no-scrollbar">
+            <button
+              type="button"
+              onClick={() => setActivePillar("web")}
+              className={`px-2.5 py-1 rounded-lg text-[11px] font-extrabold whitespace-nowrap transition-all cursor-pointer ${
+                activePillar === "web"
+                  ? "bg-blue-600 text-white shadow-xs"
+                  : "bg-slate-100 text-slate-600 hover:bg-slate-200"
+              }`}
+            >
+              🌐 Web Dev &amp; AI
+            </button>
+            <button
+              type="button"
+              onClick={() => setActivePillar("marketing")}
+              className={`px-2.5 py-1 rounded-lg text-[11px] font-extrabold whitespace-nowrap transition-all cursor-pointer ${
+                activePillar === "marketing"
+                  ? "bg-purple-600 text-white shadow-xs"
+                  : "bg-slate-100 text-slate-600 hover:bg-slate-200"
+              }`}
+            >
+              📈 Marketing &amp; SEO
+            </button>
+            <button
+              type="button"
+              onClick={() => setActivePillar("passport")}
+              className={`px-2.5 py-1 rounded-lg text-[11px] font-extrabold whitespace-nowrap transition-all cursor-pointer ${
+                activePillar === "passport"
+                  ? "bg-emerald-600 text-white shadow-xs"
+                  : "bg-slate-100 text-slate-600 hover:bg-slate-200"
+              }`}
+            >
+              🛂 Passport &amp; Visa
+            </button>
+          </div>
+
+          {/* Dynamic Quick Prompt Chips */}
+          <div className="flex flex-wrap gap-1.5 pt-1">
+            {PILLAR_QUICK_REPLIES[activePillar].map((q) => (
               <button
                 key={q}
                 type="button"
                 onClick={() => send(q)}
-                className="rounded-xl border border-slate-200 bg-slate-50 px-2.5 py-1 text-[11px] font-medium text-slate-700 hover:border-primary/50 hover:bg-primary-soft hover:text-primary transition-all"
+                className="rounded-xl border border-slate-200 bg-slate-50 px-2.5 py-1 text-[11px] font-semibold text-slate-700 hover:border-blue-500 hover:bg-blue-50 hover:text-blue-600 transition-all cursor-pointer"
               >
                 {q}
               </button>

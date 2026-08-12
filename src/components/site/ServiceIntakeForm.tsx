@@ -19,7 +19,6 @@ import { Textarea } from "@/components/ui/textarea";
 import {
   CONFIRMATION_COPY,
   SHARED_APPLICANT_FIELDS,
-  SHIPPING_OPTIONS,
   SPEED_TIERS,
   type ServiceConfig,
   type ServiceField,
@@ -102,7 +101,6 @@ export function ServiceIntakeForm({ service }: { service: ServiceConfig }) {
   const [values, setValues] = useState<Record<string, string>>({});
   const [files, setFiles] = useState<LocalFile[]>([]);
   const [selectedTier, setSelectedTier] = useState<SpeedTier>(defaultTier);
-  const [shippingId, setShippingId] = useState<string>("fedex-overnight");
   const [status, setStatus] = useState<"idle" | "saving" | "done" | "error">("idle");
   const [reference, setReference] = useState("");
 
@@ -119,7 +117,7 @@ export function ServiceIntakeForm({ service }: { service: ServiceConfig }) {
         fields: {
           ...values,
           speedTier: selectedTier.name,
-          shippingMethod: shippingId,
+          shippingMethod: "direct-embassy-dispatch",
         },
         fileNames: files.map((f) => f.name),
       });
@@ -292,40 +290,12 @@ export function ServiceIntakeForm({ service }: { service: ServiceConfig }) {
           </>
         )}
 
-        {/* 4. Shipping / Delivery Method */}
-        <div className="mt-8">
-          <h3 className="text-base font-semibold flex items-center gap-2">
-            <Truck className="h-4 w-4 text-primary" /> Return Delivery &amp; Shipping Option
-          </h3>
-          <p className="mt-1 text-xs text-muted-foreground">
-            Select how you would like your completed document delivered.
+        {/* Direct Embassy Delivery Note */}
+        <div className="mt-8 rounded-2xl border border-blue-100 bg-blue-50/60 p-4 text-xs flex items-center gap-3">
+          <Truck className="h-5 w-5 text-primary shrink-0" />
+          <p className="text-slate-700 leading-relaxed font-medium">
+            <strong>Direct Embassy Delivery Notice:</strong> Completed passport &amp; visa documents are dispatched directly to your registered address by the official embassy / consulate courier.
           </p>
-
-          <div className="mt-3 grid gap-2.5 sm:grid-cols-3">
-            {SHIPPING_OPTIONS.map((ship) => (
-              <label
-                key={ship.id}
-                className={`flex cursor-pointer items-start gap-3 rounded-xl border p-3 text-xs transition-all ${
-                  shippingId === ship.id
-                    ? "border-primary bg-primary-soft/40 shadow-xs"
-                    : "border-border bg-background"
-                }`}
-              >
-                <input
-                  type="radio"
-                  name="shipping"
-                  value={ship.id}
-                  checked={shippingId === ship.id}
-                  onChange={() => setShippingId(ship.id)}
-                  className="mt-0.5"
-                />
-                <div>
-                  <div className="font-bold text-foreground">{ship.name}</div>
-                  <div className="mt-0.5 text-muted-foreground">${ship.fee} • {ship.estimatedTime}</div>
-                </div>
-              </label>
-            ))}
-          </div>
         </div>
 
         {/* 5. Document Upload */}

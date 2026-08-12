@@ -132,7 +132,7 @@ function Home() {
               {/* Top Trust Badge */}
               <div className="glass-pill max-w-full inline-flex items-center gap-2 px-4 py-1.5 text-xs font-bold text-slate-800 backdrop-blur-md bg-white/80 border border-blue-200/80 shadow-2xs rounded-full">
                 <Building className="h-3.5 w-3.5 text-primary shrink-0" />
-                <span className="truncate font-bold text-slate-800">Chicago HQ • Global Operations</span>
+                <span className="truncate font-bold text-slate-800">Chicago, Illinois USA • Global Operations</span>
               </div>
 
               {/* Transformation Headline - Exact Lovable Typography & Color Breakdown */}

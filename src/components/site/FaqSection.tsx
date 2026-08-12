@@ -24,8 +24,8 @@ const FAQS = [
     pillar: "Digital Marketing",
   },
   {
-    q: "Can I walk into your Chicago HQ office without an appointment?",
-    a: "Walk-ins are always welcome during our regular office hours (Monday – Friday, 9:00 AM – 6:00 PM CST). However, scheduling a 30-minute consultation ensures dedicated specialist time for your case.",
+    q: "Can I walk into your Chicago office without an appointment?",
+    a: "Walk-ins are always welcome at our Chicago, Illinois USA location. However, scheduling a 30-minute consultation ensures dedicated specialist time for your case.",
     pillar: "General Intake",
   },
   {
