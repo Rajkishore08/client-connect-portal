@@ -14,6 +14,7 @@ import { Route as AccountRouteImport } from './routes/account'
 import { Route as AdminRouteImport } from './routes/admin'
 import { Route as BookRouteImport } from './routes/book'
 import { Route as DigitalMarketingRouteImport } from './routes/digital-marketing'
+import { Route as EmployeePortalRouteImport } from './routes/employee-portal'
 import { Route as PassportRouteImport } from './routes/passport'
 import { Route as PrivacyRouteImport } from './routes/privacy'
 import { Route as TermsRouteImport } from './routes/terms'
@@ -47,6 +48,11 @@ const BookRoute = BookRouteImport.update({
 const DigitalMarketingRoute = DigitalMarketingRouteImport.update({
   id: '/digital-marketing',
   path: '/digital-marketing',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const EmployeePortalRoute = EmployeePortalRouteImport.update({
+  id: '/employee-portal',
+  path: '/employee-portal',
   getParentRoute: () => rootRouteImport,
 } as any)
 const PassportRoute = PassportRouteImport.update({
@@ -101,6 +107,7 @@ export interface FileRoutesByFullPath {
   '/admin': typeof AdminRoute
   '/book': typeof BookRoute
   '/digital-marketing': typeof DigitalMarketingRoute
+  '/employee-portal': typeof EmployeePortalRoute
   '/passport': typeof PassportRouteWithChildren
   '/privacy': typeof PrivacyRoute
   '/terms': typeof TermsRoute
@@ -117,6 +124,7 @@ export interface FileRoutesByTo {
   '/admin': typeof AdminRoute
   '/book': typeof BookRoute
   '/digital-marketing': typeof DigitalMarketingRoute
+  '/employee-portal': typeof EmployeePortalRoute
   '/privacy': typeof PrivacyRoute
   '/terms': typeof TermsRoute
   '/track': typeof TrackRoute
@@ -133,6 +141,7 @@ export interface FileRoutesById {
   '/admin': typeof AdminRoute
   '/book': typeof BookRoute
   '/digital-marketing': typeof DigitalMarketingRoute
+  '/employee-portal': typeof EmployeePortalRoute
   '/passport': typeof PassportRouteWithChildren
   '/privacy': typeof PrivacyRoute
   '/terms': typeof TermsRoute
@@ -151,6 +160,7 @@ export interface FileRouteTypes {
     | '/admin'
     | '/book'
     | '/digital-marketing'
+    | '/employee-portal'
     | '/passport'
     | '/privacy'
     | '/terms'
@@ -167,6 +177,7 @@ export interface FileRouteTypes {
     | '/admin'
     | '/book'
     | '/digital-marketing'
+    | '/employee-portal'
     | '/privacy'
     | '/terms'
     | '/track'
@@ -182,6 +193,7 @@ export interface FileRouteTypes {
     | '/admin'
     | '/book'
     | '/digital-marketing'
+    | '/employee-portal'
     | '/passport'
     | '/privacy'
     | '/terms'
@@ -199,6 +211,7 @@ export interface RootRouteChildren {
   AdminRoute: typeof AdminRoute
   BookRoute: typeof BookRoute
   DigitalMarketingRoute: typeof DigitalMarketingRoute
+  EmployeePortalRoute: typeof EmployeePortalRoute
   PassportRoute: typeof PassportRouteWithChildren
   PrivacyRoute: typeof PrivacyRoute
   TermsRoute: typeof TermsRoute
@@ -243,6 +256,13 @@ declare module '@tanstack/react-router' {
       path: '/digital-marketing'
       fullPath: '/digital-marketing'
       preLoaderRoute: typeof DigitalMarketingRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/employee-portal': {
+      id: '/employee-portal'
+      path: '/employee-portal'
+      fullPath: '/employee-portal'
+      preLoaderRoute: typeof EmployeePortalRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/passport': {
@@ -331,6 +351,7 @@ const rootRouteChildren: RootRouteChildren = {
   AdminRoute: AdminRoute,
   BookRoute: BookRoute,
   DigitalMarketingRoute: DigitalMarketingRoute,
+  EmployeePortalRoute: EmployeePortalRoute,
   PassportRoute: PassportRouteWithChildren,
   PrivacyRoute: PrivacyRoute,
   TermsRoute: TermsRoute,

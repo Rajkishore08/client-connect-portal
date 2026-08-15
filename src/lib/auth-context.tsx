@@ -1,6 +1,8 @@
 import { createContext, useContext, useEffect, useState, type ReactNode } from "react";
 import { toast } from "sonner";
 
+import { signInWithEmail, signInWithGoogle, signOutUser, signUpWithEmail, supabase } from "@/lib/supabase";
+
 export interface UserProfile {
   id: string;
   name: string;
@@ -122,24 +124,7 @@ const STORAGE_KEY_APPS = "ows_portal_apps";
 const STORAGE_KEY_NOTIFS = "ows_portal_notifs";
 
 export function AuthProvider({ children }: { children: ReactNode }) {
-  const [user, setUser] = useState<UserProfile | null>(() => {
-    if (typeof window === "undefined") return null;
-    const stored = localStorage.getItem(STORAGE_KEY_USER);
-    if (stored) {
-      try {
-        return JSON.parse(stored);
-      } catch {}
-    }
-    // Default demo logged-in user so the user can immediately test sessions if desired
-    return {
-      id: "usr-demo-01",
-      name: "Raj",
-      email: "raj@example.com",
-      avatar: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=200",
-      provider: "google",
-      createdAt: "2026-01-15",
-    };
-  });
+  const [user, setUser] = useState<UserProfile | null>(null);
 
   const [applications, setApplications] = useState<SavedApplication[]>(() => {
     if (typeof window === "undefined") return DEFAULT_MOCK_APPLICATIONS;
@@ -163,64 +148,98 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     return DEFAULT_NOTIFICATIONS;
   });
 
+  // Clear obsolete demo user key if present
   useEffect(() => {
-    if (user) {
-      localStorage.setItem(STORAGE_KEY_USER, JSON.stringify(user));
-    } else {
-      localStorage.removeItem(STORAGE_KEY_USER);
+    if (typeof window !== "undefined") {
+      const stored = localStorage.getItem(STORAGE_KEY_USER);
+      if (stored && stored.includes("usr-demo-01")) {
+        localStorage.removeItem(STORAGE_KEY_USER);
+      }
     }
-  }, [user]);
+  }, []);
 
+  // Listen for Supabase Auth state changes (OAuth redirect back, email login, logout)
   useEffect(() => {
-    localStorage.setItem(STORAGE_KEY_APPS, JSON.stringify(applications));
-  }, [applications]);
+    // Check initial Supabase session
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      if (session?.user) {
+        const u = session.user;
+        const meta = (u.user_metadata || {}) as Record<string, any>;
+        setUser({
+          id: u.id,
+          name: meta["full_name"] || u.email?.split("@")[0] || "Client User",
+          email: u.email || "",
+          avatar: meta["avatar_url"] || "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=200",
+          provider: u.app_metadata?.provider === "google" ? "google" : "email",
+          createdAt: u.created_at ? new Date(u.created_at).toISOString().split("T")[0]! : new Date().toISOString().split("T")[0]!,
+        });
+      } else {
+        setUser(null);
+      }
+    });
 
-  useEffect(() => {
-    localStorage.setItem(STORAGE_KEY_NOTIFS, JSON.stringify(notifications));
-  }, [notifications]);
+    const { data: authListener } = supabase.auth.onAuthStateChange((_event, session) => {
+      if (session?.user) {
+        const u = session.user;
+        const meta = (u.user_metadata || {}) as Record<string, any>;
+        setUser({
+          id: u.id,
+          name: meta["full_name"] || u.email?.split("@")[0] || "Client User",
+          email: u.email || "",
+          avatar: meta["avatar_url"] || "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=200",
+          provider: u.app_metadata?.provider === "google" ? "google" : "email",
+          createdAt: u.created_at ? new Date(u.created_at).toISOString().split("T")[0]! : new Date().toISOString().split("T")[0]!,
+        });
+      } else {
+        setUser(null);
+      }
+    });
 
-  const login = async (email: string, _pass: string): Promise<boolean> => {
-    const newUser: UserProfile = {
-      id: `usr-${Date.now()}`,
-      name: email.split("@")[0] || "Raj",
-      email,
-      avatar: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=200",
-      provider: "email",
-      createdAt: new Date().toISOString().split("T")[0]!,
+    return () => {
+      authListener?.subscription.unsubscribe();
     };
-    setUser(newUser);
-    toast.success(`Welcome back, ${newUser.name}!`);
-    return true;
+  }, []);
+
+  const login = async (email: string, pass: string): Promise<boolean> => {
+    try {
+      const res = await signInWithEmail(email, pass);
+      if (res.user) {
+        toast.success(`Welcome back, ${res.user.email?.split("@")[0]}!`);
+        return true;
+      }
+      return false;
+    } catch (e: any) {
+      toast.error(e.message || "Invalid login credentials.");
+      return false;
+    }
   };
 
   const loginWithGoogle = async (): Promise<boolean> => {
-    const googleUser: UserProfile = {
-      id: `usr-google-${Date.now()}`,
-      name: "Raj",
-      email: "raj@gmail.com",
-      avatar: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=200",
-      provider: "google",
-      createdAt: new Date().toISOString().split("T")[0]!,
-    };
-    setUser(googleUser);
-    toast.success("Successfully signed in with Google Account!");
-    return true;
+    try {
+      await signInWithGoogle();
+      return true;
+    } catch (e: any) {
+      toast.error(e.message || "Could not connect to Google OAuth.");
+      return false;
+    }
   };
 
-  const signup = async (name: string, email: string, _pass: string): Promise<boolean> => {
-    const newUser: UserProfile = {
-      id: `usr-${Date.now()}`,
-      name,
-      email,
-      provider: "email",
-      createdAt: new Date().toISOString().split("T")[0]!,
-    };
-    setUser(newUser);
-    toast.success(`Account created for ${name}!`);
-    return true;
+  const signup = async (name: string, email: string, pass: string): Promise<boolean> => {
+    try {
+      const res = await signUpWithEmail(email, pass, name);
+      if (res.user) {
+        toast.success(`Account registered! Please check your email to confirm registration.`);
+        return true;
+      }
+      return false;
+    } catch (e: any) {
+      toast.error(e.message || "Registration failed.");
+      return false;
+    }
   };
 
   const logout = () => {
+    signOutUser().catch(() => {});
     setUser(null);
     toast.info("Signed out of session.");
   };

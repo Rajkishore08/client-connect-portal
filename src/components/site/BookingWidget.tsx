@@ -9,6 +9,7 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { BOOKING_SLOTS } from "@/data/mock-data";
 import { confirmBooking } from "@/lib/backend-stubs";
+import { saveConsultationToSupabase } from "@/lib/supabase";
 import { cn } from "@/lib/utils";
 
 export function BookingWidget() {
@@ -27,6 +28,16 @@ export function BookingWidget() {
     }
     setStatus("saving");
     const res = await confirmBooking({ ...form, date: date.toISOString(), slot });
+
+    await saveConsultationToSupabase({
+      name: form.name,
+      email: form.email,
+      phone: form.phone,
+      date: date.toISOString().split("T")[0],
+      timeSlot: slot,
+      topic: form.reason || "Consultation Call",
+    });
+
     setStatus(res.ok ? "done" : "error");
   };
 

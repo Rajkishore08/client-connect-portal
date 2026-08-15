@@ -40,6 +40,7 @@ import {
 import { Textarea } from "@/components/ui/textarea";
 import { submitServiceRequest, uploadDocuments } from "@/lib/backend-stubs";
 import { sendIntakeConfirmationEmail } from "@/lib/email-service";
+import { saveIntakeToSupabase } from "@/lib/supabase";
 
 export interface UniversalServiceIntakeProps {
   category: "web-development" | "digital-marketing" | "passport";
@@ -187,6 +188,17 @@ export function UniversalServiceIntakeForm({
         speedTierId: timeline || "standard",
         shippingOptionId: "digital-delivery",
         fileUrls: uploadedFileUrls,
+      });
+
+      // Persist to Supabase PostgreSQL Database if online
+      await saveIntakeToSupabase({
+        category: category,
+        serviceTitle: serviceName,
+        applicantName: fullName,
+        email: email,
+        phone: phone,
+        notes: projectDetails,
+        trackingId: referenceId,
       });
 
       // Dispatch automated confirmation email

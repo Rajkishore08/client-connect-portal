@@ -238,9 +238,45 @@ export const WEB_SERVICES: WebService[] = [
 
 /* ------------------------------- Leads ---------------------------------- */
 
-export type LeadStatus = "New" | "In Progress" | "Contacted" | "Closed";
+export type LeadStatus = "New" | "In Contact" | "Proposal Sent" | "Payment Pending" | "In Progress" | "Completed" | "Archived";
 export type LeadSource = "Form" | "Chat" | "Calendar";
 export type TrackStatus = "Not Started" | "In Progress" | "Completed";
+
+export interface Milestone {
+  id: string;
+  title: string;
+  status: TrackStatus;
+  ref?: string;
+}
+
+export function getDefaultMilestonesForCategory(category: string): Milestone[] {
+  const cat = (category || "").toLowerCase();
+  
+  if (cat.includes("web") || cat.includes("software")) {
+    return [
+      { id: "m-1", title: "PRD & Scope Architecture", status: "Completed", ref: "PRD-APPROVED" },
+      { id: "m-2", title: "UI/UX Design & Prototype", status: "In Progress", ref: "FIGMA-V2" },
+      { id: "m-3", title: "Code Sprint & AI Engine Build", status: "Not Started", ref: "" },
+      { id: "m-4", title: "Cloud Staging & Production Launch", status: "Not Started", ref: "" },
+    ];
+  }
+
+  if (cat.includes("marketing") || cat.includes("growth") || cat.includes("digital")) {
+    return [
+      { id: "m-1", title: "SEO / PPC Account Audit", status: "Completed", ref: "AUDIT-882" },
+      { id: "m-2", title: "Campaign Setup & Negative Keywords", status: "In Progress", ref: "G-ADS-102" },
+      { id: "m-3", title: "Ad Sprints & Heatmap Analytics", status: "Not Started", ref: "" },
+      { id: "m-4", title: "Monthly ROI Performance Report", status: "Not Started", ref: "" },
+    ];
+  }
+
+  // Default: Passport & Visa Services
+  return [
+    { id: "m-1", title: "Government / Consulate Form Filing", status: "Completed", ref: "GOV-88231" },
+    { id: "m-2", title: "VFS / Consulate Document Audit", status: "In Progress", ref: "VFS-45120" },
+    { id: "m-3", title: "FedEx / Embassy Courier Dispatch", status: "Not Started", ref: "" },
+  ];
+}
 
 export interface Lead {
   id: string;
@@ -253,8 +289,10 @@ export interface Lead {
   service: string;
   source: LeadSource;
   status: LeadStatus;
+  progressPercent?: number;
   notes: string;
   documents: string[];
+  milestones?: Milestone[];
   tracking: {
     governmentForm: { status: TrackStatus; ref?: string };
     vfs: { status: TrackStatus; ref?: string };

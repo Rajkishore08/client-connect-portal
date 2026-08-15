@@ -260,49 +260,53 @@ function TrackPage() {
             </div>
           </div>
 
-          {/* Detailed Tracking Details */}
+          {/* Detailed Milestone Verification */}
           <div className="p-5 rounded-2xl bg-slate-50 border border-slate-200 space-y-4">
-            <h4 className="text-xs font-bold uppercase tracking-wider text-slate-700">Detailed Module Verification</h4>
+            <h4 className="text-xs font-bold uppercase tracking-wider text-slate-700">Service Milestones &amp; Progress Verification</h4>
             
             <div className="space-y-3 text-xs">
-              <div className="flex items-center justify-between p-3 rounded-xl bg-white border border-slate-200">
-                <div className="flex items-center gap-2.5">
-                  <FileText className="h-4 w-4 text-primary" />
-                  <div>
-                    <p className="font-bold text-slate-900">Government Form Preparation</p>
-                    <p className="text-[11px] text-slate-500">Form DS-82 / Form XXII Audit</p>
+              {(lead.milestones && lead.milestones.length > 0
+                ? lead.milestones
+                : getDefaultMilestonesForCategory(lead.category)
+              ).map((m) => (
+                <div key={m.id} className="flex items-center justify-between p-3.5 rounded-xl bg-white border border-slate-200 shadow-2xs">
+                  <div className="flex items-center gap-3">
+                    <div className={`h-8 w-8 rounded-xl grid place-items-center ${
+                      m.status === "Completed"
+                        ? "bg-emerald-100 text-emerald-700"
+                        : m.status === "In Progress"
+                        ? "bg-blue-100 text-blue-700"
+                        : "bg-slate-100 text-slate-400"
+                    }`}>
+                      {m.status === "Completed" ? (
+                        <CheckCircle2 className="h-4 w-4" />
+                      ) : (
+                        <Clock className="h-4 w-4" />
+                      )}
+                    </div>
+                    <div>
+                      <p className="font-bold text-slate-900">{m.title}</p>
+                      {m.ref ? (
+                        <p className="text-[11px] text-slate-500 font-mono">Ref / Match ID: {m.ref}</p>
+                      ) : (
+                        <p className="text-[11px] text-slate-400">Standard SLA Milestone</p>
+                      )}
+                    </div>
                   </div>
+                  <Badge
+                    variant="outline"
+                    className={`font-bold text-xs ${
+                      m.status === "Completed"
+                        ? "bg-emerald-50 text-emerald-700 border-emerald-300"
+                        : m.status === "In Progress"
+                        ? "bg-blue-50 text-blue-700 border-blue-300"
+                        : "bg-slate-100 text-slate-600 border-slate-300"
+                    }`}
+                  >
+                    {m.status}
+                  </Badge>
                 </div>
-                <Badge variant="outline" className="bg-emerald-50 text-emerald-700 border-emerald-300 font-bold">
-                  {lead.tracking.governmentForm.status}
-                </Badge>
-              </div>
-
-              <div className="flex items-center justify-between p-3 rounded-xl bg-white border border-slate-200">
-                <div className="flex items-center gap-2.5">
-                  <Building2 className="h-4 w-4 text-primary" />
-                  <div>
-                    <p className="font-bold text-slate-900">VFS / Embassy Filing Queue</p>
-                    <p className="text-[11px] text-slate-500">Tracking Ref: {lead.tracking.vfs.ref || "Pending Intake Call"}</p>
-                  </div>
-                </div>
-                <Badge variant="outline" className="bg-blue-50 text-blue-700 border-blue-300 font-bold">
-                  {lead.tracking.vfs.status}
-                </Badge>
-              </div>
-
-              <div className="flex items-center justify-between p-3 rounded-xl bg-white border border-slate-200">
-                <div className="flex items-center gap-2.5">
-                  <Truck className="h-4 w-4 text-primary" />
-                  <div>
-                    <p className="font-bold text-slate-900">Courier / Expedited Handover</p>
-                    <p className="text-[11px] text-slate-500">Tracking Ref: {lead.tracking.courier.ref || "Dispatched upon verification"}</p>
-                  </div>
-                </div>
-                <Badge variant="outline" className="bg-slate-100 text-slate-700 border-slate-300 font-bold">
-                  {lead.tracking.courier.status}
-                </Badge>
-              </div>
+              ))}
             </div>
           </div>
 

@@ -2,21 +2,28 @@ import { Link, createFileRoute } from "@tanstack/react-router";
 import {
   BarChart3,
   BookOpen,
+  FolderLock,
   Globe,
+  History,
   Inbox,
+  KeyRound,
   LogOut,
   Mail,
   ShieldCheck,
+  UserCheck,
   Users,
 } from "lucide-react";
 import { useState } from "react";
 
 import { AdminDashboard } from "@/components/admin/AdminDashboard";
 import { AdminLogin } from "@/components/admin/AdminLogin";
+import { AuditLogsManager } from "@/components/admin/AuditLogsManager";
+import { ClientDocumentVault } from "@/components/admin/ClientDocumentVault";
 import { EmailAutomationManager } from "@/components/admin/EmailAutomationManager";
 import { LeadsTable } from "@/components/admin/LeadsTable";
 import { RegisteredUsersManager } from "@/components/admin/RegisteredUsersManager";
 import { ServicesManager } from "@/components/admin/ServicesManager";
+import { StaffCredentialsManager } from "@/components/admin/StaffCredentialsManager";
 import { Button } from "@/components/ui/button";
 
 export const Route = createFileRoute("/admin")({
@@ -30,7 +37,7 @@ export const Route = createFileRoute("/admin")({
   component: AdminPage,
 });
 
-export type AdminTab = "dashboard" | "leads" | "services" | "emails" | "users";
+export type AdminTab = "dashboard" | "leads" | "vault" | "services" | "emails" | "users" | "staff" | "audit";
 
 function AdminPage() {
   // Local-only gate. TODO: replace with real Supabase auth session.
@@ -60,7 +67,7 @@ function AdminPage() {
               </Link>
               <span className="hidden sm:inline-block h-4 w-px bg-slate-700" />
               <span className="hidden sm:inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-blue-500/20 border border-blue-400/30 text-blue-300 font-extrabold text-[11px] uppercase tracking-wider">
-                <ShieldCheck className="h-3.5 w-3.5" /> Admin Console
+                <ShieldCheck className="h-3.5 w-3.5" /> Super Admin
               </span>
             </div>
 
@@ -92,6 +99,42 @@ function AdminPage() {
 
               <button
                 type="button"
+                onClick={() => setActiveTab("vault")}
+                className={`flex items-center gap-2 px-3.5 py-2 rounded-xl text-xs font-bold transition-all cursor-pointer ${
+                  activeTab === "vault"
+                    ? "bg-[#0F52FF] text-white shadow-md"
+                    : "text-slate-300 hover:bg-slate-800 hover:text-white"
+                }`}
+              >
+                <FolderLock className="h-4 w-4 text-emerald-400" /> Document Vault
+              </button>
+
+              <button
+                type="button"
+                onClick={() => setActiveTab("staff")}
+                className={`flex items-center gap-2 px-3.5 py-2 rounded-xl text-xs font-bold transition-all cursor-pointer ${
+                  activeTab === "staff"
+                    ? "bg-[#0F52FF] text-white shadow-md"
+                    : "text-slate-300 hover:bg-slate-800 hover:text-white"
+                }`}
+              >
+                <KeyRound className="h-4 w-4" /> Staff Credentials
+              </button>
+
+              <button
+                type="button"
+                onClick={() => setActiveTab("audit")}
+                className={`flex items-center gap-2 px-3.5 py-2 rounded-xl text-xs font-bold transition-all cursor-pointer ${
+                  activeTab === "audit"
+                    ? "bg-[#0F52FF] text-white shadow-md"
+                    : "text-slate-300 hover:bg-slate-800 hover:text-white"
+                }`}
+              >
+                <History className="h-4 w-4" /> Audit Logs
+              </button>
+
+              <button
+                type="button"
                 onClick={() => setActiveTab("services")}
                 className={`flex items-center gap-2 px-3.5 py-2 rounded-xl text-xs font-bold transition-all cursor-pointer ${
                   activeTab === "services"
@@ -101,34 +144,16 @@ function AdminPage() {
               >
                 <BookOpen className="h-4 w-4" /> Services Catalog
               </button>
-
-              <button
-                type="button"
-                onClick={() => setActiveTab("emails")}
-                className={`flex items-center gap-2 px-3.5 py-2 rounded-xl text-xs font-bold transition-all cursor-pointer ${
-                  activeTab === "emails"
-                    ? "bg-[#0F52FF] text-white shadow-md"
-                    : "text-slate-300 hover:bg-slate-800 hover:text-white"
-                }`}
-              >
-                <Mail className="h-4 w-4" /> Automated Mailing &amp; Logs
-              </button>
-
-              <button
-                type="button"
-                onClick={() => setActiveTab("users")}
-                className={`flex items-center gap-2 px-3.5 py-2 rounded-xl text-xs font-bold transition-all cursor-pointer ${
-                  activeTab === "users"
-                    ? "bg-[#0F52FF] text-white shadow-md"
-                    : "text-slate-300 hover:bg-slate-800 hover:text-white"
-                }`}
-              >
-                <Users className="h-4 w-4" /> Registered Users
-              </button>
             </nav>
 
-            {/* Right: View Site & Logout Action Controls */}
-            <div className="flex items-center gap-2.5">
+            {/* Right: View Site, Employee Portal & Logout */}
+            <div className="flex items-center gap-2">
+              <Button asChild variant="outline" size="sm" className="hidden xl:inline-flex text-xs font-bold border-emerald-500/50 bg-emerald-500/10 text-emerald-300 hover:bg-emerald-500 hover:text-white">
+                <Link to="/employee-portal" target="_blank">
+                  <UserCheck className="h-3.5 w-3.5 mr-1" /> Employee Portal
+                </Link>
+              </Button>
+
               <Button asChild variant="ghost" size="sm" className="hidden sm:inline-flex text-xs text-slate-300 hover:text-white hover:bg-slate-800">
                 <Link to="/" target="_blank">
                   <Globe className="h-4 w-4 mr-1.5" /> View Site
@@ -139,9 +164,9 @@ function AdminPage() {
                 variant="outline"
                 size="sm"
                 onClick={() => setLoggedIn(false)}
-                className="h-9 px-3.5 text-xs font-bold border-slate-700 bg-slate-800 text-slate-200 hover:bg-red-600 hover:text-white hover:border-red-600 transition-all cursor-pointer"
+                className="h-9 px-3 text-xs font-bold border-slate-700 bg-slate-800 text-slate-200 hover:bg-red-600 hover:text-white hover:border-red-600 transition-all cursor-pointer"
               >
-                <LogOut className="h-3.5 w-3.5 mr-1.5" /> Logout
+                <LogOut className="h-3.5 w-3.5 mr-1" /> Logout
               </Button>
             </div>
           </div>
@@ -168,30 +193,30 @@ function AdminPage() {
             </button>
             <button
               type="button"
-              onClick={() => setActiveTab("services")}
+              onClick={() => setActiveTab("vault")}
               className={`px-3 py-1.5 rounded-lg text-xs font-bold whitespace-nowrap ${
-                activeTab === "services" ? "bg-[#0F52FF] text-white" : "text-slate-300 hover:bg-slate-800"
+                activeTab === "vault" ? "bg-[#0F52FF] text-white" : "text-slate-300 hover:bg-slate-800"
               }`}
             >
-              Services Catalog
+              Document Vault
             </button>
             <button
               type="button"
-              onClick={() => setActiveTab("emails")}
+              onClick={() => setActiveTab("staff")}
               className={`px-3 py-1.5 rounded-lg text-xs font-bold whitespace-nowrap ${
-                activeTab === "emails" ? "bg-[#0F52FF] text-white" : "text-slate-300 hover:bg-slate-800"
+                activeTab === "staff" ? "bg-[#0F52FF] text-white" : "text-slate-300 hover:bg-slate-800"
               }`}
             >
-              Automated Mailing &amp; Logs
+              Staff Credentials
             </button>
             <button
               type="button"
-              onClick={() => setActiveTab("users")}
+              onClick={() => setActiveTab("audit")}
               className={`px-3 py-1.5 rounded-lg text-xs font-bold whitespace-nowrap ${
-                activeTab === "users" ? "bg-[#0F52FF] text-white" : "text-slate-300 hover:bg-slate-800"
+                activeTab === "audit" ? "bg-[#0F52FF] text-white" : "text-slate-300 hover:bg-slate-800"
               }`}
             >
-              Registered Users
+              Audit Logs
             </button>
           </div>
         </div>
@@ -201,6 +226,9 @@ function AdminPage() {
       <main className="mx-auto max-w-[1440px] px-4 py-8 sm:px-6 lg:px-8">
         {activeTab === "dashboard" && <AdminDashboard />}
         {activeTab === "leads" && <LeadsTable />}
+        {activeTab === "vault" && <ClientDocumentVault />}
+        {activeTab === "staff" && <StaffCredentialsManager />}
+        {activeTab === "audit" && <AuditLogsManager />}
         {activeTab === "services" && <ServicesManager />}
         {activeTab === "emails" && <EmailAutomationManager />}
         {activeTab === "users" && <RegisteredUsersManager />}
