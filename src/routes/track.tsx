@@ -30,7 +30,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { LEADS, type Lead, type TrackStatus } from "@/data/mock-data";
+import { LEADS, type Lead, type Milestone, type TrackStatus, getDefaultMilestonesForCategory } from "@/data/mock-data";
 import { lookupApplication } from "@/lib/backend-stubs";
 
 export const Route = createFileRoute("/track")({
@@ -231,8 +231,8 @@ function TrackPage() {
             <div className="grid grid-cols-1 sm:grid-cols-4 gap-3">
               {STAGES.map((s) => {
                 const Icon = s.icon;
-                const completed = s.stage <= (lead.status === "Closed" ? 4 : lead.status === "In Progress" ? 2 : 1);
-                const active = s.stage === (lead.status === "Closed" ? 4 : lead.status === "In Progress" ? 2 : 1);
+                const completed = s.stage <= (lead.status === "Completed" ? 4 : lead.status === "In Progress" ? 2 : 1);
+                const active = s.stage === (lead.status === "Completed" ? 4 : lead.status === "In Progress" ? 2 : 1);
                 return (
                   <div
                     key={s.stage}
@@ -268,7 +268,7 @@ function TrackPage() {
               {(lead.milestones && lead.milestones.length > 0
                 ? lead.milestones
                 : getDefaultMilestonesForCategory(lead.category)
-              ).map((m) => (
+              ).map((m: Milestone) => (
                 <div key={m.id} className="flex items-center justify-between p-3.5 rounded-xl bg-white border border-slate-200 shadow-2xs">
                   <div className="flex items-center gap-3">
                     <div className={`h-8 w-8 rounded-xl grid place-items-center ${

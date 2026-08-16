@@ -2,6 +2,7 @@ import { Link, createFileRoute } from "@tanstack/react-router";
 import {
   BarChart3,
   BookOpen,
+  FileText,
   FolderLock,
   Globe,
   History,
@@ -18,6 +19,7 @@ import { useState } from "react";
 import { AdminDashboard } from "@/components/admin/AdminDashboard";
 import { AdminLogin } from "@/components/admin/AdminLogin";
 import { AuditLogsManager } from "@/components/admin/AuditLogsManager";
+import { BlogManager } from "@/components/admin/BlogManager";
 import { ClientDocumentVault } from "@/components/admin/ClientDocumentVault";
 import { EmailAutomationManager } from "@/components/admin/EmailAutomationManager";
 import { LeadsTable } from "@/components/admin/LeadsTable";
@@ -37,7 +39,7 @@ export const Route = createFileRoute("/admin")({
   component: AdminPage,
 });
 
-export type AdminTab = "dashboard" | "leads" | "vault" | "services" | "emails" | "users" | "staff" | "audit";
+export type AdminTab = "dashboard" | "leads" | "blogs" | "vault" | "services" | "emails" | "users" | "staff" | "audit";
 
 function AdminPage() {
   // Local-only gate. TODO: replace with real Supabase auth session.
@@ -76,7 +78,7 @@ function AdminPage() {
               <button
                 type="button"
                 onClick={() => setActiveTab("dashboard")}
-                className={`flex items-center gap-2 px-3.5 py-2 rounded-xl text-xs font-bold transition-all cursor-pointer ${
+                className={`flex items-center gap-2 px-3 py-2 rounded-xl text-xs font-bold transition-all cursor-pointer ${
                   activeTab === "dashboard"
                     ? "bg-[#0F52FF] text-white shadow-md"
                     : "text-slate-300 hover:bg-slate-800 hover:text-white"
@@ -88,19 +90,31 @@ function AdminPage() {
               <button
                 type="button"
                 onClick={() => setActiveTab("leads")}
-                className={`flex items-center gap-2 px-3.5 py-2 rounded-xl text-xs font-bold transition-all cursor-pointer ${
+                className={`flex items-center gap-2 px-3 py-2 rounded-xl text-xs font-bold transition-all cursor-pointer ${
                   activeTab === "leads"
                     ? "bg-[#0F52FF] text-white shadow-md"
                     : "text-slate-300 hover:bg-slate-800 hover:text-white"
                 }`}
               >
-                <Inbox className="h-4 w-4" /> Enquiries &amp; Leads
+                <Inbox className="h-4 w-4" /> Enquiries
+              </button>
+
+              <button
+                type="button"
+                onClick={() => setActiveTab("blogs")}
+                className={`flex items-center gap-2 px-3 py-2 rounded-xl text-xs font-bold transition-all cursor-pointer ${
+                  activeTab === "blogs"
+                    ? "bg-[#0F52FF] text-white shadow-md"
+                    : "text-slate-300 hover:bg-slate-800 hover:text-white"
+                }`}
+              >
+                <FileText className="h-4 w-4 text-amber-400" /> Blogs CMS
               </button>
 
               <button
                 type="button"
                 onClick={() => setActiveTab("vault")}
-                className={`flex items-center gap-2 px-3.5 py-2 rounded-xl text-xs font-bold transition-all cursor-pointer ${
+                className={`flex items-center gap-2 px-3 py-2 rounded-xl text-xs font-bold transition-all cursor-pointer ${
                   activeTab === "vault"
                     ? "bg-[#0F52FF] text-white shadow-md"
                     : "text-slate-300 hover:bg-slate-800 hover:text-white"
@@ -112,7 +126,7 @@ function AdminPage() {
               <button
                 type="button"
                 onClick={() => setActiveTab("staff")}
-                className={`flex items-center gap-2 px-3.5 py-2 rounded-xl text-xs font-bold transition-all cursor-pointer ${
+                className={`flex items-center gap-2 px-3 py-2 rounded-xl text-xs font-bold transition-all cursor-pointer ${
                   activeTab === "staff"
                     ? "bg-[#0F52FF] text-white shadow-md"
                     : "text-slate-300 hover:bg-slate-800 hover:text-white"
@@ -124,7 +138,7 @@ function AdminPage() {
               <button
                 type="button"
                 onClick={() => setActiveTab("audit")}
-                className={`flex items-center gap-2 px-3.5 py-2 rounded-xl text-xs font-bold transition-all cursor-pointer ${
+                className={`flex items-center gap-2 px-3 py-2 rounded-xl text-xs font-bold transition-all cursor-pointer ${
                   activeTab === "audit"
                     ? "bg-[#0F52FF] text-white shadow-md"
                     : "text-slate-300 hover:bg-slate-800 hover:text-white"
@@ -136,7 +150,7 @@ function AdminPage() {
               <button
                 type="button"
                 onClick={() => setActiveTab("services")}
-                className={`flex items-center gap-2 px-3.5 py-2 rounded-xl text-xs font-bold transition-all cursor-pointer ${
+                className={`flex items-center gap-2 px-3 py-2 rounded-xl text-xs font-bold transition-all cursor-pointer ${
                   activeTab === "services"
                     ? "bg-[#0F52FF] text-white shadow-md"
                     : "text-slate-300 hover:bg-slate-800 hover:text-white"
@@ -193,6 +207,15 @@ function AdminPage() {
             </button>
             <button
               type="button"
+              onClick={() => setActiveTab("blogs")}
+              className={`px-3 py-1.5 rounded-lg text-xs font-bold whitespace-nowrap ${
+                activeTab === "blogs" ? "bg-[#0F52FF] text-white" : "text-slate-300 hover:bg-slate-800"
+              }`}
+            >
+              Blogs CMS
+            </button>
+            <button
+              type="button"
               onClick={() => setActiveTab("vault")}
               className={`px-3 py-1.5 rounded-lg text-xs font-bold whitespace-nowrap ${
                 activeTab === "vault" ? "bg-[#0F52FF] text-white" : "text-slate-300 hover:bg-slate-800"
@@ -209,15 +232,6 @@ function AdminPage() {
             >
               Staff Credentials
             </button>
-            <button
-              type="button"
-              onClick={() => setActiveTab("audit")}
-              className={`px-3 py-1.5 rounded-lg text-xs font-bold whitespace-nowrap ${
-                activeTab === "audit" ? "bg-[#0F52FF] text-white" : "text-slate-300 hover:bg-slate-800"
-              }`}
-            >
-              Audit Logs
-            </button>
           </div>
         </div>
       </header>
@@ -226,6 +240,7 @@ function AdminPage() {
       <main className="mx-auto max-w-[1440px] px-4 py-8 sm:px-6 lg:px-8">
         {activeTab === "dashboard" && <AdminDashboard />}
         {activeTab === "leads" && <LeadsTable />}
+        {activeTab === "blogs" && <BlogManager />}
         {activeTab === "vault" && <ClientDocumentVault />}
         {activeTab === "staff" && <StaffCredentialsManager />}
         {activeTab === "audit" && <AuditLogsManager />}

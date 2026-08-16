@@ -349,7 +349,7 @@ export const LEADS: Lead[] = [
     category: "Passport & Visa Services",
     service: "Lost / Damaged Passport",
     source: "Form",
-    status: "Contacted",
+    status: "In Contact",
     notes: "Urgent — travel in 3 weeks.",
     documents: ["police-report.pdf"],
     tracking: {
@@ -387,7 +387,7 @@ export const LEADS: Lead[] = [
     category: "Passport & Visa Services",
     service: "Renunciation / Passport Surrender",
     source: "Calendar",
-    status: "Closed",
+    status: "Completed",
     notes: "Completed and couriered.",
     documents: ["form-xxii.pdf", "naturalization.pdf"],
     tracking: {
@@ -444,7 +444,7 @@ export const LEADS: Lead[] = [
     category: "Website Development",
     service: "Stunning Portfolio",
     source: "Form",
-    status: "Contacted",
+    status: "In Contact",
     notes: "Quote sent after scoping call.",
     documents: [],
     tracking: {
@@ -501,7 +501,7 @@ export const LEADS: Lead[] = [
     category: "Passport & Visa Services",
     service: "OCI",
     source: "Form",
-    status: "Contacted",
+    status: "In Contact",
     notes: "Minor OCI for daughter.",
     documents: ["birth-certificate.pdf"],
     tracking: {
@@ -520,7 +520,7 @@ export const LEADS: Lead[] = [
     category: "Digital Marketing",
     service: "General Enquiry",
     source: "Chat",
-    status: "Closed",
+    status: "Archived",
     notes: "Out of budget for now.",
     documents: [],
     tracking: {

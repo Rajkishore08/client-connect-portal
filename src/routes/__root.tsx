@@ -11,6 +11,7 @@ import {
 import { useEffect, type ReactNode } from "react";
 
 import { ChatWidget } from "@/components/site/ChatWidget";
+import { MobileQuickActionDock } from "@/components/site/MobileQuickActionDock";
 import { PageLoader } from "@/components/site/PageLoader";
 import { SiteFooter } from "@/components/site/SiteFooter";
 import { SiteHeader } from "@/components/site/SiteHeader";
@@ -64,12 +65,12 @@ function ErrorComponent({ error, reset }: { error: Error; reset: () => void }) {
           >
             Try again
           </button>
-          <a
-            href="/"
-            className="inline-flex items-center justify-center rounded-md border border-input bg-background px-4 py-2 text-sm font-medium text-foreground transition-colors hover:bg-accent"
+          <Link
+            to="/"
+            className="inline-flex items-center justify-center rounded-md border border-input bg-background px-4 py-2 text-sm font-medium transition-colors hover:bg-accent hover:text-accent-foreground"
           >
             Go home
-          </a>
+          </Link>
         </div>
       </div>
     </div>
@@ -80,27 +81,21 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
   head: () => ({
     meta: [
       { charSet: "utf-8" },
-      { name: "viewport", content: "width=device-width, initial-scale=1, viewport-fit=cover" },
-      { title: "One World Solutions — Client Intake Portal & Digital Services" },
+      { name: "viewport", content: "width=device-width, initial-scale=1, maximum-scale=1" },
+      { title: "One World Solutions — Indian Passport Renewal & Tech Agency Chicago" },
       {
         name: "description",
         content:
-          "Enterprise intake portal for passport, visa, digital marketing, and web development services by One World Solutions.",
+          "Official Chicago agency for US Indian Passport Renewal, OCI, Renunciation, Website & App Development, and High-ROI Digital Marketing.",
       },
-      { name: "author", content: "One World Solutions" },
-      { property: "og:type", content: "website" },
-      { name: "twitter:card", content: "summary_large_image" },
     ],
     links: [
       { rel: "stylesheet", href: appCss },
-      { rel: "preconnect", href: "https://fonts.googleapis.com" },
-      { rel: "preconnect", href: "https://fonts.gstatic.com", crossOrigin: "anonymous" },
       {
         rel: "stylesheet",
         href: "https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap",
       },
       { rel: "icon", href: "/favicon.png", type: "image/png" },
-      { rel: "shortcut icon", href: "/favicon.ico" },
     ],
   }),
   shellComponent: RootShell,
@@ -126,7 +121,10 @@ function RootShell({ children }: { children: ReactNode }) {
 function RootComponent() {
   const { queryClient } = Route.useRouteContext();
   const pathname = useRouterState({ select: (s) => s.location.pathname });
-  const isAdmin = pathname.startsWith("/admin");
+  const hideSiteChrome =
+    pathname.startsWith("/admin") ||
+    pathname.startsWith("/employee-portal") ||
+    pathname.startsWith("/auth");
 
   useEffect(() => {
     if (typeof window !== "undefined") {
@@ -138,15 +136,16 @@ function RootComponent() {
     <QueryClientProvider client={queryClient}>
       <AuthProvider>
         <PageLoader />
-        <div className="flex min-h-screen flex-col bg-background font-sans antialiased">
-          {!isAdmin && <SiteHeader />}
+        <div className={`flex min-h-screen flex-col bg-background font-sans antialiased ${hideSiteChrome ? "" : "pb-16 sm:pb-0"}`}>
+          {!hideSiteChrome && <SiteHeader />}
           <main key={pathname} className="flex-1 animate-in fade-in slide-in-from-bottom-1.5 duration-300 ease-out">
             {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
             <Outlet />
           </main>
-          {!isAdmin && <SiteFooter />}
+          {!hideSiteChrome && <SiteFooter />}
         </div>
-        {!isAdmin && <ChatWidget />}
+        {!hideSiteChrome && <ChatWidget />}
+        {!hideSiteChrome && <MobileQuickActionDock />}
         <Toaster position="top-center" />
       </AuthProvider>
     </QueryClientProvider>

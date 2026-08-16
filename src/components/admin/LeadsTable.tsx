@@ -300,6 +300,9 @@ export function LeadsTable() {
     const milestoneIndex = currentMilestones.findIndex((m) => m.id === milestoneId);
     if (milestoneIndex === -1) return;
 
+    const targetMilestone = currentMilestones[milestoneIndex];
+    if (!targetMilestone) return;
+
     // Strict Sequential Progression Rule:
     // If attempting to set status to "In Progress" or "Completed",
     // check if all preceding milestones (0 to milestoneIndex - 1) are "Completed".
@@ -308,7 +311,7 @@ export function LeadsTable() {
         const prev = currentMilestones[i];
         if (prev && prev.status !== "Completed") {
           toast.error(`Sequential Milestone Validation Blocked`, {
-            description: `Cannot set "${currentMilestones[milestoneIndex].title}" to ${patch.status}. Step ${i + 1} ("${prev.title}") must be "Completed" first.`,
+            description: `Cannot set "${targetMilestone.title}" to ${patch.status}. Step ${i + 1} ("${prev.title}") must be "Completed" first.`,
           });
           return;
         }

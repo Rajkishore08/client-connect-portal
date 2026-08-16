@@ -22,6 +22,8 @@ import { Route as TrackRouteImport } from './routes/track'
 import { Route as WebDevelopmentRouteImport } from './routes/web-development'
 import { Route as AuthLoginRouteImport } from './routes/auth.login'
 import { Route as AuthSignupRouteImport } from './routes/auth.signup'
+import { Route as BlogIndexRouteImport } from './routes/blog/index'
+import { Route as BlogSlugRouteImport } from './routes/blog/$slug'
 import { Route as PassportIndexRouteImport } from './routes/passport.index'
 import { Route as PassportServiceRouteImport } from './routes/passport.$service'
 
@@ -90,6 +92,16 @@ const AuthSignupRoute = AuthSignupRouteImport.update({
   path: '/auth/signup',
   getParentRoute: () => rootRouteImport,
 } as any)
+const BlogIndexRoute = BlogIndexRouteImport.update({
+  id: '/blog/',
+  path: '/blog/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const BlogSlugRoute = BlogSlugRouteImport.update({
+  id: '/blog/$slug',
+  path: '/blog/$slug',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const PassportIndexRoute = PassportIndexRouteImport.update({
   id: '/',
   path: '/',
@@ -115,7 +127,9 @@ export interface FileRoutesByFullPath {
   '/web-development': typeof WebDevelopmentRoute
   '/auth/login': typeof AuthLoginRoute
   '/auth/signup': typeof AuthSignupRoute
+  '/blog/$slug': typeof BlogSlugRoute
   '/passport/$service': typeof PassportServiceRoute
+  '/blog/': typeof BlogIndexRoute
   '/passport/': typeof PassportIndexRoute
 }
 export interface FileRoutesByTo {
@@ -131,7 +145,9 @@ export interface FileRoutesByTo {
   '/web-development': typeof WebDevelopmentRoute
   '/auth/login': typeof AuthLoginRoute
   '/auth/signup': typeof AuthSignupRoute
+  '/blog/$slug': typeof BlogSlugRoute
   '/passport/$service': typeof PassportServiceRoute
+  '/blog': typeof BlogIndexRoute
   '/passport': typeof PassportIndexRoute
 }
 export interface FileRoutesById {
@@ -149,7 +165,9 @@ export interface FileRoutesById {
   '/web-development': typeof WebDevelopmentRoute
   '/auth/login': typeof AuthLoginRoute
   '/auth/signup': typeof AuthSignupRoute
+  '/blog/$slug': typeof BlogSlugRoute
   '/passport/$service': typeof PassportServiceRoute
+  '/blog/': typeof BlogIndexRoute
   '/passport/': typeof PassportIndexRoute
 }
 export interface FileRouteTypes {
@@ -168,7 +186,9 @@ export interface FileRouteTypes {
     | '/web-development'
     | '/auth/login'
     | '/auth/signup'
+    | '/blog/$slug'
     | '/passport/$service'
+    | '/blog/'
     | '/passport/'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -184,7 +204,9 @@ export interface FileRouteTypes {
     | '/web-development'
     | '/auth/login'
     | '/auth/signup'
+    | '/blog/$slug'
     | '/passport/$service'
+    | '/blog'
     | '/passport'
   id:
     | '__root__'
@@ -201,7 +223,9 @@ export interface FileRouteTypes {
     | '/web-development'
     | '/auth/login'
     | '/auth/signup'
+    | '/blog/$slug'
     | '/passport/$service'
+    | '/blog/'
     | '/passport/'
   fileRoutesById: FileRoutesById
 }
@@ -219,6 +243,8 @@ export interface RootRouteChildren {
   WebDevelopmentRoute: typeof WebDevelopmentRoute
   AuthLoginRoute: typeof AuthLoginRoute
   AuthSignupRoute: typeof AuthSignupRoute
+  BlogSlugRoute: typeof BlogSlugRoute
+  BlogIndexRoute: typeof BlogIndexRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -314,6 +340,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthSignupRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/blog/': {
+      id: '/blog/'
+      path: '/blog'
+      fullPath: '/blog/'
+      preLoaderRoute: typeof BlogIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/blog/$slug': {
+      id: '/blog/$slug'
+      path: '/blog/$slug'
+      fullPath: '/blog/$slug'
+      preLoaderRoute: typeof BlogSlugRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/passport/': {
       id: '/passport/'
       path: '/'
@@ -359,6 +399,8 @@ const rootRouteChildren: RootRouteChildren = {
   WebDevelopmentRoute: WebDevelopmentRoute,
   AuthLoginRoute: AuthLoginRoute,
   AuthSignupRoute: AuthSignupRoute,
+  BlogSlugRoute: BlogSlugRoute,
+  BlogIndexRoute: BlogIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

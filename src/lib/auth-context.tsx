@@ -111,6 +111,7 @@ interface AuthContextType {
   unreadCount: number;
   login: (email: string, pass: string) => Promise<boolean>;
   loginWithGoogle: () => Promise<boolean>;
+  loginAsGuest: () => Promise<boolean>;
   signup: (name: string, email: string, pass: string) => Promise<boolean>;
   logout: () => void;
   markNotificationRead: (id: string) => void;
@@ -224,6 +225,19 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     }
   };
 
+  const loginAsGuest = async (): Promise<boolean> => {
+    setUser({
+      id: "usr-guest-101",
+      name: "Guest Client User",
+      email: "guest.client@oneworldsolutions.com",
+      avatar: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=200",
+      provider: "email",
+      createdAt: new Date().toISOString().split("T")[0]!,
+    });
+    toast.success("Signed in as Guest Client!");
+    return true;
+  };
+
   const signup = async (name: string, email: string, pass: string): Promise<boolean> => {
     try {
       const res = await signUpWithEmail(email, pass, name);
@@ -281,6 +295,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         unreadCount,
         login,
         loginWithGoogle,
+        loginAsGuest,
         signup,
         logout,
         markNotificationRead,

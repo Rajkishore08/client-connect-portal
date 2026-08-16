@@ -3,6 +3,7 @@ import {
   Bell,
   CheckCircle2,
   FileSpreadsheet,
+  FileText,
   Globe,
   Inbox,
   LogOut,
@@ -16,6 +17,7 @@ import {
 import { useState } from "react";
 import { toast } from "sonner";
 
+import { BlogManager } from "@/components/admin/BlogManager";
 import { EmployeeLogin } from "@/components/admin/EmployeeLogin";
 import { type StaffAccount } from "@/components/admin/StaffCredentialsManager";
 import { LeadsTable } from "@/components/admin/LeadsTable";
@@ -48,7 +50,7 @@ function EmployeePortalPage() {
     return null;
   });
 
-  const [activeTab, setActiveTab] = useState<"leads" | "reminders">("leads");
+  const [activeTab, setActiveTab] = useState<"leads" | "reminders" | "blogs">("leads");
 
   // Client Reminder Sender State
   const [reminderRef, setReminderRef] = useState("OWS-889124");
@@ -130,6 +132,18 @@ function EmployeePortalPage() {
 
               <button
                 type="button"
+                onClick={() => setActiveTab("blogs")}
+                className={`flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-bold transition-all cursor-pointer ${
+                  activeTab === "blogs"
+                    ? "bg-[#0F52FF] text-white shadow-md"
+                    : "text-slate-300 hover:bg-slate-800 hover:text-white"
+                }`}
+              >
+                <FileText className="h-4 w-4 text-amber-400" /> Blogs CMS
+              </button>
+
+              <button
+                type="button"
                 onClick={() => setActiveTab("reminders")}
                 className={`flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-bold transition-all cursor-pointer ${
                   activeTab === "reminders"
@@ -203,6 +217,9 @@ function EmployeePortalPage() {
 
         {/* Tab 1: Lead Management System */}
         {activeTab === "leads" && <LeadsTable />}
+
+        {/* Tab 2: SEO Blog CMS */}
+        {activeTab === "blogs" && <BlogManager />}
 
         {/* Tab 2: Client Reminders Engine */}
         {activeTab === "reminders" && (

@@ -93,24 +93,25 @@ const EQUAL_DIVISIONS = [
 
 function Home() {
   const [wizardOpen, setWizardOpen] = useState(false);
+  const [activeHeroTab, setActiveHeroTab] = useState<"passport" | "software" | "marketing">("passport");
 
   return (
-    <main className="relative overflow-hidden">
+    <main className="relative overflow-hidden bg-slate-50/50">
       {/* Background Radial Light Glow Orbs for High Glassmorphism Contrast */}
       <div className="pointer-events-none fixed inset-0 z-0">
-        <div className="absolute top-[10%] left-[-10%] h-[500px] w-[500px] rounded-full bg-blue-500/15 blur-[120px]" />
-        <div className="absolute top-[30%] right-[-10%] h-[500px] w-[500px] rounded-full bg-red-500/12 blur-[140px]" />
-        <div className="absolute top-[60%] left-[20%] h-[600px] w-[600px] rounded-full bg-sky-400/15 blur-[150px]" />
+        <div className="absolute top-[5%] left-[-10%] h-[550px] w-[550px] rounded-full bg-blue-500/12 blur-[130px]" />
+        <div className="absolute top-[25%] right-[-10%] h-[550px] w-[550px] rounded-full bg-indigo-500/10 blur-[150px]" />
+        <div className="absolute top-[55%] left-[15%] h-[600px] w-[600px] rounded-full bg-sky-400/12 blur-[160px]" />
       </div>
 
-      {/* High-Impact Hero Section */}
-      <section className="relative z-10 hero-wash border-b border-border/70 pt-4 pb-8 sm:py-20 lg:py-24">
+      {/* Ultra-Premium Hero Section */}
+      <section className="relative z-10 hero-wash border-b border-slate-200/80 pt-6 pb-12 sm:py-20 lg:py-24">
         {/* Animated WebGL Canvas Waves */}
         <GradientWaves
           horizonColor="#EFF4FF"
           waveColor="#93C5FD"
           crestColor="#0F52FF"
-          opacity={0.35}
+          opacity={0.3}
           speed={0.3}
           amplitude={2.2}
           waveScale={0.55}
@@ -124,173 +125,276 @@ function Home() {
         {/* Brand Network Texture Overlay */}
         <div className="absolute inset-0 pointer-events-none opacity-[0.03] bg-[radial-gradient(#0F52FF_1.5px,transparent_1.5px)] [background-size:32px_32px]" />
 
-        <div className="relative z-10 mx-auto max-w-[1440px] px-3 sm:px-8 lg:px-12">
-          <div className="grid lg:grid-cols-[1.15fr_0.95fr] items-center gap-8 lg:gap-10 xl:gap-14">
+        <div className="relative z-10 mx-auto max-w-[1440px] px-5 sm:px-8 lg:px-12 w-full overflow-hidden">
+          <div className="grid lg:grid-cols-[1.1fr_0.9fr] items-center gap-8 lg:gap-12 xl:gap-16 w-full">
             
-            {/* Left Column: Story & Transformation-Focused Hero */}
-            <div className="space-y-4 sm:space-y-6">
-              {/* Top Trust Badge */}
-              <div className="glass-pill max-w-full inline-flex items-center gap-2 px-4 py-1.5 text-xs font-bold text-slate-800 backdrop-blur-md bg-white/80 border border-blue-200/80 shadow-2xs rounded-full">
-                <Building className="h-3.5 w-3.5 text-primary shrink-0" />
-                <span className="truncate font-bold text-slate-800">Chicago, Illinois USA • Global Operations</span>
+            {/* Left Column: Story & Headline */}
+            <div className="space-y-6 sm:space-y-8 w-full max-w-full overflow-hidden">
+              {/* Top Trust & Status Badge */}
+              <div className="glass-pill max-w-full inline-flex items-center gap-2 px-4 py-2 text-xs font-bold text-slate-800 backdrop-blur-xl bg-white/90 border border-blue-200/90 shadow-2xs rounded-full">
+                <span className="flex items-center gap-1.5 text-emerald-600 font-extrabold">
+                  <span className="h-2 w-2 rounded-full bg-emerald-500 animate-pulse" /> Live Desk
+                </span>
+                <span className="text-slate-300">|</span>
+                <Building className="h-3.5 w-3.5 text-blue-600 shrink-0" />
+                <span className="truncate font-bold text-slate-800">Chicago HQ • Global Operations</span>
               </div>
 
-              {/* Transformation Headline - Exact Lovable Typography & Color Breakdown */}
-              <h1 className="text-[clamp(1.75rem,5.5vw,3.75rem)] font-extrabold leading-[1.12] tracking-tight text-[#0B1527] font-display break-words">
-                Helping People Cross <br className="hidden sm:inline" />
-                <span className="text-[#0F52FF]">Borders &amp; Businesses</span> <br className="hidden sm:inline" />
-                <span className="text-[#1E40AF]">Scale Worldwide.</span>
+              {/* Transformation Headline - Spacious & High-Impact */}
+              <h1 className="text-4xl xs:text-5xl sm:text-6xl lg:text-7xl font-black leading-[1.08] tracking-tight text-[#0B1527] font-display break-words max-w-full my-2 sm:my-4">
+                Helping People Cross <br />
+                <span className="bg-gradient-to-r from-blue-600 via-blue-500 to-indigo-600 bg-clip-text text-transparent">
+                  Borders &amp; Businesses
+                </span> <br />
+                <span className="text-slate-900">Scale Worldwide.</span>
               </h1>
 
-              {/* Outcome-Focused Subheadline */}
-              <p className="text-sm sm:text-lg leading-relaxed text-slate-600 font-medium max-w-xl">
-                We simplify international travel, build world-class digital products, and accelerate business growth—all under one trusted global partner.
+              {/* Simple Punchy Slogan for Mobile Screen & Extended Text for Desktop */}
+              <p className="sm:hidden text-sm font-semibold text-slate-700 leading-relaxed my-3">
+                Connecting People. Powering Businesses. <br />
+                <span className="text-blue-600 font-bold">Travel Smarter. Build Better. Scale Worldwide.</span>
+              </p>
+              <p className="hidden sm:block text-base leading-relaxed text-slate-600 font-medium max-w-xl my-4">
+                We simplify international Indian passport &amp; consular travel, engineer high-impact React/Next.js web platforms, and run targeted Google Ads growth campaigns.
               </p>
 
-              {/* Mobile & Desktop CTAs */}
-              <div className="pt-1 grid grid-cols-1 sm:flex sm:items-center gap-3">
+              {/* Mobile & Desktop Main Action */}
+              <div className="pt-2 pb-1 flex flex-col sm:flex-row items-stretch sm:items-center gap-3 sm:gap-4 w-full">
                 <Button
                   size="lg"
                   onClick={() => setWizardOpen(true)}
-                  className="w-full sm:w-auto h-13 px-8 text-base font-bold shadow-xl shadow-blue-500/25 hover:scale-[1.02] active:scale-[0.98] transition-all bg-[#0F52FF] hover:bg-blue-700 text-white rounded-2xl cursor-pointer"
+                  className="h-12 sm:h-13 px-7 text-sm sm:text-base font-extrabold shadow-xl shadow-blue-600/25 hover:scale-[1.02] active:scale-[0.98] transition-all bg-blue-600 hover:bg-blue-700 text-white rounded-2xl cursor-pointer"
                 >
-                  Get Started Today <ArrowRight className="h-5 w-5 ml-2 shrink-0" />
+                  Start Instant Intake <ArrowRight className="h-4 w-4 sm:h-5 sm:w-5 ml-2 shrink-0" />
                 </Button>
-                <Button asChild size="lg" variant="outline" className="w-full sm:w-auto h-13 px-7 text-base font-bold bg-white/90 border-slate-200 text-slate-800 hover:bg-white transition-all rounded-2xl shadow-sm cursor-pointer">
+
+                <Button asChild size="lg" variant="outline" className="h-12 sm:h-13 px-7 text-sm sm:text-base font-bold bg-white/90 border-slate-300 text-slate-800 hover:bg-slate-50 transition-all rounded-2xl shadow-2xs cursor-pointer">
                   <Link to="/book">
-                    <CalendarCheck className="h-5 w-5 mr-2 shrink-0 text-primary" /> Book Free Consultation
+                    <CalendarCheck className="h-4 w-4 sm:h-5 sm:w-5 mr-2 shrink-0 text-blue-600" /> Book Consultation
                   </Link>
                 </Button>
               </div>
 
-              {/* Desktop 4 Trust Metrics Cards */}
-              <div className="hidden sm:block pt-4 space-y-3 border-t border-slate-200/80">
-                <div className="grid grid-cols-4 gap-3">
-                  <div className="p-3.5 sm:p-4 rounded-2xl bg-white border border-slate-100 shadow-sm text-left space-y-1">
-                    <Star className="h-4 w-4 text-primary fill-primary" />
-                    <p className="text-lg sm:text-xl font-extrabold text-[#0B1527] tracking-tight font-display">4.9/5 Rating</p>
-                    <p className="text-[11px] font-medium text-slate-500">340+ Reviews</p>
-                  </div>
-                  <div className="p-3.5 sm:p-4 rounded-2xl bg-white border border-slate-100 shadow-sm text-left space-y-1">
-                    <Users className="h-4 w-4 text-primary" />
-                    <p className="text-lg sm:text-xl font-extrabold text-[#0B1527] tracking-tight font-display">2,500+</p>
-                    <p className="text-[11px] font-medium text-slate-500">Happy Clients</p>
-                  </div>
-                  <div className="p-3.5 sm:p-4 rounded-2xl bg-white border border-slate-100 shadow-sm text-left space-y-1">
-                    <MapPin className="h-4 w-4 text-primary" />
-                    <p className="text-lg sm:text-xl font-extrabold text-[#0B1527] tracking-tight font-display">35+</p>
-                    <p className="text-[11px] font-medium text-slate-500">USA States</p>
-                  </div>
-                  <div className="p-3.5 sm:p-4 rounded-2xl bg-white border border-slate-100 shadow-sm text-left space-y-1">
-                    <Target className="h-4 w-4 text-emerald-600" />
-                    <p className="text-lg sm:text-xl font-extrabold text-[#0B1527] tracking-tight font-display">98.6%</p>
-                    <p className="text-[11px] font-medium text-slate-500">Success Rate</p>
-                  </div>
+              {/* Clean Feature Highlights List */}
+              <div className="space-y-2.5 py-2 text-xs sm:text-sm text-slate-700 font-bold">
+                <div className="flex items-center gap-2.5">
+                  <CheckCircle2 className="h-4 w-4 text-blue-600 shrink-0" /> Indian Passport, OCI &amp; 24H Emergency Rush
                 </div>
-
-                {/* Bank-Grade Encryption Note */}
-                <p className="text-xs text-slate-500 font-medium flex items-center gap-1.5">
-                  <ShieldCheck className="h-4 w-4 text-primary shrink-0 inline" /> Bank-grade encryption on every document you share with us.
-                </p>
+                <div className="flex items-center gap-2.5">
+                  <CheckCircle2 className="h-4 w-4 text-blue-600 shrink-0" /> Enterprise React/Next.js Web Apps &amp; SaaS Platforms
+                </div>
+                <div className="flex items-center gap-2.5">
+                  <CheckCircle2 className="h-4 w-4 text-blue-600 shrink-0" /> High-ROI Google Ads PPC &amp; Technical SEO Funnels
+                </div>
               </div>
 
-              {/* Mobile Sleek Compact Trust Pills Strip */}
-              <div className="sm:hidden pt-2 space-y-2.5">
-                <div className="grid grid-cols-2 gap-2">
-                  <div className="px-3 py-2 rounded-xl bg-white/90 border border-slate-200/80 shadow-2xs flex items-center gap-2">
-                    <Star className="h-3.5 w-3.5 text-amber-500 fill-amber-500 shrink-0" />
-                    <div>
-                      <p className="text-xs font-extrabold text-slate-900 leading-tight">4.9/5 Rating</p>
-                      <p className="text-[10px] text-slate-500">340+ Reviews</p>
-                    </div>
+              {/* Spacious Social Proof Ticker */}
+              <div className="pt-5 mt-4 border-t border-slate-200/80 grid grid-cols-2 sm:grid-cols-4 gap-3 text-left">
+                <div className="p-3 rounded-xl bg-white/80 backdrop-blur-md border border-slate-200/90 shadow-2xs">
+                  <div className="flex items-center gap-1.5 text-amber-500 font-bold text-xs">
+                    <Star className="h-3.5 w-3.5 fill-amber-500" /> 4.9 / 5.0
                   </div>
-                  <div className="px-3 py-2 rounded-xl bg-white/90 border border-slate-200/80 shadow-2xs flex items-center gap-2">
-                    <Users className="h-3.5 w-3.5 text-blue-600 shrink-0" />
-                    <div>
-                      <p className="text-xs font-extrabold text-slate-900 leading-tight">2,500+ Clients</p>
-                      <p className="text-[10px] text-slate-500">Happy Clients</p>
-                    </div>
-                  </div>
-                  <div className="px-3 py-2 rounded-xl bg-white/90 border border-slate-200/80 shadow-2xs flex items-center gap-2">
-                    <MapPin className="h-3.5 w-3.5 text-blue-600 shrink-0" />
-                    <div>
-                      <p className="text-xs font-extrabold text-slate-900 leading-tight">35+ USA States</p>
-                      <p className="text-[10px] text-slate-500">Nationwide</p>
-                    </div>
-                  </div>
-                  <div className="px-3 py-2 rounded-xl bg-white/90 border border-slate-200/80 shadow-2xs flex items-center gap-2">
-                    <Target className="h-3.5 w-3.5 text-emerald-600 shrink-0" />
-                    <div>
-                      <p className="text-xs font-extrabold text-slate-900 leading-tight">98.6% Success</p>
-                      <p className="text-[10px] text-slate-500">Zero Error Filing</p>
-                    </div>
-                  </div>
+                  <p className="text-[10px] text-slate-500 font-medium truncate mt-0.5">340+ Verified Reviews</p>
                 </div>
 
-                <p className="text-[11px] text-slate-500 font-medium flex items-center gap-1.5">
-                  <ShieldCheck className="h-3.5 w-3.5 text-primary shrink-0" /> Bank-grade document encryption.
-                </p>
+                <div className="p-3 rounded-xl bg-white/80 backdrop-blur-md border border-slate-200/90 shadow-2xs">
+                  <div className="flex items-center gap-1.5 text-slate-900 font-extrabold text-xs">
+                    <Users className="h-3.5 w-3.5 text-blue-600" /> 2,500+
+                  </div>
+                  <p className="text-[10px] text-slate-500 font-medium truncate mt-0.5">Happy Clients</p>
+                </div>
+
+                <div className="p-3 rounded-xl bg-white/80 backdrop-blur-md border border-slate-200/90 shadow-2xs">
+                  <div className="flex items-center gap-1.5 text-slate-900 font-extrabold text-xs">
+                    <MapPin className="h-3.5 w-3.5 text-blue-600" /> 35+ States
+                  </div>
+                  <p className="text-[10px] text-slate-500 font-medium truncate mt-0.5">Nationwide Service</p>
+                </div>
+
+                <div className="p-3 rounded-xl bg-white/80 backdrop-blur-md border border-slate-200/90 shadow-2xs">
+                  <div className="flex items-center gap-1.5 text-emerald-600 font-extrabold text-xs">
+                    <Zap className="h-3.5 w-3.5 text-emerald-600" /> 98.6%
+                  </div>
+                  <p className="text-[10px] text-slate-500 font-medium truncate mt-0.5">Zero-Error Filing</p>
+                </div>
               </div>
             </div>
 
-            {/* Right Column: 3 Clean White Stacked Floating Cards with Top-Right Brand Symbol */}
-            <div className="relative z-10 mt-6 lg:mt-0 space-y-4">
-              {/* Card 1: Passport & Visa Concierge */}
-              <div className="relative bg-white rounded-3xl p-5 sm:p-7 shadow-xl border border-slate-100/90 hover:shadow-2xl transition-all duration-300 group">
-                {/* Floating Top-Right Brand Symbol Mark */}
-                <div className="absolute -top-3 -right-3 h-12 w-12 sm:h-14 sm:w-14 rounded-full bg-white p-2 border border-slate-100 shadow-lg grid place-items-center">
-                  <img src="/logo-symbol.webp" alt="One World Symbol" className="h-full w-full object-contain" />
+            {/* Right Column: Interactive 3-Division Glass Showcase Card */}
+            <div className="relative z-10 mt-6 lg:mt-0">
+              <div className="surface-card p-6 sm:p-8 rounded-3xl bg-white/95 backdrop-blur-2xl border border-slate-200 shadow-2xl space-y-5">
+                <div className="flex items-center justify-between border-b border-slate-100 pb-3">
+                  <span className="text-xs font-black uppercase tracking-wider text-slate-400">
+                    OUR SPECIALIZED DIVISIONS
+                  </span>
+                  <Badge variant="secondary" className="glass-pill text-[10px] font-bold bg-blue-50 text-blue-700 border-blue-200">
+                    Select Division Below
+                  </Badge>
                 </div>
 
-                <div className="flex items-start gap-3.5 sm:gap-4">
-                  <div className="h-10 w-10 sm:h-12 sm:w-12 shrink-0 rounded-2xl bg-blue-50 text-primary grid place-items-center">
-                    <Plane className="h-5 w-5 sm:h-6 sm:w-6 text-primary" />
-                  </div>
-                  <div className="space-y-1 pr-4 sm:pr-6">
-                    <p className="text-[10px] sm:text-[11px] font-extrabold text-primary tracking-wider uppercase">TRAVEL CONFIDENTLY</p>
-                    <h3 className="text-base sm:text-xl font-bold text-[#0B1527] group-hover:text-primary transition-colors">
-                      Passport &amp; Visa Concierge
-                    </h3>
-                    <p className="text-xs sm:text-sm text-slate-500 font-normal leading-relaxed">
-                      End-to-end documentation support for passport renewals, OCI, e-visas and emergency travel needs.
-                    </p>
-                  </div>
-                </div>
-              </div>
+                {/* 3 Interactive Selector Tabs */}
+                <div className="grid grid-cols-3 gap-1.5 p-1 bg-slate-100 rounded-2xl">
+                  <button
+                    type="button"
+                    onClick={() => setActiveHeroTab("passport")}
+                    className={`py-2 px-2 rounded-xl text-xs font-bold transition-all cursor-pointer flex items-center justify-center gap-1.5 ${
+                      activeHeroTab === "passport"
+                        ? "bg-white text-blue-600 shadow-sm"
+                        : "text-slate-600 hover:text-slate-900"
+                    }`}
+                  >
+                    <Plane className="h-3.5 w-3.5 text-blue-600 shrink-0" />
+                    <span className="truncate">Passport</span>
+                  </button>
 
-              {/* Card 2: Custom Software & SaaS */}
-              <div className="bg-white rounded-3xl p-5 sm:p-7 shadow-xl border border-slate-100/90 hover:shadow-2xl transition-all duration-300 group">
-                <div className="flex items-start gap-3.5 sm:gap-4">
-                  <div className="h-10 w-10 sm:h-12 sm:w-12 shrink-0 rounded-2xl bg-slate-100 text-slate-700 grid place-items-center">
-                    <Code2 className="h-5 w-5 sm:h-6 sm:w-6 text-slate-700" />
-                  </div>
-                  <div className="space-y-1">
-                    <p className="text-[10px] sm:text-[11px] font-extrabold text-primary tracking-wider uppercase">BUILD DIGITALLY</p>
-                    <h3 className="text-base sm:text-xl font-bold text-[#0B1527] group-hover:text-primary transition-colors">
-                      Custom Software &amp; SaaS
-                    </h3>
-                    <p className="text-xs sm:text-sm text-slate-500 font-normal leading-relaxed">
-                      Enterprise-grade web apps, ERP platforms, startup MVPs and API integrations built to scale.
-                    </p>
-                  </div>
-                </div>
-              </div>
+                  <button
+                    type="button"
+                    onClick={() => setActiveHeroTab("software")}
+                    className={`py-2 px-2 rounded-xl text-xs font-bold transition-all cursor-pointer flex items-center justify-center gap-1.5 ${
+                      activeHeroTab === "software"
+                        ? "bg-white text-blue-600 shadow-sm"
+                        : "text-slate-600 hover:text-slate-900"
+                    }`}
+                  >
+                    <Code2 className="h-3.5 w-3.5 text-slate-700 shrink-0" />
+                    <span className="truncate">Software</span>
+                  </button>
 
-              {/* Card 3: Digital Growth & Marketing */}
-              <div className="bg-white rounded-3xl p-5 sm:p-7 shadow-xl border border-slate-100/90 hover:shadow-2xl transition-all duration-300 group">
-                <div className="flex items-start gap-3.5 sm:gap-4">
-                  <div className="h-10 w-10 sm:h-12 sm:w-12 shrink-0 rounded-2xl bg-rose-50 text-rose-600 grid place-items-center">
-                    <TrendingUp className="h-5 w-5 sm:h-6 sm:w-6 text-rose-600" />
-                  </div>
-                  <div className="space-y-1">
-                    <p className="text-[10px] sm:text-[11px] font-extrabold text-primary tracking-wider uppercase">GROW GLOBALLY</p>
-                    <h3 className="text-base sm:text-xl font-bold text-[#0B1527] group-hover:text-primary transition-colors">
-                      Digital Growth &amp; Marketing
-                    </h3>
-                    <p className="text-xs sm:text-sm text-slate-500 font-normal leading-relaxed">
-                      SEO, paid acquisition, social and brand systems that compound revenue across markets.
-                    </p>
-                  </div>
+                  <button
+                    type="button"
+                    onClick={() => setActiveHeroTab("marketing")}
+                    className={`py-2 px-2 rounded-xl text-xs font-bold transition-all cursor-pointer flex items-center justify-center gap-1.5 ${
+                      activeHeroTab === "marketing"
+                        ? "bg-white text-blue-600 shadow-sm"
+                        : "text-slate-600 hover:text-slate-900"
+                    }`}
+                  >
+                    <Megaphone className="h-3.5 w-3.5 text-rose-600 shrink-0" />
+                    <span className="truncate">Marketing</span>
+                  </button>
+                </div>
+
+                {/* Dynamic Active Division Showcase Content */}
+                <div className="pt-2">
+                  {activeHeroTab === "passport" && (
+                    <div className="space-y-4 animate-in fade-in duration-200">
+                      <div className="flex items-start justify-between gap-3">
+                        <div>
+                          <p className="text-[10px] font-extrabold text-blue-600 uppercase tracking-wider">TRAVEL CONFIDENTLY</p>
+                          <h3 className="text-lg sm:text-xl font-extrabold text-slate-900 font-display">
+                            Passport &amp; Consular Concierge
+                          </h3>
+                          <p className="text-xs text-slate-500 font-medium leading-relaxed mt-1">
+                            Guided documentation, VFS audit compliance, OCI applications, and 24-hour emergency Hand-Carry processing.
+                          </p>
+                        </div>
+                        <div className="h-10 w-10 rounded-2xl bg-blue-50 text-blue-600 grid place-items-center shrink-0">
+                          <Plane className="h-5 w-5" />
+                        </div>
+                      </div>
+
+                      <div className="space-y-1.5 text-xs text-slate-700 font-semibold bg-slate-50 p-3 rounded-2xl border border-slate-100">
+                        <div className="flex items-center gap-2">
+                          <CheckCircle2 className="h-4 w-4 text-emerald-500 shrink-0" /> Adult &amp; Minor Passport Renewals
+                        </div>
+                        <div className="flex items-center gap-2">
+                          <CheckCircle2 className="h-4 w-4 text-emerald-500 shrink-0" /> OCI Card &amp; Renunciation Certificate
+                        </div>
+                        <div className="flex items-center gap-2">
+                          <CheckCircle2 className="h-4 w-4 text-emerald-500 shrink-0" /> 24-Hour Emergency Hand-Carry Filing
+                        </div>
+                      </div>
+
+                      <div className="flex items-center justify-between pt-1">
+                        <span className="text-[11px] font-extrabold text-slate-500">Avg Turnaround: 24H - 5 Days</span>
+                        <Button asChild size="sm" className="bg-blue-600 hover:bg-blue-700 text-white font-bold text-xs rounded-xl shadow-xs">
+                          <Link to="/passport">
+                            View Passport Services <ArrowRight className="h-3.5 w-3.5 ml-1" />
+                          </Link>
+                        </Button>
+                      </div>
+                    </div>
+                  )}
+
+                  {activeHeroTab === "software" && (
+                    <div className="space-y-4 animate-in fade-in duration-200">
+                      <div className="flex items-start justify-between gap-3">
+                        <div>
+                          <p className="text-[10px] font-extrabold text-blue-600 uppercase tracking-wider">BUILD DIGITALLY</p>
+                          <h3 className="text-lg sm:text-xl font-extrabold text-slate-900 font-display">
+                            Custom Software &amp; Web SaaS
+                          </h3>
+                          <p className="text-xs text-slate-500 font-medium leading-relaxed mt-1">
+                            Enterprise React/Next.js web portals, ERP dashboards, modern UI/UX design systems, and cloud backend architecture.
+                          </p>
+                        </div>
+                        <div className="h-10 w-10 rounded-2xl bg-slate-100 text-slate-800 grid place-items-center shrink-0">
+                          <Code2 className="h-5 w-5" />
+                        </div>
+                      </div>
+
+                      <div className="space-y-1.5 text-xs text-slate-700 font-semibold bg-slate-50 p-3 rounded-2xl border border-slate-100">
+                        <div className="flex items-center gap-2">
+                          <CheckCircle2 className="h-4 w-4 text-emerald-500 shrink-0" /> Next.js &amp; React Enterprise Web Apps
+                        </div>
+                        <div className="flex items-center gap-2">
+                          <CheckCircle2 className="h-4 w-4 text-emerald-500 shrink-0" /> Glassmorphism UI/UX Design &amp; Systems
+                        </div>
+                        <div className="flex items-center gap-2">
+                          <CheckCircle2 className="h-4 w-4 text-emerald-500 shrink-0" /> 100% Full IP Code Ownership
+                        </div>
+                      </div>
+
+                      <div className="flex items-center justify-between pt-1">
+                        <span className="text-[11px] font-extrabold text-slate-500">Delivery: 2 - 4 Weeks</span>
+                        <Button asChild size="sm" className="bg-slate-900 hover:bg-slate-800 text-white font-bold text-xs rounded-xl shadow-xs">
+                          <Link to="/web-development">
+                            Explore Web Dev <ArrowRight className="h-3.5 w-3.5 ml-1" />
+                          </Link>
+                        </Button>
+                      </div>
+                    </div>
+                  )}
+
+                  {activeHeroTab === "marketing" && (
+                    <div className="space-y-4 animate-in fade-in duration-200">
+                      <div className="flex items-start justify-between gap-3">
+                        <div>
+                          <p className="text-[10px] font-extrabold text-rose-600 uppercase tracking-wider">GROW GLOBALLY</p>
+                          <h3 className="text-lg sm:text-xl font-extrabold text-slate-900 font-display">
+                            Digital Growth &amp; PPC Marketing
+                          </h3>
+                          <p className="text-xs text-slate-500 font-medium leading-relaxed mt-1">
+                            High-converting Google Ads PPC campaigns, technical SEO, brand identity, and multi-channel lead funnels.
+                          </p>
+                        </div>
+                        <div className="h-10 w-10 rounded-2xl bg-rose-50 text-rose-600 grid place-items-center shrink-0">
+                          <Megaphone className="h-5 w-5" />
+                        </div>
+                      </div>
+
+                      <div className="space-y-1.5 text-xs text-slate-700 font-semibold bg-slate-50 p-3 rounded-2xl border border-slate-100">
+                        <div className="flex items-center gap-2">
+                          <CheckCircle2 className="h-4 w-4 text-emerald-500 shrink-0" /> Targeted Google Ads &amp; PPC Optimization
+                        </div>
+                        <div className="flex items-center gap-2">
+                          <CheckCircle2 className="h-4 w-4 text-emerald-500 shrink-0" /> Technical SEO &amp; Local Business Rank
+                        </div>
+                        <div className="flex items-center gap-2">
+                          <CheckCircle2 className="h-4 w-4 text-emerald-500 shrink-0" /> Transparent Monthly ROI Analytics
+                        </div>
+                      </div>
+
+                      <div className="flex items-center justify-between pt-1">
+                        <span className="text-[11px] font-extrabold text-slate-500">Lead Volume: 3.8x Avg Growth</span>
+                        <Button asChild size="sm" className="bg-rose-600 hover:bg-rose-700 text-white font-bold text-xs rounded-xl shadow-xs">
+                          <Link to="/digital-marketing">
+                            Explore Marketing <ArrowRight className="h-3.5 w-3.5 ml-1" />
+                          </Link>
+                        </Button>
+                      </div>
+                    </div>
+                  )}
                 </div>
               </div>
             </div>
