@@ -54,40 +54,10 @@ export function SiteHeader() {
   }, []);
 
   return (
-    <header className="sticky top-0 z-50 w-full bg-white/95 backdrop-blur-md border-b border-slate-200/80 shadow-2xs transition-shadow">
-      {/* Top Location & Hotline Bar (Hidden on mobile to save viewport height) */}
-      <div className="hidden sm:block bg-slate-900 text-slate-200 px-3 sm:px-6 py-1.5 border-b border-slate-800 text-[10px] sm:text-xs">
-        <div className="mx-auto flex max-w-[1440px] items-center justify-between gap-2">
-          <div className="flex items-center gap-2">
-            <span className="inline-flex items-center gap-1 font-bold text-white truncate">
-              <MapPin className="h-3 w-3 text-blue-400 shrink-0" /> Chicago, Illinois USA
-            </span>
-          </div>
-          <div className="flex items-center gap-2 sm:gap-4 shrink-0">
-            <a
-              href="https://wa.me/14175690711"
-              target="_blank"
-              rel="noreferrer"
-              className="flex items-center gap-1 font-bold text-emerald-400 hover:text-emerald-300 transition-colors"
-            >
-              <MessageSquare className="h-3 w-3 text-emerald-400 shrink-0" />
-              <span>WhatsApp: +1 (417) 569-0711</span>
-            </a>
-            <span className="hidden sm:inline text-slate-700">|</span>
-            <a
-              href={`tel:${OFFICE_LOCATION.phone.replace(/[^0-9+]/g, "")}`}
-              className="hidden sm:flex items-center gap-1 font-bold text-white hover:text-blue-400 transition-colors"
-            >
-              <PhoneCall className="h-3 w-3 text-blue-400 shrink-0" />
-              <span>{OFFICE_LOCATION.phone}</span>
-            </a>
-          </div>
-        </div>
-      </div>
-
-      {/* Main Navbar Row */}
-      <div className="mx-auto max-w-[1440px] px-3 sm:px-6 lg:px-8">
-        <div className="flex h-14 sm:h-16 items-center justify-between gap-3">
+    <header className="fixed top-2 sm:top-4 left-0 right-0 z-[100] w-full max-w-[1440px] mx-auto px-3 sm:px-6 pointer-events-none transition-all duration-300">
+      {/* Floating Glass Capsule Navbar */}
+      <div className="pointer-events-auto w-full rounded-full bg-white/90 backdrop-blur-xl border border-slate-200/90 shadow-xl shadow-blue-950/5 px-4 sm:px-6 py-2 transition-all">
+        <div className="flex items-center justify-between gap-3">
           {/* Brand Rectangular Logo */}
           <Link to="/" className="flex items-center gap-2 group py-0.5 shrink-0">
             <img

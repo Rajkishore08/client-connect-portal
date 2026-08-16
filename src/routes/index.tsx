@@ -32,7 +32,7 @@ import { Testimonials } from "@/components/site/Testimonials";
 import { TurnaroundEstimator } from "@/components/site/TurnaroundEstimator";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import GradientWaves from "@/components/ui/GradientWaves";
+import { Hero3DBackground } from "@/components/ui/Hero3DBackground";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -105,31 +105,18 @@ function Home() {
       </div>
 
       {/* Ultra-Premium Hero Section */}
-      <section className="relative z-10 hero-wash border-b border-slate-200/80 pt-6 pb-12 sm:py-20 lg:py-24">
-        {/* Animated WebGL Canvas Waves */}
-        <GradientWaves
-          horizonColor="#EFF4FF"
-          waveColor="#93C5FD"
-          crestColor="#0F52FF"
-          opacity={0.3}
-          speed={0.3}
-          amplitude={2.2}
-          waveScale={0.55}
-          waveRatio={0.85}
-          brightness={1.05}
-          mouseInteraction={true}
-          grain={true}
-          grainIntensity={0.02}
-        />
+      <section className="relative z-10 hero-wash border-b border-slate-200/80 pt-20 sm:pt-28 pb-12 sm:pb-20 overflow-hidden">
+        {/* Interactive 3D Holographic Globe & Particles Background Canvas */}
+        <Hero3DBackground />
 
         {/* Brand Network Texture Overlay */}
         <div className="absolute inset-0 pointer-events-none opacity-[0.03] bg-[radial-gradient(#0F52FF_1.5px,transparent_1.5px)] [background-size:32px_32px]" />
 
         <div className="relative z-10 mx-auto max-w-[1440px] px-5 sm:px-8 lg:px-12 w-full overflow-hidden">
-          <div className="grid lg:grid-cols-[1.1fr_0.9fr] items-center gap-8 lg:gap-12 xl:gap-16 w-full">
+          <div className="grid lg:grid-cols-[1.1fr_0.9fr] items-center gap-8 lg:gap-10 xl:gap-14 w-full">
             
             {/* Left Column: Story & Headline */}
-            <div className="space-y-6 sm:space-y-8 w-full max-w-full overflow-hidden">
+            <div className="space-y-5 sm:space-y-6 w-full max-w-full overflow-hidden">
               {/* Top Trust & Status Badge */}
               <div className="glass-pill max-w-full inline-flex items-center gap-2 px-4 py-2 text-xs font-bold text-slate-800 backdrop-blur-xl bg-white/90 border border-blue-200/90 shadow-2xs rounded-full">
                 <span className="flex items-center gap-1.5 text-emerald-600 font-extrabold">
@@ -140,8 +127,8 @@ function Home() {
                 <span className="truncate font-bold text-slate-800">Chicago HQ • Global Operations</span>
               </div>
 
-              {/* Transformation Headline - Spacious & High-Impact */}
-              <h1 className="text-4xl xs:text-5xl sm:text-6xl lg:text-7xl font-black leading-[1.08] tracking-tight text-[#0B1527] font-display break-words max-w-full my-2 sm:my-4">
+              {/* Transformation Headline - Mobile Scaled with Breathable Spacing */}
+              <h1 className="text-4xl xs:text-5xl sm:text-5xl lg:text-6xl font-black leading-[1.1] tracking-tight text-[#0B1527] font-display break-words max-w-full my-3 sm:my-0">
                 Helping People Cross <br />
                 <span className="bg-gradient-to-r from-blue-600 via-blue-500 to-indigo-600 bg-clip-text text-transparent">
                   Borders &amp; Businesses
@@ -154,21 +141,21 @@ function Home() {
                 Connecting People. Powering Businesses. <br />
                 <span className="text-blue-600 font-bold">Travel Smarter. Build Better. Scale Worldwide.</span>
               </p>
-              <p className="hidden sm:block text-base leading-relaxed text-slate-600 font-medium max-w-xl my-4">
+              <p className="hidden sm:block text-base leading-relaxed text-slate-600 font-medium max-w-xl sm:my-0">
                 We simplify international Indian passport &amp; consular travel, engineer high-impact React/Next.js web platforms, and run targeted Google Ads growth campaigns.
               </p>
 
               {/* Mobile & Desktop Main Action */}
-              <div className="pt-2 pb-1 flex flex-col sm:flex-row items-stretch sm:items-center gap-3 sm:gap-4 w-full">
+              <div className="pt-2 sm:pt-0 pb-1 sm:pb-0 flex flex-col sm:flex-row items-stretch sm:items-center gap-3 sm:gap-3 w-full">
                 <Button
                   size="lg"
                   onClick={() => setWizardOpen(true)}
-                  className="h-12 sm:h-13 px-7 text-sm sm:text-base font-extrabold shadow-xl shadow-blue-600/25 hover:scale-[1.02] active:scale-[0.98] transition-all bg-blue-600 hover:bg-blue-700 text-white rounded-2xl cursor-pointer"
+                  className="h-12 sm:h-13 px-6 text-sm sm:text-base font-extrabold shadow-lg shadow-blue-600/25 hover:scale-[1.02] active:scale-[0.98] transition-all bg-blue-600 hover:bg-blue-700 text-white rounded-2xl cursor-pointer"
                 >
                   Start Instant Intake <ArrowRight className="h-4 w-4 sm:h-5 sm:w-5 ml-2 shrink-0" />
                 </Button>
 
-                <Button asChild size="lg" variant="outline" className="h-12 sm:h-13 px-7 text-sm sm:text-base font-bold bg-white/90 border-slate-300 text-slate-800 hover:bg-slate-50 transition-all rounded-2xl shadow-2xs cursor-pointer">
+                <Button asChild size="lg" variant="outline" className="h-12 sm:h-13 px-6 text-sm sm:text-base font-bold bg-white/90 border-slate-300 text-slate-800 hover:bg-slate-50 transition-all rounded-2xl shadow-2xs cursor-pointer">
                   <Link to="/book">
                     <CalendarCheck className="h-4 w-4 sm:h-5 sm:w-5 mr-2 shrink-0 text-blue-600" /> Book Consultation
                   </Link>
@@ -176,71 +163,71 @@ function Home() {
               </div>
 
               {/* Clean Feature Highlights List */}
-              <div className="space-y-2.5 py-2 text-xs sm:text-sm text-slate-700 font-bold">
-                <div className="flex items-center gap-2.5">
+              <div className="space-y-2.5 py-2 sm:py-0 text-xs sm:text-sm text-slate-700 font-bold">
+                <div className="flex items-center gap-2.5 sm:gap-2">
                   <CheckCircle2 className="h-4 w-4 text-blue-600 shrink-0" /> Indian Passport, OCI &amp; 24H Emergency Rush
                 </div>
-                <div className="flex items-center gap-2.5">
+                <div className="flex items-center gap-2.5 sm:gap-2">
                   <CheckCircle2 className="h-4 w-4 text-blue-600 shrink-0" /> Enterprise React/Next.js Web Apps &amp; SaaS Platforms
                 </div>
-                <div className="flex items-center gap-2.5">
+                <div className="flex items-center gap-2.5 sm:gap-2">
                   <CheckCircle2 className="h-4 w-4 text-blue-600 shrink-0" /> High-ROI Google Ads PPC &amp; Technical SEO Funnels
                 </div>
               </div>
 
-              {/* Spacious Social Proof Ticker */}
-              <div className="pt-5 mt-4 border-t border-slate-200/80 grid grid-cols-2 sm:grid-cols-4 gap-3 text-left">
-                <div className="p-3 rounded-xl bg-white/80 backdrop-blur-md border border-slate-200/90 shadow-2xs">
-                  <div className="flex items-center gap-1.5 text-amber-500 font-bold text-xs">
+              {/* Social Proof Ticker */}
+              <div className="pt-4 sm:pt-4 mt-3 sm:mt-0 border-t border-slate-200/80 grid grid-cols-2 sm:grid-cols-4 gap-2.5 sm:gap-3 text-left">
+                <div className="p-3 sm:p-3 rounded-xl bg-white/80 backdrop-blur-md border border-slate-200/90 shadow-2xs">
+                  <div className="flex items-center gap-1.5 sm:gap-1 text-amber-500 font-bold text-xs">
                     <Star className="h-3.5 w-3.5 fill-amber-500" /> 4.9 / 5.0
                   </div>
-                  <p className="text-[10px] text-slate-500 font-medium truncate mt-0.5">340+ Verified Reviews</p>
+                  <p className="text-[10px] text-slate-500 font-medium truncate mt-0.5 sm:mt-0">340+ Verified Reviews</p>
                 </div>
 
-                <div className="p-3 rounded-xl bg-white/80 backdrop-blur-md border border-slate-200/90 shadow-2xs">
-                  <div className="flex items-center gap-1.5 text-slate-900 font-extrabold text-xs">
+                <div className="p-3 sm:p-3 rounded-xl bg-white/80 backdrop-blur-md border border-slate-200/90 shadow-2xs">
+                  <div className="flex items-center gap-1.5 sm:gap-1 text-slate-900 font-extrabold text-xs">
                     <Users className="h-3.5 w-3.5 text-blue-600" /> 2,500+
                   </div>
-                  <p className="text-[10px] text-slate-500 font-medium truncate mt-0.5">Happy Clients</p>
+                  <p className="text-[10px] text-slate-500 font-medium truncate mt-0.5 sm:mt-0">Happy Clients</p>
                 </div>
 
-                <div className="p-3 rounded-xl bg-white/80 backdrop-blur-md border border-slate-200/90 shadow-2xs">
-                  <div className="flex items-center gap-1.5 text-slate-900 font-extrabold text-xs">
+                <div className="p-3 sm:p-3 rounded-xl bg-white/80 backdrop-blur-md border border-slate-200/90 shadow-2xs">
+                  <div className="flex items-center gap-1.5 sm:gap-1 text-slate-900 font-extrabold text-xs">
                     <MapPin className="h-3.5 w-3.5 text-blue-600" /> 35+ States
                   </div>
-                  <p className="text-[10px] text-slate-500 font-medium truncate mt-0.5">Nationwide Service</p>
+                  <p className="text-[10px] text-slate-500 font-medium truncate mt-0.5 sm:mt-0">Nationwide Service</p>
                 </div>
 
-                <div className="p-3 rounded-xl bg-white/80 backdrop-blur-md border border-slate-200/90 shadow-2xs">
-                  <div className="flex items-center gap-1.5 text-emerald-600 font-extrabold text-xs">
+                <div className="p-3 sm:p-3 rounded-xl bg-white/80 backdrop-blur-md border border-slate-200/90 shadow-2xs">
+                  <div className="flex items-center gap-1.5 sm:gap-1 text-emerald-600 font-extrabold text-xs">
                     <Zap className="h-3.5 w-3.5 text-emerald-600" /> 98.6%
                   </div>
-                  <p className="text-[10px] text-slate-500 font-medium truncate mt-0.5">Zero-Error Filing</p>
+                  <p className="text-[10px] text-slate-500 font-medium truncate mt-0.5 sm:mt-0">Zero-Error Filing</p>
                 </div>
               </div>
             </div>
 
-            {/* Right Column: Interactive 3-Division Glass Showcase Card */}
+            {/* Right Column: Interactive 3-Division Translucent Glass Showcase Card */}
             <div className="relative z-10 mt-6 lg:mt-0">
-              <div className="surface-card p-6 sm:p-8 rounded-3xl bg-white/95 backdrop-blur-2xl border border-slate-200 shadow-2xl space-y-5">
-                <div className="flex items-center justify-between border-b border-slate-100 pb-3">
-                  <span className="text-xs font-black uppercase tracking-wider text-slate-400">
+              <div className="surface-card p-6 sm:p-7 rounded-3xl bg-white/40 backdrop-blur-2xl border border-white/70 shadow-2xl shadow-blue-900/10 space-y-4">
+                <div className="flex items-center justify-between border-b border-slate-200/60 pb-3">
+                  <span className="text-xs font-black uppercase tracking-wider text-slate-500">
                     OUR SPECIALIZED DIVISIONS
                   </span>
-                  <Badge variant="secondary" className="glass-pill text-[10px] font-bold bg-blue-50 text-blue-700 border-blue-200">
+                  <Badge variant="secondary" className="glass-pill text-[10px] font-bold bg-blue-50/80 backdrop-blur-md text-blue-700 border-blue-200/80">
                     Select Division Below
                   </Badge>
                 </div>
 
-                {/* 3 Interactive Selector Tabs */}
-                <div className="grid grid-cols-3 gap-1.5 p-1 bg-slate-100 rounded-2xl">
+                {/* 3 Interactive Glass Selector Tabs */}
+                <div className="grid grid-cols-3 gap-1.5 p-1.5 bg-slate-900/5 backdrop-blur-md border border-white/50 rounded-2xl">
                   <button
                     type="button"
                     onClick={() => setActiveHeroTab("passport")}
                     className={`py-2 px-2 rounded-xl text-xs font-bold transition-all cursor-pointer flex items-center justify-center gap-1.5 ${
                       activeHeroTab === "passport"
-                        ? "bg-white text-blue-600 shadow-sm"
-                        : "text-slate-600 hover:text-slate-900"
+                        ? "bg-white/95 text-blue-600 shadow-md backdrop-blur-md border border-white/80"
+                        : "text-slate-600 hover:text-slate-900 hover:bg-white/40"
                     }`}
                   >
                     <Plane className="h-3.5 w-3.5 text-blue-600 shrink-0" />
@@ -252,8 +239,8 @@ function Home() {
                     onClick={() => setActiveHeroTab("software")}
                     className={`py-2 px-2 rounded-xl text-xs font-bold transition-all cursor-pointer flex items-center justify-center gap-1.5 ${
                       activeHeroTab === "software"
-                        ? "bg-white text-blue-600 shadow-sm"
-                        : "text-slate-600 hover:text-slate-900"
+                        ? "bg-white/95 text-blue-600 shadow-md backdrop-blur-md border border-white/80"
+                        : "text-slate-600 hover:text-slate-900 hover:bg-white/40"
                     }`}
                   >
                     <Code2 className="h-3.5 w-3.5 text-slate-700 shrink-0" />
@@ -265,8 +252,8 @@ function Home() {
                     onClick={() => setActiveHeroTab("marketing")}
                     className={`py-2 px-2 rounded-xl text-xs font-bold transition-all cursor-pointer flex items-center justify-center gap-1.5 ${
                       activeHeroTab === "marketing"
-                        ? "bg-white text-blue-600 shadow-sm"
-                        : "text-slate-600 hover:text-slate-900"
+                        ? "bg-white/95 text-blue-600 shadow-md backdrop-blur-md border border-white/80"
+                        : "text-slate-600 hover:text-slate-900 hover:bg-white/40"
                     }`}
                   >
                     <Megaphone className="h-3.5 w-3.5 text-rose-600 shrink-0" />
@@ -284,16 +271,16 @@ function Home() {
                           <h3 className="text-lg sm:text-xl font-extrabold text-slate-900 font-display">
                             Passport &amp; Consular Concierge
                           </h3>
-                          <p className="text-xs text-slate-500 font-medium leading-relaxed mt-1">
+                          <p className="text-xs text-slate-600 font-medium leading-relaxed mt-1">
                             Guided documentation, VFS audit compliance, OCI applications, and 24-hour emergency Hand-Carry processing.
                           </p>
                         </div>
-                        <div className="h-10 w-10 rounded-2xl bg-blue-50 text-blue-600 grid place-items-center shrink-0">
+                        <div className="h-10 w-10 rounded-2xl bg-blue-50/80 backdrop-blur-md border border-blue-200/50 text-blue-600 grid place-items-center shrink-0 shadow-2xs">
                           <Plane className="h-5 w-5" />
                         </div>
                       </div>
 
-                      <div className="space-y-1.5 text-xs text-slate-700 font-semibold bg-slate-50 p-3 rounded-2xl border border-slate-100">
+                      <div className="space-y-1.5 text-xs text-slate-800 font-semibold bg-white/50 backdrop-blur-md p-3.5 rounded-2xl border border-white/70 shadow-2xs">
                         <div className="flex items-center gap-2">
                           <CheckCircle2 className="h-4 w-4 text-emerald-500 shrink-0" /> Adult &amp; Minor Passport Renewals
                         </div>
@@ -306,8 +293,8 @@ function Home() {
                       </div>
 
                       <div className="flex items-center justify-between pt-1">
-                        <span className="text-[11px] font-extrabold text-slate-500">Avg Turnaround: 24H - 5 Days</span>
-                        <Button asChild size="sm" className="bg-blue-600 hover:bg-blue-700 text-white font-bold text-xs rounded-xl shadow-xs">
+                        <span className="text-[11px] font-extrabold text-slate-600">Avg Turnaround: 24H - 5 Days</span>
+                        <Button asChild size="sm" className="bg-blue-600 hover:bg-blue-700 text-white font-bold text-xs rounded-xl shadow-md shadow-blue-600/20">
                           <Link to="/passport">
                             View Passport Services <ArrowRight className="h-3.5 w-3.5 ml-1" />
                           </Link>
@@ -324,16 +311,16 @@ function Home() {
                           <h3 className="text-lg sm:text-xl font-extrabold text-slate-900 font-display">
                             Custom Software &amp; Web SaaS
                           </h3>
-                          <p className="text-xs text-slate-500 font-medium leading-relaxed mt-1">
+                          <p className="text-xs text-slate-600 font-medium leading-relaxed mt-1">
                             Enterprise React/Next.js web portals, ERP dashboards, modern UI/UX design systems, and cloud backend architecture.
                           </p>
                         </div>
-                        <div className="h-10 w-10 rounded-2xl bg-slate-100 text-slate-800 grid place-items-center shrink-0">
+                        <div className="h-10 w-10 rounded-2xl bg-slate-100/80 backdrop-blur-md border border-slate-200/50 text-slate-800 grid place-items-center shrink-0 shadow-2xs">
                           <Code2 className="h-5 w-5" />
                         </div>
                       </div>
 
-                      <div className="space-y-1.5 text-xs text-slate-700 font-semibold bg-slate-50 p-3 rounded-2xl border border-slate-100">
+                      <div className="space-y-1.5 text-xs text-slate-800 font-semibold bg-white/50 backdrop-blur-md p-3.5 rounded-2xl border border-white/70 shadow-2xs">
                         <div className="flex items-center gap-2">
                           <CheckCircle2 className="h-4 w-4 text-emerald-500 shrink-0" /> Next.js &amp; React Enterprise Web Apps
                         </div>
@@ -346,8 +333,8 @@ function Home() {
                       </div>
 
                       <div className="flex items-center justify-between pt-1">
-                        <span className="text-[11px] font-extrabold text-slate-500">Delivery: 2 - 4 Weeks</span>
-                        <Button asChild size="sm" className="bg-slate-900 hover:bg-slate-800 text-white font-bold text-xs rounded-xl shadow-xs">
+                        <span className="text-[11px] font-extrabold text-slate-600">Delivery: 2 - 4 Weeks</span>
+                        <Button asChild size="sm" className="bg-slate-900 hover:bg-slate-800 text-white font-bold text-xs rounded-xl shadow-md">
                           <Link to="/web-development">
                             Explore Web Dev <ArrowRight className="h-3.5 w-3.5 ml-1" />
                           </Link>
@@ -364,32 +351,32 @@ function Home() {
                           <h3 className="text-lg sm:text-xl font-extrabold text-slate-900 font-display">
                             Digital Growth &amp; PPC Marketing
                           </h3>
-                          <p className="text-xs text-slate-500 font-medium leading-relaxed mt-1">
+                          <p className="text-xs text-slate-600 font-medium leading-relaxed mt-1">
                             High-converting Google Ads PPC campaigns, technical SEO, brand identity, and multi-channel lead funnels.
                           </p>
                         </div>
-                        <div className="h-10 w-10 rounded-2xl bg-rose-50 text-rose-600 grid place-items-center shrink-0">
+                        <div className="h-10 w-10 rounded-2xl bg-rose-50/80 backdrop-blur-md border border-rose-200/50 text-rose-600 grid place-items-center shrink-0 shadow-2xs">
                           <Megaphone className="h-5 w-5" />
                         </div>
                       </div>
 
-                      <div className="space-y-1.5 text-xs text-slate-700 font-semibold bg-slate-50 p-3 rounded-2xl border border-slate-100">
+                      <div className="space-y-1.5 text-xs text-slate-800 font-semibold bg-white/50 backdrop-blur-md p-3.5 rounded-2xl border border-white/70 shadow-2xs">
                         <div className="flex items-center gap-2">
-                          <CheckCircle2 className="h-4 w-4 text-emerald-500 shrink-0" /> Targeted Google Ads &amp; PPC Optimization
+                          <CheckCircle2 className="h-4 w-4 text-emerald-500 shrink-0" /> Google Ads &amp; PPC Funnel Optimization
                         </div>
                         <div className="flex items-center gap-2">
-                          <CheckCircle2 className="h-4 w-4 text-emerald-500 shrink-0" /> Technical SEO &amp; Local Business Rank
+                          <CheckCircle2 className="h-4 w-4 text-emerald-500 shrink-0" /> Local &amp; International Technical SEO
                         </div>
                         <div className="flex items-center gap-2">
-                          <CheckCircle2 className="h-4 w-4 text-emerald-500 shrink-0" /> Transparent Monthly ROI Analytics
+                          <CheckCircle2 className="h-4 w-4 text-emerald-500 shrink-0" /> Guaranteed ROI Tracking &amp; Analytics
                         </div>
                       </div>
 
                       <div className="flex items-center justify-between pt-1">
-                        <span className="text-[11px] font-extrabold text-slate-500">Lead Volume: 3.8x Avg Growth</span>
-                        <Button asChild size="sm" className="bg-rose-600 hover:bg-rose-700 text-white font-bold text-xs rounded-xl shadow-xs">
+                        <span className="text-[11px] font-extrabold text-slate-600">Setup: 48H Launch</span>
+                        <Button asChild size="sm" className="bg-rose-600 hover:bg-rose-700 text-white font-bold text-xs rounded-xl shadow-md shadow-rose-600/20">
                           <Link to="/digital-marketing">
-                            Explore Marketing <ArrowRight className="h-3.5 w-3.5 ml-1" />
+                            View Marketing <ArrowRight className="h-3.5 w-3.5 ml-1" />
                           </Link>
                         </Button>
                       </div>
@@ -403,69 +390,7 @@ function Home() {
         </div>
       </section>
 
-      {/* Choose Your Division — 3 Equal Division Cards */}
-      <section id="divisions" className="relative z-10 scroll-mt-24 mx-auto max-w-[1440px] px-4 sm:px-8 lg:px-12 py-14 sm:py-20 space-y-10">
-        <div className="text-center max-w-2xl mx-auto space-y-3">
-          <Badge variant="outline" className="glass-pill text-xs font-semibold text-primary border-primary/30 px-3 py-1">
-            CHOOSE YOUR DIVISION
-          </Badge>
-          <h2 className="text-3xl font-extrabold sm:text-4xl text-foreground">
-            Three Equal Pillars of Excellence
-          </h2>
-          <p className="text-sm text-muted-foreground font-normal leading-relaxed">
-            Select any division below to explore guided intake forms, project scope calculators, and strategy consultations.
-          </p>
-        </div>
 
-        {/* 3 Equal Division Cards: Glassmorphism Enabled */}
-        <div className="grid gap-6 md:grid-cols-3">
-          {EQUAL_DIVISIONS.map((div) => (
-            <div
-              key={div.title}
-              className="group glass-card flex flex-col justify-between p-6 sm:p-7 rounded-3xl border border-white/80 hover:border-primary/50 transition-all hover:-translate-y-1.5 shadow-card hover:shadow-lift"
-            >
-              <div className="space-y-4">
-                <div className="flex items-center justify-between">
-                  <div className="h-12 w-12 rounded-2xl bg-primary-soft text-primary font-bold grid place-items-center shadow-2xs group-hover:bg-primary group-hover:text-primary-foreground transition-colors">
-                    <div.icon className="h-6 w-6" />
-                  </div>
-                  <Badge variant="secondary" className="glass-pill text-[10px] font-medium border-border/80">
-                    {div.badge}
-                  </Badge>
-                </div>
-
-                <div className="space-y-1">
-                  <h3 className="text-lg font-bold text-foreground group-hover:text-primary transition-colors">
-                    {div.title}
-                  </h3>
-                  <p className="text-xs font-semibold text-primary">{div.subtitle}</p>
-                </div>
-
-                <p className="text-xs leading-relaxed text-muted-foreground font-normal">
-                  {div.desc}
-                </p>
-
-                <div className="pt-2 space-y-2 border-t border-border/60">
-                  {div.highlights.map((h) => (
-                    <div key={h} className="flex items-center gap-2 text-xs font-normal text-slate-700">
-                      <CheckCircle2 className="h-3.5 w-3.5 text-emerald-600 shrink-0" />
-                      <span>{h}</span>
-                    </div>
-                  ))}
-                </div>
-              </div>
-
-              <div className="pt-6">
-                <Button asChild className="w-full font-bold bg-primary text-primary-foreground hover:bg-blue-700 shadow-md transition-all group-hover:shadow-lift">
-                  <Link to={div.link}>
-                    Explore Division <ArrowRight className="h-4 w-4 ml-1.5 transition-transform group-hover:translate-x-1" />
-                  </Link>
-                </Button>
-              </div>
-            </div>
-          ))}
-        </div>
-      </section>
 
       {/* 3 Core Division Detailed Showcases */}
       <div className="relative z-10 mx-auto max-w-[1440px] px-4 sm:px-8 lg:px-12 space-y-16 pb-16 sm:pb-20">
