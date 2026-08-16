@@ -678,13 +678,13 @@ export const SHIPPING_OPTIONS: ShippingOption[] = [
 ];
 
 export const OFFICE_LOCATION = {
-  address: "180 N LaSalle St #106, Chicago, IL 60601, USA",
+  address: "Chicago, IL 60601, USA",
   phone: "+1 (417) 569-0711",
   whatsapp: "+1 (417) 569-0711",
   whatsappLink: "https://wa.me/14175690711",
   email: "support@oneworldsolutions.com",
   hours: "Mon-Fri: 8:30 AM - 5:00 PM | Sat: 10:00 AM - 2:00 PM",
-  walkInStatus: "Walk-Ins Welcome — No Appointment Required",
+  walkInStatus: "By Appointment & Online Intake Only (No Walk-Ins)",
 };
 
 export const QUICK_SERVICE_OPTIONS = [

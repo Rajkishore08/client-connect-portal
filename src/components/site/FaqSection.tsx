@@ -9,8 +9,8 @@ import { Badge } from "@/components/ui/badge";
 
 const FAQS = [
   {
-    q: "How fast can you process an urgent Indian passport renewal?",
-    a: "With our 24-Hour Emergency Rush intake, your application is double-verified by our specialists on the same day and submitted via emergency hand-carry channels to avoid standard 5–7 week government delays.",
+    q: "How fast can you process an urgent international passport renewal?",
+    a: "With our 24-Hour Emergency Rush intake, your application is double-verified by our specialists on the same day and submitted via emergency priority channels to avoid standard government delays.",
     pillar: "Passport & Visa",
   },
   {
@@ -24,8 +24,8 @@ const FAQS = [
     pillar: "Digital Marketing",
   },
   {
-    q: "Can I walk into your Chicago office without an appointment?",
-    a: "Walk-ins are always welcome at our Chicago, Illinois USA location. However, scheduling a 30-minute consultation ensures dedicated specialist time for your case.",
+    q: "Do you accept walk-in office visits?",
+    a: "No, all services are strictly by online intake or scheduled appointment only. This ensures our specialists have dedicated, uninterrupted time to process your paperwork accurately without delay.",
     pillar: "General Intake",
   },
   {

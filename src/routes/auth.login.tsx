@@ -137,7 +137,7 @@ function LoginPage() {
               <div className="space-y-0.5">
                 <p className="text-xs font-bold text-slate-900">Passport &amp; Consular Concierge</p>
                 <p className="text-[11px] text-slate-500 leading-tight">
-                  End-to-end Indian passport renewals, OCI applications, and 24-hour rush processing.
+                  End-to-end international passport renewals, visa processing, and 24-hour rush intake.
                 </p>
               </div>
             </div>

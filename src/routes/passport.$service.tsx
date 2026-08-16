@@ -2,6 +2,7 @@ import { Link, createFileRoute, notFound } from "@tanstack/react-router";
 import { AlertTriangle, ChevronLeft } from "lucide-react";
 
 import { ServiceIntakeForm } from "@/components/site/ServiceIntakeForm";
+import { TrustBanner } from "@/components/site/SiteFooter";
 import { StepsBanner } from "@/components/site/StepsBanner";
 import { Badge } from "@/components/ui/badge";
 import { PASSPORT_SERVICES } from "@/data/mock-data";
@@ -64,6 +65,9 @@ function ServiceDetail() {
           </p>
         )}
       </header>
+
+      {/* Prominently Highlighted Official Disclaimer Banner */}
+      <TrustBanner />
 
       <StepsBanner compact />
 

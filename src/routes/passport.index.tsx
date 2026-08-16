@@ -31,25 +31,25 @@ const EXACT_PASSPORT_CAPABILITIES = [
     id: "01",
     title: "Passport Renewal",
     subtitle: "Expiring or Expired Passports",
-    description: "Renew an expiring or expired Indian passport with guided form preparation.",
+    description: "Renew an expiring or expired international passport with guided form preparation.",
     image: "https://images.unsplash.com/photo-1544717305-2782549b5136?q=80&w=1200",
     link: "/passport/passport-renewal",
     tag: "Most Popular",
   },
   {
     id: "02",
-    title: "OCI",
-    subtitle: "Overseas Citizen of India",
-    description: "Overseas Citizen of India registration, re-issue and miscellaneous services.",
+    title: "OCI & Dual Residency",
+    subtitle: "Dual Citizenship & Residency",
+    description: "Dual citizenship registration, residency cards, and consular services.",
     image: "https://images.unsplash.com/photo-1526772662000-3f88f10405ff?q=80&w=1200",
     link: "/passport/oci",
-    tag: "NRI Specialty",
+    tag: "Global Specialty",
   },
   {
     id: "03",
     title: "Renunciation / Passport Surrender",
     subtitle: "Post Naturalization Surrender",
-    description: "Surrender your Indian passport after acquiring foreign citizenship.",
+    description: "Surrender your former passport after acquiring new citizenship.",
     image: "https://images.unsplash.com/photo-1569154941061-e231b4725ef1?q=80&w=1200",
     link: "/passport/renunciation",
   },
@@ -57,7 +57,7 @@ const EXACT_PASSPORT_CAPABILITIES = [
     id: "04",
     title: "Emergency Certificate",
     subtitle: "One-Way Urgent Return",
-    description: "One-way travel document for urgent return to India.",
+    description: "One-way travel document for urgent international return travel.",
     image: "https://images.unsplash.com/photo-1436491865332-7a61a109cc05?q=80&w=1200",
     link: "/passport/emergency-certificate",
   },
@@ -94,14 +94,14 @@ function PassportIndex() {
         </div>
 
         <h1 className="text-3xl font-black sm:text-5xl text-foreground tracking-tight">
-          Get Your Passport &amp; OCI Handled —{" "}
+          Get Your Passport &amp; Visas Handled —{" "}
           <span className="text-primary underline decoration-primary/30 underline-offset-4">
             Without the Confusion.
           </span>
         </h1>
         
         <p className="max-w-3xl text-base leading-relaxed text-muted-foreground sm:text-lg">
-          Double-verified form preparation, VFS match audit, 256-bit encrypted document vault, and 24-hour emergency rush filing. Select your service below to review exact document checklists.
+          Double-verified form preparation, consular compliance audit, 256-bit encrypted document vault, and 24-hour emergency rush filing. Select your service below to review exact document checklists.
         </p>
 
         <div className="pt-1 flex flex-wrap items-center gap-x-6 gap-y-2 text-xs font-semibold text-slate-700">
@@ -115,7 +115,7 @@ function PassportIndex() {
           </span>
           <span className="inline-flex items-center gap-1.5">
             <CheckCircle2 className="h-4 w-4 text-emerald-600" />
-            Chicago HQ Walk-Ins Welcome
+            By Appointment &amp; Online Intake Only
           </span>
         </div>
       </header>

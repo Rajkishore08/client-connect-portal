@@ -1,19 +1,30 @@
 import { Link } from "@tanstack/react-router";
-import { Info, ShieldCheck } from "lucide-react";
+import { Info, ShieldAlert } from "lucide-react";
 
 import { OFFICE_LOCATION, TRUST_COPY } from "@/data/mock-data";
 
-/** Inline disclaimer banner — repeat on every form page. */
+/** Inline disclaimer banner — prominently highlighted on every service page. */
 export function TrustBanner({ className = "" }: { className?: string }) {
   return (
     <div
-      className={`rounded-2xl border border-blue-200/80 bg-blue-50/80 p-4.5 text-sm leading-relaxed text-slate-800 shadow-xs ${className}`}
+      className={`rounded-2xl border-2 border-amber-400/80 bg-gradient-to-r from-amber-50/90 via-orange-50/80 to-blue-50/90 backdrop-blur-xl p-4 sm:p-5 text-sm leading-relaxed text-slate-900 shadow-md ${className}`}
     >
-      <div className="flex gap-3">
-        <Info className="mt-0.5 h-4 w-4 shrink-0 text-blue-600" />
+      <div className="flex items-start gap-3.5">
+        <div className="h-9 w-9 rounded-xl bg-amber-500/20 text-amber-700 grid place-items-center shrink-0 border border-amber-400/40 shadow-2xs">
+          <ShieldAlert className="h-5 w-5 text-amber-700" />
+        </div>
         <div className="min-w-0 space-y-1">
-          <p className="font-bold text-slate-900">{TRUST_COPY.disclaimer}</p>
-          <p className="text-xs text-slate-600 leading-relaxed font-medium">{TRUST_COPY.fees}</p>
+          <div className="flex items-center gap-2">
+            <span className="text-[10px] font-black uppercase tracking-wider text-amber-900 bg-amber-200/90 px-2 py-0.5 rounded-md border border-amber-300">
+              OFFICIAL DISCLAIMER
+            </span>
+          </div>
+          <p className="font-extrabold text-slate-900 text-xs sm:text-sm leading-snug">
+            {TRUST_COPY.disclaimer}
+          </p>
+          <p className="text-xs text-slate-600 leading-relaxed font-medium pt-0.5">
+            {TRUST_COPY.fees}
+          </p>
         </div>
       </div>
     </div>

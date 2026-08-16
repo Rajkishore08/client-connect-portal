@@ -82,11 +82,11 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1, maximum-scale=1" },
-      { title: "One World Solutions — Indian Passport Renewal & Tech Agency Chicago" },
+      { title: "One World Solutions — Expedited Passport & Global Tech Agency Chicago" },
       {
         name: "description",
         content:
-          "Official Chicago agency for US Indian Passport Renewal, OCI, Renunciation, Website & App Development, and High-ROI Digital Marketing.",
+          "Official Chicago agency for Expedited Passport Renewal, Visas, Dual Citizenship, Website & App Development, and High-ROI Digital Marketing.",
       },
     ],
     links: [

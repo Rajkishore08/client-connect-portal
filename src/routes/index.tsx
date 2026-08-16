@@ -165,7 +165,7 @@ function Home() {
               {/* Clean Feature Highlights List */}
               <div className="space-y-2.5 py-2 sm:py-0 text-xs sm:text-sm text-slate-700 font-bold">
                 <div className="flex items-center gap-2.5 sm:gap-2">
-                  <CheckCircle2 className="h-4 w-4 text-blue-600 shrink-0" /> Indian Passport, OCI &amp; 24H Emergency Rush
+                  <CheckCircle2 className="h-4 w-4 text-blue-600 shrink-0" /> International Passport, Visas &amp; 24H Rush
                 </div>
                 <div className="flex items-center gap-2.5 sm:gap-2">
                   <CheckCircle2 className="h-4 w-4 text-blue-600 shrink-0" /> Enterprise React/Next.js Web Apps &amp; SaaS Platforms
@@ -272,7 +272,7 @@ function Home() {
                             Passport &amp; Consular Concierge
                           </h3>
                           <p className="text-xs text-slate-600 font-medium leading-relaxed mt-1">
-                            Guided documentation, VFS audit compliance, OCI applications, and 24-hour emergency Hand-Carry processing.
+                            Guided documentation, consular audit compliance, global visa applications, and 24-hour emergency priority processing.
                           </p>
                         </div>
                         <div className="h-10 w-10 rounded-2xl bg-blue-50/80 backdrop-blur-md border border-blue-200/50 text-blue-600 grid place-items-center shrink-0 shadow-2xs">
@@ -285,10 +285,10 @@ function Home() {
                           <CheckCircle2 className="h-4 w-4 text-emerald-500 shrink-0" /> Adult &amp; Minor Passport Renewals
                         </div>
                         <div className="flex items-center gap-2">
-                          <CheckCircle2 className="h-4 w-4 text-emerald-500 shrink-0" /> OCI Card &amp; Renunciation Certificate
+                          <CheckCircle2 className="h-4 w-4 text-emerald-500 shrink-0" /> Dual Residency &amp; Consular Certificates
                         </div>
                         <div className="flex items-center gap-2">
-                          <CheckCircle2 className="h-4 w-4 text-emerald-500 shrink-0" /> 24-Hour Emergency Hand-Carry Filing
+                          <CheckCircle2 className="h-4 w-4 text-emerald-500 shrink-0" /> 24-Hour Emergency Priority Filing
                         </div>
                       </div>
 
