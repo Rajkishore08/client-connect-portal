@@ -9,6 +9,7 @@ import {
   Scripts,
 } from "@tanstack/react-router";
 import { useEffect, type ReactNode } from "react";
+import { Analytics } from "@vercel/analytics/react";
 
 import { ChatWidget } from "@/components/site/ChatWidget";
 import { MobileQuickActionDock } from "@/components/site/MobileQuickActionDock";
@@ -147,6 +148,7 @@ function RootComponent() {
         {!hideSiteChrome && <ChatWidget />}
         {!hideSiteChrome && <MobileQuickActionDock />}
         <Toaster position="top-center" />
+        <Analytics />
       </AuthProvider>
     </QueryClientProvider>
   );
