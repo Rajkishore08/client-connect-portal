@@ -1,5 +1,5 @@
 import { Link } from "@tanstack/react-router";
-import { Info, ShieldAlert } from "lucide-react";
+import { Info, ShieldAlert, ShieldCheck } from "lucide-react";
 
 import { OFFICE_LOCATION, TRUST_COPY } from "@/data/mock-data";
 
@@ -43,13 +43,14 @@ export function SiteFooter() {
             <p className="text-xs font-bold text-primary">
               Connecting People. Powering Businesses.
             </p>
-            <div className="flex flex-wrap items-center gap-2 pt-0.5">
-              <span className="inline-flex items-center text-[10px] font-black uppercase tracking-wider text-blue-700 bg-blue-50 px-2.5 py-1 rounded-md border border-blue-200/90 shadow-2xs">
-                A Division of ABHIPRIYA GROUPS LLC
-              </span>
-              <span className="inline-flex items-center gap-1 text-[10px] font-extrabold uppercase tracking-wider text-emerald-800 bg-emerald-50 px-2.5 py-1 rounded-md border border-emerald-200/90 shadow-2xs">
-                <span className="h-1.5 w-1.5 rounded-full bg-emerald-600" /> E-Verified Company
-              </span>
+            <div className="pt-1">
+              <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-xl bg-slate-100/90 border border-slate-200 text-slate-800 text-[11px] font-medium shadow-2xs">
+                <span className="font-extrabold text-slate-900">Operating under ABHIPRIYA GROUPS LLC</span>
+                <span className="text-slate-300">•</span>
+                <span className="flex items-center gap-1 font-bold text-blue-700">
+                  <ShieldCheck className="h-3.5 w-3.5 text-blue-600 shrink-0" /> E-Verified Company
+                </span>
+              </div>
             </div>
             <p className="text-xs leading-relaxed text-muted-foreground">
               {OFFICE_LOCATION.address}
