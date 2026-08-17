@@ -324,17 +324,19 @@ export function BottomMenu() {
         )}
       </AnimatePresence>
 
-      {/* ONE SINGLE UNIFIED GLASSMORPHIC BAR (< 640px) */}
-      <div className="flex items-center justify-between gap-1 w-full bg-[#0B1527]/95 backdrop-blur-2xl border border-slate-800 rounded-full p-1.5 shadow-2xl z-10">
+      {/* ONE SINGLE UNIFIED LIGHT GLASSMORPHIC BAR (< 640px) */}
+      <div className="flex items-center justify-between gap-1 w-full bg-white/85 backdrop-blur-xl border border-slate-200/90 rounded-full p-1.5 shadow-[0_8px_30px_rgb(0,0,0,0.12)] z-10">
         {/* 1. Call HQ */}
         <button
           type="button"
           onClick={() => setView(view === "call" ? "default" : "call")}
           className={`flex-1 flex flex-col items-center justify-center py-2 rounded-full transition-all cursor-pointer ${
-            view === "call" ? "bg-slate-800 text-blue-400 scale-105" : "text-slate-300 hover:text-white"
+            view === "call"
+              ? "bg-blue-50 text-blue-700 font-bold scale-105 border border-blue-200/60"
+              : "text-slate-600 hover:text-slate-900 hover:bg-slate-100/60"
           }`}
         >
-          <PhoneCall className="h-4 w-4 text-blue-400 mb-0.5" />
+          <PhoneCall className="h-4 w-4 text-blue-600 mb-0.5" />
           <span className="text-[9px] font-bold tracking-tight">Call HQ</span>
         </button>
 
@@ -343,10 +345,12 @@ export function BottomMenu() {
           type="button"
           onClick={() => setView(view === "whatsapp" ? "default" : "whatsapp")}
           className={`flex-1 flex flex-col items-center justify-center py-2 rounded-full transition-all cursor-pointer ${
-            view === "whatsapp" ? "bg-emerald-900/80 text-emerald-300 scale-105" : "text-slate-300 hover:text-white"
+            view === "whatsapp"
+              ? "bg-emerald-50 text-emerald-700 font-bold scale-105 border border-emerald-200/60"
+              : "text-slate-600 hover:text-slate-900 hover:bg-slate-100/60"
           }`}
         >
-          <MessageSquare className="h-4 w-4 text-emerald-400 mb-0.5" />
+          <MessageSquare className="h-4 w-4 text-emerald-600 mb-0.5" />
           <span className="text-[9px] font-bold tracking-tight">WhatsApp</span>
         </button>
 
@@ -355,10 +359,12 @@ export function BottomMenu() {
           type="button"
           onClick={() => setView(view === "track" ? "default" : "track")}
           className={`flex-1 flex flex-col items-center justify-center py-2 rounded-full transition-all cursor-pointer ${
-            view === "track" ? "bg-slate-800 text-amber-400 scale-105" : "text-slate-300 hover:text-white"
+            view === "track"
+              ? "bg-amber-50 text-amber-800 font-bold scale-105 border border-amber-200/60"
+              : "text-slate-600 hover:text-slate-900 hover:bg-slate-100/60"
           }`}
         >
-          <Search className="h-4 w-4 text-amber-400 mb-0.5" />
+          <Search className="h-4 w-4 text-amber-600 mb-0.5" />
           <span className="text-[9px] font-bold tracking-tight">Track</span>
         </button>
 
@@ -367,10 +373,12 @@ export function BottomMenu() {
           type="button"
           onClick={() => setView(view === "services" ? "default" : "services")}
           className={`flex-1 flex flex-col items-center justify-center py-2 rounded-full transition-all cursor-pointer ${
-            view === "services" ? "bg-slate-800 text-blue-400 scale-105" : "text-slate-300 hover:text-white"
+            view === "services"
+              ? "bg-blue-50 text-blue-700 font-bold scale-105 border border-blue-200/60"
+              : "text-slate-600 hover:text-slate-900 hover:bg-slate-100/60"
           }`}
         >
-          <BookOpen className="h-4 w-4 text-blue-400 mb-0.5" />
+          <BookOpen className="h-4 w-4 text-blue-600 mb-0.5" />
           <span className="text-[9px] font-bold tracking-tight">Services</span>
         </button>
 
@@ -379,7 +387,9 @@ export function BottomMenu() {
           type="button"
           onClick={() => setView(view === "book" ? "default" : "book")}
           className={`flex-1 flex flex-col items-center justify-center py-2 rounded-full transition-all cursor-pointer ${
-            view === "book" ? "bg-blue-700 text-white scale-105" : "bg-blue-600 text-white hover:bg-blue-700"
+            view === "book"
+              ? "bg-blue-700 text-white font-extrabold scale-105 shadow-md shadow-blue-600/30"
+              : "bg-blue-600 text-white hover:bg-blue-700 font-extrabold shadow-sm"
           }`}
         >
           <CalendarCheck className="h-4 w-4 mb-0.5" />
