@@ -45,7 +45,7 @@ export function SiteFooter() {
             </p>
             <div className="pt-1">
               <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-xl bg-slate-100/90 border border-slate-200 text-slate-800 text-[11px] font-medium shadow-2xs">
-                <span className="font-extrabold text-slate-900">Operating under ABHIPRIYA GROUPS LLC</span>
+                <span className="font-extrabold text-slate-900">ABHIPRIYA GROUPS LLC</span>
                 <span className="text-slate-300">•</span>
                 <span className="flex items-center gap-1 font-bold text-blue-700">
                   <ShieldCheck className="h-3.5 w-3.5 text-blue-600 shrink-0" /> E-Verified Company
