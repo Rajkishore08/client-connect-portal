@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link } from "@tanstack/react-router";
 import { ArrowRight, Layers, Sparkles } from "lucide-react";
 import { cn } from "@/lib/utils";
@@ -76,11 +76,24 @@ export function InteractiveCapabilitiesGallery({
   mainSubheading?: string;
 }) {
   const [activeIdx, setActiveIdx] = useState(0);
+  const [isHovered, setIsHovered] = useState(false);
   const fallback = DEFAULT_CAPABILITIES[0]!;
   const activeItem: CapabilityItem = items[activeIdx] ?? items[0] ?? fallback;
 
+  useEffect(() => {
+    if (isHovered) return;
+    const interval = setInterval(() => {
+      setActiveIdx((prev) => (prev + 1) % items.length);
+    }, 5000);
+    return () => clearInterval(interval);
+  }, [isHovered, items.length]);
+
   return (
-    <section className="rounded-3xl border border-border/80 bg-card p-6 text-foreground shadow-[var(--shadow-lift)] sm:p-10 lg:p-12">
+    <section
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+      className="rounded-3xl border border-border/80 bg-card p-6 text-foreground shadow-[var(--shadow-lift)] sm:p-10 lg:p-12 relative overflow-hidden"
+    >
       <div className="grid gap-8 lg:grid-cols-[1fr_1.4fr] lg:gap-12 items-stretch">
         {/* Left Side Details Column */}
         <div className="flex flex-col justify-between space-y-6">

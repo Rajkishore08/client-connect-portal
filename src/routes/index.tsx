@@ -20,7 +20,7 @@ import {
   Zap,
 } from "lucide-react";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { CategoryExplorer } from "@/components/site/CategoryExplorer";
 import { FaqSection } from "@/components/site/FaqSection";
 import { InteractiveCapabilitiesGallery } from "@/components/site/InteractiveCapabilitiesGallery";
@@ -94,6 +94,20 @@ const EQUAL_DIVISIONS = [
 function Home() {
   const [wizardOpen, setWizardOpen] = useState(false);
   const [activeHeroTab, setActiveHeroTab] = useState<"passport" | "software" | "marketing">("passport");
+  const [isTabHovered, setIsTabHovered] = useState(false);
+
+  useEffect(() => {
+    if (isTabHovered) return;
+    const timer = setInterval(() => {
+      setActiveHeroTab((prev) => {
+        if (prev === "passport") return "software";
+        if (prev === "software") return "marketing";
+        return "passport";
+      });
+    }, 5000);
+
+    return () => clearInterval(timer);
+  }, [isTabHovered]);
 
   return (
     <main className="relative overflow-hidden bg-slate-50/50">
@@ -208,11 +222,16 @@ function Home() {
             </div>
 
             {/* Right Column: Interactive 3-Division Translucent Glass Showcase Card */}
-            <div className="relative z-10 mt-6 lg:mt-0">
-              <div className="surface-card p-6 sm:p-7 rounded-3xl bg-white/40 backdrop-blur-2xl border border-white/70 shadow-2xl shadow-blue-900/10 space-y-4">
+            <div
+              className="relative z-10 mt-6 lg:mt-0"
+              onMouseEnter={() => setIsTabHovered(true)}
+              onMouseLeave={() => setIsTabHovered(false)}
+            >
+              <div className="surface-card p-6 sm:p-7 rounded-3xl bg-white/40 backdrop-blur-2xl border border-white/70 shadow-2xl shadow-blue-900/10 space-y-4 relative overflow-hidden">
                 <div className="flex items-center justify-between border-b border-slate-200/60 pb-3">
-                  <span className="text-xs font-black uppercase tracking-wider text-slate-500">
+                  <span className="text-xs font-black uppercase tracking-wider text-slate-500 flex items-center gap-1.5">
                     OUR SPECIALIZED DIVISIONS
+                    <span className="text-[10px] font-semibold text-blue-600 bg-blue-50 px-2 py-0.5 rounded-full border border-blue-200/60">Auto 5s</span>
                   </span>
                   <Badge variant="secondary" className="glass-pill text-[10px] font-bold bg-blue-50/80 backdrop-blur-md text-blue-700 border-blue-200/80">
                     Select Division Below
