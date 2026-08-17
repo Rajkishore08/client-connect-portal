@@ -65,9 +65,6 @@ export function SiteHeader() {
               alt="One World Solutions"
               className="h-7 sm:h-9 w-auto object-contain transition-transform duration-200 group-hover:scale-[1.02]"
             />
-            <span className="hidden sm:inline-flex items-center text-[10px] font-extrabold text-slate-500 bg-slate-100 px-2 py-0.5 rounded-full border border-slate-200/80">
-              Unit of ABHIPRIYA GROUPS LLC
-            </span>
           </Link>
 
           {/* Desktop Navigation Links (hidden on mobile) */}

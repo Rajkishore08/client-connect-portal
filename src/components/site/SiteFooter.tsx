@@ -36,18 +36,18 @@ export function SiteFooter() {
     <footer className="mt-20 border-t border-border bg-card">
       <div className="mx-auto max-w-[1440px] px-4 sm:px-8 lg:px-12 py-12">
         <div className="grid gap-10 md:grid-cols-[1.4fr_1fr_1fr_1fr]">
-          <div className="min-w-0 space-y-3">
-            <div className="flex flex-wrap items-center gap-2">
-              <Link to="/" className="inline-block">
-                <img src="/logo-rect.webp" alt="One World Solutions" className="h-8 w-auto object-contain" />
-              </Link>
-              <span className="text-[10px] font-black uppercase tracking-wider text-blue-700 bg-blue-50 px-2 py-0.5 rounded-md border border-blue-200">
+          <div className="min-w-0 space-y-2.5">
+            <Link to="/" className="inline-block">
+              <img src="/logo-rect.webp" alt="One World Solutions" className="h-8.5 w-auto object-contain" />
+            </Link>
+            <p className="text-xs font-bold text-primary">
+              Connecting People. Powering Businesses.
+            </p>
+            <div>
+              <span className="inline-flex items-center text-[10px] font-black uppercase tracking-wider text-blue-700 bg-blue-50 px-2.5 py-1 rounded-md border border-blue-200/90 shadow-2xs">
                 A Division of ABHIPRIYA GROUPS LLC
               </span>
             </div>
-            <p className="text-xs font-semibold text-primary">
-              Connecting People. Powering Businesses.
-            </p>
             <p className="text-xs leading-relaxed text-muted-foreground">
               {OFFICE_LOCATION.address}
             </p>

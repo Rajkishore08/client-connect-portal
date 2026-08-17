@@ -91,8 +91,6 @@ const defaultTier: SpeedTier = SPEED_TIERS[1] ?? {
   id: "express",
   name: "2–4 Day Expedited",
   turnaround: "2 to 4 Days",
-  serviceFee: 249,
-  govFee: 209.50,
   popular: true,
   description: "Fast-track processing for travel within the next 1–2 weeks.",
 };
