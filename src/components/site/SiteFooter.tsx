@@ -43,9 +43,12 @@ export function SiteFooter() {
             <p className="text-xs font-bold text-primary">
               Connecting People. Powering Businesses.
             </p>
-            <div>
+            <div className="flex flex-wrap items-center gap-2 pt-0.5">
               <span className="inline-flex items-center text-[10px] font-black uppercase tracking-wider text-blue-700 bg-blue-50 px-2.5 py-1 rounded-md border border-blue-200/90 shadow-2xs">
                 A Division of ABHIPRIYA GROUPS LLC
+              </span>
+              <span className="inline-flex items-center gap-1 text-[10px] font-extrabold uppercase tracking-wider text-emerald-800 bg-emerald-50 px-2.5 py-1 rounded-md border border-emerald-200/90 shadow-2xs">
+                <span className="h-1.5 w-1.5 rounded-full bg-emerald-600" /> E-Verified Company
               </span>
             </div>
             <p className="text-xs leading-relaxed text-muted-foreground">
@@ -129,7 +132,7 @@ export function SiteFooter() {
         </div>
 
         <div className="mt-12 pt-6 border-t border-border/60 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-muted-foreground">
-          <p>© {new Date().getFullYear()} One World Solutions • Operating under <strong>ABHIPRIYA GROUPS LLC</strong>. All rights reserved.</p>
+          <p>© {new Date().getFullYear()} One World Solutions • Operating under <strong>ABHIPRIYA GROUPS LLC</strong> (E-Verified Entity). All rights reserved.</p>
           <p className="text-[11px]">Chicago, Illinois USA • Expedited Intake &amp; Digital Agency</p>
         </div>
       </div>

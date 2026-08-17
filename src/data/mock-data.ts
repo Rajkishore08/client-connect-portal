@@ -607,10 +607,11 @@ export const BOOKING_SLOTS = [
 
 export const TRUST_COPY = {
   parentCompany: "ABHIPRIYA GROUPS LLC",
+  isEverified: true,
   disclaimer:
-    "One World Solutions is a private service-based company operating under ABHIPRIYA GROUPS LLC. We are not affiliated with, or acting on behalf of, any government department, embassy, consulate, or VFS.",
+    "One World Solutions is an E-Verified private service-based company operating under ABHIPRIYA GROUPS LLC. We are not affiliated with, or acting on behalf of, any government department, embassy, consulate, or VFS.",
   fees:
-    "We assist you with documentation, form preparation, and process guidance under ABHIPRIYA GROUPS LLC. Official government fees are paid separately by you.",
+    "We assist you with documentation, form preparation, and process guidance under ABHIPRIYA GROUPS LLC (E-Verified). Official government fees are paid separately by you.",
 };
 
 export const CONFIRMATION_COPY =
