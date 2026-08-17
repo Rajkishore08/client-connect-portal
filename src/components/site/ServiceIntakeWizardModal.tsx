@@ -57,7 +57,7 @@ const CATEGORIES = [
     title: "Passport & Visa Concierge",
     icon: ShieldCheck,
     color: "emerald",
-    desc: "24H Expediting, OCI, Surrender & VFS Documentation Audit",
+    desc: "24H Expediting, Dual Residency, Surrender & Consular Audit",
   },
   {
     id: "software",
@@ -77,9 +77,9 @@ const CATEGORIES = [
 
 const SUB_SERVICES: Record<string, { id: string; name: string; desc: string }[]> = {
   passport: [
-    { id: "renovation", name: "Passport Renewal", desc: "Expedited USA NRI renewal assistance" },
-    { id: "oci", name: "OCI Application", desc: "New OCI or reissue guidance" },
-    { id: "renunciation", name: "Renunciation / Surrender", desc: "Indian passport surrender certificate" },
+    { id: "renovation", name: "Passport Renewal", desc: "Expedited international renewal assistance" },
+    { id: "oci", name: "Dual Residency & Consular", desc: "Dual citizenship & residency guidance" },
+    { id: "renunciation", name: "Renunciation / Surrender", desc: "Passport surrender certificate & declaration" },
     { id: "damaged", name: "Lost / Damaged Passport", desc: "Urgent 24H replacement intake" },
     { id: "evisa", name: "E-Visa Assistance", desc: "Rush electronic visa processing" },
   ],

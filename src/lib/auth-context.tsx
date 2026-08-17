@@ -62,7 +62,7 @@ const DEFAULT_MOCK_APPLICATIONS: SavedApplication[] = [
   },
   {
     id: "app-103",
-    serviceTitle: "Emergency Certificate (One-Way India Return)",
+    serviceTitle: "Emergency Certificate (One-Way Return Travel)",
     serviceCategory: "Passport Services",
     trackingId: "OWS-2026-11093",
     status: "Completed",

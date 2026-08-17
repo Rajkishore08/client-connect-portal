@@ -209,23 +209,23 @@ We deliver top-tier Google rankings for high-intent business terms:
 [NEXT STEPS] Start your rush filing on our **Passport Services** page or call **+1 (417) 569-0711**.`;
   }
 
-  // Edge Case 10: Passport — OCI & Renunciation / Surrender Certificate
+  // Edge Case 10: Passport — Dual Residency & Renunciation / Surrender Certificate
   if (text.includes("oci") || text.includes("renunciation") || text.includes("surrender")) {
-    return `[PASSPORT DIVISION] **OCI & Passport Surrender Concierge:**
+    return `[PASSPORT DIVISION] **Dual Residency & Passport Surrender Concierge:**
 
-• **OCI Card Requirements:** Naturalization certificate, old Indian passport (all pages), US passport copy, photos & US proof of address.
-• **Renunciation / Surrender:** Indian passport surrender certificate filing in compliance with consulate guidelines.
+• **Dual Residency Requirements:** Naturalization certificate, former passport (all pages), current passport copy, photos & proof of address.
+• **Renunciation / Surrender:** Passport surrender declaration filing in compliance with consulate guidelines.
 • **Turnaround:** Full guided form audit to prevent rejection delays.
 
-[NEXT STEPS] Review document checklists on our **OCI & Renunciation** service pages.`;
+[NEXT STEPS] Review document checklists on our **Passport & Consular** service pages.`;
   }
 
   // Edge Case 11: Passport & Visa General / E-Visas
   if (text.includes("passport") || text.includes("visa") || text.includes("evisa") || text.includes("renewal")) {
     return `[PASSPORT DIVISION] **Passport & Visa Services:**
 
-• **Passport Renewals:** US & Indian passport renewal assistance with guided form preparation.
-• **Global E-Visas:** Fast electronic visa processing for India, UK ETA, Brazil, Kenya, and Vietnam.
+• **Passport Renewals:** International passport renewal assistance with guided form preparation.
+• **Global E-Visas:** Fast electronic visa processing for UK ETA, Brazil, Kenya, and Vietnam.
 • **Direct Embassy Shipping:** Finished passports are delivered directly to your registered address by official embassy couriers.
 
 [NEXT STEPS] Select your exact service on our **Passport Services** page.`;
@@ -249,7 +249,7 @@ We deliver top-tier Google rankings for high-intent business terms:
 • **Location:** Chicago, Illinois USA.
 • **WhatsApp Business:** **+1 (417) 569-0711** (Direct instant chat).
 • **Phone Hotline:** **+1 (417) 569-0711**.
-• **Walk-Ins:** Walk-ins welcome at our Chicago location. Scheduling a consultation ensures dedicated specialist time.
+• **Appointment Policy:** All services are strictly by online intake or scheduled appointment only (no walk-ins).
 
 [NEXT STEPS] Reserve a time slot on our **Book Consultation** page.`;
   }
@@ -259,7 +259,7 @@ We deliver top-tier Google rankings for high-intent business terms:
 
 1. **Web Development & Custom Software:** Custom Web Apps, Enterprise SaaS, AI Agents, RAG Vector Search & UI/UX.
 2. **Digital Marketing & Growth:** SEO Keyword Ranking, Google/Meta PPC Ads, CRO Funnels & 3.4x ROI Sprints.
-3. **Passport & Visa Concierge:** 24-Hour Emergency Rush, Renewals, OCI Cards & Renunciation.
+3. **Passport & Visa Concierge:** 24-Hour Emergency Rush, Renewals, Dual Residency & Surrender.
 
 How can I help you today? Feel free to ask a specific question or message us directly on WhatsApp Business at **+1 (417) 569-0711**.`;
 }

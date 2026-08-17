@@ -17,43 +17,43 @@ export interface BlogPost {
 export const INITIAL_BLOG_POSTS: BlogPost[] = [
   {
     id: "blog-1",
-    title: "Complete 2026 Guide to Indian Passport Renewal in the USA (Chicago Consulate Specs)",
-    slug: "indian-passport-renewal-usa-2026-guide",
+    title: "Complete 2026 Guide to International Passport Renewal & Expedited Visas in the USA",
+    slug: "international-passport-renewal-usa-2026-guide",
     category: "Passport & Visa Guides",
-    summary: "Step-by-step checklist for renewing your Indian passport in the United States. Covers Government Consular forms, VFS audit rules, photo dimensions, and expedited hand-carry filing.",
+    summary: "Step-by-step checklist for renewing your international passport in the United States. Covers Government Consular forms, document audit rules, photo dimensions, and expedited priority filing.",
     content: `
-# Complete 2026 Guide to Indian Passport Renewal in the USA
+# Complete 2026 Guide to International Passport Renewal in the USA
 
-Renewing your Indian passport from the United States requires navigating both the Indian Government Consular portal and VFS Global document submission rules. This guide breaks down the process to ensure 100% first-pass approval without consulate rejection.
+Renewing your passport from the United States requires navigating official Government Consular portals and submission rules. This guide breaks down the process to ensure 100% first-pass approval without consular rejection.
 
 ---
 
 ## 1. Document Requirements Checklist
 
 Before filling out your online consular application, ensure you have original copies of:
-- **Current Original Indian Passport** (valid or expired within 3 years).
-- **Proof of Legal US Status**: Valid H-1B, L-1, Green Card (I-551), or EAD card copy.
-- **Proof of US Address**: State Driver's License, Utility Bill, or Residential Lease Agreement in Chicago or your jurisdiction.
+- **Current Original Passport** (valid or expired).
+- **Proof of Legal Status**: Valid Visa, Green Card, or Residency documentation.
+- **Proof of US Address**: State Driver's License, Utility Bill, or Residential Lease Agreement.
 - **2x2 Photo Specifications**: Plain white background, neutral expression, zero glare on eyeglasses.
 
 ---
 
-## 2. VFS Global & Consular Step-by-Step
+## 2. Consular Step-by-Step
 
-1. **Government Application**: Fill out the official Government of India passport website form.
-2. **VFS Account Setup**: Register your ARN on VFS Global and generate your courier tracking shipping label.
+1. **Government Application**: Fill out the official passport website application form.
+2. **Account Setup**: Register your reference number and generate your tracking shipping label.
 3. **Physical Audit & Submission**: Double-check annexures and notarized affidavits.
 
 > [!TIP]
-> Need expedited emergency hand-carry or error-free form filing? Contact One World Solutions in Chicago at **+1 (417) 569-0711** for end-to-end concierge assistance.
+> Need expedited emergency priority filing or error-free form preparation? Contact One World Solutions at **+1 (417) 569-0711** for end-to-end concierge assistance.
     `,
     coverImage: "https://images.unsplash.com/photo-1544717305-2782549b5136?auto=format&fit=crop&w=1200&q=80",
-    author: "Rajesh Kumar (Senior Consular Specialist)",
+    author: "Elena Rostova (Senior Consular Specialist)",
     date: "2026-08-10",
     readTimeMinutes: 6,
     status: "Published",
-    metaDescription: "Comprehensive 2026 guide for Indian passport renewal in USA. Step-by-step VFS Global checklist, photo requirements, and expedited consular filing in Chicago.",
-    keywords: ["Indian Passport Renewal USA", "Chicago Consulate VFS", "Expedited Indian Passport", "OCI Card Application"],
+    metaDescription: "Comprehensive 2026 guide for international passport renewal in USA. Step-by-step consular checklist, photo requirements, and expedited priority filing.",
+    keywords: ["Passport Renewal USA", "Consular Services", "Expedited Passport Renewal", "Dual Residency Application"],
   },
   {
     id: "blog-2",

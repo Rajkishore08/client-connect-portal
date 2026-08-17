@@ -6,13 +6,13 @@ import { useEffect, useRef, useState } from "react";
 const REVIEWS = [
   {
     name: "Dr. Raj K. Patel",
-    role: "NRI Entrepreneur",
+    role: "Global Executive",
     location: "Chicago, IL",
-    service: "Passport Renewal & OCI",
+    service: "Expedited Passport & Visas",
     division: "Passport & Visa",
     rating: 5,
     quote:
-      "One World Solutions saved my urgent business trip to Mumbai! Their 24-hour emergency rush service got my passport renewed and OCI processed in record time with zero errors.",
+      "One World Solutions saved my urgent international business trip! Their 24-hour emergency rush service got my passport renewed and visa processed in record time with zero errors.",
     avatar: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=200",
   },
   {
@@ -41,11 +41,11 @@ const REVIEWS = [
     name: "Anita Desai",
     role: "Medical Resident",
     location: "New York, NY",
-    service: "Minor Passport Renewal",
+    service: "Family Passport Renewal",
     division: "Passport & Visa",
     rating: 5,
     quote:
-      "Extremely professional consular assistance! They reviewed all our government forms before VFS filing and handled courier tracking seamlessly.",
+      "Extremely professional consular assistance! They reviewed all our government forms before priority filing and handled courier tracking seamlessly.",
     avatar: "https://images.unsplash.com/photo-1544005313-94ddf0286df2?q=80&w=200",
   },
   {

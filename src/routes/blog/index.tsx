@@ -29,7 +29,7 @@ export const Route = createFileRoute("/blog/")({
       {
         name: "description",
         content:
-          "Official guides and technical articles on US Indian Passport Renewal, OCI Application specs, Next.js Web SaaS architecture, and PPC Growth Marketing.",
+          "Official guides and technical articles on International Passport Renewal, Dual Residency specs, Next.js Web SaaS architecture, and PPC Growth Marketing.",
       },
       { property: "og:title", content: "Blogs & Guides | One World Solutions" },
       {
@@ -67,7 +67,7 @@ function BlogListingPage() {
     "@type": "Blog",
     name: "One World Solutions Official Blog & Consular Guides",
     url: "https://oneworldsolutions.com/blog",
-    description: "Expert guides for Indian passport renewal, web software architecture, and PPC growth.",
+    description: "Expert guides for international passport renewal, web software architecture, and PPC growth.",
     publisher: {
       "@type": "Organization",
       name: "One World Solutions Agency Chicago",
@@ -97,7 +97,7 @@ function BlogListingPage() {
           </h1>
 
           <p className="text-sm sm:text-base text-slate-300 max-w-2xl mx-auto leading-relaxed">
-            Step-by-step documentation for Indian Passport Renewals, OCI Applications, Enterprise Next.js SaaS Architecture, and High-ROI PPC Marketing.
+            Step-by-step documentation for International Passport Renewals, Dual Residency Specs, Enterprise Next.js SaaS Architecture, and High-ROI PPC Marketing.
           </p>
 
           {/* Search Bar */}
@@ -106,7 +106,7 @@ function BlogListingPage() {
               <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-slate-400" />
               <Input
                 className="h-12 pl-11 pr-4 bg-white/10 backdrop-blur-md border-white/20 text-white placeholder:text-slate-400 text-sm rounded-2xl focus:bg-white/20"
-                placeholder="Search guides by keyword (e.g. Passport, VFS, Next.js, Ads)..."
+                placeholder="Search guides by keyword (e.g. Passport, Visas, Next.js, Ads)..."
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
               />

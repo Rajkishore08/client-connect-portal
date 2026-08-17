@@ -39,7 +39,7 @@ function TermsPage() {
         <section className="space-y-2">
           <h2 className="text-base font-bold text-foreground">1. Service Scope &amp; Private Company Disclaimer</h2>
           <p className="text-muted-foreground">
-            One World Solutions ("Company", "we", "us") is a private service-based consultancy that provides administrative assistance, document pre-checking, expedited form preparation, and process guidance. We are not a government agency, embassy, consulate, or VFS global affiliate.
+            One World Solutions ("Company", "we", "us") is a private service-based consultancy that provides administrative assistance, document pre-checking, expedited form preparation, and process guidance. We are not a government agency, embassy, consulate, or official government affiliate.
           </p>
         </section>
 

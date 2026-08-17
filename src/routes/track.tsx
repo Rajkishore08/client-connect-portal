@@ -61,14 +61,14 @@ const STAGES = [
   },
   {
     stage: 2,
-    title: "2. Senior Specialist Audit",
-    desc: "VFS photo compliance, DS-82/Form XXII verification & queue prep.",
+    title: "2. Consular Audit",
+    desc: "Consular photo compliance & form verification.",
     icon: FileCheck2,
   },
   {
     stage: 3,
-    title: "3. Government / VFS Queue Filing",
-    desc: "Submitted via emergency hand-carry channels or direct API pipeline.",
+    title: "3. Government Consular Filing",
+    desc: "Official application submission & tracking reference generated.",
     icon: Building2,
   },
   {

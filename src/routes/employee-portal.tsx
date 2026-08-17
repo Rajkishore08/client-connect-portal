@@ -59,7 +59,7 @@ function EmployeePortalPage() {
   const [reminderClientEmail, setReminderClientEmail] = useState("ananya.sharma@example.com");
   const [reminderType, setReminderType] = useState<"sms" | "email">("sms");
   const [reminderMessage, setReminderMessage] = useState(
-    "Hi Ananya, this is a reminder from One World Solutions. Your passport intake #OWS-889124 has advanced to VFS Audit. Please check your tracking status on /track."
+    "Hi Ananya, this is a reminder from One World Solutions. Your passport intake #OWS-889124 has advanced to Consular Audit. Please check your tracking status on /track."
   );
 
   if (!employeeSession) {

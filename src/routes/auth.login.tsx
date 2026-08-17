@@ -108,7 +108,7 @@ function LoginPage() {
               <span className="text-blue-800">Scale Worldwide.</span>
             </h1>
             <p className="text-xs lg:text-sm text-slate-600 leading-relaxed font-medium">
-              A unified client portal for US Indian Passport Renewals, custom React/Next.js web applications, and high-ROI PPC growth marketing.
+              A unified client portal for International Passport Renewals, custom React/Next.js web applications, and high-ROI PPC growth marketing.
             </p>
           </div>
 

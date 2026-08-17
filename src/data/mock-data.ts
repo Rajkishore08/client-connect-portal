@@ -72,7 +72,7 @@ export const PASSPORT_SERVICES: ServiceConfig[] = [
   {
     slug: "passport-renewal",
     title: "Passport Renewal",
-    description: "Renew an expiring or expired Indian passport with guided form preparation.",
+    description: "Renew an expiring or expired passport with guided form preparation.",
     checklist: [
       "Current passport (original + copy)",
       "Passport-size photographs (white background)",
@@ -87,18 +87,17 @@ export const PASSPORT_SERVICES: ServiceConfig[] = [
   },
   {
     slug: "oci",
-    title: "OCI",
-    description: "Overseas Citizen of India registration, re-issue and miscellaneous services.",
-    // Note P1: add a short adult/minor/naturalized/spouse branch here later.
+    title: "Dual Residency & Consular",
+    description: "Dual citizenship registration, residency cards, and consular services.",
     checklist: [
       "Naturalized citizenship certificate",
-      "Old Indian passport (all pages)",
-      "US passport copy",
+      "Former passport (all pages)",
+      "Current passport copy",
       "Passport-size photographs",
       "Proof of address",
     ],
     extraFields: [
-      { name: "countryOfOrigin", label: "Country of Origin", type: "select", options: ["India"], required: true },
+      { name: "countryOfOrigin", label: "Country of Origin", type: "text", required: true },
       {
         name: "relationshipBasis",
         label: "Relationship Basis",
@@ -106,28 +105,28 @@ export const PASSPORT_SERVICES: ServiceConfig[] = [
         options: ["Self", "Spouse", "Parent"],
         required: true,
       },
-      { name: "naturalizationDate", label: "US Naturalization Date", type: "date" },
+      { name: "naturalizationDate", label: "Naturalization Date", type: "date" },
     ],
   },
   {
     slug: "renunciation",
     title: "Renunciation / Passport Surrender",
-    description: "Surrender your Indian passport after acquiring foreign citizenship.",
+    description: "Surrender your former passport after acquiring new citizenship.",
     checklist: [
-      "Indian passport (original + copy)",
-      "Foreign naturalization certificate",
+      "Former passport (original + copy)",
+      "Naturalization certificate",
       "Passport-size photographs",
-      "Form XXII",
+      "Official surrender declaration form",
     ],
     extraFields: [
       { name: "reason", label: "Reason for Renunciation", type: "textarea", required: true },
-      { name: "foreignCitizenshipDate", label: "Foreign Citizenship Acquisition Date", type: "date", required: true },
+      { name: "foreignCitizenshipDate", label: "New Citizenship Acquisition Date", type: "date", required: true },
     ],
   },
   {
     slug: "emergency-certificate",
     title: "Emergency Certificate",
-    description: "One-way travel document for urgent return to India.",
+    description: "One-way travel document for urgent international return travel.",
     checklist: [
       "Proof of lost / damaged / expired passport",
       "Passport-size photographs",
@@ -426,7 +425,7 @@ export const LEADS: Lead[] = [
     service: "E-Visa",
     source: "Chat",
     status: "In Progress",
-    notes: "Travel to India in October.",
+    notes: "International travel in October.",
     documents: ["itinerary.pdf"],
     tracking: {
       governmentForm: { status: "In Progress", ref: "GOV-88255" },
@@ -689,13 +688,13 @@ export const OFFICE_LOCATION = {
 
 export const QUICK_SERVICE_OPTIONS = [
   { group: "Passport Services", slug: "passport-renewal", title: "Passport Renewal" },
-  { group: "Passport Services", slug: "new-passport", title: "New US Passport" },
-  { group: "Passport Services", slug: "child-passport", title: "Child Passport" },
+  { group: "Passport Services", slug: "new-passport", title: "New Passport Application" },
+  { group: "Passport Services", slug: "child-passport", title: "Child Passport Renewal" },
   { group: "Passport Services", slug: "lost-damaged-passport", title: "Lost or Damaged Passport" },
-  { group: "Passport Services", slug: "oci", title: "OCI (Overseas Citizen of India)" },
+  { group: "Passport Services", slug: "oci", title: "Dual Residency & Consular" },
   { group: "Passport Services", slug: "renunciation", title: "Renunciation / Surrender" },
   { group: "Passport Services", slug: "emergency-certificate", title: "Emergency Certificate" },
-  { group: "Visa Services", slug: "e-visa", title: "India E-Visa" },
+  { group: "Visa Services", slug: "e-visa", title: "Global E-Visa Services" },
   { group: "Visa Services", slug: "e-visa", title: "Brazil E-Visa" },
   { group: "Visa Services", slug: "e-visa", title: "Kenya E-Visa" },
   { group: "Visa Services", slug: "e-visa", title: "Vietnam E-Visa" },

@@ -247,7 +247,7 @@ export function BlogManager() {
                 <Input
                   id="blog-title"
                   required
-                  placeholder="e.g. Complete 2026 Guide to Indian Passport Renewal in the USA"
+                  placeholder="e.g. Complete 2026 Guide to International Passport Renewal in the USA"
                   value={editingPost.title}
                   onChange={(e) => {
                     const title = e.target.value;
@@ -271,7 +271,7 @@ export function BlogManager() {
                     id="blog-slug"
                     required
                     className="font-mono text-xs"
-                    placeholder="indian-passport-renewal-usa-2026"
+                    placeholder="international-passport-renewal-usa-2026"
                     value={editingPost.slug}
                     onChange={(e) => setEditingPost({ ...editingPost, slug: e.target.value })}
                   />

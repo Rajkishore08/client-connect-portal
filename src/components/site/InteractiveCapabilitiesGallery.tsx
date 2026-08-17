@@ -16,28 +16,28 @@ export interface CapabilityItem {
 const DEFAULT_CAPABILITIES: CapabilityItem[] = [
   {
     id: "01",
-    title: "US Passport Renewal",
+    title: "Passport Renewal Services",
     subtitle: "24-Hour to 14-Day Speed Tiers",
     description:
-      "Fast-track your US & Indian passport renewal with error-free application preparation, DS-82 form validation, and guaranteed expedited State Department queue processing.",
+      "Fast-track your international passport renewal with error-free application preparation, form validation, and guaranteed expedited queue processing.",
     image: "https://images.unsplash.com/photo-1544717305-2782549b5136?q=80&w=1200",
     link: "/passport/passport-renewal",
     tag: "Most Popular",
   },
   {
     id: "02",
-    title: "OCI Card Services",
-    subtitle: "Overseas Citizen of India",
+    title: "Dual Residency & Consular",
+    subtitle: "Dual Citizenship & Residency",
     description:
-      "Seamless OCI application processing for NRIs and foreign spouses. Includes complete VFS document audit, photo compliance check, and end-to-end courier tracking.",
+      "Seamless dual citizenship application processing and residency guidance. Includes complete document audit, photo compliance check, and end-to-end status tracking.",
     image: "https://images.unsplash.com/photo-1526772662000-3f88f10405ff?q=80&w=1200",
     link: "/passport/oci",
-    tag: "NRI Specialty",
+    tag: "Global Specialty",
   },
   {
     id: "03",
     title: "Global E-Visas & Entry Permits",
-    subtitle: "India, UK ETA, Brazil & Kenya",
+    subtitle: "UK ETA, Brazil, Kenya & Global Permits",
     description:
       "Guaranteed electronic visa filing for international business & travel. Receive official electronic travel authorizations directly in your email in 24–48 hours.",
     image: "https://images.unsplash.com/photo-1512453979798-5ea266f8880c?q=80&w=1200",
@@ -56,9 +56,9 @@ const DEFAULT_CAPABILITIES: CapabilityItem[] = [
   {
     id: "05",
     title: "Renunciation & Surrender",
-    subtitle: "Indian Citizenship Surrender",
+    subtitle: "Former Citizenship Surrender",
     description:
-      "Official surrender certificate filing and Indian passport cancellation following naturalization, fully compliant with Ministry of External Affairs regulations.",
+      "Official surrender declaration filing and former passport cancellation following naturalization, fully compliant with consular regulations.",
     image: "https://images.unsplash.com/photo-1569154941061-e231b4725ef1?q=80&w=1200",
     link: "/passport/renunciation",
   },

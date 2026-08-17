@@ -66,7 +66,7 @@ const EQUAL_DIVISIONS = [
     icon: ShieldCheck,
     title: "Passport & Visa Services",
     subtitle: "Renewals • OCI • Emergency 24H",
-    desc: "Guided form preparation, VFS compliance verification, and 24-hour emergency hand-carry filing.",
+    desc: "Guided form preparation, consular compliance verification, and 24-hour emergency priority filing.",
     link: "/passport",
     badge: "24H Rush Available",
     highlights: ["Adult & Minor Renewals", "OCI & Renunciation", "E-Visa & Lost Replacements"],
@@ -142,7 +142,7 @@ function Home() {
                 <span className="text-blue-600 font-bold">Travel Smarter. Build Better. Scale Worldwide.</span>
               </p>
               <p className="hidden sm:block text-base leading-relaxed text-slate-600 font-medium max-w-xl sm:my-0">
-                We simplify international Indian passport &amp; consular travel, engineer high-impact React/Next.js web platforms, and run targeted Google Ads growth campaigns.
+                We simplify international passport &amp; consular travel, engineer high-impact React/Next.js web platforms, and run targeted Google Ads growth campaigns.
               </p>
 
               {/* Mobile & Desktop Main Action */}
