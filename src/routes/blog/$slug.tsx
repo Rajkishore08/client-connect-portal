@@ -81,7 +81,7 @@ function SingleBlogPostPage() {
       </div>
 
       {/* Main Article Container */}
-      <main className="mx-auto max-w-4xl px-4 py-10 sm:px-6 lg:px-8 space-y-8">
+      <main className="mx-auto max-w-4xl px-4 pt-24 sm:pt-32 pb-10 sm:px-6 lg:px-8 space-y-8">
         {/* Article Meta Header */}
         <div className="space-y-4 text-center sm:text-left">
           <div className="flex flex-wrap items-center gap-2 justify-center sm:justify-start">

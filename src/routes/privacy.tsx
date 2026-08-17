@@ -20,7 +20,7 @@ export const Route = createFileRoute("/privacy")({
 
 function PrivacyPage() {
   return (
-    <main className="mx-auto max-w-4xl px-4 py-12 sm:px-6 sm:py-16 space-y-8">
+    <main className="mx-auto max-w-4xl px-4 pt-24 sm:pt-32 pb-12 sm:pb-16 sm:px-6 space-y-8">
       <div>
         <span className="inline-flex items-center gap-1.5 rounded-full bg-emerald-50 px-3 py-1 text-xs font-bold text-emerald-700">
           <Lock className="h-3.5 w-3.5" /> Confidentiality &amp; Data Security

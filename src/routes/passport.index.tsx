@@ -82,7 +82,7 @@ const EXACT_PASSPORT_CAPABILITIES = [
 
 function PassportIndex() {
   return (
-    <main className="mx-auto max-w-6xl space-y-10 px-4 py-10 sm:px-6 sm:py-14">
+    <main className="mx-auto max-w-6xl space-y-10 px-4 pt-24 sm:pt-32 pb-12 sm:pb-16 sm:px-6">
       <header className="space-y-4">
         <div className="flex items-center gap-2 flex-wrap">
           <Badge variant="outline" className="text-xs font-bold text-primary border-primary/30">

@@ -34,7 +34,7 @@ function ServiceDetail() {
   const { service } = Route.useLoaderData();
 
   return (
-    <main className="mx-auto max-w-4xl space-y-6 px-4 py-8 sm:px-6 sm:py-12">
+    <main className="mx-auto max-w-4xl space-y-6 px-4 pt-24 sm:pt-32 pb-8 sm:pb-12 sm:px-6">
       <Link
         to="/passport"
         className="inline-flex items-center gap-1 text-sm font-medium text-muted-foreground hover:text-foreground"

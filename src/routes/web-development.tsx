@@ -124,7 +124,7 @@ const FAQS = [
 
 function WebDevelopmentPage() {
   return (
-    <main className="mx-auto max-w-7xl space-y-16 px-4 py-10 sm:px-6 sm:py-16">
+    <main className="mx-auto max-w-7xl space-y-16 px-4 pt-24 sm:pt-32 pb-10 sm:pb-16 sm:px-6">
       {/* 1. Hero Section with Interactive 3D Robot */}
       <WebDevHero />
 

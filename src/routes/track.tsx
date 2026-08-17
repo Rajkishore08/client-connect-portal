@@ -134,7 +134,7 @@ function TrackPage() {
   };
 
   return (
-    <main className="mx-auto max-w-4xl space-y-8 px-4 py-10 sm:px-6 sm:py-14">
+    <main className="mx-auto max-w-4xl space-y-8 px-4 pt-24 sm:pt-32 pb-12 sm:pb-16 sm:px-6">
       {/* Header */}
       <div className="text-center max-w-2xl mx-auto space-y-3">
         <Badge variant="outline" className="glass-pill text-xs font-semibold text-primary border-primary/30 px-3.5 py-1">

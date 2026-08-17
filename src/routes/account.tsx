@@ -66,7 +66,7 @@ function AccountDashboardPage() {
   );
 
   return (
-    <main className="mx-auto max-w-6xl px-4 py-10 sm:px-6 sm:py-14 space-y-8">
+    <main className="mx-auto max-w-6xl px-4 pt-24 sm:pt-32 pb-12 sm:pb-16 sm:px-6 space-y-8">
       {/* Account Profile Header */}
       <header className="surface-card p-6 sm:p-8 rounded-3xl border border-border/80 bg-card shadow-sm flex flex-col sm:flex-row sm:items-center justify-between gap-6">
         <div className="flex items-center gap-4">
