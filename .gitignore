@@ -46,3 +46,4 @@ lerna-debug.log*
 
 # Documentation & Prompt Notes
 client-portal-prompt.md
+.env*
