@@ -93,8 +93,8 @@ export function SiteHeader() {
                 </DropdownMenuLabel>
                 <DropdownMenuSeparator />
 
-                <DropdownMenuItem asChild>
-                  <Link to="/passport" className="cursor-pointer p-2.5 rounded-xl hover:bg-slate-50 flex items-start gap-3 group">
+                <DropdownMenuItem asChild className="focus:bg-blue-50 focus:text-blue-700 cursor-pointer">
+                  <Link to="/passport" className="p-2.5 rounded-xl hover:bg-blue-50/80 flex items-start gap-3 group">
                     <div className="h-8 w-8 rounded-lg bg-blue-50 text-blue-600 grid place-items-center shrink-0">
                       <Plane className="h-4 w-4" />
                     </div>
@@ -103,15 +103,15 @@ export function SiteHeader() {
                         Passport &amp; Consular Services
                       </p>
                       <p className="text-[11px] text-slate-500 font-medium leading-tight">
-                        Renewals, OCI, Renunciation &amp; 24H Rush
+                        Renewals, Dual Residency &amp; 24H Rush
                       </p>
                     </div>
                   </Link>
                 </DropdownMenuItem>
 
-                <DropdownMenuItem asChild>
-                  <Link to="/web-development" className="cursor-pointer p-2.5 rounded-xl hover:bg-slate-50 flex items-start gap-3 group">
-                    <div className="h-8 w-8 rounded-lg bg-slate-100 text-slate-700 grid place-items-center shrink-0">
+                <DropdownMenuItem asChild className="focus:bg-blue-50 focus:text-blue-700 cursor-pointer">
+                  <Link to="/web-development" className="p-2.5 rounded-xl hover:bg-blue-50/80 flex items-start gap-3 group">
+                    <div className="h-8 w-8 rounded-lg bg-blue-50 text-blue-600 grid place-items-center shrink-0">
                       <Code2 className="h-4 w-4" />
                     </div>
                     <div>
@@ -125,9 +125,9 @@ export function SiteHeader() {
                   </Link>
                 </DropdownMenuItem>
 
-                <DropdownMenuItem asChild>
-                  <Link to="/digital-marketing" className="cursor-pointer p-2.5 rounded-xl hover:bg-slate-50 flex items-start gap-3 group">
-                    <div className="h-8 w-8 rounded-lg bg-rose-50 text-rose-600 grid place-items-center shrink-0">
+                <DropdownMenuItem asChild className="focus:bg-blue-50 focus:text-blue-700 cursor-pointer">
+                  <Link to="/digital-marketing" className="p-2.5 rounded-xl hover:bg-blue-50/80 flex items-start gap-3 group">
+                    <div className="h-8 w-8 rounded-lg bg-blue-50 text-blue-600 grid place-items-center shrink-0">
                       <TrendingUp className="h-4 w-4" />
                     </div>
                     <div>

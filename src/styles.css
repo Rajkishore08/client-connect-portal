@@ -75,8 +75,8 @@
   --secondary-foreground: oklch(0.25 0.05 260); /* Deep Navy */
   --muted: oklch(0.96 0.008 260 / 0.7);
   --muted-foreground: oklch(0.52 0.02 260);
-  --accent: oklch(0.60 0.22 25); /* #F5393B Bright Red CTA Accent */
-  --accent-foreground: oklch(1 0 0);
+  --accent: oklch(0.96 0.015 260); /* Soft blue wash #EFF6FF */
+  --accent-foreground: oklch(0.45 0.24 260); /* Royal Blue #1D4ED8 */
   --destructive: oklch(0.60 0.22 25);
   --destructive-foreground: oklch(1 0 0);
   --success: oklch(0.60 0.14 150);
