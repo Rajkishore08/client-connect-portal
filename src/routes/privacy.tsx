@@ -37,9 +37,9 @@ function PrivacyPage() {
 
       <div className="surface-card p-6 sm:p-8 space-y-6 text-sm text-foreground leading-relaxed">
         <section className="space-y-2">
-          <h2 className="text-base font-bold text-foreground">1. Information We Collect</h2>
+          <h2 className="text-base font-bold text-foreground">1. Corporate Entity &amp; Information We Collect</h2>
           <p className="text-muted-foreground">
-            We collect personal identification data necessary for document intake, including full names, contact emails, phone numbers, birth dates, passport details, and supporting application files uploaded by clients.
+            One World Solutions operates under <strong>ABHIPRIYA GROUPS LLC</strong>. We collect personal identification data necessary for client intake, including full names, contact emails, phone numbers, birth dates, passport details, and supporting application files uploaded by clients.
           </p>
         </section>
 

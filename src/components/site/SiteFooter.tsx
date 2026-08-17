@@ -37,9 +37,14 @@ export function SiteFooter() {
       <div className="mx-auto max-w-[1440px] px-4 sm:px-8 lg:px-12 py-12">
         <div className="grid gap-10 md:grid-cols-[1.4fr_1fr_1fr_1fr]">
           <div className="min-w-0 space-y-3">
-            <Link to="/" className="inline-block">
-              <img src="/logo-rect.webp" alt="One World Solutions" className="h-8 w-auto object-contain" />
-            </Link>
+            <div className="flex flex-wrap items-center gap-2">
+              <Link to="/" className="inline-block">
+                <img src="/logo-rect.webp" alt="One World Solutions" className="h-8 w-auto object-contain" />
+              </Link>
+              <span className="text-[10px] font-black uppercase tracking-wider text-blue-700 bg-blue-50 px-2 py-0.5 rounded-md border border-blue-200">
+                A Division of ABHIPRIYA GROUPS LLC
+              </span>
+            </div>
             <p className="text-xs font-semibold text-primary">
               Connecting People. Powering Businesses.
             </p>
@@ -124,7 +129,7 @@ export function SiteFooter() {
         </div>
 
         <div className="mt-12 pt-6 border-t border-border/60 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-muted-foreground">
-          <p>© {new Date().getFullYear()} One World Solutions. All rights reserved.</p>
+          <p>© {new Date().getFullYear()} One World Solutions • Operating under <strong>ABHIPRIYA GROUPS LLC</strong>. All rights reserved.</p>
           <p className="text-[11px]">Chicago, Illinois USA • Expedited Intake &amp; Digital Agency</p>
         </div>
       </div>
