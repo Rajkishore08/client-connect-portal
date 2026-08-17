@@ -127,7 +127,8 @@ export function Hero3DBackground() {
       <div className="absolute inset-0 opacity-80 sm:opacity-100">
         <Canvas
           camera={{ position: [0, 0, 5], fov: 45 }}
-          gl={{ antialias: true, alpha: true }}
+          gl={{ antialias: false, alpha: true, powerPreference: "high-performance" }}
+          dpr={[1, 1.5]}
           style={{ background: "transparent" }}
         >
           <ambientLight intensity={0.5} />

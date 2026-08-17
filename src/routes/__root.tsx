@@ -133,7 +133,7 @@ function RootComponent() {
 
   useEffect(() => {
     if (typeof window !== "undefined") {
-      window.scrollTo({ top: 0, behavior: "instant" });
+      window.scrollTo({ top: 0, behavior: "smooth" });
     }
   }, [pathname]);
 
@@ -143,7 +143,7 @@ function RootComponent() {
         <PageLoader />
         <div className={`flex min-h-screen flex-col bg-background font-sans antialiased ${hideSiteChrome ? "" : "pb-16 sm:pb-0"}`}>
           {!hideSiteChrome && <SiteHeader />}
-          <main key={pathname} className="flex-1 animate-in fade-in slide-in-from-bottom-1.5 duration-300 ease-out">
+          <main className="flex-1 transition-opacity duration-200">
             {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
             <Outlet />
           </main>
