@@ -12,6 +12,7 @@ import { useEffect, type ReactNode } from "react";
 import { Analytics } from "@vercel/analytics/react";
 
 import { ChatWidget } from "@/components/site/ChatWidget";
+import { CookieConsentBanner } from "@/components/site/CookieConsentBanner";
 import { MobileQuickActionDock } from "@/components/site/MobileQuickActionDock";
 import { PageLoader } from "@/components/site/PageLoader";
 import { SiteFooter } from "@/components/site/SiteFooter";
@@ -83,14 +84,26 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1, maximum-scale=1" },
-      { title: "One World Solutions — Expedited Passport & Global Tech Agency Chicago" },
       {
         name: "description",
         content:
           "Official Chicago agency for Expedited Passport Renewal, Visas, Dual Citizenship, Website & App Development, and High-ROI Digital Marketing.",
       },
+      { property: "og:title", content: "One World Solutions — Expedited Passport & Global Tech Agency Chicago" },
+      {
+        property: "og:description",
+        content:
+          "Official Chicago agency for Expedited Passport Renewal, Visas, Dual Citizenship, Website & App Development, and High-ROI Digital Marketing.",
+      },
+      { property: "og:url", content: "https://www.oneworldsolutionsusa.com" },
+      { property: "og:image", content: "https://www.oneworldsolutionsusa.com/logo-square.png" },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
+      { name: "twitter:title", content: "One World Solutions — Expedited Passport & Global Tech Agency Chicago" },
+      { name: "twitter:image", content: "https://www.oneworldsolutionsusa.com/logo-square.png" },
     ],
     links: [
+      { rel: "canonical", href: "https://www.oneworldsolutionsusa.com" },
       { rel: "stylesheet", href: appCss },
       {
         rel: "stylesheet",
@@ -151,6 +164,7 @@ function RootComponent() {
         </div>
         {!hideSiteChrome && <ChatWidget />}
         {!hideSiteChrome && <MobileQuickActionDock />}
+        {!hideSiteChrome && <CookieConsentBanner />}
         <Toaster position="top-center" />
         <Analytics />
       </AuthProvider>

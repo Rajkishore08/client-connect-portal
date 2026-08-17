@@ -66,12 +66,12 @@ function BlogListingPage() {
     "@context": "https://schema.org",
     "@type": "Blog",
     name: "One World Solutions Official Blog & Consular Guides",
-    url: "https://oneworldsolutions.com/blog",
+    url: "https://www.oneworldsolutionsusa.com/blog",
     description: "Expert guides for international passport renewal, web software architecture, and PPC growth.",
     publisher: {
       "@type": "Organization",
       name: "One World Solutions Agency Chicago",
-      logo: "https://oneworldsolutions.com/logo-rect.png",
+      logo: "https://www.oneworldsolutionsusa.com/logo-rect.png",
     },
   };
 
