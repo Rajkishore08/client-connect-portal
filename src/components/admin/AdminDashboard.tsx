@@ -358,7 +358,8 @@ export function AdminDashboard() {
 
           <div className="space-y-3 pt-2">
             {FUNNEL_METRICS.map((item, idx) => {
-              const percentage = Math.round((item.count / FUNNEL_METRICS[0].count) * 100);
+              const totalCount = FUNNEL_METRICS[0]?.count || 1;
+              const percentage = Math.round((item.count / totalCount) * 100);
               return (
                 <div key={item.stage} className="space-y-1">
                   <div className="flex items-center justify-between text-xs">
