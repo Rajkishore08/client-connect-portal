@@ -164,15 +164,30 @@ export function UniversalServiceIntakeForm({
         uploadedFileUrls = await uploadDocuments(files);
       }
 
-      const referenceId = `OWS-${category.toUpperCase().slice(0, 3)}-${Math.floor(
-        100000 + Math.random() * 900000
-      )}`;
+      const referenceId = `REF-${Math.floor(100000 + Math.random() * 900000)}`;
 
+      // Detect if user selected a special Engagement Partnership Model
+      const hashStr = window.location.hash || "";
+      let engagementModel = "";
+      if (hashStr.includes("One-Time+Project") || hashStr.includes("One-Time")) {
+        engagementModel = "One-Time Project (Fixed Scope & Timeline)";
+      } else if (hashStr.includes("Dedicated+Developer+Team") || hashStr.includes("Developer")) {
+        engagementModel = "Dedicated Developer Team (Monthly Squad Hire)";
+      } else if (hashStr.includes("Enterprise+Tech+Partner") || hashStr.includes("Enterprise")) {
+        engagementModel = "Enterprise Tech Partner (Long-Term Collaboration)";
+      }
+
+      const isSpecialRequest = !!engagementModel;
+      const priority = isSpecialRequest ? "High" : "Normal";
       const serviceName = activeServiceObj?.name || "Custom Service Request";
+
+      const formattedNotes = engagementModel
+        ? `🔥 SPECIAL ENGAGEMENT REQUEST: [${engagementModel}]\n\nDetails: ${projectDetails || "No additional notes provided."}`
+        : projectDetails;
 
       await submitServiceRequest({
         serviceSlug: selectedService,
-        serviceTitle: `${config.badge} — ${serviceName}`,
+        serviceTitle: `${config.badge} — ${serviceName}${engagementModel ? ` [${engagementModel}]` : ""}`,
         applicantName: fullName,
         applicantEmail: email,
         phoneUsa: phone,
@@ -181,7 +196,7 @@ export function UniversalServiceIntakeForm({
           scopeType: scopeType || "",
           budget: budget || "",
           timeline: timeline || "",
-          projectDetails: projectDetails || "",
+          projectDetails: formattedNotes,
           preferredConsultationDate: preferredDate || "",
           preferredConsultationSlot: preferredSlot || "",
         },
@@ -190,15 +205,18 @@ export function UniversalServiceIntakeForm({
         fileUrls: uploadedFileUrls,
       });
 
-      // Persist to Supabase PostgreSQL Database if online
+      // Persist to Supabase PostgreSQL Database with priority & engagementModel flag
       await saveIntakeToSupabase({
         category: category,
         serviceTitle: serviceName,
         applicantName: fullName,
         email: email,
         phone: phone,
-        notes: projectDetails,
+        notes: formattedNotes,
         trackingId: referenceId,
+        priority: priority,
+        isSpecialRequest: isSpecialRequest,
+        engagementModel: engagementModel,
       });
 
       // Dispatch automated confirmation email

@@ -300,6 +300,9 @@ export interface Lead {
   service: string;
   source: LeadSource;
   status: LeadStatus;
+  priority?: "High" | "Normal";
+  isSpecialRequest?: boolean;
+  engagementModel?: string;
   progressPercent?: number;
   notes: string;
   documents: string[];

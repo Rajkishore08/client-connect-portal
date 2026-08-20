@@ -12,6 +12,7 @@ import {
   FileSpreadsheet,
   FileText,
   Filter,
+  Flame,
   Globe,
   Inbox,
   Lock,
@@ -627,12 +628,33 @@ export function LeadsTable() {
 
                 return (
                   <Fragment key={lead.id}>
-                    <tr className="hover:bg-slate-50/80 transition-colors align-middle">
+                    <tr className={`transition-colors align-middle ${
+                      lead.isSpecialRequest || lead.priority === "High"
+                        ? "bg-amber-50/70 hover:bg-amber-100/70 border-l-4 border-l-amber-500"
+                        : "hover:bg-slate-50/80"
+                    }`}>
                       <td className="whitespace-nowrap px-4 py-3.5">
-                        <p className="font-bold text-slate-900 font-mono text-[11px]">{lead.reference}</p>
+                        <div className="flex items-center gap-1.5">
+                          { (lead.isSpecialRequest || lead.priority === "High") && (
+                            <Flame className="h-4 w-4 text-amber-600 shrink-0 animate-pulse" />
+                          )}
+                          <p className="font-bold text-slate-900 font-mono text-[11px]">{lead.reference}</p>
+                        </div>
                         <p className="text-[10px] text-slate-500">{lead.date}</p>
+                        { (lead.isSpecialRequest || lead.priority === "High") && (
+                          <span className="inline-block mt-0.5 px-1.5 py-0.5 rounded text-[9px] font-black uppercase tracking-wider bg-amber-600 text-white shadow-2xs">
+                            HIGH PRIORITY
+                          </span>
+                        )}
                       </td>
-                      <td className="px-4 py-3.5 font-bold text-slate-900">{lead.name}</td>
+                      <td className="px-4 py-3.5 font-bold text-slate-900">
+                        {lead.name}
+                        {lead.engagementModel && (
+                          <p className="text-[10px] font-extrabold text-blue-700 bg-blue-100/90 px-2 py-0.5 rounded mt-1 border border-blue-300 inline-block">
+                            Model: {lead.engagementModel}
+                          </p>
+                        )}
+                      </td>
                       <td className="px-4 py-3.5 text-slate-600 font-mono text-[11px]">
                         <a href={`mailto:${lead.email}`} className="hover:underline text-blue-600">
                           {lead.email}

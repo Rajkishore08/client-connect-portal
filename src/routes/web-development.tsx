@@ -145,42 +145,42 @@ function WebDevelopmentPage() {
       {/* 4. Featured Software Solutions Grid */}
       <div className="grid gap-6 lg:grid-cols-2">
         {/* Agentic AI Platform Banner */}
-        <div className="rounded-3xl bg-gradient-to-r from-indigo-950 via-purple-950 to-slate-900 text-white p-8 border border-indigo-700/50 shadow-xl flex flex-col justify-between space-y-6">
+        <div className="rounded-3xl bg-white text-slate-900 p-8 border border-slate-200/90 shadow-sm flex flex-col justify-between space-y-6 hover:border-blue-400 transition-colors">
           <div className="space-y-3">
-            <Badge className="bg-indigo-500/20 text-indigo-300 border-indigo-400/30 px-3 py-1 font-mono text-xs uppercase">
+            <Badge variant="outline" className="text-xs font-bold text-blue-600 border-blue-300 px-3.5 py-1 uppercase">
               AUTONOMOUS AI PLATFORM
             </Badge>
-            <h3 className="text-2xl font-black text-white">
+            <h3 className="text-2xl font-black text-slate-900">
               Agentic AI Platform — Autonomous AI Agents
             </h3>
-            <p className="text-xs text-indigo-100 font-medium leading-relaxed">
+            <p className="text-xs text-slate-600 font-medium leading-relaxed">
               Deploy autonomous AI agents that plan, reason, execute multi-step workflows, and deliver measurable results. Model-agnostic, SOC 2 certified, live in 60 minutes.
             </p>
           </div>
           <Link
             to="/agentic-ai-platform"
-            className="inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-2xl bg-indigo-600 hover:bg-indigo-700 text-white font-extrabold text-xs shadow-lg shadow-indigo-600/30 transition-transform active:scale-95 w-full sm:w-auto"
+            className="inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-2xl bg-blue-600 hover:bg-blue-700 text-white font-extrabold text-xs shadow-md shadow-blue-600/20 transition-transform active:scale-95 w-full sm:w-auto"
           >
             Explore Agentic AI Platform <ArrowRight className="h-4 w-4" />
           </Link>
         </div>
 
         {/* WhatsApp Automation Tool Banner */}
-        <div className="rounded-3xl bg-gradient-to-r from-emerald-950 via-teal-950 to-slate-900 text-white p-8 border border-emerald-700/50 shadow-xl flex flex-col justify-between space-y-6">
+        <div className="rounded-3xl bg-white text-slate-900 p-8 border border-slate-200/90 shadow-sm flex flex-col justify-between space-y-6 hover:border-blue-400 transition-colors">
           <div className="space-y-3">
-            <Badge className="bg-emerald-500/20 text-emerald-300 border-emerald-400/30 px-3 py-1 font-mono text-xs uppercase">
+            <Badge variant="outline" className="text-xs font-bold text-blue-600 border-blue-300 px-3.5 py-1 uppercase">
               WORKFLOW AUTOMATION
             </Badge>
-            <h3 className="text-2xl font-black text-white">
+            <h3 className="text-2xl font-black text-slate-900">
               WhatsApp Automation Tool — AI Workflows &amp; CRM Sync
             </h3>
-            <p className="text-xs text-emerald-100 font-medium leading-relaxed">
+            <p className="text-xs text-slate-600 font-medium leading-relaxed">
               WhatsApp is no longer just a chat channel. With AI and smart integrations, transform it into your interface for triggering workflows, closing deals, and completing transactions from one conversation.
             </p>
           </div>
           <Link
             to="/whatsapp-automation-tool"
-            className="inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-2xl bg-emerald-600 hover:bg-emerald-700 text-white font-extrabold text-xs shadow-lg shadow-emerald-600/30 transition-transform active:scale-95 w-full sm:w-auto"
+            className="inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-2xl bg-blue-600 hover:bg-blue-700 text-white font-extrabold text-xs shadow-md shadow-blue-600/20 transition-transform active:scale-95 w-full sm:w-auto"
           >
             Explore WhatsApp Automation <ArrowRight className="h-4 w-4" />
           </Link>

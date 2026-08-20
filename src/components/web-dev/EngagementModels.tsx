@@ -56,7 +56,12 @@ export function EngagementModels() {
 
           <div className="space-y-3 pt-6 border-t border-slate-100">
             <a
-              href="#intake-form"
+              href="#intake-form?plan=One-Time+Project"
+              onClick={() => {
+                const el = document.getElementById("intake-form");
+                if (el) el.scrollIntoView({ behavior: "smooth" });
+                window.location.hash = "intake-form?plan=One-Time+Project";
+              }}
               className="w-full flex items-center justify-center gap-2 py-3 rounded-2xl bg-blue-600 hover:bg-blue-700 text-white font-extrabold text-xs shadow-md shadow-blue-600/20 transition-transform active:scale-95"
             >
               Submit Project Scope <ArrowRight className="h-4 w-4" />
@@ -112,7 +117,12 @@ export function EngagementModels() {
 
           <div className="space-y-3 pt-6 border-t border-slate-800">
             <a
-              href="#intake-form"
+              href="#intake-form?plan=Dedicated+Developer+Team"
+              onClick={() => {
+                const el = document.getElementById("intake-form");
+                if (el) el.scrollIntoView({ behavior: "smooth" });
+                window.location.hash = "intake-form?plan=Dedicated+Developer+Team";
+              }}
               className="w-full flex items-center justify-center gap-2 py-3 rounded-2xl bg-blue-500 hover:bg-blue-600 text-white font-extrabold text-xs shadow-lg shadow-blue-500/30 transition-transform active:scale-95"
             >
               Request Developer Squad <ArrowRight className="h-4 w-4" />
@@ -164,7 +174,12 @@ export function EngagementModels() {
 
           <div className="space-y-3 pt-6 border-t border-slate-100">
             <a
-              href="#intake-form"
+              href="#intake-form?plan=Enterprise+Tech+Partner"
+              onClick={() => {
+                const el = document.getElementById("intake-form");
+                if (el) el.scrollIntoView({ behavior: "smooth" });
+                window.location.hash = "intake-form?plan=Enterprise+Tech+Partner";
+              }}
               className="w-full flex items-center justify-center gap-2 py-3 rounded-2xl bg-slate-900 hover:bg-slate-800 text-white font-extrabold text-xs shadow-md transition-transform active:scale-95"
             >
               Request Enterprise Plan <ArrowRight className="h-4 w-4" />

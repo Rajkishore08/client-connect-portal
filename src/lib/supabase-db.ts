@@ -23,6 +23,9 @@ function mapSupabaseRowToLead(row: Record<string, any>): Lead {
     ? row["milestones"]
     : getDefaultMilestonesForCategory(category);
 
+  const notesText = row["notes"] || "";
+  const isSpecial = notesText.includes("SPECIAL ENGAGEMENT REQUEST") || row["priority"] === "High";
+
   return {
     id: String(row["id"]),
     reference: row["reference"] || `OWS-${Date.now()}`,
@@ -34,8 +37,11 @@ function mapSupabaseRowToLead(row: Record<string, any>): Lead {
     service: row["service"] || "Service Intake",
     source: (row["source"] as any) || "Form",
     status: status,
+    priority: isSpecial ? "High" : "Normal",
+    isSpecialRequest: isSpecial,
+    engagementModel: row["engagement_model"] || (notesText.match(/SPECIAL ENGAGEMENT REQUEST: \[(.*?)\]/)?.[1] || ""),
     progressPercent: typeof row["progress_percent"] === "number" ? row["progress_percent"] : 45,
-    notes: row["notes"] || "",
+    notes: notesText,
     documents: Array.isArray(row["documents"]) ? row["documents"] : [],
     milestones: milestones,
     tracking: {

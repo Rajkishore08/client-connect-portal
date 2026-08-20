@@ -397,22 +397,22 @@ function WhatsAppAutomationPage() {
       </section>
 
       {/* 4. Why Choose Us Section */}
-      <section className="rounded-3xl bg-slate-900 text-white p-8 sm:p-12 space-y-8 border border-slate-800 shadow-xl">
+      <section className="rounded-3xl bg-white text-slate-900 p-8 sm:p-12 space-y-8 border border-slate-200/90 shadow-sm">
         <div className="text-center max-w-3xl mx-auto space-y-3">
-          <Badge className="bg-blue-500/20 text-blue-300 border-blue-500/30 px-3 py-1 font-mono text-xs uppercase">
+          <Badge variant="outline" className="text-xs font-bold text-blue-600 border-blue-300 px-3.5 py-1 uppercase">
             WHY CHOOSE US
           </Badge>
-          <h2 className="text-3xl font-black sm:text-4xl text-white">What This Enables for Your Business</h2>
+          <h2 className="text-3xl font-black sm:text-4xl text-slate-900">What This Enables for Your Business</h2>
         </div>
 
         <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
           {VALUE_PROPOSITIONS.map((vp, idx) => (
-            <div key={idx} className="p-6 rounded-2xl bg-slate-800/80 border border-slate-700 space-y-2 hover:border-blue-400 transition-colors">
-              <div className="h-8 w-8 rounded-lg bg-blue-600/20 text-blue-400 grid place-items-center font-mono font-bold text-xs mb-3">
+            <div key={idx} className="p-6 rounded-2xl bg-slate-50 border border-slate-200/90 space-y-2 hover:border-blue-400 transition-colors">
+              <div className="h-8 w-8 rounded-lg bg-blue-600 text-white grid place-items-center font-mono font-bold text-xs mb-3 shadow-xs">
                 0{idx + 1}
               </div>
-              <h4 className="text-base font-bold text-white">{vp.title}</h4>
-              <p className="text-xs text-slate-300 leading-relaxed">{vp.desc}</p>
+              <h4 className="text-base font-extrabold text-slate-900">{vp.title}</h4>
+              <p className="text-xs text-slate-600 leading-relaxed font-medium">{vp.desc}</p>
             </div>
           ))}
         </div>
@@ -467,21 +467,21 @@ function WhatsAppAutomationPage() {
       </section>
 
       {/* 7. Why W2S Solutions Enterprise Features */}
-      <section className="rounded-3xl bg-slate-950 text-white p-8 sm:p-12 space-y-8 border border-slate-800 shadow-2xl">
+      <section className="rounded-3xl bg-white text-slate-900 p-8 sm:p-12 space-y-8 border border-slate-200/90 shadow-sm">
         <div className="max-w-3xl space-y-3">
-          <Badge className="bg-blue-500/20 text-blue-300 border-blue-500/30 px-3 py-1 font-mono text-xs uppercase">
+          <Badge variant="outline" className="text-xs font-bold text-blue-600 border-blue-300 px-3.5 py-1 uppercase">
             WHY W2S SOLUTIONS &amp; ONE WORLD
           </Badge>
-          <h2 className="text-3xl font-black sm:text-4xl text-white">Built for Enterprise-Grade WhatsApp Automation</h2>
-          <p className="text-xs sm:text-sm text-slate-300">
+          <h2 className="text-3xl font-black sm:text-4xl text-slate-900">Built for Enterprise-Grade WhatsApp Automation</h2>
+          <p className="text-xs sm:text-sm text-slate-600 font-medium">
             We don’t just connect WhatsApp. We engineer enterprise-grade, AI-driven workflows behind every conversation.
           </p>
         </div>
 
         <div className="grid gap-4 sm:grid-cols-2">
           {WHY_US_FEATURES.map((feat, i) => (
-            <div key={i} className="flex items-start gap-3 p-4 rounded-xl bg-slate-900 border border-slate-800 text-xs text-slate-200 font-medium">
-              <CheckCircle2 className="h-5 w-5 text-blue-400 shrink-0 mt-0.5" />
+            <div key={i} className="flex items-start gap-3 p-4 rounded-xl bg-slate-50 border border-slate-200/90 text-xs text-slate-700 font-semibold">
+              <CheckCircle2 className="h-5 w-5 text-blue-600 shrink-0 mt-0.5" />
               <span>{feat}</span>
             </div>
           ))}
