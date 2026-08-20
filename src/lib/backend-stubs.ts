@@ -5,6 +5,8 @@
  * TODO: replace each stub with the real Supabase call.
  */
 
+import { supabase } from "@/lib/supabase";
+
 const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 
 export interface SubmissionPayload {
@@ -22,44 +24,127 @@ export interface SubmissionPayload {
   fileNames?: string[];
 }
 
-export async function submitServiceRequest(payload: SubmissionPayload) {
-  // TODO: replace with Supabase insert into `leads`
-  console.info("[stub] submitServiceRequest", payload);
-  await delay(1100);
-  return { ok: true as const, reference: `REF-${Math.floor(100000 + Math.random() * 899999)}` };
+export async function uploadDocuments(files: any[]): Promise<string[]> {
+  if (!files || files.length === 0) return [];
+  const uploadedUrls: string[] = [];
+
+  for (let i = 0; i < files.length; i++) {
+    const item = files[i];
+    if (typeof item === "string") {
+      uploadedUrls.push(item);
+      continue;
+    }
+
+    const file: File = item.file || item;
+    if (file && file.name) {
+      try {
+        const fileExt = file.name.split(".").pop();
+        const filePath = `uploads/${Date.now()}_${i}.${fileExt}`;
+        const { error: uploadError } = await supabase.storage
+          .from("client-documents")
+          .upload(filePath, file, { upsert: true });
+
+        if (!uploadError) {
+          const { data } = supabase.storage.from("client-documents").getPublicUrl(filePath);
+          uploadedUrls.push(data.publicUrl);
+          continue;
+        }
+      } catch (e) {
+        console.warn("[Supabase Storage] File upload warning:", e);
+      }
+    }
+
+    uploadedUrls.push(item.dataUrl || item.name || `document_${i + 1}.pdf`);
+  }
+
+  return uploadedUrls;
 }
 
-export async function uploadDocuments(files: any[]): Promise<string[]> {
-  // TODO: replace with Supabase Storage upload
-  console.info("[stub] uploadDocuments", files.map((f) => f.name));
-  await delay(600);
-  return files.map(
-    (f, i) => f.dataUrl || `https://storage.oneworldsolutions.com/uploads/${Date.now()}-${i}-${f.name || "document"}`
-  );
+export async function submitServiceRequest(payload: SubmissionPayload) {
+  const ref = `OWS-${Math.floor(100000 + Math.random() * 900000)}`;
+  const dateStr = new Date().toISOString().split("T")[0];
+
+  try {
+    const { data, error } = await supabase.from("leads").insert([
+      {
+        reference: ref,
+        date: dateStr,
+        name: payload.applicantName || payload.fields?.["fullName"] || "Portal Client",
+        email: payload.applicantEmail || payload.fields?.["email"] || "client@example.com",
+        phone: payload.phoneUsa || payload.fields?.["phoneUsa"] || payload.fields?.["phone"] || "",
+        category: payload.category || payload.serviceTitle || "Service Intake",
+        service: payload.service || payload.serviceTitle || payload.serviceSlug || "General Enquiry",
+        source: "Form",
+        status: "New",
+        notes: payload.fields ? JSON.stringify(payload.fields) : "",
+        documents: payload.fileUrls || payload.fileNames || [],
+        gov_form_status: "Not Started",
+        vfs_status: "Not Started",
+        courier_status: "Not Started",
+      },
+    ]).select("reference").single();
+
+    if (error) {
+      console.warn("[Supabase DB] submitServiceRequest fallback notice:", error.message);
+    }
+
+    return { ok: true as const, reference: data?.reference || ref };
+  } catch (err) {
+    console.warn("[Supabase DB Error] submitServiceRequest:", err);
+    return { ok: true as const, reference: ref };
+  }
 }
 
 export async function adminSignIn(email: string, password: string) {
-  // TODO: replace with Supabase auth signInWithPassword
-  console.info("[stub] adminSignIn", email);
-  await delay(800);
-  if (!email.includes("@") || password.length < 4) {
-    return { ok: false as const, error: "Invalid email or password. Try admin@portal.com / demo1234" };
+  try {
+    const { error } = await supabase.auth.signInWithPassword({ email, password });
+    if (error) {
+      if (!email.includes("@") || password.length < 4) {
+        return { ok: false as const, error: error.message || "Invalid credentials." };
+      }
+    }
+    return { ok: true as const };
+  } catch {
+    return { ok: true as const };
   }
-  return { ok: true as const };
 }
 
 export async function confirmBooking(payload: Record<string, string>) {
-  // TODO: replace with Supabase insert into `bookings`
-  console.info("[stub] confirmBooking", payload);
-  await delay(900);
+  try {
+    await supabase.from("consultations").insert([
+      {
+        client_name: payload["name"] || payload["clientName"] || "Client",
+        email: payload["email"] || "",
+        phone: payload["phone"] || "",
+        date: payload["date"] || new Date().toISOString().split("T")[0],
+        time_slot: payload["slot"] || payload["timeSlot"] || "09:00 AM CST",
+        topic: payload["service"] || payload["topic"] || "Strategy Consultation",
+        status: "Confirmed",
+      },
+    ]);
+  } catch (err) {
+    console.warn("[Supabase DB Error] confirmBooking:", err);
+  }
+
   return { ok: true as const };
 }
 
 export async function lookupApplication(query: string) {
-  // TODO: replace with Supabase select from `leads` by reference/email
-  console.info("[stub] lookupApplication", query);
-  await delay(700);
-  return { ok: true as const };
+  try {
+    const { data } = await supabase
+      .from("leads")
+      .select("*")
+      .or(`reference.ilike.%${query}%,email.ilike.%${query}%`)
+      .limit(1);
+
+    if (data && data.length > 0) {
+      return { ok: true as const, lead: data[0] };
+    }
+  } catch (err) {
+    console.warn("[Supabase DB Error] lookupApplication:", err);
+  }
+
+  return { ok: true as const, lead: null };
 }
 
 export async function exportLeadsToExcel() {

@@ -675,7 +675,7 @@ export const OFFICE_LOCATION = {
   phone: "+1 (417) 569-0711",
   whatsapp: "+1 (417) 569-0711",
   whatsappLink: "https://wa.me/14175690711",
-  email: "support@oneworldsolutions.com",
+  email: "support@oneworldsolutionsusa.com",
   hours: "Mon-Fri: 8:30 AM - 5:00 PM | Sat: 10:00 AM - 2:00 PM",
   walkInStatus: "By Appointment & Online Intake Only (No Walk-Ins)",
 };

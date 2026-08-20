@@ -58,7 +58,7 @@ export function BookingWidget() {
           {form.reason && <p className="mt-2 text-muted-foreground">{form.reason}</p>}
         </div>
         <p className="mt-5 text-sm text-muted-foreground">
-          A confirmation email is on its way. We'll call you on the number above.
+          A calendar invite &amp; Google Meeting confirmation from <strong className="text-slate-800">oneworldsolutions20@gmail.com</strong> has been sent to your email. For general enquiries, contact us at <strong className="text-slate-800">support@oneworldsolutionsusa.com</strong>.
         </p>
         <Button
           variant="outline"
