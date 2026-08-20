@@ -111,6 +111,11 @@ export function SiteFooter() {
             <h3 className="text-xs font-mono font-bold text-primary uppercase tracking-wider">Legal &amp; Policy</h3>
             <ul className="mt-4 space-y-2.5 text-xs font-medium text-muted-foreground">
               <li>
+                <Link to="/blog" className="hover:text-foreground font-semibold text-blue-600">
+                  Blog &amp; Consular Guides
+                </Link>
+              </li>
+              <li>
                 <Link to="/privacy" className="hover:text-foreground">
                   Privacy Policy
                 </Link>
@@ -118,11 +123,6 @@ export function SiteFooter() {
               <li>
                 <Link to="/terms" className="hover:text-foreground">
                   Terms of Service
-                </Link>
-              </li>
-              <li>
-                <Link to="/admin" className="hover:text-foreground text-muted-foreground/70">
-                  Admin Portal Log In
                 </Link>
               </li>
             </ul>

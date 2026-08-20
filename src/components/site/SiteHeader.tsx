@@ -77,94 +77,36 @@ export function SiteHeader() {
               Home
             </Link>
 
-            {/* Services Dropdown */}
-            <DropdownMenu>
-              <DropdownMenuTrigger asChild>
-                <button
-                  type="button"
-                  className="rounded-full px-3.5 py-2 text-xs font-semibold text-slate-700 transition-colors hover:bg-slate-100 flex items-center gap-1 cursor-pointer whitespace-nowrap"
-                >
-                  Services Catalog <ChevronDown className="h-3.5 w-3.5 text-slate-400" />
-                </button>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent align="start" className="w-80 p-2 bg-white z-[9999]">
-                <DropdownMenuLabel className="text-[11px] font-extrabold uppercase tracking-wider text-slate-400 px-2 py-1">
-                  Our Specialized Divisions
-                </DropdownMenuLabel>
-                <DropdownMenuSeparator />
-
-                <DropdownMenuItem asChild className="focus:bg-blue-50 focus:text-blue-700 cursor-pointer">
-                  <Link to="/passport" className="p-2.5 rounded-xl hover:bg-blue-50/80 flex items-start gap-3 group">
-                    <div className="h-8 w-8 rounded-lg bg-blue-50 text-blue-600 grid place-items-center shrink-0">
-                      <Plane className="h-4 w-4" />
-                    </div>
-                    <div>
-                      <p className="text-xs font-bold text-slate-900 group-hover:text-blue-600 transition-colors">
-                        Passport &amp; Consular Services
-                      </p>
-                      <p className="text-[11px] text-slate-500 font-medium leading-tight">
-                        Renewals, Dual Residency &amp; 24H Rush
-                      </p>
-                    </div>
-                  </Link>
-                </DropdownMenuItem>
-
-                <DropdownMenuItem asChild className="focus:bg-blue-50 focus:text-blue-700 cursor-pointer">
-                  <Link to="/web-development" className="p-2.5 rounded-xl hover:bg-blue-50/80 flex items-start gap-3 group">
-                    <div className="h-8 w-8 rounded-lg bg-blue-50 text-blue-600 grid place-items-center shrink-0">
-                      <Code2 className="h-4 w-4" />
-                    </div>
-                    <div>
-                      <p className="text-xs font-bold text-slate-900 group-hover:text-blue-600 transition-colors">
-                        Website &amp; Web App Development
-                      </p>
-                      <p className="text-[11px] text-slate-500 font-medium leading-tight">
-                        React/Next.js SaaS, ERP &amp; API platforms
-                      </p>
-                    </div>
-                  </Link>
-                </DropdownMenuItem>
-
-                <DropdownMenuItem asChild className="focus:bg-blue-50 focus:text-blue-700 cursor-pointer">
-                  <Link to="/digital-marketing" className="p-2.5 rounded-xl hover:bg-blue-50/80 flex items-start gap-3 group">
-                    <div className="h-8 w-8 rounded-lg bg-blue-50 text-blue-600 grid place-items-center shrink-0">
-                      <TrendingUp className="h-4 w-4" />
-                    </div>
-                    <div>
-                      <p className="text-xs font-bold text-slate-900 group-hover:text-blue-600 transition-colors">
-                        Digital Growth &amp; PPC Marketing
-                      </p>
-                      <p className="text-[11px] text-slate-500 font-medium leading-tight">
-                        SEO, Google Ads PPC &amp; lead acquisition
-                      </p>
-                    </div>
-                  </Link>
-                </DropdownMenuItem>
-              </DropdownMenuContent>
-            </DropdownMenu>
+            <Link
+              to="/passport"
+              activeProps={{ className: "bg-blue-50 text-blue-600 font-bold" }}
+              className="rounded-full px-3 py-1.5 text-xs font-semibold text-slate-700 transition-colors hover:bg-slate-100 whitespace-nowrap flex items-center gap-1.5"
+            >
+              <Plane className="h-3.5 w-3.5 text-blue-600" /> Passport Services
+            </Link>
 
             <Link
-              to="/blog"
+              to="/web-development"
               activeProps={{ className: "bg-blue-50 text-blue-600 font-bold" }}
-              className="rounded-full px-3.5 py-2 text-xs font-semibold text-slate-700 transition-colors hover:bg-slate-100 whitespace-nowrap"
+              className="rounded-full px-3 py-1.5 text-xs font-semibold text-slate-700 transition-colors hover:bg-slate-100 whitespace-nowrap flex items-center gap-1.5"
             >
-              Blog &amp; Guides
+              <Code2 className="h-3.5 w-3.5 text-blue-600" /> Custom Software &amp; Web
+            </Link>
+
+            <Link
+              to="/digital-marketing"
+              activeProps={{ className: "bg-blue-50 text-blue-600 font-bold" }}
+              className="rounded-full px-3 py-1.5 text-xs font-semibold text-slate-700 transition-colors hover:bg-slate-100 whitespace-nowrap flex items-center gap-1.5"
+            >
+              <TrendingUp className="h-3.5 w-3.5 text-blue-600" /> Digital Marketing
             </Link>
 
             <Link
               to="/track"
               activeProps={{ className: "bg-blue-50 text-blue-600 font-bold" }}
-              className="rounded-full px-3.5 py-2 text-xs font-semibold text-slate-700 transition-colors hover:bg-slate-100 whitespace-nowrap"
+              className="rounded-full px-3 py-1.5 text-xs font-semibold text-slate-700 transition-colors hover:bg-slate-100 whitespace-nowrap"
             >
               Track Application
-            </Link>
-
-            <Link
-              to="/admin"
-              activeProps={{ className: "bg-blue-50 text-blue-600 font-bold" }}
-              className="rounded-full px-3.5 py-2 text-xs font-semibold text-slate-700 transition-colors hover:bg-slate-100 whitespace-nowrap"
-            >
-              Admin Portal
             </Link>
           </nav>
 
@@ -316,22 +258,6 @@ export function SiteHeader() {
                       className="block rounded-xl px-3.5 py-2.5 text-sm font-bold text-slate-900 hover:bg-slate-100"
                     >
                       Track Active Intake
-                    </Link>
-
-                    <Link
-                      to="/employee-portal"
-                      onClick={() => setOpen(false)}
-                      className="block rounded-xl px-3.5 py-2.5 text-sm font-bold text-emerald-700 bg-emerald-50 hover:bg-emerald-100"
-                    >
-                      Employee Portal
-                    </Link>
-
-                    <Link
-                      to="/admin"
-                      onClick={() => setOpen(false)}
-                      className="block rounded-xl px-3.5 py-2.5 text-sm font-bold text-blue-700 bg-blue-50 hover:bg-blue-100"
-                    >
-                      Super Admin Console
                     </Link>
                   </div>
 

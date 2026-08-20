@@ -28,7 +28,7 @@ import { ServicesManager } from "@/components/admin/ServicesManager";
 import { StaffCredentialsManager } from "@/components/admin/StaffCredentialsManager";
 import { Button } from "@/components/ui/button";
 
-export const Route = createFileRoute("/admin")({
+export const Route = createFileRoute("/admin-one-master-8820")({
   head: () => ({
     meta: [
       { title: "Admin Console — One World Solutions Agency" },
@@ -163,7 +163,7 @@ function AdminPage() {
             {/* Right: View Site, Employee Portal & Logout */}
             <div className="flex items-center gap-2">
               <Button asChild variant="outline" size="sm" className="hidden xl:inline-flex text-xs font-bold border-emerald-500/50 bg-emerald-500/10 text-emerald-300 hover:bg-emerald-500 hover:text-white">
-                <Link to="/employee-portal" target="_blank">
+                <Link to="/ops-team-portal-1028" target="_blank">
                   <UserCheck className="h-3.5 w-3.5 mr-1" /> Employee Portal
                 </Link>
               </Button>

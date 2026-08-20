@@ -20,7 +20,8 @@ import { TrustBanner } from "@/components/site/SiteFooter";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { getPublishedBlogs, type BlogPost } from "@/data/blogs-data";
+import { fetchBlogsFromSupabase, getPublishedBlogs, type BlogPost } from "@/data/blogs-data";
+import { useEffect } from "react";
 
 export const Route = createFileRoute("/blog/")({
   head: () => ({
@@ -42,10 +43,15 @@ export const Route = createFileRoute("/blog/")({
 });
 
 function BlogListingPage() {
+  const [posts, setPosts] = useState<BlogPost[]>(getPublishedBlogs());
   const [search, setSearch] = useState("");
   const [categoryFilter, setCategoryFilter] = useState<string>("all");
 
-  const posts = useMemo(() => getPublishedBlogs(), []);
+  useEffect(() => {
+    fetchBlogsFromSupabase().then((data) => {
+      setPosts(data.filter((b) => b.status === "Published"));
+    });
+  }, []);
 
   const filteredPosts = useMemo(() => {
     const q = search.trim().toLowerCase();

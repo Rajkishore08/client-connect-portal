@@ -96,17 +96,25 @@ export async function submitServiceRequest(payload: SubmissionPayload) {
 }
 
 export async function adminSignIn(email: string, password: string) {
-  try {
-    const { error } = await supabase.auth.signInWithPassword({ email, password });
-    if (error) {
-      if (!email.includes("@") || password.length < 4) {
-        return { ok: false as const, error: error.message || "Invalid credentials." };
-      }
-    }
-    return { ok: true as const };
-  } catch {
+  const cleanEmail = (email || "").trim().toLowerCase();
+  
+  if (
+    cleanEmail === "admin01@oneworldsolutionsusa.com" &&
+    password === "Priyanka@OneWorld1028"
+  ) {
     return { ok: true as const };
   }
+
+  // Also attempt Supabase Auth login if user upgraded to Supabase Auth
+  try {
+    const { error } = await supabase.auth.signInWithPassword({ email: cleanEmail, password });
+    if (!error) return { ok: true as const };
+  } catch {}
+
+  return {
+    ok: false as const,
+    error: "Invalid Master Admin credentials. Check your Admin ID or Password.",
+  };
 }
 
 export async function confirmBooking(payload: Record<string, string>) {

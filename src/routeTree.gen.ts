@@ -11,11 +11,11 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AccountRouteImport } from './routes/account'
-import { Route as AdminRouteImport } from './routes/admin'
+import { Route as AdminOneMaster8820RouteImport } from './routes/admin-one-master-8820'
 import { Route as AgenticAiPlatformRouteImport } from './routes/agentic-ai-platform'
 import { Route as BookRouteImport } from './routes/book'
 import { Route as DigitalMarketingRouteImport } from './routes/digital-marketing'
-import { Route as EmployeePortalRouteImport } from './routes/employee-portal'
+import { Route as OpsTeamPortal1028RouteImport } from './routes/ops-team-portal-1028'
 import { Route as PassportRouteImport } from './routes/passport'
 import { Route as PrivacyRouteImport } from './routes/privacy'
 import { Route as TermsRouteImport } from './routes/terms'
@@ -39,9 +39,9 @@ const AccountRoute = AccountRouteImport.update({
   path: '/account',
   getParentRoute: () => rootRouteImport,
 } as any)
-const AdminRoute = AdminRouteImport.update({
-  id: '/admin',
-  path: '/admin',
+const AdminOneMaster8820Route = AdminOneMaster8820RouteImport.update({
+  id: '/admin-one-master-8820',
+  path: '/admin-one-master-8820',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AgenticAiPlatformRoute = AgenticAiPlatformRouteImport.update({
@@ -59,9 +59,9 @@ const DigitalMarketingRoute = DigitalMarketingRouteImport.update({
   path: '/digital-marketing',
   getParentRoute: () => rootRouteImport,
 } as any)
-const EmployeePortalRoute = EmployeePortalRouteImport.update({
-  id: '/employee-portal',
-  path: '/employee-portal',
+const OpsTeamPortal1028Route = OpsTeamPortal1028RouteImport.update({
+  id: '/ops-team-portal-1028',
+  path: '/ops-team-portal-1028',
   getParentRoute: () => rootRouteImport,
 } as any)
 const PassportRoute = PassportRouteImport.update({
@@ -128,11 +128,11 @@ const PassportServiceRoute = PassportServiceRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/account': typeof AccountRoute
-  '/admin': typeof AdminRoute
+  '/admin-one-master-8820': typeof AdminOneMaster8820Route
   '/agentic-ai-platform': typeof AgenticAiPlatformRoute
   '/book': typeof BookRoute
   '/digital-marketing': typeof DigitalMarketingRoute
-  '/employee-portal': typeof EmployeePortalRoute
+  '/ops-team-portal-1028': typeof OpsTeamPortal1028Route
   '/passport': typeof PassportRouteWithChildren
   '/privacy': typeof PrivacyRoute
   '/terms': typeof TermsRoute
@@ -149,11 +149,11 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/account': typeof AccountRoute
-  '/admin': typeof AdminRoute
+  '/admin-one-master-8820': typeof AdminOneMaster8820Route
   '/agentic-ai-platform': typeof AgenticAiPlatformRoute
   '/book': typeof BookRoute
   '/digital-marketing': typeof DigitalMarketingRoute
-  '/employee-portal': typeof EmployeePortalRoute
+  '/ops-team-portal-1028': typeof OpsTeamPortal1028Route
   '/privacy': typeof PrivacyRoute
   '/terms': typeof TermsRoute
   '/track': typeof TrackRoute
@@ -170,11 +170,11 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/account': typeof AccountRoute
-  '/admin': typeof AdminRoute
+  '/admin-one-master-8820': typeof AdminOneMaster8820Route
   '/agentic-ai-platform': typeof AgenticAiPlatformRoute
   '/book': typeof BookRoute
   '/digital-marketing': typeof DigitalMarketingRoute
-  '/employee-portal': typeof EmployeePortalRoute
+  '/ops-team-portal-1028': typeof OpsTeamPortal1028Route
   '/passport': typeof PassportRouteWithChildren
   '/privacy': typeof PrivacyRoute
   '/terms': typeof TermsRoute
@@ -193,11 +193,11 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/account'
-    | '/admin'
+    | '/admin-one-master-8820'
     | '/agentic-ai-platform'
     | '/book'
     | '/digital-marketing'
-    | '/employee-portal'
+    | '/ops-team-portal-1028'
     | '/passport'
     | '/privacy'
     | '/terms'
@@ -214,11 +214,11 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/account'
-    | '/admin'
+    | '/admin-one-master-8820'
     | '/agentic-ai-platform'
     | '/book'
     | '/digital-marketing'
-    | '/employee-portal'
+    | '/ops-team-portal-1028'
     | '/privacy'
     | '/terms'
     | '/track'
@@ -234,11 +234,11 @@ export interface FileRouteTypes {
     | '__root__'
     | '/'
     | '/account'
-    | '/admin'
+    | '/admin-one-master-8820'
     | '/agentic-ai-platform'
     | '/book'
     | '/digital-marketing'
-    | '/employee-portal'
+    | '/ops-team-portal-1028'
     | '/passport'
     | '/privacy'
     | '/terms'
@@ -256,11 +256,11 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AccountRoute: typeof AccountRoute
-  AdminRoute: typeof AdminRoute
+  AdminOneMaster8820Route: typeof AdminOneMaster8820Route
   AgenticAiPlatformRoute: typeof AgenticAiPlatformRoute
   BookRoute: typeof BookRoute
   DigitalMarketingRoute: typeof DigitalMarketingRoute
-  EmployeePortalRoute: typeof EmployeePortalRoute
+  OpsTeamPortal1028Route: typeof OpsTeamPortal1028Route
   PassportRoute: typeof PassportRouteWithChildren
   PrivacyRoute: typeof PrivacyRoute
   TermsRoute: typeof TermsRoute
@@ -289,11 +289,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AccountRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/admin': {
-      id: '/admin'
-      path: '/admin'
-      fullPath: '/admin'
-      preLoaderRoute: typeof AdminRouteImport
+    '/admin-one-master-8820': {
+      id: '/admin-one-master-8820'
+      path: '/admin-one-master-8820'
+      fullPath: '/admin-one-master-8820'
+      preLoaderRoute: typeof AdminOneMaster8820RouteImport
       parentRoute: typeof rootRouteImport
     }
     '/agentic-ai-platform': {
@@ -317,11 +317,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DigitalMarketingRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/employee-portal': {
-      id: '/employee-portal'
-      path: '/employee-portal'
-      fullPath: '/employee-portal'
-      preLoaderRoute: typeof EmployeePortalRouteImport
+    '/ops-team-portal-1028': {
+      id: '/ops-team-portal-1028'
+      path: '/ops-team-portal-1028'
+      fullPath: '/ops-team-portal-1028'
+      preLoaderRoute: typeof OpsTeamPortal1028RouteImport
       parentRoute: typeof rootRouteImport
     }
     '/passport': {
@@ -428,11 +428,11 @@ const PassportRouteWithChildren = PassportRoute._addFileChildren(
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AccountRoute: AccountRoute,
-  AdminRoute: AdminRoute,
+  AdminOneMaster8820Route: AdminOneMaster8820Route,
   AgenticAiPlatformRoute: AgenticAiPlatformRoute,
   BookRoute: BookRoute,
   DigitalMarketingRoute: DigitalMarketingRoute,
-  EmployeePortalRoute: EmployeePortalRoute,
+  OpsTeamPortal1028Route: OpsTeamPortal1028Route,
   PassportRoute: PassportRouteWithChildren,
   PrivacyRoute: PrivacyRoute,
   TermsRoute: TermsRoute,

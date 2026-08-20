@@ -12,8 +12,8 @@ interface EmployeeLoginProps {
 }
 
 export function EmployeeLogin({ onSuccess }: EmployeeLoginProps) {
-  const [emailOrId, setEmailOrId] = useState("rahul.leadmanager@oneworldsolutions.com");
-  const [password, setPassword] = useState("LeadPass2026!");
+  const [emailOrId, setEmailOrId] = useState("admin01@oneworldsolutionsusa.com");
+  const [password, setPassword] = useState("Priyanka@OneWorld1028");
   const [loading, setLoading] = useState(false);
 
   const handleLogin = (e: React.FormEvent) => {

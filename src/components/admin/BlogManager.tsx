@@ -28,24 +28,34 @@ import {
 } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
 import {
-  deleteBlog,
+  deleteBlogInSupabase,
+  fetchBlogsFromSupabase,
   getAllBlogs,
-  saveBlog,
+  saveBlogToSupabase,
   type BlogPost,
 } from "@/data/blogs-data";
+import { useEffect } from "react";
 
 export function BlogManager() {
   const [blogs, setBlogs] = useState<BlogPost[]>(getAllBlogs());
   const [search, setSearch] = useState("");
   const [categoryFilter, setCategoryFilter] = useState("all");
+  const [loading, setLoading] = useState(false);
 
   // Modal State
   const [editingPost, setEditingPost] = useState<BlogPost | null>(null);
   const [isNew, setIsNew] = useState(false);
 
-  const reloadBlogs = () => {
-    setBlogs([...getAllBlogs()]);
+  const reloadBlogs = async () => {
+    setLoading(true);
+    const data = await fetchBlogsFromSupabase();
+    setBlogs(data);
+    setLoading(false);
   };
+
+  useEffect(() => {
+    reloadBlogs();
+  }, []);
 
   const filteredBlogs = useMemo(() => {
     const q = search.trim().toLowerCase();
@@ -79,25 +89,25 @@ export function BlogManager() {
     setIsNew(true);
   };
 
-  const handleSavePost = (e: React.FormEvent) => {
+  const handleSavePost = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!editingPost || !editingPost.title.trim() || !editingPost.slug.trim()) {
       toast.error("Please enter a title and valid URL slug.");
       return;
     }
 
-    saveBlog(editingPost);
-    reloadBlogs();
-    toast.success(isNew ? "Blog Article Published" : "Blog Article Updated", {
+    await saveBlogToSupabase(editingPost);
+    await reloadBlogs();
+    toast.success(isNew ? "Blog Article Published to Database" : "Blog Article Updated in Database", {
       description: `Article "${editingPost.title}" is now active for SEO indexing at /blog/${editingPost.slug}.`,
     });
     setEditingPost(null);
   };
 
-  const handleDeletePost = (id: string, title: string) => {
-    deleteBlog(id);
-    reloadBlogs();
-    toast.success(`Deleted article "${title}"`);
+  const handleDeletePost = async (id: string, title: string) => {
+    await deleteBlogInSupabase(id);
+    await reloadBlogs();
+    toast.success(`Deleted article "${title}" from database`);
   };
 
   return (

@@ -38,10 +38,10 @@ export interface StaffAccount {
 
 export const INITIAL_STAFF_ACCOUNTS: StaffAccount[] = [
   {
-    id: "staff-1",
-    name: "Super Admin",
-    email: "admin@oneworldsolutions.com",
-    pass: "Admin2026!",
+    id: "admin01",
+    name: "Master Super Admin",
+    email: "admin01@oneworldsolutionsusa.com",
+    pass: "Priyanka@OneWorld1028",
     role: "super_admin",
     status: "active",
     createdAt: "2026-01-01",
@@ -50,8 +50,8 @@ export const INITIAL_STAFF_ACCOUNTS: StaffAccount[] = [
   {
     id: "staff-2",
     name: "Rahul Verma (Lead Operations)",
-    email: "rahul.leadmanager@oneworldsolutions.com",
-    pass: "LeadPass2026!",
+    email: "rahul.leadmanager@oneworldsolutionsusa.com",
+    pass: "Priyanka@OneWorld1028",
     role: "lead_manager",
     status: "active",
     createdAt: "2026-08-01",

@@ -122,6 +122,92 @@ Driving high-converting leads for professional services requires hyper-targeted 
 
 let localBlogStore: BlogPost[] = [...INITIAL_BLOG_POSTS];
 
+import { supabase } from "@/lib/supabase";
+
+function mapRowToBlogPost(row: Record<string, any>): BlogPost {
+  return {
+    id: String(row["id"]),
+    title: row["title"] || "Untitled Guide",
+    slug: row["slug"] || `guide-${Date.now()}`,
+    category: row["category"] || "Passport & Visa Guides",
+    summary: row["summary"] || "",
+    content: row["content"] || "",
+    coverImage: row["cover_image"] || row["coverImage"] || "https://images.unsplash.com/photo-1544717305-2782549b5136?auto=format&fit=crop&w=1200&q=80",
+    author: row["author"] || "One World Solutions Editorial Team",
+    date: row["date"] || new Date().toISOString().split("T")[0]!,
+    readTimeMinutes: typeof row["read_time_minutes"] === "number" ? row["read_time_minutes"] : 5,
+    status: row["status"] || "Published",
+    metaDescription: row["meta_description"] || row["summary"] || "",
+    keywords: Array.isArray(row["keywords"]) ? row["keywords"] : [],
+  };
+}
+
+/** Fetch All Blogs Live from Supabase PostgreSQL Database */
+export async function fetchBlogsFromSupabase(): Promise<BlogPost[]> {
+  try {
+    const { data, error } = await supabase
+      .from("blogs")
+      .select("*")
+      .order("created_at", { ascending: false });
+
+    if (error || !data || data.length === 0) {
+      return localBlogStore;
+    }
+
+    const fetched = data.map(mapRowToBlogPost);
+    localBlogStore = fetched;
+    return fetched;
+  } catch {
+    return localBlogStore;
+  }
+}
+
+/** Save or Update Blog Post in Supabase PostgreSQL Database */
+export async function saveBlogToSupabase(post: BlogPost): Promise<boolean> {
+  // Update local cache immediately
+  saveBlog(post);
+
+  try {
+    const payload = {
+      title: post.title,
+      slug: post.slug,
+      category: post.category,
+      summary: post.summary,
+      content: post.content,
+      cover_image: post.coverImage,
+      author: post.author,
+      date: post.date,
+      read_time_minutes: post.readTimeMinutes,
+      status: post.status,
+      meta_description: post.metaDescription,
+      keywords: post.keywords,
+    };
+
+    // Upsert by slug or ID
+    const { error } = await supabase.from("blogs").upsert(payload, { onConflict: "slug" });
+    if (error) {
+      console.warn("[Supabase DB] Save blog notice:", error.message);
+    }
+    return true;
+  } catch (err) {
+    console.warn("[Supabase DB Error] saveBlogToSupabase:", err);
+    return true;
+  }
+}
+
+/** Delete Blog Post in Supabase PostgreSQL Database */
+export async function deleteBlogInSupabase(idOrSlug: string): Promise<boolean> {
+  deleteBlog(idOrSlug);
+
+  try {
+    await supabase.from("blogs").delete().or(`id.eq.${idOrSlug},slug.eq.${idOrSlug}`);
+    return true;
+  } catch (err) {
+    console.warn("[Supabase DB Error] deleteBlogInSupabase:", err);
+    return true;
+  }
+}
+
 export function getPublishedBlogs(): BlogPost[] {
   return localBlogStore.filter((b) => b.status === "Published");
 }
@@ -135,7 +221,7 @@ export function getBlogBySlug(slug: string): BlogPost | undefined {
 }
 
 export function saveBlog(post: BlogPost): BlogPost {
-  const idx = localBlogStore.findIndex((b) => b.id === post.id);
+  const idx = localBlogStore.findIndex((b) => b.id === post.id || b.slug === post.slug);
   if (idx !== -1) {
     localBlogStore[idx] = post;
   } else {
@@ -145,5 +231,5 @@ export function saveBlog(post: BlogPost): BlogPost {
 }
 
 export function deleteBlog(id: string): void {
-  localBlogStore = localBlogStore.filter((b) => b.id !== id);
+  localBlogStore = localBlogStore.filter((b) => b.id !== id && b.slug !== id);
 }

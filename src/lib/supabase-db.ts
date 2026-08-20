@@ -95,6 +95,11 @@ export async function createLeadInSupabase(lead: Lead): Promise<boolean> {
         service: lead.service,
         source: lead.source,
         status: lead.status,
+        priority: lead.priority || "Normal",
+        is_special_request: lead.isSpecialRequest || false,
+        engagement_model: lead.engagementModel || "",
+        progress_percent: lead.progressPercent || 25,
+        milestones: lead.milestones || [],
         notes: lead.notes,
         documents: lead.documents,
         gov_form_status: lead.tracking.governmentForm.status,
@@ -126,6 +131,9 @@ export async function updateLeadInSupabase(id: string, patch: Partial<Lead>): Pr
     if (patch.name) payload["name"] = patch.name;
     if (patch.email) payload["email"] = patch.email;
     if (patch.phone) payload["phone"] = patch.phone;
+    if (patch.priority) payload["priority"] = patch.priority;
+    if (patch.isSpecialRequest !== undefined) payload["is_special_request"] = patch.isSpecialRequest;
+    if (patch.engagementModel !== undefined) payload["engagement_model"] = patch.engagementModel;
     if (patch.progressPercent !== undefined) payload["progress_percent"] = patch.progressPercent;
     if (patch.milestones) payload["milestones"] = patch.milestones;
 

@@ -27,7 +27,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 
-export const Route = createFileRoute("/employee-portal")({
+export const Route = createFileRoute("/ops-team-portal-1028")({
   head: () => ({
     meta: [
       { title: "Employee Lead Management Console — One World Solutions Agency" },
