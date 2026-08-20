@@ -28,16 +28,18 @@ import { WebDevProcessRoadmap } from "@/components/web-dev/WebDevProcessRoadmap"
 export const Route = createFileRoute("/web-development")({
   head: () => ({
     meta: [
-      { title: "Web Development, Custom Software & UI/UX — One World Solutions Agency" },
+      { title: "Top Web Development Company in USA | Custom SaaS, React & AI Engineering" },
       {
         name: "description",
         content:
-          "Custom web application development, SaaS platforms, UI/UX design systems, AI agents, and mobile apps by One World Solutions in Chicago.",
+          "Premier web development company in USA. Specializing in custom SaaS platforms, AI agent integration, Next.js web applications, and enterprise software engineering.",
       },
-      { property: "og:title", content: "Web & Custom Software Engineering | One World Solutions" },
+      { name: "keywords", content: "web development company in usa, custom saas development usa, ai agent engineering, react nextjs developers, enterprise software development" },
+      { property: "og:title", content: "Top Web Development Company in USA | One World Solutions" },
       {
         property: "og:description",
-        content: "Custom web design, AI systems, SaaS platforms, and enterprise software engineering.",
+        content:
+          "Custom web apps, enterprise SaaS engineering, AI agents & RAG vector search platforms built by top USA software engineers.",
       },
     ],
   }),

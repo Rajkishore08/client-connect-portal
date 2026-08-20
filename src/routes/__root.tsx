@@ -84,22 +84,40 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1, maximum-scale=1" },
+      { name: "robots", content: "index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" },
+      { name: "googlebot", content: "index, follow" },
+      { name: "author", content: "One World Solutions / ABHIPRIYA GROUPS LLC" },
+      { name: "publisher", content: "One World Solutions" },
+      {
+        name: "keywords",
+        content:
+          "passport services company usa, expedited passport renewal usa, 24 hour passport rush, oci card application, surrendered passport certificate, web development company in usa, custom saas development usa, ai agent engineering, react nextjs developers, enterprise software development, digital marketing services in usa, technical seo agency, google ads ppc agency usa",
+      },
       {
         name: "description",
         content:
-          "Official Chicago agency for Expedited Passport Renewal, Visas, Dual Citizenship, Website & App Development, and High-ROI Digital Marketing.",
+          "USA's premier agency for Expedited US Passport Renewal, Custom Web Application & SaaS Development, and High-ROI Digital Marketing Services. Headquartered in Chicago with nationwide processing.",
       },
-      { property: "og:title", content: "One World Solutions — Expedited Passport & Global Tech Agency Chicago" },
+      { name: "geo.region", content: "US-IL" },
+      { name: "geo.placename", content: "Chicago" },
+      { name: "geo.position", content: "41.8781;-87.6298" },
+      { name: "ICBM", content: "41.8781, -87.6298" },
+      { property: "og:site_name", content: "One World Solutions" },
+      { property: "og:locale", content: "en_US" },
+      { property: "og:title", content: "One World Solutions — Passport Services, Web Development & Digital Marketing USA" },
       {
         property: "og:description",
         content:
-          "Official Chicago agency for Expedited Passport Renewal, Visas, Dual Citizenship, Website & App Development, and High-ROI Digital Marketing.",
+          "USA's premier agency for Expedited Passport Renewal, Custom Web & SaaS Development, and High-ROI Digital Marketing. Chicago HQ with nationwide service.",
       },
       { property: "og:url", content: "https://www.oneworldsolutionsusa.com" },
       { property: "og:image", content: "https://www.oneworldsolutionsusa.com/logo-square.png" },
+      { property: "og:image:alt", content: "One World Solutions Logo" },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
-      { name: "twitter:title", content: "One World Solutions — Expedited Passport & Global Tech Agency Chicago" },
+      { name: "twitter:site", content: "@oneworldsolutions" },
+      { name: "twitter:title", content: "One World Solutions — Passport Services, Web Development & Digital Marketing USA" },
+      { name: "twitter:description", content: "Expedited Passport Renewal, Custom SaaS Software & High-ROI Digital Marketing in the USA." },
       { name: "twitter:image", content: "https://www.oneworldsolutionsusa.com/logo-square.png" },
     ],
     links: [
@@ -114,6 +132,70 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { rel: "icon", href: "/favicon.png", type: "image/png" },
       { rel: "apple-touch-icon", href: "/logo-square.png" },
       { rel: "shortcut icon", href: "/favicon.ico" },
+    ],
+    scripts: [
+      {
+        type: "application/ld+json",
+        children: JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "ProfessionalService",
+          "name": "One World Solutions",
+          "url": "https://www.oneworldsolutionsusa.com",
+          "logo": "https://www.oneworldsolutionsusa.com/logo-square.png",
+          "image": "https://www.oneworldsolutionsusa.com/logo-square.png",
+          "telephone": "+1-417-569-0711",
+          "email": "support@oneworldsolutionsusa.com",
+          "address": {
+            "@type": "PostalAddress",
+            "streetAddress": "Chicago",
+            "addressLocality": "Chicago",
+            "addressRegion": "IL",
+            "postalCode": "60601",
+            "addressCountry": "US"
+          },
+          "geo": {
+            "@type": "GeoCoordinates",
+            "latitude": 41.8781,
+            "longitude": -87.6298
+          },
+          "priceRange": "$$",
+          "aggregateRating": {
+            "@type": "AggregateRating",
+            "ratingValue": "4.9",
+            "reviewCount": "2500"
+          },
+          "hasOfferCatalog": {
+            "@type": "OfferCatalog",
+            "name": "One World Solutions Services",
+            "itemListElement": [
+              {
+                "@type": "Offer",
+                "itemOffered": {
+                  "@type": "Service",
+                  "name": "Passport Services Company USA",
+                  "description": "Expedited US Passport Renewal, OCI Card Application & Consular Surrender."
+                }
+              },
+              {
+                "@type": "Offer",
+                "itemOffered": {
+                  "@type": "Service",
+                  "name": "Web Development Company USA",
+                  "description": "Custom SaaS Platforms, AI Agents, RAG Vector Search & React Applications."
+                }
+              },
+              {
+                "@type": "Offer",
+                "itemOffered": {
+                  "@type": "Service",
+                  "name": "Digital Marketing Services USA",
+                  "description": "Technical SEO, Google/Meta PPC Ads & Conversion Rate Optimization."
+                }
+              }
+            ]
+          }
+        }),
+      },
     ],
   }),
   shellComponent: RootShell,

@@ -37,17 +37,18 @@ import { Hero3DBackground } from "@/components/ui/Hero3DBackground";
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "One World Solutions — Passport, Software & Digital Marketing Agency" },
+      { title: "One World Solutions | Top Passport Services, Web Development & Digital Marketing Agency USA" },
       {
         name: "description",
         content:
-          "Chicago premier multi-service agency for expedited passports & OCI, custom web & software development, and digital marketing growth.",
+          "USA's premier agency for Expedited Passport Renewal, Custom Web & SaaS Development, and High-ROI Digital Marketing. Chicago HQ with nationwide service.",
       },
-      { property: "og:title", content: "One World Solutions — 3 Specialized Agency Divisions" },
+      { name: "keywords", content: "passport services company usa, web development company in usa, digital marketing services in usa, expedited passport renewal, custom saas development" },
+      { property: "og:title", content: "One World Solutions — Passport, Software & Digital Marketing Agency USA" },
       {
         property: "og:description",
         content:
-          "Connecting People. Powering Businesses. Travel Smarter. Build Better. Grow Faster.",
+          "USA's premier agency for Expedited Passport Renewal, Custom Web & SaaS Development, and High-ROI Digital Marketing.",
       },
     ],
   }),

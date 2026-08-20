@@ -10,16 +10,17 @@ import { Badge } from "@/components/ui/badge";
 export const Route = createFileRoute("/passport/")({
   head: () => ({
     meta: [
-      { title: "Expedited Passport & OCI Services — One World Solutions Agency" },
+      { title: "Best Passport Services Company in USA | Expedited Renewal & OCI Concierge" },
       {
         name: "description",
         content:
-          "Expedited US passport renewal, OCI cards, renunciation, emergency certificates & e-visas. Rated 4.9/5 by 2,500+ travelers in Chicago.",
+          "Leading passport services company in USA. Expedited US passport renewal within 24 hours, OCI card application, surrender certificates & global e-visas. Top-rated Chicago agency.",
       },
-      { property: "og:title", content: "Expedited Passport & Visa Concierge | One World Solutions" },
+      { name: "keywords", content: "passport services company usa, expedited passport renewal usa, 24 hour passport rush, oci card application, surrendered passport certificate" },
+      { property: "og:title", content: "Top Passport Services Company in USA | One World Solutions" },
       {
         property: "og:description",
-        content: "Six guided passport and visa services with document checklists shown upfront.",
+        content: "Expedited US passport renewal, OCI cards & visa processing. 24-hour emergency rush intake with document pre-audit.",
       },
     ],
   }),

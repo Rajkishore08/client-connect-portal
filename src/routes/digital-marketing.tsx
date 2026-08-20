@@ -10,16 +10,17 @@ import { Badge } from "@/components/ui/badge";
 export const Route = createFileRoute("/digital-marketing")({
   head: () => ({
     meta: [
-      { title: "Digital Marketing, SEO & PPC Services — One World Solutions Agency" },
+      { title: "Top Digital Marketing Services in USA | High-ROI SEO & PPC Agency" },
       {
         name: "description",
         content:
-          "Data-driven digital marketing, SEO, Google Ads PPC campaigns, social media management, and lead generation by One World Solutions in Chicago.",
+          "Best digital marketing services in USA. Proven 3.4x ROI through technical SEO, Google Ads PPC campaigns, Meta ad sprints, and conversion rate optimization.",
       },
-      { property: "og:title", content: "Digital Marketing & Performance Growth | One World Solutions" },
+      { name: "keywords", content: "digital marketing services in usa, technical seo agency, google ads ppc agency usa, conversion rate optimization, lead generation agency" },
+      { property: "og:title", content: "Top Digital Marketing Services in USA | One World Solutions" },
       {
         property: "og:description",
-        content: "Scale your revenue with data-backed SEO, targeted PPC ads, and high-converting marketing funnels.",
+        content: "Scale revenue with top-rated USA digital marketing services: Technical SEO, Google/Meta PPC Ads & CRO funnels.",
       },
     ],
   }),
