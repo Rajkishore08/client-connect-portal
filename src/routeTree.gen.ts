@@ -12,6 +12,7 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AccountRouteImport } from './routes/account'
 import { Route as AdminRouteImport } from './routes/admin'
+import { Route as AgenticAiPlatformRouteImport } from './routes/agentic-ai-platform'
 import { Route as BookRouteImport } from './routes/book'
 import { Route as DigitalMarketingRouteImport } from './routes/digital-marketing'
 import { Route as EmployeePortalRouteImport } from './routes/employee-portal'
@@ -20,6 +21,7 @@ import { Route as PrivacyRouteImport } from './routes/privacy'
 import { Route as TermsRouteImport } from './routes/terms'
 import { Route as TrackRouteImport } from './routes/track'
 import { Route as WebDevelopmentRouteImport } from './routes/web-development'
+import { Route as WhatsappAutomationToolRouteImport } from './routes/whatsapp-automation-tool'
 import { Route as AuthLoginRouteImport } from './routes/auth.login'
 import { Route as AuthSignupRouteImport } from './routes/auth.signup'
 import { Route as BlogIndexRouteImport } from './routes/blog/index'
@@ -40,6 +42,11 @@ const AccountRoute = AccountRouteImport.update({
 const AdminRoute = AdminRouteImport.update({
   id: '/admin',
   path: '/admin',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AgenticAiPlatformRoute = AgenticAiPlatformRouteImport.update({
+  id: '/agentic-ai-platform',
+  path: '/agentic-ai-platform',
   getParentRoute: () => rootRouteImport,
 } as any)
 const BookRoute = BookRouteImport.update({
@@ -82,6 +89,11 @@ const WebDevelopmentRoute = WebDevelopmentRouteImport.update({
   path: '/web-development',
   getParentRoute: () => rootRouteImport,
 } as any)
+const WhatsappAutomationToolRoute = WhatsappAutomationToolRouteImport.update({
+  id: '/whatsapp-automation-tool',
+  path: '/whatsapp-automation-tool',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AuthLoginRoute = AuthLoginRouteImport.update({
   id: '/auth/login',
   path: '/auth/login',
@@ -117,6 +129,7 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/account': typeof AccountRoute
   '/admin': typeof AdminRoute
+  '/agentic-ai-platform': typeof AgenticAiPlatformRoute
   '/book': typeof BookRoute
   '/digital-marketing': typeof DigitalMarketingRoute
   '/employee-portal': typeof EmployeePortalRoute
@@ -125,6 +138,7 @@ export interface FileRoutesByFullPath {
   '/terms': typeof TermsRoute
   '/track': typeof TrackRoute
   '/web-development': typeof WebDevelopmentRoute
+  '/whatsapp-automation-tool': typeof WhatsappAutomationToolRoute
   '/auth/login': typeof AuthLoginRoute
   '/auth/signup': typeof AuthSignupRoute
   '/blog/$slug': typeof BlogSlugRoute
@@ -136,6 +150,7 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/account': typeof AccountRoute
   '/admin': typeof AdminRoute
+  '/agentic-ai-platform': typeof AgenticAiPlatformRoute
   '/book': typeof BookRoute
   '/digital-marketing': typeof DigitalMarketingRoute
   '/employee-portal': typeof EmployeePortalRoute
@@ -143,6 +158,7 @@ export interface FileRoutesByTo {
   '/terms': typeof TermsRoute
   '/track': typeof TrackRoute
   '/web-development': typeof WebDevelopmentRoute
+  '/whatsapp-automation-tool': typeof WhatsappAutomationToolRoute
   '/auth/login': typeof AuthLoginRoute
   '/auth/signup': typeof AuthSignupRoute
   '/blog/$slug': typeof BlogSlugRoute
@@ -155,6 +171,7 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/account': typeof AccountRoute
   '/admin': typeof AdminRoute
+  '/agentic-ai-platform': typeof AgenticAiPlatformRoute
   '/book': typeof BookRoute
   '/digital-marketing': typeof DigitalMarketingRoute
   '/employee-portal': typeof EmployeePortalRoute
@@ -163,6 +180,7 @@ export interface FileRoutesById {
   '/terms': typeof TermsRoute
   '/track': typeof TrackRoute
   '/web-development': typeof WebDevelopmentRoute
+  '/whatsapp-automation-tool': typeof WhatsappAutomationToolRoute
   '/auth/login': typeof AuthLoginRoute
   '/auth/signup': typeof AuthSignupRoute
   '/blog/$slug': typeof BlogSlugRoute
@@ -176,6 +194,7 @@ export interface FileRouteTypes {
     | '/'
     | '/account'
     | '/admin'
+    | '/agentic-ai-platform'
     | '/book'
     | '/digital-marketing'
     | '/employee-portal'
@@ -184,6 +203,7 @@ export interface FileRouteTypes {
     | '/terms'
     | '/track'
     | '/web-development'
+    | '/whatsapp-automation-tool'
     | '/auth/login'
     | '/auth/signup'
     | '/blog/$slug'
@@ -195,6 +215,7 @@ export interface FileRouteTypes {
     | '/'
     | '/account'
     | '/admin'
+    | '/agentic-ai-platform'
     | '/book'
     | '/digital-marketing'
     | '/employee-portal'
@@ -202,6 +223,7 @@ export interface FileRouteTypes {
     | '/terms'
     | '/track'
     | '/web-development'
+    | '/whatsapp-automation-tool'
     | '/auth/login'
     | '/auth/signup'
     | '/blog/$slug'
@@ -213,6 +235,7 @@ export interface FileRouteTypes {
     | '/'
     | '/account'
     | '/admin'
+    | '/agentic-ai-platform'
     | '/book'
     | '/digital-marketing'
     | '/employee-portal'
@@ -221,6 +244,7 @@ export interface FileRouteTypes {
     | '/terms'
     | '/track'
     | '/web-development'
+    | '/whatsapp-automation-tool'
     | '/auth/login'
     | '/auth/signup'
     | '/blog/$slug'
@@ -233,6 +257,7 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AccountRoute: typeof AccountRoute
   AdminRoute: typeof AdminRoute
+  AgenticAiPlatformRoute: typeof AgenticAiPlatformRoute
   BookRoute: typeof BookRoute
   DigitalMarketingRoute: typeof DigitalMarketingRoute
   EmployeePortalRoute: typeof EmployeePortalRoute
@@ -241,6 +266,7 @@ export interface RootRouteChildren {
   TermsRoute: typeof TermsRoute
   TrackRoute: typeof TrackRoute
   WebDevelopmentRoute: typeof WebDevelopmentRoute
+  WhatsappAutomationToolRoute: typeof WhatsappAutomationToolRoute
   AuthLoginRoute: typeof AuthLoginRoute
   AuthSignupRoute: typeof AuthSignupRoute
   BlogSlugRoute: typeof BlogSlugRoute
@@ -268,6 +294,13 @@ declare module '@tanstack/react-router' {
       path: '/admin'
       fullPath: '/admin'
       preLoaderRoute: typeof AdminRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/agentic-ai-platform': {
+      id: '/agentic-ai-platform'
+      path: '/agentic-ai-platform'
+      fullPath: '/agentic-ai-platform'
+      preLoaderRoute: typeof AgenticAiPlatformRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/book': {
@@ -324,6 +357,13 @@ declare module '@tanstack/react-router' {
       path: '/web-development'
       fullPath: '/web-development'
       preLoaderRoute: typeof WebDevelopmentRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/whatsapp-automation-tool': {
+      id: '/whatsapp-automation-tool'
+      path: '/whatsapp-automation-tool'
+      fullPath: '/whatsapp-automation-tool'
+      preLoaderRoute: typeof WhatsappAutomationToolRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/auth/login': {
@@ -389,6 +429,7 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AccountRoute: AccountRoute,
   AdminRoute: AdminRoute,
+  AgenticAiPlatformRoute: AgenticAiPlatformRoute,
   BookRoute: BookRoute,
   DigitalMarketingRoute: DigitalMarketingRoute,
   EmployeePortalRoute: EmployeePortalRoute,
@@ -397,6 +438,7 @@ const rootRouteChildren: RootRouteChildren = {
   TermsRoute: TermsRoute,
   TrackRoute: TrackRoute,
   WebDevelopmentRoute: WebDevelopmentRoute,
+  WhatsappAutomationToolRoute: WhatsappAutomationToolRoute,
   AuthLoginRoute: AuthLoginRoute,
   AuthSignupRoute: AuthSignupRoute,
   BlogSlugRoute: BlogSlugRoute,

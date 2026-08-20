@@ -228,6 +228,18 @@ export const WEB_SERVICES: WebService[] = [
     group: "software",
   },
   {
+    slug: "agentic-ai-platform",
+    title: "Agentic AI Platform",
+    description: "Build & deploy autonomous AI agents for reasoning, multi-step workflows, multi-agent orchestration, and SOC 2 security",
+    group: "software",
+  },
+  {
+    slug: "whatsapp-automation",
+    title: "WhatsApp Automation Tool",
+    description: "AI-driven WhatsApp workflow automation, CRM sync, instant lead qualification, and automated support",
+    group: "software",
+  },
+  {
     slug: "api-legacy-integrations",
     title: "API & Legacy Integrations",
     description: "Connect databases, webhooks, and third-party APIs into synchronized workflows",
