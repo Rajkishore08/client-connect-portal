@@ -26,9 +26,7 @@ import { FaqSection } from "@/components/site/FaqSection";
 import { InteractiveCapabilitiesGallery } from "@/components/site/InteractiveCapabilitiesGallery";
 
 import { ServiceIntakeWizardModal } from "@/components/site/ServiceIntakeWizardModal";
-import { TrustBanner } from "@/components/site/SiteFooter";
 import { StepsBanner } from "@/components/site/StepsBanner";
-import { Testimonials } from "@/components/site/Testimonials";
 import { TurnaroundEstimator } from "@/components/site/TurnaroundEstimator";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -546,9 +544,6 @@ function Home() {
             <CategoryExplorer />
           </div>
         </section>
-
-        {/* Client Success Stories & Testimonials (PRD Section 7) */}
-        <Testimonials />
 
         {/* Frequently Asked Questions Accordion (PRD Section 8) */}
         <FaqSection />

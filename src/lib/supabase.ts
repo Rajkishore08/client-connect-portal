@@ -17,19 +17,17 @@ export const supabase = createClient(supabaseUrl, supabaseAnonKey);
 
 /** Supabase Google OAuth Authentication */
 export async function signInWithGoogle() {
-  const redirectUrl =
+  const currentOrigin =
     typeof window !== "undefined"
-      ? `${window.location.origin}/account`
-      : "https://oneworldsolutionsusa.com/account";
+      ? window.location.origin
+      : "https://oneworldsolutionsusa.com";
+      
+  const redirectUrl = `${currentOrigin}/account`;
 
   const { data, error } = await supabase.auth.signInWithOAuth({
     provider: "google",
     options: {
       redirectTo: redirectUrl,
-      queryParams: {
-        access_type: "offline",
-        prompt: "consent",
-      },
     },
   });
 
