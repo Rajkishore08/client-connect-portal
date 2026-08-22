@@ -64,17 +64,36 @@ function mapSupabaseRowToLead(row: Record<string, any>): Lead {
 /** Fetch All Leads Live from Supabase PostgreSQL Database */
 export async function fetchLeadsFromSupabase(): Promise<Lead[]> {
   try {
+    let result: Lead[] = LEADS;
     const { data, error } = await supabase
       .from("leads")
       .select("*")
       .order("created_at", { ascending: false });
 
-    if (error || !data || data.length === 0) {
-      console.info("[Supabase DB Notice] Using local lead cache / seeds until table is populated:", error?.message);
-      return LEADS;
+    if (!error && data && data.length > 0) {
+      result = data.map(mapSupabaseRowToLead);
     }
 
-    return data.map(mapSupabaseRowToLead);
+    // Apply local admin lead overrides if present
+    if (typeof window !== "undefined") {
+      try {
+        const overridesStr = localStorage.getItem("ows_admin_lead_overrides");
+        if (overridesStr) {
+          const overrides: Record<string, Partial<Lead>> = JSON.parse(overridesStr);
+          result = result.map((l) => {
+            const patch = overrides[l.id] || overrides[l.reference] || overrides[l.reference.replace("#", "")];
+            if (patch) {
+              return { ...l, ...patch };
+            }
+            return l;
+          });
+        }
+      } catch (e) {
+        console.warn("[Vault] Overrides parse notice:", e);
+      }
+    }
+
+    return result;
   } catch (err) {
     console.warn("[Supabase DB Error] fetchLeadsFromSupabase fallback:", err);
     return LEADS;
@@ -124,37 +143,32 @@ export async function createLeadInSupabase(lead: Lead): Promise<boolean> {
 /** Update Existing Lead Record in Supabase PostgreSQL Database */
 export async function updateLeadInSupabase(id: string, patch: Partial<Lead>): Promise<boolean> {
   try {
-    const payload: Record<string, any> = {};
-
-    if (patch.status) payload["status"] = patch.status;
-    if (patch.notes !== undefined) payload["notes"] = patch.notes;
-    if (patch.name) payload["name"] = patch.name;
-    if (patch.email) payload["email"] = patch.email;
-    if (patch.phone) payload["phone"] = patch.phone;
-    if (patch.priority) payload["priority"] = patch.priority;
-    if (patch.isSpecialRequest !== undefined) payload["is_special_request"] = patch.isSpecialRequest;
-    if (patch.engagementModel !== undefined) payload["engagement_model"] = patch.engagementModel;
-    if (patch.progressPercent !== undefined) payload["progress_percent"] = patch.progressPercent;
-    if (patch.milestones) payload["milestones"] = patch.milestones;
-
-    if (patch.tracking) {
-      if (patch.tracking.governmentForm) {
-        if (patch.tracking.governmentForm.status) payload["gov_form_status"] = patch.tracking.governmentForm.status;
-        if (patch.tracking.governmentForm.ref !== undefined) payload["gov_form_ref"] = patch.tracking.governmentForm.ref;
-      }
-      if (patch.tracking.vfs) {
-        if (patch.tracking.vfs.status) payload["vfs_status"] = patch.tracking.vfs.status;
-        if (patch.tracking.vfs.ref !== undefined) payload["vfs_ref"] = patch.tracking.vfs.ref;
-      }
-      if (patch.tracking.courier) {
-        if (patch.tracking.courier.status) payload["courier_status"] = patch.tracking.courier.status;
-        if (patch.tracking.courier.ref !== undefined) payload["courier_ref"] = patch.tracking.courier.ref;
-      }
+    // 1. Sync in-memory LEADS seed objects immediately
+    const targetInMock = LEADS.find((l) => l.id === id || l.reference === id || (patch.reference && l.reference === patch.reference));
+    if (targetInMock) {
+      if (patch.status) targetInMock.status = patch.status;
+      if (patch.progressPercent !== undefined) targetInMock.progressPercent = patch.progressPercent;
+      if (patch.milestones) targetInMock.milestones = patch.milestones;
+      if (patch.notes !== undefined) targetInMock.notes = patch.notes;
+      if (patch.documents) targetInMock.documents = patch.documents;
     }
 
-    // Sync updates to localStorage cached intakes so /track and /account see immediate changes
+    // 2. Persist to localStorage ows_admin_lead_overrides
     if (typeof window !== "undefined") {
       try {
+        const overridesStr = localStorage.getItem("ows_admin_lead_overrides") || "{}";
+        const overrides: Record<string, Partial<Lead>> = JSON.parse(overridesStr);
+        const targetKey = id || patch.reference || (targetInMock ? targetInMock.reference : "");
+        if (targetKey) {
+          const cleanKey = targetKey.replace("#", "");
+          overrides[cleanKey] = {
+            ...(overrides[cleanKey] || {}),
+            ...patch,
+          };
+          localStorage.setItem("ows_admin_lead_overrides", JSON.stringify(overrides));
+        }
+
+        // 3. Sync updates to localStorage cached intakes so /track and /account see immediate changes
         const storedStr = localStorage.getItem("ows_submitted_intakes");
         if (storedStr) {
           const list: any[] = JSON.parse(storedStr);
@@ -194,8 +208,38 @@ export async function updateLeadInSupabase(id: string, patch: Partial<Lead>): Pr
             localStorage.setItem("ows_last_submitted_intake", JSON.stringify(updatedLast));
           }
         }
+
+        // Notify active tracking pages of live update
+        window.dispatchEvent(new Event("ows_lead_updated"));
       } catch (e) {
         console.warn("[Local Storage Sync Error] updateLeadInSupabase:", e);
+      }
+    }
+
+    const payload: Record<string, any> = {};
+    if (patch.status) payload["status"] = patch.status;
+    if (patch.notes !== undefined) payload["notes"] = patch.notes;
+    if (patch.name) payload["name"] = patch.name;
+    if (patch.email) payload["email"] = patch.email;
+    if (patch.phone) payload["phone"] = patch.phone;
+    if (patch.priority) payload["priority"] = patch.priority;
+    if (patch.isSpecialRequest !== undefined) payload["is_special_request"] = patch.isSpecialRequest;
+    if (patch.engagementModel !== undefined) payload["engagement_model"] = patch.engagementModel;
+    if (patch.progressPercent !== undefined) payload["progress_percent"] = patch.progressPercent;
+    if (patch.milestones) payload["milestones"] = patch.milestones;
+
+    if (patch.tracking) {
+      if (patch.tracking.governmentForm) {
+        if (patch.tracking.governmentForm.status) payload["gov_form_status"] = patch.tracking.governmentForm.status;
+        if (patch.tracking.governmentForm.ref !== undefined) payload["gov_form_ref"] = patch.tracking.governmentForm.ref;
+      }
+      if (patch.tracking.vfs) {
+        if (patch.tracking.vfs.status) payload["vfs_status"] = patch.tracking.vfs.status;
+        if (patch.tracking.vfs.ref !== undefined) payload["vfs_ref"] = patch.tracking.vfs.ref;
+      }
+      if (patch.tracking.courier) {
+        if (patch.tracking.courier.status) payload["courier_status"] = patch.tracking.courier.status;
+        if (patch.tracking.courier.ref !== undefined) payload["courier_ref"] = patch.tracking.courier.ref;
       }
     }
 

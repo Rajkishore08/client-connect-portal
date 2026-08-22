@@ -195,12 +195,16 @@ export function AuthProvider({ children }: { children: ReactNode }) {
           setApplications((prev) => {
             const updatedAndNew: SavedApplication[] = matched.map((item) => {
               const refId = item.reference || `OWS-${Date.now()}`;
-              const rawStatus = item.status || "Submitted to Embassy";
+              const catTitleStr = `${item.category || ""} ${item.service || ""}`.toLowerCase();
+              const isTechOrMarketing = catTitleStr.includes("soft") || catTitleStr.includes("web") || catTitleStr.includes("dev") || catTitleStr.includes("seo") || catTitleStr.includes("market") || catTitleStr.includes("growth") || catTitleStr.includes("app") || catTitleStr.includes("ui");
+              const rawStatus = item.status || (isTechOrMarketing ? "In Progress" : "Submitted to Embassy");
               const validStatus = (
                 rawStatus === "Completed"
                   ? "Completed"
-                  : rawStatus === "In Progress" || rawStatus === "New"
-                  ? "Submitted to Embassy"
+                  : rawStatus === "Submitted to Embassy" && isTechOrMarketing
+                  ? "In Progress"
+                  : rawStatus === "New"
+                  ? isTechOrMarketing ? "In Progress" : "Submitted to Embassy"
                   : rawStatus
               ) as SavedApplication["status"];
 

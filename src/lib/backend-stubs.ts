@@ -44,7 +44,57 @@ function dataURLtoBlob(dataurl: string): Blob {
   }
 }
 
-export async function uploadDocuments(files: any[]): Promise<string[]> {
+export interface FormattedVaultFile {
+  storagePath: string;
+  referenceId: string;
+  clientFileName: string;
+  downloadName: string;
+  fullDisplayName: string;
+}
+
+export function formatVaultFileName(docUrl: string, fallbackRef?: string): FormattedVaultFile {
+  if (!docUrl) {
+    const ref = fallbackRef || "REF-FILE";
+    return {
+      storagePath: "",
+      referenceId: ref,
+      clientFileName: "Document",
+      downloadName: `${ref}_Document`,
+      fullDisplayName: `${ref} • Document`,
+    };
+  }
+
+  // Extract basename from URL or path
+  const basename = docUrl.split("/").pop() || docUrl;
+  const decoded = decodeURIComponent(basename);
+
+  // Check if filename starts with reference ID e.g. REF-305161_ or OWS-889124_
+  const match = decoded.match(/^((?:REF|OWS|CHI)-[A-Z0-9]+)_(.+)$/i);
+  if (match && match[1] && match[2]) {
+    const referenceId = match[1].toUpperCase();
+    const clientFileName = match[2];
+    return {
+      storagePath: decoded,
+      referenceId,
+      clientFileName,
+      downloadName: decoded,
+      fullDisplayName: `${referenceId} • ${clientFileName}`,
+    };
+  }
+
+  // If no reference prefix embedded in filename yet, combine fallbackRef + original name
+  const ref = fallbackRef || "REF-VAULT";
+  const downloadName = `${ref}_${decoded}`;
+  return {
+    storagePath: decoded,
+    referenceId: ref,
+    clientFileName: decoded,
+    downloadName,
+    fullDisplayName: `${ref} • ${decoded}`,
+  };
+}
+
+export async function uploadDocuments(files: any[], leadRef?: string): Promise<string[]> {
   if (!files || files.length === 0) return [];
   const uploadedUrls: string[] = [];
 
@@ -55,7 +105,12 @@ export async function uploadDocuments(files: any[]): Promise<string[]> {
       continue;
     }
 
-    const fileName = item.name || (item.file && item.file.name) || `document_${i + 1}.pdf`;
+    const originalName = item.name || (item.file && item.file.name) || `document_${i + 1}.pdf`;
+    const cleanOriginalName = originalName.replace(/[^a-zA-Z0-9_.-]/g, "_");
+    const prefix = leadRef ? leadRef.replace(/[^a-zA-Z0-9-]/g, "") : `REF-${Date.now().toString().slice(-6)}`;
+    const storageFileName = `${prefix}_${cleanOriginalName}`;
+    const filePath = `uploads/${storageFileName}`;
+
     let uploadBody: Blob | File | null = null;
     let contentType = "application/octet-stream";
 
@@ -73,9 +128,6 @@ export async function uploadDocuments(files: any[]): Promise<string[]> {
     // Attempt direct binary upload to Supabase Storage bucket
     if (uploadBody) {
       try {
-        const fileExt = fileName.split(".").pop() || "bin";
-        const filePath = `uploads/${Date.now()}_${i}.${fileExt}`;
-
         const { error: uploadError } = await supabase.storage
           .from("client-documents")
           .upload(filePath, uploadBody, {
@@ -101,7 +153,7 @@ export async function uploadDocuments(files: any[]): Promise<string[]> {
     if (item.dataUrl && typeof item.dataUrl === "string") {
       uploadedUrls.push(item.dataUrl);
     } else {
-      uploadedUrls.push(fileName);
+      uploadedUrls.push(filePath);
     }
   }
 

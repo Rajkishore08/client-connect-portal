@@ -72,9 +72,9 @@ export async function sendClientIntakeEmail(payload: IntakeEmailPayload) {
           <style>
             body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #f8fafc; margin: 0; padding: 20px; color: #1e293b; }
             .container { max-width: 600px; margin: 0 auto; background: #ffffff; border-radius: 16px; overflow: hidden; border: 1px solid #e2e8f0; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05); }
-            .header { background: #0f172a; padding: 24px; text-align: center; color: #ffffff; }
-            .header h1 { margin: 0; font-size: 20px; font-weight: 800; letter-spacing: -0.5px; }
-            .badge { display: inline-block; background: #2563eb; color: #ffffff; font-size: 11px; font-weight: 700; padding: 4px 12px; border-radius: 9999px; text-transform: uppercase; margin-top: 8px; }
+            .header { background: #ffffff; padding: 24px; text-align: center; border-bottom: 1px solid #e2e8f0; }
+            .header h1 { margin: 0; font-size: 20px; font-weight: 800; letter-spacing: -0.5px; color: #0f172a; }
+            .badge { display: inline-block; background: #eff6ff; color: #2563eb; border: 1px solid #bfdbfe; font-size: 11px; font-weight: 700; padding: 4px 12px; border-radius: 9999px; text-transform: uppercase; margin-top: 8px; }
             .content { padding: 32px 24px; }
             .card { background: #f1f5f9; border-radius: 12px; padding: 20px; margin: 20px 0; border: 1px solid #cbd5e1; }
             .tracking-id { font-family: monospace; font-size: 18px; font-weight: 800; color: #2563eb; }
@@ -85,7 +85,7 @@ export async function sendClientIntakeEmail(payload: IntakeEmailPayload) {
         <body>
           <div class="container">
             <div class="header">
-              <h1>ONE WORLD SOLUTIONS</h1>
+              <img src="/logo-rect.webp" alt="ONE WORLD SOLUTIONS" style="height: 38px; width: auto; display: block; margin: 0 auto 10px auto;" />
               <div class="badge">Intake Application Received</div>
             </div>
             <div class="content">
@@ -256,9 +256,9 @@ export function getEmailLogs() {
         <head><meta charset="utf-8"></head>
         <body style="font-family: system-ui, -apple-system, sans-serif; background-color: #f8fafc; margin: 0; padding: 24px; color: #1e293b;">
           <div style="max-width: 600px; margin: 0 auto; background: #ffffff; border-radius: 16px; overflow: hidden; border: 1px solid #e2e8f0; box-shadow: 0 4px 12px rgba(0,0,0,0.05);">
-            <div style="background: #0f172a; padding: 28px; text-align: center; color: #ffffff;">
-              <h1 style="margin: 0; font-size: 22px; font-weight: 800; letter-spacing: -0.5px;">ONE WORLD SOLUTIONS</h1>
-              <div style="display: inline-block; background: #2563eb; color: #ffffff; font-size: 11px; font-weight: 700; padding: 4px 14px; border-radius: 9999px; text-transform: uppercase; margin-top: 10px;">
+            <div style="background: #ffffff; padding: 28px; text-align: center; border-bottom: 1px solid #e2e8f0;">
+              <img src="/logo-rect.webp" alt="ONE WORLD SOLUTIONS" style="height: 38px; width: auto; display: block; margin: 0 auto 10px auto;" />
+              <div style="display: inline-block; background: #eff6ff; color: #2563eb; border: 1px solid #bfdbfe; font-size: 11px; font-weight: 700; padding: 4px 14px; border-radius: 9999px; text-transform: uppercase;">
                 Intake Application Confirmed
               </div>
             </div>
@@ -305,10 +305,10 @@ export function getEmailLogs() {
         <head><meta charset="utf-8"></head>
         <body style="font-family: system-ui, -apple-system, sans-serif; background-color: #f8fafc; margin: 0; padding: 24px; color: #1e293b;">
           <div style="max-width: 600px; margin: 0 auto; background: #ffffff; border-radius: 16px; overflow: hidden; border: 1px solid #e2e8f0; box-shadow: 0 4px 12px rgba(0,0,0,0.05);">
-            <div style="background: #0f172a; padding: 24px 28px; color: #ffffff;">
-              <div style="display: flex; align-items: center; justify-content: space-between;">
-                <h1 style="margin: 0; font-size: 18px; font-weight: 800;">NEW CLIENT INTAKE ALERT</h1>
-                <span style="background: #ef4444; color: #fff; font-size: 10px; font-weight: 800; padding: 4px 10px; border-radius: 6px; text-transform: uppercase;">RUSH PRIORITY</span>
+            <div style="background: #ffffff; padding: 24px 28px; border-bottom: 1px solid #e2e8f0; text-align: center;">
+              <img src="/logo-rect.webp" alt="ONE WORLD SOLUTIONS" style="height: 38px; width: auto; display: block; margin: 0 auto 10px auto;" />
+              <div style="display: flex; align-items: center; justify-content: center; gap: 8px;">
+                <span style="background: #fef2f2; color: #dc2626; border: 1px solid #fecaca; font-size: 11px; font-weight: 800; padding: 4px 12px; border-radius: 6px; text-transform: uppercase;">NEW CLIENT INTAKE ALERT • RUSH PRIORITY</span>
               </div>
             </div>
             <div style="padding: 28px;">

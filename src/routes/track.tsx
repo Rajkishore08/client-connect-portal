@@ -22,7 +22,7 @@ import {
   User,
   Zap,
 } from "lucide-react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { toast } from "sonner";
 
 import { TrustBanner } from "@/components/site/SiteFooter";
@@ -156,6 +156,16 @@ function TrackPage() {
   const [query, setQuery] = useState("");
   const [status, setStatus] = useState<"idle" | "loading" | "found" | "notfound">("idle");
   const [lead, setLead] = useState<Lead | null>(null);
+
+  useEffect(() => {
+    const handleUpdate = () => {
+      if (lead) {
+        search(undefined, lead.reference);
+      }
+    };
+    window.addEventListener("ows_lead_updated", handleUpdate);
+    return () => window.removeEventListener("ows_lead_updated", handleUpdate);
+  }, [lead]);
 
   const search = async (e?: React.FormEvent, customRef?: string) => {
     if (e) e.preventDefault();
@@ -381,6 +391,28 @@ function TrackPage() {
             },
       };
     }
+    if (match && typeof window !== "undefined") {
+      try {
+        const overridesStr = localStorage.getItem("ows_admin_lead_overrides");
+        if (overridesStr) {
+          const overrides: Record<string, Partial<Lead>> = JSON.parse(overridesStr);
+          const cleanRef = match.reference.replace("#", "").trim();
+          const patch = overrides[match.id] || overrides[match.reference] || overrides[cleanRef];
+          if (patch) {
+            match = {
+              ...match,
+              status: patch.status || match.status,
+              progressPercent: typeof patch.progressPercent === "number" ? patch.progressPercent : (match.progressPercent ?? 45),
+              milestones: patch.milestones && patch.milestones.length > 0 ? patch.milestones : (match.milestones || []),
+              notes: patch.notes !== undefined ? patch.notes : match.notes,
+              documents: patch.documents || match.documents,
+            };
+          }
+        }
+      } catch (e) {
+        console.warn("[Track] Overrides apply error:", e);
+      }
+    }
 
     setLead(match);
     setStatus(match ? "found" : "notfound");
@@ -598,39 +630,6 @@ function TrackPage() {
                   </Badge>
                 </div>
               ))}
-            </div>
-          </div>
-
-          {/* SMS / Email Notification Simulator Actions */}
-          <div className="p-4 rounded-2xl bg-blue-50/70 border border-blue-200/80 space-y-3">
-            <div className="flex items-center justify-between">
-              <p className="text-xs font-bold text-primary uppercase tracking-wider flex items-center gap-1.5">
-                <Bell className="h-4 w-4" /> Live Notification Simulator
-              </p>
-              <span className="text-[10px] text-slate-500 font-medium">Test Instant Client Alerts</span>
-            </div>
-            <p className="text-xs text-slate-600">
-              Test how clients receive SMS and email status updates when milestones advance:
-            </p>
-            <div className="flex flex-wrap items-center gap-2 pt-1">
-              <Button
-                type="button"
-                variant="outline"
-                size="sm"
-                onClick={() => simulateSmsAlert("Senior Specialist Audit Completed", lead.reference)}
-                className="bg-white text-xs font-bold text-slate-800 hover:bg-blue-600 hover:text-white cursor-pointer"
-              >
-                <MessageSquare className="h-3.5 w-3.5 mr-1.5 text-blue-600" /> Simulate SMS Update
-              </Button>
-              <Button
-                type="button"
-                variant="outline"
-                size="sm"
-                onClick={() => simulateEmailAlert("VFS Queue Filing Verified", lead.reference)}
-                className="bg-white text-xs font-bold text-slate-800 hover:bg-emerald-600 hover:text-white cursor-pointer"
-              >
-                <Mail className="h-3.5 w-3.5 mr-1.5 text-emerald-600" /> Simulate Email Dispatch
-              </Button>
             </div>
           </div>
         </div>

@@ -561,12 +561,12 @@ export function ServiceIntakeWizardModal({
 
               {/* Summary Card */}
               <div className="p-4 rounded-2xl bg-slate-50 border border-slate-200 space-y-2 text-xs">
-                <p className="font-bold text-slate-900 border-b border-slate-200 pb-2 flex items-center justify-between">
+                <div className="font-bold text-slate-900 border-b border-slate-200 pb-2 flex items-center justify-between">
                   <span>Intake Summary</span>
                   <Badge variant="outline" className="bg-blue-50 text-primary border-primary/30 text-[10px]">
                     Ready to Submit
                   </Badge>
-                </p>
+                </div>
                 <div className="flex justify-between">
                   <span className="text-slate-500">Service:</span>
                   <span className="font-bold text-slate-900">{SUB_SERVICES[category]?.find((s) => s.id === subService)?.name}</span>

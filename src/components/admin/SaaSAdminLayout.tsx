@@ -150,8 +150,7 @@ interface NavGroup {
     {
       group: "OPERATIONS & PIPELINE",
       items: [
-        { id: "leads", label: "Enquiries & Pipeline", icon: Inbox },
-        { id: "vault", label: "Client Document Vault", icon: FolderLock },
+        { id: "leads", label: "Pipeline & Document Vault", icon: Inbox, badge: "Unified" },
       ],
     },
     {

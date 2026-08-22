@@ -19,6 +19,31 @@ import { Input } from "@/components/ui/input";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useAuth } from "@/lib/auth-context";
 
+interface IntakeNotesData {
+  companyName?: string;
+  scopeType?: string;
+  budget?: string;
+  timeline?: string;
+  preferredConsultationDate?: string;
+  preferredConsultationSlot?: string;
+  projectDetails?: string;
+  [key: string]: any;
+}
+
+function parseLeadNotes(notes: string | undefined): { isJson: boolean; data?: IntakeNotesData; rawText: string } {
+  if (!notes) return { isJson: false, rawText: "" };
+  const trimmed = notes.trim();
+  if (trimmed.startsWith("{") && trimmed.endsWith("}")) {
+    try {
+      const parsed = JSON.parse(trimmed);
+      return { isJson: true, data: parsed, rawText: notes };
+    } catch {
+      // ignore
+    }
+  }
+  return { isJson: false, rawText: notes };
+}
+
 export const Route = createFileRoute("/account")({
   head: () => ({
     meta: [
@@ -184,62 +209,108 @@ function AccountDashboardPage() {
             </div>
           ) : (
             <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-              {filteredApps.map((app) => (
-                <div
-                  key={app.id}
-                  className="surface-card p-5 rounded-2xl border border-border/80 bg-card hover:border-primary/50 transition-all flex flex-col justify-between space-y-4 shadow-xs"
-                >
-                  <div className="space-y-2">
-                    <div className="flex items-center justify-between gap-2">
-                      <span className="text-[11px] font-mono font-bold text-primary">
-                        {app.trackingId}
-                      </span>
-                      <Badge
-                        variant={
-                          app.status === "Completed"
-                            ? "default"
-                            : app.status === "FedEx Dispatched"
-                            ? "secondary"
-                            : "outline"
-                        }
-                        className="text-[10px] font-bold px-2 py-0.5"
-                      >
-                        {app.status}
-                      </Badge>
-                    </div>
+              {filteredApps.map((app) => {
+                const catLower = `${app.serviceCategory} ${app.serviceTitle}`.toLowerCase();
+                const isTechOrMarketing = catLower.includes("soft") || catLower.includes("web") || catLower.includes("dev") || catLower.includes("seo") || catLower.includes("market") || catLower.includes("growth") || catLower.includes("app") || catLower.includes("ui");
 
-                    <h3 className="text-sm font-extrabold text-foreground leading-snug">
-                      {app.serviceTitle}
-                    </h3>
-                    <p className="text-xs text-muted-foreground line-clamp-2">{app.details}</p>
-                  </div>
+                // Merge live admin status & progress overrides if present
+                let displayStatus = app.status as string;
+                let displayProgress = app.progressPercent;
+                if (typeof window !== "undefined") {
+                  try {
+                    const overridesStr = localStorage.getItem("ows_admin_lead_overrides");
+                    if (overridesStr) {
+                      const overrides = JSON.parse(overridesStr);
+                      const patch = overrides[app.trackingId] || overrides[app.id];
+                      if (patch) {
+                        if (patch.status) displayStatus = patch.status;
+                        if (patch.progressPercent !== undefined) displayProgress = patch.progressPercent;
+                      }
+                    }
+                  } catch {}
+                }
 
-                  <div className="space-y-3 pt-3 border-t border-border/60">
-                    <div>
-                      <div className="flex items-center justify-between text-[11px] font-semibold text-muted-foreground mb-1">
-                        <span>Preparation Progress</span>
-                        <span>{app.progressPercent}%</span>
+                if (isTechOrMarketing && (displayStatus === "Submitted to Embassy" || displayStatus === "New")) {
+                  displayStatus = "In Progress";
+                }
+
+                const parsedNotes = parseLeadNotes(app.details);
+
+                return (
+                  <div
+                    key={app.id}
+                    className="surface-card p-5 rounded-2xl border border-border/80 bg-card hover:border-primary/50 transition-all flex flex-col justify-between space-y-4 shadow-xs"
+                  >
+                    <div className="space-y-2">
+                      <div className="flex items-center justify-between gap-2">
+                        <span className="text-[11px] font-mono font-bold text-primary">
+                          {app.trackingId}
+                        </span>
+                        <Badge
+                          variant={
+                            displayStatus === "Completed"
+                              ? "default"
+                              : displayStatus === "In Progress" || displayStatus === "VFS Verified"
+                              ? "secondary"
+                              : "outline"
+                          }
+                          className="text-[10px] font-bold px-2 py-0.5"
+                        >
+                          {displayStatus}
+                        </Badge>
                       </div>
-                      <div className="h-2 w-full bg-muted rounded-full overflow-hidden">
-                        <div
-                          className="h-full bg-primary rounded-full transition-all duration-500"
-                          style={{ width: `${app.progressPercent}%` }}
-                        />
-                      </div>
+
+                      <h3 className="text-sm font-extrabold text-foreground leading-snug">
+                        {app.serviceTitle}
+                      </h3>
+
+                      {parsedNotes.isJson && parsedNotes.data ? (
+                        <div className="text-[11px] space-y-1 bg-muted/40 p-2.5 rounded-xl border border-border/60">
+                          {parsedNotes.data["companyName"] && (
+                            <p className="truncate"><strong>Company:</strong> {parsedNotes.data["companyName"]}</p>
+                          )}
+                          {parsedNotes.data["scopeType"] && (
+                            <p className="truncate"><strong>Scope:</strong> {parsedNotes.data["scopeType"]}</p>
+                          )}
+                          {parsedNotes.data["budget"] && (
+                            <p className="text-emerald-600 font-bold truncate"><strong>Budget:</strong> {parsedNotes.data["budget"]}</p>
+                          )}
+                          {parsedNotes.data["timeline"] && (
+                            <p className="text-blue-600 font-medium truncate"><strong>SLA:</strong> {parsedNotes.data["timeline"]}</p>
+                          )}
+                        </div>
+                      ) : (
+                        <p className="text-xs text-muted-foreground line-clamp-2">{app.details}</p>
+                      )}
                     </div>
 
-                    <div className="flex items-center justify-between text-[11px] text-muted-foreground">
-                      <span>Submitted: {app.submittedAt}</span>
-                      <Link
-                        to="/track"
-                        className="font-bold text-primary hover:underline inline-flex items-center gap-1"
-                      >
-                        Track <ExternalLink className="h-3 w-3" />
-                      </Link>
+                    <div className="space-y-3 pt-3 border-t border-border/60">
+                      <div>
+                        <div className="flex items-center justify-between text-[11px] font-semibold text-muted-foreground mb-1">
+                          <span>Preparation Progress</span>
+                          <span>{displayProgress}%</span>
+                        </div>
+                        <div className="h-2 w-full bg-muted rounded-full overflow-hidden">
+                          <div
+                            className="h-full bg-primary rounded-full transition-all duration-500"
+                            style={{ width: `${displayProgress}%` }}
+                          />
+                        </div>
+                      </div>
+
+                      <div className="flex items-center justify-between text-[11px] text-muted-foreground">
+                        <span>Submitted: {app.submittedAt}</span>
+                        <Link
+                          to="/track"
+                          className="font-bold text-primary hover:underline inline-flex items-center gap-1"
+                        >
+                          Track <ExternalLink className="h-3 w-3" />
+                        </Link>
+                      </div>
                     </div>
                   </div>
-                </div>
-              ))}
+                );
+              })}
             </div>
           )}
         </TabsContent>

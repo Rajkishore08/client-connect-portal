@@ -40,8 +40,8 @@ function AdminPage() {
       userName="Operations Director"
     >
       {activeTab === "dashboard" && <AdminDashboard />}
-      {activeTab === "leads" && <LeadsTable />}
-      {activeTab === "vault" && <ClientDocumentVault />}
+      {activeTab === "leads" && <LeadsTable initialView="pipeline" />}
+      {activeTab === "vault" && <LeadsTable initialView="vault" />}
       {activeTab === "services" && <ServicesManager />}
       {activeTab === "emails" && <EmailAutomationManager />}
       {activeTab === "blogs" && <BlogManager />}

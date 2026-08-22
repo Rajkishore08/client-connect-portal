@@ -170,12 +170,11 @@ export function UniversalServiceIntakeForm({
     setLoading(true);
 
     try {
+      const referenceId = `REF-${Math.floor(100000 + Math.random() * 900000)}`;
       let uploadedFileUrls: string[] = [];
       if (files.length > 0) {
-        uploadedFileUrls = await uploadDocuments(files);
+        uploadedFileUrls = await uploadDocuments(files, referenceId);
       }
-
-      const referenceId = `REF-${Math.floor(100000 + Math.random() * 900000)}`;
 
       // Detect if user selected a special Engagement Partnership Model
       const hashStr = window.location.hash || "";
@@ -246,6 +245,9 @@ export function UniversalServiceIntakeForm({
       sendClientIntakeEmail(emailPayload).catch(() => {});
       sendAdminIntakeAlert(emailPayload).catch(() => {});
 
+      const catLower = `${config.badge} ${serviceName}`.toLowerCase();
+      const isTechOrMarketing = catLower.includes("soft") || catLower.includes("web") || catLower.includes("dev") || catLower.includes("seo") || catLower.includes("market") || catLower.includes("growth") || catLower.includes("app") || catLower.includes("ui");
+
       // Add to Auth Context state so it renders in client account portal dashboard
       addApplication({
         serviceCategory: config.badge,
@@ -253,7 +255,7 @@ export function UniversalServiceIntakeForm({
         applicantName: fullName,
         applicantEmail: email,
         phoneUsa: phone,
-        status: "Submitted to Embassy",
+        status: isTechOrMarketing ? "In Progress" : "Submitted to Embassy",
         progressPercent: 25,
         submittedAt: new Date().toISOString().split("T")[0]!,
         lastUpdated: "Just now",
