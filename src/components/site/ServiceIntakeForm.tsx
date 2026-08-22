@@ -328,9 +328,9 @@ export function ServiceIntakeForm({ service }: { service: ServiceConfig }) {
         serviceTitle={service.title}
         checklistItems={service.checklist}
         applicantInfo={{
-          name: values["fullName"],
-          email: values["email"],
-          phone: values["phoneUsa"] || values["phone"],
+          ...(values["fullName"] ? { name: values["fullName"] } : {}),
+          ...(values["email"] ? { email: values["email"] } : {}),
+          ...(values["phoneUsa"] || values["phone"] ? { phone: values["phoneUsa"] || values["phone"] } : {}),
           speedTier: selectedTier.name,
         }}
       />
