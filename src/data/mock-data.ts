@@ -314,6 +314,7 @@ export interface Lead {
   engagementModel?: string;
   progressPercent?: number;
   notes: string;
+  internalNotes?: string;
   documents: string[];
   milestones?: Milestone[];
   tracking: {

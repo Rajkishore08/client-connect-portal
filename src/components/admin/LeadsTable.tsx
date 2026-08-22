@@ -1,5 +1,6 @@
 import {
   ArrowDownToLine,
+  Calendar,
   CheckCircle2,
   ChevronDown,
   Clock,
@@ -233,15 +234,12 @@ export function LeadsTable({ initialView = "pipeline" }: { initialView?: "pipeli
 
   // Dedicated Manage Progress Modal State & Workspace Tab
   const [activeManageLead, setActiveManageLead] = useState<Lead | null>(null);
-  const [leadModalTab, setLeadModalTab] = useState<"milestones" | "vault" | "ai" | "communications">("milestones");
+  const [leadModalTab, setLeadModalTab] = useState<"milestones" | "vault" | "communications">("milestones");
   const [previewDoc, setPreviewDoc] = useState<{ url: string; fileName: string } | null>(null);
 
   // Custom In-App Milestone Modal State (No native browser prompts!)
   const [customMilestoneModalLeadId, setCustomMilestoneModalLeadId] = useState<string | null>(null);
   const [customMilestoneTitle, setCustomMilestoneTitle] = useState("");
-
-  // AI Lead Scoping Audit Modal State
-  const [aiTargetLead, setAiTargetLead] = useState<Lead | null>(null);
 
   // New Lead Modal State
   const [showAddModal, setShowAddModal] = useState(false);
@@ -786,8 +784,7 @@ export function LeadsTable({ initialView = "pipeline" }: { initialView?: "pipeli
               <tr>
                 <th className="px-4 py-3">Date / Ref</th>
                 <th className="px-4 py-3">Client Name</th>
-                <th className="px-4 py-3">Contact Email</th>
-                <th className="px-4 py-3">Phone</th>
+                <th className="px-4 py-3">Contact Email &amp; Phone</th>
                 <th className="px-4 py-3">Service &amp; Category</th>
                 <th className="px-4 py-3">Source</th>
                 <th className="px-4 py-3">Pipeline Status</th>
@@ -795,7 +792,9 @@ export function LeadsTable({ initialView = "pipeline" }: { initialView?: "pipeli
               </tr>
             </thead>
             <tbody className="divide-y divide-slate-200/80">
-              {rows.map((lead) => {
+              {rows.map((lead, idx) => {
+                const prevDate = idx > 0 ? rows[idx - 1]?.date : null;
+                const isNewDateGroup = lead.date !== prevDate;
                 const activeMilestones =
                   lead.milestones && lead.milestones.length > 0
                     ? lead.milestones
@@ -803,6 +802,21 @@ export function LeadsTable({ initialView = "pipeline" }: { initialView?: "pipeli
 
                 return (
                   <Fragment key={lead.id}>
+                    {isNewDateGroup && (
+                      <tr className="bg-slate-100/90 border-y-2 border-slate-300">
+                        <td colSpan={7} className="px-4 py-2 bg-slate-100 text-slate-800">
+                          <div className="flex items-center justify-between font-extrabold text-[11px] tracking-wider uppercase">
+                            <span className="flex items-center gap-1.5 text-blue-700">
+                              <Calendar className="h-3.5 w-3.5" />
+                              Intakes Received on {lead.date}
+                            </span>
+                            <span className="text-[10px] text-slate-500 font-mono">
+                              Date Section Grouping
+                            </span>
+                          </div>
+                        </td>
+                      </tr>
+                    )}
                     <tr
                       onClick={() => setActiveManageLead(lead)}
                       className={`transition-colors align-middle cursor-pointer ${
@@ -833,20 +847,22 @@ export function LeadsTable({ initialView = "pipeline" }: { initialView?: "pipeli
                           </p>
                         )}
                       </td>
-                      <td className="px-4 py-3.5 text-slate-600 font-mono text-[11px]">
-                        <a href={`mailto:${lead.email}`} className="hover:underline text-blue-600">
-                          {lead.email}
-                        </a>
-                      </td>
-                      <td className="whitespace-nowrap px-4 py-3.5 font-mono text-slate-700">
-                        <a
-                          href={`https://wa.me/${lead.phone.replace(/[^0-9]/g, "")}`}
-                          target="_blank"
-                          rel="noreferrer"
-                          className="hover:underline text-emerald-600 font-semibold inline-flex items-center gap-1"
-                        >
-                          {lead.phone}
-                        </a>
+                      <td className="px-4 py-3.5 font-mono text-[11px] space-y-0.5">
+                        <div>
+                          <a href={`mailto:${lead.email}`} className="hover:underline text-blue-600 font-semibold block">
+                            {lead.email}
+                          </a>
+                        </div>
+                        <div>
+                          <a
+                            href={`https://wa.me/${lead.phone.replace(/[^0-9]/g, "")}`}
+                            target="_blank"
+                            rel="noreferrer"
+                            className="hover:underline text-emerald-600 font-semibold inline-flex items-center gap-1"
+                          >
+                            {lead.phone}
+                          </a>
+                        </div>
                       </td>
                       <td className="px-4 py-3.5">
                         <p className="font-bold text-slate-800">{lead.service}</p>
@@ -880,19 +896,6 @@ export function LeadsTable({ initialView = "pipeline" }: { initialView?: "pipeli
                       </td>
                       <td className="px-4 py-3.5 text-right whitespace-nowrap">
                         <div className="inline-flex items-center justify-end gap-1.5 shrink-0">
-                          <Button
-                            variant="outline"
-                            size="sm"
-                            onClick={(e) => {
-                              e.stopPropagation();
-                              setAiTargetLead(lead);
-                            }}
-                            className="h-8 gap-1 text-[11px] font-bold text-purple-700 bg-purple-50 hover:bg-purple-100 border-purple-200 cursor-pointer"
-                          >
-                            <Wand2 className="h-3.5 w-3.5 text-purple-600" />
-                            AI Audit
-                          </Button>
-
                           <Button
                             variant="outline"
                             size="sm"
@@ -1336,18 +1339,6 @@ export function LeadsTable({ initialView = "pipeline" }: { initialView?: "pipeli
 
               <button
                 type="button"
-                onClick={() => setLeadModalTab("ai")}
-                className={`px-4 py-2 rounded-xl text-xs font-extrabold transition-all cursor-pointer flex items-center gap-1.5 ${
-                  leadModalTab === "ai"
-                    ? "bg-white text-purple-600 shadow-sm border border-slate-200"
-                    : "text-slate-600 hover:text-slate-900"
-                }`}
-              >
-                <Wand2 className="h-3.5 w-3.5 text-purple-600" /> AI Lead Audit
-              </button>
-
-              <button
-                type="button"
                 onClick={() => setLeadModalTab("communications")}
                 className={`px-4 py-2 rounded-xl text-xs font-extrabold transition-all cursor-pointer flex items-center gap-1.5 ${
                   leadModalTab === "communications"
@@ -1627,64 +1618,97 @@ export function LeadsTable({ initialView = "pipeline" }: { initialView?: "pipeli
               </div>
             )}
 
-            {/* TAB 3: AI Audit */}
-            {leadModalTab === "ai" && (
-              <div className="space-y-4 text-xs">
-                <div className="p-4 rounded-2xl bg-purple-50/70 border border-purple-200/80 space-y-2">
-                  <div className="flex items-center justify-between">
-                    <h4 className="font-extrabold text-purple-950 text-xs uppercase tracking-wider flex items-center gap-1.5">
-                      <Wand2 className="h-4 w-4 text-purple-600" /> AI Scoping &amp; SLA Analysis
-                    </h4>
-                    <Badge variant="outline" className="bg-purple-100 text-purple-800 border-purple-300 font-bold text-[10px]">
-                      Gemini 2.5 Audit
-                    </Badge>
-                  </div>
-                  <p className="text-[11px] text-purple-900">
-                    Automated client priority scoring and compliance audit for intake #{activeManageLead.reference}.
-                  </p>
-                </div>
-
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  <div className="p-4 rounded-2xl bg-white border border-slate-200 space-y-2">
-                    <p className="text-[10px] font-extrabold uppercase tracking-wider text-slate-400">Intake Priority Score</p>
-                    <p className="text-lg font-black text-slate-900 flex items-center gap-2">
-                      {activeManageLead.isSpecialRequest || activeManageLead.priority === "High" ? (
-                        <span className="text-amber-600 flex items-center gap-1">High Priority (95/100)</span>
-                      ) : (
-                        <span className="text-emerald-600">Standard SLA (78/100)</span>
-                      )}
-                    </p>
-                    <p className="text-[11px] text-slate-500">Based on submitted speed tier and target delivery deadline.</p>
-                  </div>
-
-                  <div className="p-4 rounded-2xl bg-white border border-slate-200 space-y-2">
-                    <p className="text-[10px] font-extrabold uppercase tracking-wider text-slate-400">Recommended SLA Target</p>
-                    <p className="text-lg font-black text-blue-600 font-mono">24 - 48 Hours</p>
-                    <p className="text-[11px] text-slate-500">Chicago Operations Hub expedited processing track.</p>
-                  </div>
-                </div>
-              </div>
-            )}
-
-            {/* TAB 4: Communications & Notes */}
+            {/* TAB 3: Communications & Notes */}
             {leadModalTab === "communications" && (
               <div className="space-y-4 text-xs">
-                <div className="space-y-1.5">
-                  <Label htmlFor={`notes-${activeManageLead.id}`} className="text-xs font-bold text-slate-700">
-                    Internal Lead Notes &amp; Scope Requirements
-                  </Label>
-                  <Textarea
-                    id={`notes-${activeManageLead.id}`}
-                    rows={4}
-                    className="text-xs bg-slate-50 border-slate-300"
-                    placeholder="Add client notes, budget preferences, or specific document notes..."
-                    value={activeManageLead.notes}
-                    onChange={(e) => {
-                      updateLead(activeManageLead.id, { notes: e.target.value });
-                      setActiveManageLead({ ...activeManageLead, notes: e.target.value });
-                    }}
-                  />
-                </div>
+                {(() => {
+                  const parsed = parseLeadNotes(activeManageLead.notes);
+                  return (
+                    <div className="space-y-4">
+                      {parsed.isJson && parsed.data ? (
+                        <div className="p-4 rounded-2xl bg-slate-50 border border-slate-200/90 space-y-3">
+                          <div className="flex items-center justify-between border-b border-slate-200/80 pb-2">
+                            <h4 className="text-xs font-extrabold uppercase tracking-wider text-slate-800 flex items-center gap-1.5">
+                              <FileText className="h-4 w-4 text-blue-600" /> Submitted Client Intake Parameters
+                            </h4>
+                            <Badge className="bg-blue-100 text-blue-800 border-blue-200 text-[10px] font-bold">
+                              Structured Form Intake
+                            </Badge>
+                          </div>
+
+                          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
+                            {parsed.data.companyName && (
+                              <div className="p-2.5 rounded-xl bg-white border border-slate-200">
+                                <span className="text-[10px] font-extrabold uppercase text-slate-400 block">Company Name</span>
+                                <span className="font-extrabold text-slate-900">{parsed.data.companyName}</span>
+                              </div>
+                            )}
+
+                            {parsed.data.scopeType && (
+                              <div className="p-2.5 rounded-xl bg-white border border-slate-200">
+                                <span className="text-[10px] font-extrabold uppercase text-slate-400 block">Scope Type</span>
+                                <span className="font-extrabold text-slate-900">{parsed.data.scopeType}</span>
+                              </div>
+                            )}
+
+                            {parsed.data.budget && (
+                              <div className="p-2.5 rounded-xl bg-white border border-slate-200">
+                                <span className="text-[10px] font-extrabold uppercase text-slate-400 block">Target Budget Range</span>
+                                <span className="font-extrabold text-emerald-700">{parsed.data.budget}</span>
+                              </div>
+                            )}
+
+                            {parsed.data.timeline && (
+                              <div className="p-2.5 rounded-xl bg-white border border-slate-200">
+                                <span className="text-[10px] font-extrabold uppercase text-slate-400 block">Timeline / Delivery SLA</span>
+                                <span className="font-extrabold text-blue-700">{parsed.data.timeline}</span>
+                              </div>
+                            )}
+
+                            {parsed.data.preferredConsultationDate && (
+                              <div className="p-2.5 rounded-xl bg-purple-50/70 border border-purple-200 sm:col-span-2">
+                                <span className="text-[10px] font-extrabold uppercase text-purple-900 block">Virtual Consultation Slot</span>
+                                <span className="font-extrabold text-purple-950">
+                                  {parsed.data.preferredConsultationDate} {parsed.data.preferredConsultationSlot ? `@ ${parsed.data.preferredConsultationSlot}` : ""}
+                                </span>
+                              </div>
+                            )}
+
+                            {parsed.data.projectDetails && (
+                              <div className="p-2.5 rounded-xl bg-white border border-slate-200 sm:col-span-2">
+                                <span className="text-[10px] font-extrabold uppercase text-slate-400 block">Project Requirements / Notes</span>
+                                <span className="font-medium text-slate-800 leading-relaxed">{parsed.data.projectDetails}</span>
+                              </div>
+                            )}
+                          </div>
+                        </div>
+                      ) : null}
+
+                      <div className="space-y-1.5">
+                        <Label htmlFor={`notes-${activeManageLead.id}`} className="text-xs font-bold text-slate-700">
+                          {parsed.isJson ? "Staff Internal Notes & Follow-ups" : "Internal Lead Notes & Scope Requirements"}
+                        </Label>
+                        <Textarea
+                          id={`notes-${activeManageLead.id}`}
+                          rows={3}
+                          className="text-xs bg-white border-slate-300 text-slate-900 font-medium placeholder:text-slate-400"
+                          placeholder="Add staff internal notes, client phone conversation records, or specific document notes..."
+                          value={parsed.isJson ? (activeManageLead.internalNotes || "") : activeManageLead.notes}
+                          onChange={(e) => {
+                            const newText = e.target.value;
+                            if (parsed.isJson) {
+                              updateLead(activeManageLead.id, { internalNotes: newText });
+                              setActiveManageLead({ ...activeManageLead, internalNotes: newText });
+                            } else {
+                              updateLead(activeManageLead.id, { notes: newText });
+                              setActiveManageLead({ ...activeManageLead, notes: newText });
+                            }
+                          }}
+                        />
+                      </div>
+                    </div>
+                  );
+                })()}
 
                 <div className="pt-2 border-t border-slate-100 space-y-2">
                   <p className="text-[11px] font-bold text-slate-600 uppercase tracking-wider">
@@ -1985,117 +2009,6 @@ export function LeadsTable({ initialView = "pipeline" }: { initialView?: "pipeli
           </div>
         </div>
       )}
-
-      {/* AI Lead Scoping Audit & Cost Estimator Modal Dialog */}
-      {aiTargetLead && (() => {
-        const ai = analyzeLeadWithAI(aiTargetLead);
-        return (
-          <div className="fixed inset-0 z-[10000] bg-slate-900/70 backdrop-blur-xs flex items-center justify-center p-4">
-            <div className="surface-card w-full max-w-xl rounded-3xl bg-white p-6 sm:p-7 space-y-5 shadow-2xl border border-slate-200 animate-in fade-in zoom-in-95 duration-200">
-              <div className="flex items-center justify-between border-b border-slate-100 pb-3">
-                <div className="flex items-center gap-3">
-                  <span className="h-10 w-10 rounded-2xl bg-purple-100 border border-purple-300 text-purple-700 grid place-items-center font-bold">
-                    <Wand2 className="h-5 w-5" />
-                  </span>
-                  <div>
-                    <h3 className="text-base font-extrabold text-slate-900 font-display">
-                      AI Lead Audit &amp; Scope Estimator
-                    </h3>
-                    <p className="text-xs text-slate-500">
-                      Automated intake scoping for #{aiTargetLead.reference} ({aiTargetLead.name})
-                    </p>
-                  </div>
-                </div>
-
-                <button
-                  type="button"
-                  onClick={() => setAiTargetLead(null)}
-                  className="h-8 w-8 rounded-full text-slate-400 hover:text-slate-700 hover:bg-slate-100 grid place-items-center cursor-pointer"
-                >
-                  <X className="h-4 w-4" />
-                </button>
-              </div>
-
-              {/* Top Estimates Cards */}
-              <div className="grid gap-3 sm:grid-cols-3">
-                <div className="p-3.5 rounded-2xl bg-purple-50 border border-purple-200 space-y-1">
-                  <span className="text-[10px] font-bold uppercase tracking-wider text-purple-700">
-                    Est. Quote Value
-                  </span>
-                  <p className="text-lg font-extrabold text-purple-900 font-mono">
-                    ${ai.estimatedValueUsd} USD
-                  </p>
-                </div>
-
-                <div className="p-3.5 rounded-2xl bg-blue-50 border border-blue-200 space-y-1">
-                  <span className="text-[10px] font-bold uppercase tracking-wider text-blue-700">
-                    Est. Turnaround
-                  </span>
-                  <p className="text-lg font-extrabold text-blue-900 font-mono">
-                    ~{ai.estimatedDays} Days
-                  </p>
-                </div>
-
-                <div className="p-3.5 rounded-2xl bg-emerald-50 border border-emerald-200 space-y-1">
-                  <span className="text-[10px] font-bold uppercase tracking-wider text-emerald-700">
-                    Priority Level
-                  </span>
-                  <p className="text-xs font-extrabold text-emerald-900 font-mono mt-1">
-                    {ai.priorityLevel}
-                  </p>
-                </div>
-              </div>
-
-              {/* Executive Summary */}
-              <div className="space-y-1.5 p-4 rounded-2xl bg-slate-50 border border-slate-200 text-xs">
-                <span className="font-extrabold text-slate-900 uppercase tracking-wider text-[10px]">
-                  AI Executive Audit Summary:
-                </span>
-                <p className="text-slate-700 leading-relaxed">{ai.executiveSummary}</p>
-              </div>
-
-              {/* Document Compliance Checklist */}
-              <div className="space-y-2">
-                <span className="font-extrabold text-slate-900 uppercase tracking-wider text-[10px]">
-                  Required Document Compliance Checklist:
-                </span>
-                <div className="space-y-1.5 bg-slate-50/60 p-3 rounded-2xl border border-slate-200">
-                  {ai.recommendedChecklist.map((c, i) => (
-                    <div key={i} className="flex items-center gap-2 text-xs font-semibold text-slate-800">
-                      <CheckCircle2 className="h-4 w-4 text-emerald-600 shrink-0" />
-                      <span>{c.item}</span>
-                    </div>
-                  ))}
-                </div>
-              </div>
-
-              {/* Action Footer */}
-              <div className="flex items-center justify-between pt-3 border-t border-slate-100">
-                <Button
-                  type="button"
-                  variant="outline"
-                  size="sm"
-                  onClick={() => {
-                    navigator.clipboard.writeText(ai.suggestedClientResponse);
-                    toast.success("AI Client Response Copied to Clipboard!");
-                  }}
-                  className="font-bold text-xs gap-1.5 cursor-pointer text-slate-800"
-                >
-                  <Copy className="h-3.5 w-3.5 text-blue-600" /> Copy AI Response Template
-                </Button>
-
-                <Button
-                  type="button"
-                  onClick={() => setAiTargetLead(null)}
-                  className="bg-slate-900 hover:bg-slate-800 text-white font-bold text-xs shadow-xs cursor-pointer"
-                >
-                  Close Audit
-                </Button>
-              </div>
-            </div>
-          </div>
-        );
-      })()}
     </div>
   );
 }

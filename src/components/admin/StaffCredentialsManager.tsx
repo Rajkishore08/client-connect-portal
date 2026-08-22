@@ -49,8 +49,8 @@ export const INITIAL_STAFF_ACCOUNTS: StaffAccount[] = [
   },
   {
     id: "staff-2",
-    name: "Rahul Verma (Lead Operations)",
-    email: "rahul.leadmanager@oneworldsolutionsusa.com",
+    name: "Sarah Jenkins (Lead Operations)",
+    email: "sarah.leadmanager@oneworldsolutionsusa.com",
     pass: "Priyanka@OneWorld1028",
     role: "lead_manager",
     status: "active",
@@ -264,23 +264,25 @@ export function StaffCredentialsManager() {
 
             <form onSubmit={handleCreateStaff} className="space-y-4 text-xs">
               <div className="space-y-1">
-                <Label htmlFor="staff-name" className="font-bold text-slate-700">Staff Member Name *</Label>
+                <Label htmlFor="staff-name" className="font-extrabold text-slate-800">Staff Member Name *</Label>
                 <Input
                   id="staff-name"
                   required
-                  placeholder="e.g. Priya Nair (Lead Specialist)"
+                  placeholder="e.g. Sarah Jenkins (Lead Specialist)"
+                  className="bg-white border-slate-300 text-slate-900 placeholder:text-slate-400 font-medium h-10 text-xs"
                   value={newStaff.name}
                   onChange={(e) => setNewStaff({ ...newStaff, name: e.target.value })}
                 />
               </div>
 
               <div className="space-y-1">
-                <Label htmlFor="staff-email" className="font-bold text-slate-700">Work Email Address *</Label>
+                <Label htmlFor="staff-email" className="font-extrabold text-slate-800">Work Email Address *</Label>
                 <Input
                   id="staff-email"
                   type="email"
                   required
-                  placeholder="e.g. priya@oneworldsolutions.com"
+                  placeholder="e.g. sarah@oneworldsolutions.com"
+                  className="bg-white border-slate-300 text-slate-900 placeholder:text-slate-400 font-medium h-10 text-xs"
                   value={newStaff.email}
                   onChange={(e) => setNewStaff({ ...newStaff, email: e.target.value })}
                 />

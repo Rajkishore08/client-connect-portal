@@ -1,428 +1,818 @@
 import {
-  TrendingUp,
-  Inbox,
-  Clock,
-  CheckCircle2,
-  DollarSign,
-  ShieldCheck,
-  Zap,
-  ArrowUpRight,
-  ArrowDownRight,
-  Download,
-  RefreshCw,
-  FileText,
-  Users,
   Activity,
-  Award,
-  ChevronRight,
+  ArrowUpRight,
+  BarChart3,
+  BookOpen,
+  Calendar,
+  CheckCircle2,
+  Clock,
+  Copy,
+  Download,
   ExternalLink,
-} from "lucide-react";
-import { useState } from "react";
-import {
-  Area,
-  AreaChart,
-  Bar,
-  BarChart,
-  CartesianGrid,
-  Cell,
-  Legend,
-  Pie,
+  FileText,
+  Globe,
+  History,
+  Inbox,
+  KeyRound,
+  Layers,
+  Mail,
+  MessageSquare,
+  Package,
+  Phone,
   PieChart,
-  ResponsiveContainer,
-  Tooltip,
-  XAxis,
-  YAxis,
-} from "recharts";
+  Plus,
+  RefreshCw,
+  Search,
+  ShieldCheck,
+  Sparkles,
+  TrendingUp,
+  UserCheck,
+  Users,
+  Zap,
+} from "lucide-react";
+import { useEffect, useState, Fragment } from "react";
 import { toast } from "sonner";
 
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { CATEGORY_BREAKDOWN, DASHBOARD_STATS, LEADS } from "@/data/mock-data";
+import { Input } from "@/components/ui/input";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { type Lead, type LeadStatus } from "@/data/mock-data";
+import { fetchLeadsFromSupabase, updateLeadInSupabase } from "@/lib/supabase-db";
+import { type AdminTab } from "@/components/admin/SaaSAdminLayout";
 
-// Analytics Seed Datasets
-const REVENUE_TREND = [
-  { month: "Jan", revenue: 24500, cases: 38, conversion: 34 },
-  { month: "Feb", revenue: 28900, cases: 44, conversion: 38 },
-  { month: "Mar", revenue: 32100, cases: 51, conversion: 41 },
-  { month: "Apr", revenue: 29800, cases: 46, conversion: 39 },
-  { month: "May", revenue: 36400, cases: 58, conversion: 43 },
-  { month: "Jun", revenue: 41200, cases: 64, conversion: 45 },
-  { month: "Jul", revenue: 45800, cases: 72, conversion: 47 },
-  { month: "Aug (YTD)", revenue: 48250, cases: 78, conversion: 49 },
-];
+interface IntakeNotesData {
+  companyName?: string;
+  scopeType?: string;
+  budget?: string;
+  timeline?: string;
+  preferredConsultationDate?: string;
+  preferredConsultationSlot?: string;
+  projectDetails?: string;
+  [key: string]: any;
+}
 
-const STATUS_DONUT_DATA = [
-  { name: "In Progress", value: 4, color: "#3B82F6" },
-  { name: "New Enquiries", value: 4, color: "#8B5CF6" },
-  { name: "Contacted", value: 2, color: "#F59E0B" },
-  { name: "Closed / Completed", value: 2, color: "#10B981" },
-];
+function parseLeadNotes(notes: string | undefined): { isJson: boolean; data?: IntakeNotesData; rawText: string } {
+  if (!notes) return { isJson: false, rawText: "" };
+  const trimmed = notes.trim();
+  if (trimmed.startsWith("{") && trimmed.endsWith("}")) {
+    try {
+      const parsed = JSON.parse(trimmed);
+      return { isJson: true, data: parsed, rawText: notes };
+    } catch {
+      // ignore
+    }
+  }
+  return { isJson: false, rawText: notes };
+}
 
-const FUNNEL_METRICS = [
-  { stage: "Portal Visitors", count: 1840, fill: "#3B82F6" },
-  { stage: "Intake Wizard Started", count: 920, fill: "#6366F1" },
-  { stage: "Form Submitted", count: 340, fill: "#8B5CF6" },
-  { stage: "Doc Verified & Audited", count: 280, fill: "#EC4899" },
-  { stage: "Consultation Booked", count: 210, fill: "#10B981" },
-];
+interface AdminDashboardProps {
+  onNavigateTab?: (tab: AdminTab) => void;
+}
 
-const SLA_METRICS = [
-  { service: "Passport Renewal", avgDays: 2.8, targetDays: 3.0, onTimeRate: "98.2%" },
-  { service: "OCI Application", avgDays: 4.1, targetDays: 5.0, onTimeRate: "95.6%" },
-  { service: "Renunciation / Surrender", avgDays: 3.5, targetDays: 4.0, onTimeRate: "97.0%" },
-  { service: "Emergency Certificate", avgDays: 0.8, targetDays: 1.0, onTimeRate: "99.4%" },
-  { service: "Website MVP Build", avgDays: 12.4, targetDays: 14.0, onTimeRate: "94.0%" },
-];
+export function AdminDashboard({ onNavigateTab }: AdminDashboardProps) {
+  const [leads, setLeads] = useState<Lead[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [categoryFilter, setCategoryFilter] = useState("all");
+  const [updatingId, setUpdatingId] = useState<string | null>(null);
 
-export function AdminDashboard() {
-  const [timeframe, setTimeframe] = useState<"7d" | "30d" | "quarter" | "ytd">("30d");
+  const loadRealLeads = async () => {
+    setLoading(true);
+    try {
+      const data = await fetchLeadsFromSupabase();
+      setLeads(data);
+    } catch (err) {
+      console.warn("[Executive Analytics] Load leads notice:", err);
+    } finally {
+      setLoading(false);
+    }
+  };
 
-  const handleExportCSV = () => {
-    const csvContent =
-      "Month,Revenue ($),Total Cases,Conversion Rate (%)\n" +
-      REVENUE_TREND.map((r) => `${r.month},${r.revenue},${r.cases},${r.conversion}%`).join("\n");
-    const blob = new Blob([csvContent], { type: "text/csv" });
+  useEffect(() => {
+    loadRealLeads();
+
+    const handleUpdate = () => {
+      loadRealLeads();
+    };
+    window.addEventListener("ows_lead_updated", handleUpdate);
+    return () => window.removeEventListener("ows_lead_updated", handleUpdate);
+  }, []);
+
+  const handleQuickStatusChange = async (leadId: string, leadRef: string, newStatus: LeadStatus) => {
+    setUpdatingId(leadId);
+    try {
+      await updateLeadInSupabase(leadId, { status: newStatus });
+      setLeads((prev) =>
+        prev.map((l) => (l.id === leadId || l.reference === leadRef ? { ...l, status: newStatus } : l))
+      );
+      toast.success(`Lead #${leadRef} status updated to "${newStatus}"`);
+    } catch (e) {
+      toast.error("Failed to update status.");
+    } finally {
+      setUpdatingId(null);
+    }
+  };
+
+  const handleCopyRef = (ref: string) => {
+    navigator.clipboard.writeText(ref);
+    toast.success(`Copied Reference #${ref} to clipboard`);
+  };
+
+  const handleExportLeadsCSV = () => {
+    if (leads.length === 0) {
+      toast.error("No lead records available to export.");
+      return;
+    }
+    const csvHeader = "Reference,Date,Name,Email,Phone,Category,Service,Status,Notes\n";
+    const rows = leads
+      .map(
+        (l) =>
+          `"${l.reference}","${l.date}","${l.name.replace(/"/g, '""')}","${l.email}","${l.phone}","${l.category}","${l.service}","${l.status}","${(l.notes || "").replace(/"/g, '""')}"`
+      )
+      .join("\n");
+    const blob = new Blob([csvHeader + rows], { type: "text/csv" });
     const url = URL.createObjectURL(blob);
     const a = document.createElement("a");
     a.href = url;
-    a.download = `OWS_Analytics_Report_${timeframe}.csv`;
+    a.download = `OWS_Real_Leads_Report_${new Date().toISOString().split("T")[0]}.csv`;
     a.click();
-    toast.success("Analytics CSV Dispatched to Download Folder");
+    toast.success("Executive Leads Telemetry CSV Exported Successfully");
   };
+
+  // Filtered Leads
+  const filteredLeads = leads.filter((l) => {
+    const matchesSearch =
+      l.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      l.email.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      l.reference.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      l.service.toLowerCase().includes(searchQuery.toLowerCase());
+    const matchesCategory =
+      categoryFilter === "all"
+        ? true
+        : l.category.toLowerCase().includes(categoryFilter.toLowerCase());
+    return matchesSearch && matchesCategory;
+  });
+
+  // Real Data Telemetry Metrics
+  const totalLeadsCount = leads.length;
+  const newLeadsCount = leads.filter((l) => l.status === "New").length;
+  const inContactCount = leads.filter((l) => l.status === "In Contact").length;
+  const inProgressCount = leads.filter((l) => l.status === "In Progress").length;
+  const completedCount = leads.filter((l) => l.status === "Completed" || l.status === "Archived").length;
+
+  const passportCount = leads.filter((l) => l.category.toLowerCase().includes("passport") || l.category.toLowerCase().includes("visa")).length;
+  const webTechCount = leads.filter((l) => l.category.toLowerCase().includes("soft") || l.category.toLowerCase().includes("web") || l.category.toLowerCase().includes("ui")).length;
+  const marketingCount = leads.filter((l) => l.category.toLowerCase().includes("market") || l.category.toLowerCase().includes("seo") || l.category.toLowerCase().includes("ads")).length;
+
+  const formSourceCount = leads.filter((l) => (l.source || "").toLowerCase().includes("form")).length;
+  const chatSourceCount = leads.filter((l) => (l.source || "").toLowerCase().includes("chat") || (l.source || "").toLowerCase().includes("whatsapp")).length;
+  const calSourceCount = leads.filter((l) => (l.source || "").toLowerCase().includes("cal") || (l.source || "").toLowerCase().includes("book")).length;
+
+  const getPct = (val: number) => (totalLeadsCount > 0 ? Math.round((val / totalLeadsCount) * 100) : 0);
 
   return (
     <div className="space-y-6">
-      {/* Top Banner with Controls */}
-      <div className="surface-card p-6 rounded-3xl border border-border shadow-sm flex flex-wrap items-center justify-between gap-4">
+      {/* Top Banner with Real Telemetry Controls */}
+      <div className="surface-card p-6 rounded-3xl border border-border shadow-sm flex flex-wrap items-center justify-between gap-4 bg-white">
         <div className="space-y-1">
           <div className="flex items-center gap-2">
-            <span className="grid h-8 w-8 place-items-center rounded-xl bg-primary-soft text-primary font-bold">
+            <span className="grid h-8 w-8 place-items-center rounded-xl bg-blue-600/10 text-blue-600 font-bold">
               <Activity className="h-4 w-4" />
             </span>
-            <h1 className="text-xl font-bold font-display text-foreground">Executive Intelligence &amp; Analytics</h1>
+            <h1 className="text-xl font-extrabold font-display text-slate-900">Executive Operations Intelligence</h1>
+            <Badge className="bg-emerald-500/10 text-emerald-700 border-emerald-500/20 text-[10px] font-bold">
+              ● Real Live Data
+            </Badge>
           </div>
-          <p className="text-xs text-muted-foreground">
-            Real-time telemetry on client intakes, SLA turnaround performance, conversion rates, and revenue.
+          <p className="text-xs text-slate-500">
+            Real-time telemetry on incoming client intakes, category distribution, and immediate management controls.
           </p>
         </div>
 
         <div className="flex flex-wrap items-center gap-2">
-          {/* Timeframe selector */}
-          <div className="flex items-center rounded-xl border border-border bg-muted/40 p-1 text-xs">
-            {(["7d", "30d", "quarter", "ytd"] as const).map((tf) => (
-              <button
-                key={tf}
-                type="button"
-                onClick={() => setTimeframe(tf)}
-                className={`rounded-lg px-3 py-1.5 font-bold transition-all cursor-pointer ${
-                  timeframe === tf ? "bg-card text-foreground shadow-sm" : "text-muted-foreground hover:text-foreground"
-                }`}
-              >
-                {tf === "7d" ? "7 Days" : tf === "30d" ? "30 Days" : tf === "quarter" ? "Quarter" : "YTD"}
-              </button>
-            ))}
-          </div>
-
-          <Button onClick={handleExportCSV} variant="outline" size="sm" className="h-9 text-xs font-bold gap-1.5 cursor-pointer">
-            <Download className="h-3.5 w-3.5" /> Export Analytics CSV
+          <Button onClick={loadRealLeads} variant="outline" size="sm" className="h-9 text-xs font-bold gap-1.5 cursor-pointer">
+            <RefreshCw className={`h-3.5 w-3.5 ${loading ? "animate-spin text-blue-600" : ""}`} /> Refresh Live Data
           </Button>
 
-          <Button
-            onClick={() => toast.info("Analytics metrics synced with live store.")}
-            variant="ghost"
-            size="icon"
-            className="h-9 w-9 text-muted-foreground hover:text-foreground cursor-pointer"
-          >
-            <RefreshCw className="h-4 w-4" />
+          <Button onClick={handleExportLeadsCSV} variant="default" size="sm" className="h-9 text-xs font-bold gap-1.5 cursor-pointer bg-blue-600 hover:bg-blue-700 text-white">
+            <Download className="h-3.5 w-3.5" /> Export Intake Data (CSV)
           </Button>
         </div>
       </div>
 
-      {/* KPI Cards Grid */}
-      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-        {/* Total Revenue KPI */}
-        <div className="surface-card p-5 rounded-3xl border border-border relative overflow-hidden space-y-3">
-          <div className="flex items-center justify-between">
-            <span className="text-xs font-bold text-muted-foreground uppercase tracking-wider">Gross Intake Revenue</span>
-            <span className="grid h-8 w-8 place-items-center rounded-xl bg-emerald-500/10 text-emerald-600 font-bold">
-              <DollarSign className="h-4 w-4" />
-            </span>
-          </div>
-          <div className="space-y-1">
-            <div className="text-3xl font-extrabold font-display text-foreground">$48,250</div>
-            <div className="flex items-center gap-1.5 text-xs font-semibold text-emerald-600">
-              <ArrowUpRight className="h-3.5 w-3.5" /> +19.4% vs last month
+      {/* Quick Access Operations Navigation Shortcuts */}
+      {onNavigateTab && (
+        <div className="surface-card p-6 rounded-3xl border border-slate-200/90 bg-white shadow-xs space-y-4">
+          <div className="flex items-center justify-between border-b border-slate-200/80 pb-3">
+            <div>
+              <h3 className="text-base font-black text-slate-900 flex items-center gap-2">
+                <Zap className="h-4 w-4 text-blue-600" /> Operations Suite Quick Navigation
+              </h3>
+              <p className="text-xs text-slate-500">Direct 1-click access to all primary management modules</p>
             </div>
+            <Badge variant="outline" className="text-xs font-mono font-bold bg-slate-50 text-slate-700">
+              7 Active Modules
+            </Badge>
           </div>
-          <div className="h-1 w-full bg-emerald-500/20 rounded-full overflow-hidden">
-            <div className="h-full bg-emerald-500 w-[78%]" />
+
+          <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+            {/* 1. Pipeline & Document Vault */}
+            <button
+              type="button"
+              onClick={() => onNavigateTab("leads")}
+              className="p-4 rounded-2xl border border-slate-200 hover:border-blue-500 hover:shadow-md transition-all text-left bg-slate-50/70 hover:bg-blue-50/50 group cursor-pointer space-y-2"
+            >
+              <div className="flex items-center justify-between">
+                <div className="h-9 w-9 rounded-xl bg-blue-600/10 text-blue-600 grid place-items-center group-hover:bg-blue-600 group-hover:text-white transition-colors">
+                  <Inbox className="h-4 w-4" />
+                </div>
+                <Badge className="bg-blue-100 text-blue-800 text-[10px] font-bold">Unified Vault</Badge>
+              </div>
+              <div>
+                <p className="font-extrabold text-slate-900 text-xs group-hover:text-blue-600 transition-colors">
+                  Pipeline &amp; Document Vault
+                </p>
+                <p className="text-[11px] text-slate-500 mt-0.5">Manage intakes, milestones &amp; documents</p>
+              </div>
+            </button>
+
+            {/* 2. Services & SLA Catalog */}
+            <button
+              type="button"
+              onClick={() => onNavigateTab("services")}
+              className="p-4 rounded-2xl border border-slate-200 hover:border-indigo-500 hover:shadow-md transition-all text-left bg-slate-50/70 hover:bg-indigo-50/50 group cursor-pointer space-y-2"
+            >
+              <div className="flex items-center justify-between">
+                <div className="h-9 w-9 rounded-xl bg-indigo-600/10 text-indigo-600 grid place-items-center group-hover:bg-indigo-600 group-hover:text-white transition-colors">
+                  <Package className="h-4 w-4" />
+                </div>
+                <span className="text-[10px] text-slate-400 font-mono font-bold">Catalog</span>
+              </div>
+              <div>
+                <p className="font-extrabold text-slate-900 text-xs group-hover:text-indigo-600 transition-colors">
+                  Services &amp; SLA Catalog
+                </p>
+                <p className="text-[11px] text-slate-500 mt-0.5">Configure service packages &amp; pricing</p>
+              </div>
+            </button>
+
+            {/* 3. Resend Email & SMS Engine */}
+            <button
+              type="button"
+              onClick={() => onNavigateTab("emails")}
+              className="p-4 rounded-2xl border border-slate-200 hover:border-emerald-500 hover:shadow-md transition-all text-left bg-slate-50/70 hover:bg-emerald-50/50 group cursor-pointer space-y-2"
+            >
+              <div className="flex items-center justify-between">
+                <div className="h-9 w-9 rounded-xl bg-emerald-600/10 text-emerald-600 grid place-items-center group-hover:bg-emerald-600 group-hover:text-white transition-colors">
+                  <Mail className="h-4 w-4" />
+                </div>
+                <span className="text-[10px] text-emerald-600 font-mono font-bold">Resend API</span>
+              </div>
+              <div>
+                <p className="font-extrabold text-slate-900 text-xs group-hover:text-emerald-600 transition-colors">
+                  Resend Email &amp; SMS Engine
+                </p>
+                <p className="text-[11px] text-slate-500 mt-0.5">Automated notifications &amp; email triggers</p>
+              </div>
+            </button>
+
+            {/* 4. Blog & Article CMS */}
+            <button
+              type="button"
+              onClick={() => onNavigateTab("blogs")}
+              className="p-4 rounded-2xl border border-slate-200 hover:border-purple-500 hover:shadow-md transition-all text-left bg-slate-50/70 hover:bg-purple-50/50 group cursor-pointer space-y-2"
+            >
+              <div className="flex items-center justify-between">
+                <div className="h-9 w-9 rounded-xl bg-purple-600/10 text-purple-600 grid place-items-center group-hover:bg-purple-600 group-hover:text-white transition-colors">
+                  <BookOpen className="h-4 w-4" />
+                </div>
+                <span className="text-[10px] text-slate-400 font-mono font-bold">CMS</span>
+              </div>
+              <div>
+                <p className="font-extrabold text-slate-900 text-xs group-hover:text-purple-600 transition-colors">
+                  Blog &amp; Article CMS
+                </p>
+                <p className="text-[11px] text-slate-500 mt-0.5">Publish articles &amp; company news</p>
+              </div>
+            </button>
+
+            {/* 5. Registered Client Accounts */}
+            <button
+              type="button"
+              onClick={() => onNavigateTab("users")}
+              className="p-4 rounded-2xl border border-slate-200 hover:border-amber-500 hover:shadow-md transition-all text-left bg-slate-50/70 hover:bg-amber-50/50 group cursor-pointer space-y-2"
+            >
+              <div className="flex items-center justify-between">
+                <div className="h-9 w-9 rounded-xl bg-amber-600/10 text-amber-600 grid place-items-center group-hover:bg-amber-600 group-hover:text-white transition-colors">
+                  <Users className="h-4 w-4" />
+                </div>
+                <span className="text-[10px] text-slate-400 font-mono font-bold">Clients</span>
+              </div>
+              <div>
+                <p className="font-extrabold text-slate-900 text-xs group-hover:text-amber-600 transition-colors">
+                  Registered Client Accounts
+                </p>
+                <p className="text-[11px] text-slate-500 mt-0.5">View user credentials &amp; profiles</p>
+              </div>
+            </button>
+
+            {/* 6. Staff Access & Credentials */}
+            <button
+              type="button"
+              onClick={() => onNavigateTab("staff")}
+              className="p-4 rounded-2xl border border-slate-200 hover:border-slate-700 hover:shadow-md transition-all text-left bg-slate-50/70 hover:bg-slate-100 group cursor-pointer space-y-2"
+            >
+              <div className="flex items-center justify-between">
+                <div className="h-9 w-9 rounded-xl bg-slate-900/10 text-slate-900 grid place-items-center group-hover:bg-slate-900 group-hover:text-white transition-colors">
+                  <KeyRound className="h-4 w-4" />
+                </div>
+                <span className="text-[10px] text-slate-400 font-mono font-bold">Staff</span>
+              </div>
+              <div>
+                <p className="font-extrabold text-slate-900 text-xs group-hover:text-slate-900 transition-colors">
+                  Staff Access &amp; Credentials
+                </p>
+                <p className="text-[11px] text-slate-500 mt-0.5">Manage staff permissions &amp; access keys</p>
+              </div>
+            </button>
+
+            {/* 7. Security & Audit Logs */}
+            <button
+              type="button"
+              onClick={() => onNavigateTab("audit")}
+              className="p-4 rounded-2xl border border-slate-200 hover:border-rose-500 hover:shadow-md transition-all text-left bg-slate-50/70 hover:bg-rose-50/50 group cursor-pointer space-y-2 lg:col-span-2"
+            >
+              <div className="flex items-center justify-between">
+                <div className="h-9 w-9 rounded-xl bg-rose-600/10 text-rose-600 grid place-items-center group-hover:bg-rose-600 group-hover:text-white transition-colors">
+                  <History className="h-4 w-4" />
+                </div>
+                <Badge className="bg-rose-100 text-rose-800 text-[10px] font-bold">Telemetry Audit</Badge>
+              </div>
+              <div>
+                <p className="font-extrabold text-slate-900 text-xs group-hover:text-rose-600 transition-colors">
+                  Security &amp; Audit Logs
+                </p>
+                <p className="text-[11px] text-slate-500 mt-0.5">Review access logs &amp; system audit trail</p>
+              </div>
+            </button>
           </div>
         </div>
+      )}
 
-        {/* Total Active Cases KPI */}
-        <div className="surface-card p-5 rounded-3xl border border-border relative overflow-hidden space-y-3">
+      {/* Real Real-Time KPI Cards Grid */}
+      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+        {/* Total Active Intakes */}
+        <div className="surface-card p-5 rounded-3xl border border-slate-200/90 bg-white shadow-xs space-y-3">
           <div className="flex items-center justify-between">
-            <span className="text-xs font-bold text-muted-foreground uppercase tracking-wider">Total Active Cases</span>
-            <span className="grid h-8 w-8 place-items-center rounded-xl bg-blue-500/10 text-blue-600 font-bold">
+            <span className="text-[11px] font-bold text-slate-500 uppercase tracking-wider">Total Received Intakes</span>
+            <span className="grid h-8 w-8 place-items-center rounded-xl bg-blue-50 text-blue-600 font-bold">
               <Inbox className="h-4 w-4" />
             </span>
           </div>
           <div className="space-y-1">
-            <div className="text-3xl font-extrabold font-display text-foreground">{LEADS.length}</div>
-            <div className="flex items-center gap-1.5 text-xs font-semibold text-blue-600">
-              <ArrowUpRight className="h-3.5 w-3.5" /> +24% WoW Intake Volume
+            <div className="text-3xl font-black text-slate-900">{totalLeadsCount}</div>
+            <div className="text-xs font-semibold text-blue-600 flex items-center gap-1">
+              <Sparkles className="h-3.5 w-3.5" /> Active Client Pipeline Records
             </div>
-          </div>
-          <div className="h-1 w-full bg-blue-500/20 rounded-full overflow-hidden">
-            <div className="h-full bg-blue-500 w-[65%]" />
           </div>
         </div>
 
-        {/* SLA On-Time Rate KPI */}
-        <div className="surface-card p-5 rounded-3xl border border-border relative overflow-hidden space-y-3">
+        {/* New Unhandled Intakes */}
+        <div className="surface-card p-5 rounded-3xl border border-slate-200/90 bg-white shadow-xs space-y-3">
           <div className="flex items-center justify-between">
-            <span className="text-xs font-bold text-muted-foreground uppercase tracking-wider">SLA Turnaround Rate</span>
-            <span className="grid h-8 w-8 place-items-center rounded-xl bg-indigo-500/10 text-indigo-600 font-bold">
+            <span className="text-[11px] font-bold text-slate-500 uppercase tracking-wider">New Unhandled Intakes</span>
+            <span className="grid h-8 w-8 place-items-center rounded-xl bg-amber-50 text-amber-600 font-bold">
               <Clock className="h-4 w-4" />
             </span>
           </div>
           <div className="space-y-1">
-            <div className="text-3xl font-extrabold font-display text-foreground">96.8%</div>
-            <div className="flex items-center gap-1.5 text-xs font-semibold text-emerald-600">
-              <CheckCircle2 className="h-3.5 w-3.5" /> 3.1 Days Avg Processing
+            <div className="text-3xl font-black text-amber-600">{newLeadsCount}</div>
+            <div className="text-xs font-semibold text-amber-600 flex items-center gap-1">
+              {newLeadsCount > 0 ? "⚠️ Requires Staff Review" : "✓ All Intakes Triaged"}
             </div>
-          </div>
-          <div className="h-1 w-full bg-indigo-500/20 rounded-full overflow-hidden">
-            <div className="h-full bg-indigo-500 w-[96.8%]" />
           </div>
         </div>
 
-        {/* Conversion Rate KPI */}
-        <div className="surface-card p-5 rounded-3xl border border-border relative overflow-hidden space-y-3">
+        {/* In Progress Pipeline */}
+        <div className="surface-card p-5 rounded-3xl border border-slate-200/90 bg-white shadow-xs space-y-3">
           <div className="flex items-center justify-between">
-            <span className="text-xs font-bold text-muted-foreground uppercase tracking-wider">Conversion Rate</span>
-            <span className="grid h-8 w-8 place-items-center rounded-xl bg-purple-500/10 text-purple-600 font-bold">
+            <span className="text-[11px] font-bold text-slate-500 uppercase tracking-wider">In Progress Pipeline</span>
+            <span className="grid h-8 w-8 place-items-center rounded-xl bg-indigo-50 text-indigo-600 font-bold">
               <TrendingUp className="h-4 w-4" />
             </span>
           </div>
           <div className="space-y-1">
-            <div className="text-3xl font-extrabold font-display text-foreground">42.5%</div>
-            <div className="flex items-center gap-1.5 text-xs font-semibold text-emerald-600">
-              <ArrowUpRight className="h-3.5 w-3.5" /> +5.2% vs benchmark
+            <div className="text-3xl font-black text-indigo-600">{inProgressCount}</div>
+            <div className="text-xs font-semibold text-indigo-600 flex items-center gap-1">
+              <Zap className="h-3.5 w-3.5" /> Active Service Execution
             </div>
           </div>
-          <div className="h-1 w-full bg-purple-500/20 rounded-full overflow-hidden">
-            <div className="h-full bg-purple-500 w-[42.5%]" />
+        </div>
+
+        {/* Completed Deliveries */}
+        <div className="surface-card p-5 rounded-3xl border border-slate-200/90 bg-white shadow-xs space-y-3">
+          <div className="flex items-center justify-between">
+            <span className="text-[11px] font-bold text-slate-500 uppercase tracking-wider">Completed / Handed Over</span>
+            <span className="grid h-8 w-8 place-items-center rounded-xl bg-emerald-50 text-emerald-600 font-bold">
+              <CheckCircle2 className="h-4 w-4" />
+            </span>
+          </div>
+          <div className="space-y-1">
+            <div className="text-3xl font-black text-emerald-600">{completedCount}</div>
+            <div className="text-xs font-semibold text-emerald-600 flex items-center gap-1">
+              <ShieldCheck className="h-3.5 w-3.5" /> Successfully Closed Cases
+            </div>
           </div>
         </div>
       </div>
 
-      {/* Main Charts Grid */}
-      <div className="grid gap-6 lg:grid-cols-3">
-        {/* Monthly Revenue & Case Volume Chart (Spans 2 columns) */}
-        <div className="surface-card p-6 rounded-3xl border border-border lg:col-span-2 space-y-4">
-          <div className="flex items-center justify-between border-b border-border/60 pb-3">
-            <div>
-              <h3 className="text-base font-bold font-display text-foreground">Revenue &amp; Case Growth Trend</h3>
-              <p className="text-xs text-muted-foreground">Monthly revenue trajectory ($ USD) vs total client intakes</p>
-            </div>
-            <Badge variant="outline" className="text-xs font-mono font-bold">
-              YTD +41.2% Revenue
-            </Badge>
-          </div>
-
-          <div className="h-72 w-full">
-            <ResponsiveContainer width="100%" height="100%">
-              <AreaChart data={REVENUE_TREND} margin={{ left: -10, right: 10, top: 10, bottom: 0 }}>
-                <defs>
-                  <linearGradient id="colorRevenue" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="5%" stopColor="#0F52FF" stopOpacity={0.4} />
-                    <stop offset="95%" stopColor="#0F52FF" stopOpacity={0.0} />
-                  </linearGradient>
-                  <linearGradient id="colorCases" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="5%" stopColor="#10B981" stopOpacity={0.3} />
-                    <stop offset="95%" stopColor="#10B981" stopOpacity={0.0} />
-                  </linearGradient>
-                </defs>
-                <CartesianGrid strokeDasharray="3 3" stroke="var(--color-border)" vertical={false} />
-                <XAxis dataKey="month" tickLine={false} axisLine={false} tick={{ fontSize: 11, fill: "var(--color-muted-foreground)" }} />
-                <YAxis yAxisId="left" tickLine={false} axisLine={false} tick={{ fontSize: 11, fill: "var(--color-muted-foreground)" }} />
-                <YAxis yAxisId="right" orientation="right" tickLine={false} axisLine={false} tick={{ fontSize: 11, fill: "var(--color-muted-foreground)" }} />
-                <Tooltip
-                  contentStyle={{
-                    borderRadius: 16,
-                    border: "1px solid var(--color-border)",
-                    background: "var(--color-card)",
-                    fontSize: 12,
-                    boxShadow: "0 10px 25px rgba(0,0,0,0.1)",
-                  }}
-                />
-                <Area yAxisId="left" type="monotone" dataKey="revenue" name="Revenue ($)" stroke="#0F52FF" strokeWidth={3} fillOpacity={1} fill="url(#colorRevenue)" />
-                <Area yAxisId="right" type="monotone" dataKey="cases" name="Intake Cases" stroke="#10B981" strokeWidth={2} fillOpacity={1} fill="url(#colorCases)" />
-              </AreaChart>
-            </ResponsiveContainer>
-          </div>
-        </div>
-
-        {/* Case Status Distribution Donut */}
-        <div className="surface-card p-6 rounded-3xl border border-border space-y-4">
-          <div className="border-b border-border/60 pb-3">
-            <h3 className="text-base font-bold font-display text-foreground">Pipeline Status Breakdown</h3>
-            <p className="text-xs text-muted-foreground">Distribution across ongoing intake stages</p>
-          </div>
-
-          <div className="h-56 w-full relative grid place-items-center">
-            <ResponsiveContainer width="100%" height="100%">
-              <PieChart>
-                <Pie data={STATUS_DONUT_DATA} cx="50%" cy="50%" innerRadius={60} outerRadius={85} paddingAngle={4} dataKey="value">
-                  {STATUS_DONUT_DATA.map((entry, index) => (
-                    <Cell key={`cell-${index}`} fill={entry.color} />
-                  ))}
-                </Pie>
-                <Tooltip
-                  contentStyle={{
-                    borderRadius: 12,
-                    border: "1px solid var(--color-border)",
-                    background: "var(--color-card)",
-                    fontSize: 12,
-                  }}
-                />
-              </PieChart>
-            </ResponsiveContainer>
-            <div className="absolute text-center pointer-events-none">
-              <div className="text-2xl font-extrabold font-display text-foreground">{LEADS.length}</div>
-              <div className="text-[10px] font-bold text-muted-foreground uppercase">Total Cases</div>
-            </div>
-          </div>
-
-          <div className="grid grid-cols-2 gap-2 text-xs">
-            {STATUS_DONUT_DATA.map((item) => (
-              <div key={item.name} className="flex items-center gap-2 p-2 rounded-xl bg-muted/30">
-                <span className="h-2.5 w-2.5 rounded-full shrink-0" style={{ backgroundColor: item.color }} />
-                <div className="min-w-0">
-                  <p className="truncate font-semibold text-foreground">{item.name}</p>
-                  <p className="text-[10px] text-muted-foreground font-mono">{item.value} cases</p>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </div>
-
-      {/* Secondary Charts Grid */}
+      {/* REAL DATA VISUAL CHARTS SECTION */}
       <div className="grid gap-6 lg:grid-cols-2">
-        {/* Category Intake Breakdown Bar Chart */}
-        <div className="surface-card p-6 rounded-3xl border border-border space-y-4">
-          <div className="flex items-center justify-between border-b border-border/60 pb-3">
+        {/* CHART 1: Pipeline Stage Funnel & Velocity Breakdown */}
+        <div className="surface-card p-6 rounded-3xl border border-slate-200/90 bg-white shadow-xs space-y-5">
+          <div className="flex items-center justify-between border-b border-slate-200/80 pb-3">
             <div>
-              <h3 className="text-base font-bold font-display text-foreground">Intake Volume by Service Category</h3>
-              <p className="text-xs text-muted-foreground">Demands across passport, web dev &amp; marketing</p>
+              <h3 className="text-base font-black text-slate-900 flex items-center gap-2">
+                <BarChart3 className="h-4 w-4 text-blue-600" /> Pipeline Stage Breakdown (Real Data)
+              </h3>
+              <p className="text-xs text-slate-500">Live proportion of leads by current status stage</p>
             </div>
-            <Badge variant="outline" className="text-xs font-mono">
-              3 Main Pillars
+            <Badge variant="outline" className="text-xs font-mono font-bold bg-blue-50 text-blue-700">
+              {totalLeadsCount} Total Leads
             </Badge>
           </div>
 
-          <div className="h-64 w-full">
-            <ResponsiveContainer width="100%" height="100%">
-              <BarChart data={CATEGORY_BREAKDOWN} margin={{ left: -15, right: 10 }}>
-                <CartesianGrid strokeDasharray="3 3" stroke="var(--color-border)" vertical={false} />
-                <XAxis dataKey="category" tickLine={false} axisLine={false} tick={{ fontSize: 11, fill: "var(--color-muted-foreground)" }} />
-                <YAxis allowDecimals={false} tickLine={false} axisLine={false} tick={{ fontSize: 11, fill: "var(--color-muted-foreground)" }} />
-                <Tooltip
-                  cursor={{ fill: "var(--color-muted)" }}
-                  contentStyle={{
-                    borderRadius: 12,
-                    border: "1px solid var(--color-border)",
-                    background: "var(--color-card)",
-                    fontSize: 12,
-                  }}
-                />
-                <Bar dataKey="leads" name="Active Leads" fill="#0F52FF" radius={[8, 8, 0, 0]} maxBarSize={60} />
-              </BarChart>
-            </ResponsiveContainer>
+          {/* Multi-Segment Stacked Visual Bar */}
+          <div className="space-y-2">
+            <div className="flex items-center justify-between text-xs font-extrabold text-slate-700">
+              <span>Overall Pipeline Composition</span>
+              <span className="font-mono text-blue-600">100% Live Sync</span>
+            </div>
+            <div className="h-4 w-full bg-slate-100 rounded-full overflow-hidden flex shadow-inner">
+              <div style={{ width: `${getPct(newLeadsCount)}%` }} className="bg-amber-500 transition-all duration-500" title={`New: ${newLeadsCount}`} />
+              <div style={{ width: `${getPct(inContactCount)}%` }} className="bg-sky-500 transition-all duration-500" title={`In Contact: ${inContactCount}`} />
+              <div style={{ width: `${getPct(inProgressCount)}%` }} className="bg-indigo-600 transition-all duration-500" title={`In Progress: ${inProgressCount}`} />
+              <div style={{ width: `${getPct(completedCount)}%` }} className="bg-emerald-500 transition-all duration-500" title={`Completed: ${completedCount}`} />
+            </div>
+          </div>
+
+          {/* Detailed Stage Bars */}
+          <div className="space-y-3.5 pt-2">
+            {/* New Stage */}
+            <div className="space-y-1">
+              <div className="flex items-center justify-between text-xs">
+                <span className="font-bold text-slate-800 flex items-center gap-1.5">
+                  <span className="h-2.5 w-2.5 rounded-full bg-amber-500" /> New Unhandled Intakes
+                </span>
+                <span className="font-mono font-extrabold text-amber-600">
+                  {newLeadsCount} ({getPct(newLeadsCount)}%)
+                </span>
+              </div>
+              <div className="h-2 w-full bg-slate-100 rounded-full overflow-hidden">
+                <div style={{ width: `${getPct(newLeadsCount)}%` }} className="h-full bg-amber-500 rounded-full transition-all duration-500" />
+              </div>
+            </div>
+
+            {/* In Contact Stage */}
+            <div className="space-y-1">
+              <div className="flex items-center justify-between text-xs">
+                <span className="font-bold text-slate-800 flex items-center gap-1.5">
+                  <span className="h-2.5 w-2.5 rounded-full bg-sky-500" /> In Contact / Consultation
+                </span>
+                <span className="font-mono font-extrabold text-sky-600">
+                  {inContactCount} ({getPct(inContactCount)}%)
+                </span>
+              </div>
+              <div className="h-2 w-full bg-slate-100 rounded-full overflow-hidden">
+                <div style={{ width: `${getPct(inContactCount)}%` }} className="h-full bg-sky-500 rounded-full transition-all duration-500" />
+              </div>
+            </div>
+
+            {/* In Progress Stage */}
+            <div className="space-y-1">
+              <div className="flex items-center justify-between text-xs">
+                <span className="font-bold text-slate-800 flex items-center gap-1.5">
+                  <span className="h-2.5 w-2.5 rounded-full bg-indigo-600" /> Active Service Execution
+                </span>
+                <span className="font-mono font-extrabold text-indigo-600">
+                  {inProgressCount} ({getPct(inProgressCount)}%)
+                </span>
+              </div>
+              <div className="h-2 w-full bg-slate-100 rounded-full overflow-hidden">
+                <div style={{ width: `${getPct(inProgressCount)}%` }} className="h-full bg-indigo-600 rounded-full transition-all duration-500" />
+              </div>
+            </div>
+
+            {/* Completed Stage */}
+            <div className="space-y-1">
+              <div className="flex items-center justify-between text-xs">
+                <span className="font-bold text-slate-800 flex items-center gap-1.5">
+                  <span className="h-2.5 w-2.5 rounded-full bg-emerald-500" /> Completed &amp; Handed Over
+                </span>
+                <span className="font-mono font-extrabold text-emerald-600">
+                  {completedCount} ({getPct(completedCount)}%)
+                </span>
+              </div>
+              <div className="h-2 w-full bg-slate-100 rounded-full overflow-hidden">
+                <div style={{ width: `${getPct(completedCount)}%` }} className="h-full bg-emerald-500 rounded-full transition-all duration-500" />
+              </div>
+            </div>
           </div>
         </div>
 
-        {/* Conversion Funnel Bar Chart */}
-        <div className="surface-card p-6 rounded-3xl border border-border space-y-4">
-          <div className="flex items-center justify-between border-b border-border/60 pb-3">
+        {/* CHART 2: Lead Acquisition Channels & Source Distribution */}
+        <div className="surface-card p-6 rounded-3xl border border-slate-200/90 bg-white shadow-xs space-y-5">
+          <div className="flex items-center justify-between border-b border-slate-200/80 pb-3">
             <div>
-              <h3 className="text-base font-bold font-display text-foreground">Client Intake Conversion Funnel</h3>
-              <p className="text-xs text-muted-foreground">Step-by-step visitor progression through portal</p>
+              <h3 className="text-base font-black text-slate-900 flex items-center gap-2">
+                <PieChart className="h-4 w-4 text-purple-600" /> Lead Acquisition Sources (Real Data)
+              </h3>
+              <p className="text-xs text-slate-500">Breakdown of intake channels &amp; booking entrypoints</p>
             </div>
-            <Badge variant="secondary" className="text-xs font-mono font-bold">
-              22.8% End-to-End
+            <Badge variant="outline" className="text-xs font-mono font-bold bg-purple-50 text-purple-700">
+              Channel Telemetry
             </Badge>
           </div>
 
-          <div className="space-y-3 pt-2">
-            {FUNNEL_METRICS.map((item, idx) => {
-              const totalCount = FUNNEL_METRICS[0]?.count || 1;
-              const percentage = Math.round((item.count / totalCount) * 100);
-              return (
-                <div key={item.stage} className="space-y-1">
-                  <div className="flex items-center justify-between text-xs">
-                    <span className="font-bold text-foreground flex items-center gap-1.5">
-                      <span className="text-[10px] font-mono text-muted-foreground">#{idx + 1}</span> {item.stage}
-                    </span>
-                    <span className="font-mono font-semibold text-muted-foreground">
-                      {item.count} ({percentage}%)
-                    </span>
-                  </div>
-                  <div className="h-3 w-full bg-muted/40 rounded-full overflow-hidden">
-                    <div
-                      className="h-full rounded-full transition-all duration-500"
-                      style={{ width: `${percentage}%`, backgroundColor: item.fill }}
-                    />
-                  </div>
-                </div>
-              );
-            })}
+          <div className="space-y-4 pt-1">
+            {/* Form Source */}
+            <div className="p-3.5 rounded-2xl bg-slate-50 border border-slate-200 space-y-2">
+              <div className="flex items-center justify-between text-xs">
+                <span className="font-extrabold text-slate-900 flex items-center gap-2">
+                  <FileText className="h-4 w-4 text-blue-600" /> Online Form Submissions
+                </span>
+                <span className="font-mono font-black text-blue-600">
+                  {formSourceCount} Intakes ({getPct(formSourceCount)}%)
+                </span>
+              </div>
+              <div className="h-2.5 w-full bg-white rounded-full overflow-hidden border border-slate-200">
+                <div style={{ width: `${getPct(formSourceCount)}%` }} className="h-full bg-blue-600 rounded-full transition-all duration-500" />
+              </div>
+            </div>
+
+            {/* WhatsApp / Chat Source */}
+            <div className="p-3.5 rounded-2xl bg-slate-50 border border-slate-200 space-y-2">
+              <div className="flex items-center justify-between text-xs">
+                <span className="font-extrabold text-slate-900 flex items-center gap-2">
+                  <MessageSquare className="h-4 w-4 text-emerald-600" /> WhatsApp &amp; Direct Live Chat
+                </span>
+                <span className="font-mono font-black text-emerald-600">
+                  {chatSourceCount} Intakes ({getPct(chatSourceCount)}%)
+                </span>
+              </div>
+              <div className="h-2.5 w-full bg-white rounded-full overflow-hidden border border-slate-200">
+                <div style={{ width: `${getPct(chatSourceCount)}%` }} className="h-full bg-emerald-600 rounded-full transition-all duration-500" />
+              </div>
+            </div>
+
+            {/* Calendar Source */}
+            <div className="p-3.5 rounded-2xl bg-slate-50 border border-slate-200 space-y-2">
+              <div className="flex items-center justify-between text-xs">
+                <span className="font-extrabold text-slate-900 flex items-center gap-2">
+                  <Calendar className="h-4 w-4 text-purple-600" /> Calendar Appointments &amp; Consultations
+                </span>
+                <span className="font-mono font-black text-purple-600">
+                  {calSourceCount} Intakes ({getPct(calSourceCount)}%)
+                </span>
+              </div>
+              <div className="h-2.5 w-full bg-white rounded-full overflow-hidden border border-slate-200">
+                <div style={{ width: `${getPct(calSourceCount)}%` }} className="h-full bg-purple-600 rounded-full transition-all duration-500" />
+              </div>
+            </div>
           </div>
         </div>
       </div>
 
-      {/* SLA Processing Compliance Table */}
-      <div className="surface-card overflow-hidden rounded-3xl border border-border">
-        <div className="p-6 border-b border-border flex flex-wrap items-center justify-between gap-3">
+      {/* Division Category Distribution Overview */}
+      <div className="grid gap-4 sm:grid-cols-3">
+        <div className="p-4 rounded-2xl bg-white border border-slate-200/90 flex items-center justify-between shadow-xs">
           <div>
-            <h3 className="text-base font-bold font-display text-foreground">SLA Turnaround Performance</h3>
-            <p className="text-xs text-muted-foreground">Service delivery timelines, average processing days, and zero-rejection rates</p>
+            <p className="text-xs font-bold text-slate-500 uppercase tracking-wider">Passport &amp; Consular</p>
+            <p className="text-xl font-black text-slate-900 mt-0.5">{passportCount} Intakes</p>
           </div>
-          <Badge className="bg-emerald-500/10 text-emerald-600 border-emerald-500/20 text-xs font-bold">
-            <Award className="h-3.5 w-3.5 mr-1" /> 96.8% On-Time Guarantee
+          <Badge variant="outline" className="text-xs font-bold bg-blue-50 text-blue-700 border-blue-200">
+            {getPct(passportCount)}% Share
           </Badge>
         </div>
 
-        <div className="overflow-x-auto">
-          <table className="w-full text-xs">
-            <thead className="bg-muted/50 text-left text-muted-foreground font-semibold">
-              <tr>
-                <th className="px-6 py-3.5">Service Offering</th>
-                <th className="px-6 py-3.5">Target SLA</th>
-                <th className="px-6 py-3.5">Actual Average</th>
-                <th className="px-6 py-3.5">On-Time Rate</th>
-                <th className="px-6 py-3.5 text-right">Health Status</th>
-              </tr>
-            </thead>
-            <tbody className="divide-y divide-border/60">
-              {SLA_METRICS.map((row) => (
-                <tr key={row.service} className="hover:bg-muted/20">
-                  <td className="px-6 py-4 font-bold text-foreground">{row.service}</td>
-                  <td className="px-6 py-4 font-mono text-muted-foreground">{row.targetDays} Days</td>
-                  <td className="px-6 py-4 font-mono font-semibold text-primary">{row.avgDays} Days</td>
-                  <td className="px-6 py-4 font-mono font-bold text-emerald-600">{row.onTimeRate}</td>
-                  <td className="px-6 py-4 text-right">
-                    <span className="inline-flex items-center gap-1 text-emerald-600 bg-emerald-500/10 border border-emerald-500/20 text-[10px] font-bold px-2.5 py-1 rounded-full">
-                      <CheckCircle2 className="h-3 w-3" /> Optimal
-                    </span>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
+        <div className="p-4 rounded-2xl bg-white border border-slate-200/90 flex items-center justify-between shadow-xs">
+          <div>
+            <p className="text-xs font-bold text-slate-500 uppercase tracking-wider">Custom Software &amp; UI/UX</p>
+            <p className="text-xl font-black text-slate-900 mt-0.5">{webTechCount} Intakes</p>
+          </div>
+          <Badge variant="outline" className="text-xs font-bold bg-indigo-50 text-indigo-700 border-indigo-200">
+            {getPct(webTechCount)}% Share
+          </Badge>
         </div>
+
+        <div className="p-4 rounded-2xl bg-white border border-slate-200/90 flex items-center justify-between shadow-xs">
+          <div>
+            <p className="text-xs font-bold text-slate-500 uppercase tracking-wider">Digital Marketing &amp; SEO</p>
+            <p className="text-xl font-black text-slate-900 mt-0.5">{marketingCount} Intakes</p>
+          </div>
+          <Badge variant="outline" className="text-xs font-bold bg-emerald-50 text-emerald-700 border-emerald-200">
+            {getPct(marketingCount)}% Share
+          </Badge>
+        </div>
+      </div>
+
+      {/* Main Interactive Table: Recently Received Intakes */}
+      <div className="surface-card rounded-3xl border border-slate-200/90 bg-white shadow-sm overflow-hidden space-y-4 p-6">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-slate-200/80 pb-4">
+          <div>
+            <h3 className="text-lg font-black text-slate-900">Recently Received Client Intakes</h3>
+            <p className="text-xs text-slate-500">Live operational feed with 1-click status controls and client direct actions</p>
+          </div>
+
+          {/* Search & Category Filter Controls */}
+          <div className="flex items-center gap-2 flex-wrap">
+            <div className="relative w-64">
+              <Search className="absolute left-3 top-2.5 h-4 w-4 text-slate-400" />
+              <Input
+                placeholder="Filter by name, email or ref..."
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                className="pl-9 h-9 text-xs bg-slate-50 border-slate-200"
+              />
+            </div>
+
+            <Select value={categoryFilter} onValueChange={setCategoryFilter}>
+              <SelectTrigger className="h-9 text-xs w-44 bg-slate-50 border-slate-200 font-bold">
+                <SelectValue placeholder="All Categories" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="all">All Categories</SelectItem>
+                <SelectItem value="passport">Passport &amp; Consular</SelectItem>
+                <SelectItem value="soft">Software &amp; Web</SelectItem>
+                <SelectItem value="market">Digital Marketing &amp; SEO</SelectItem>
+              </SelectContent>
+            </Select>
+          </div>
+        </div>
+
+        {/* Table Content */}
+        {loading ? (
+          <div className="py-12 text-center space-y-3">
+            <div className="h-8 w-8 animate-spin rounded-full border-4 border-blue-600 border-t-transparent mx-auto" />
+            <p className="text-xs font-bold text-slate-600">Loading Real Lead Records...</p>
+          </div>
+        ) : filteredLeads.length === 0 ? (
+          <div className="py-12 text-center space-y-2">
+            <Inbox className="h-10 w-10 text-slate-400 mx-auto" />
+            <h4 className="text-sm font-bold text-slate-800">No Matching Intakes Found</h4>
+            <p className="text-xs text-slate-500">Try clearing search filters to see all received lead records.</p>
+          </div>
+        ) : (
+          <div className="overflow-x-auto">
+            <table className="w-full text-xs text-left border-collapse">
+              <thead className="bg-slate-50 text-slate-500 font-bold uppercase tracking-wider border-y border-slate-200">
+                <tr>
+                  <th className="px-4 py-3">Ref ID &amp; Date</th>
+                  <th className="px-4 py-3">Client Details</th>
+                  <th className="px-4 py-3">Service Intake &amp; Details</th>
+                  <th className="px-4 py-3">Live Pipeline Status</th>
+                  <th className="px-4 py-3 text-right">Quick Operations Actions</th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-slate-200">
+                {filteredLeads.map((lead, idx) => {
+                  const prevDate = idx > 0 ? filteredLeads[idx - 1]?.date : null;
+                  const isNewDateGroup = lead.date !== prevDate;
+                  const parsed = parseLeadNotes(lead.notes);
+                  const isUpdating = updatingId === lead.id;
+
+                  return (
+                    <Fragment key={lead.id}>
+                      {isNewDateGroup && (
+                        <tr className="bg-slate-100/90 border-y-2 border-slate-300">
+                          <td colSpan={5} className="px-4 py-2 bg-slate-100 text-slate-800">
+                            <div className="flex items-center justify-between font-extrabold text-[11px] tracking-wider uppercase">
+                              <span className="flex items-center gap-1.5 text-blue-700">
+                                <Calendar className="h-3.5 w-3.5" />
+                                Intakes Received on {lead.date}
+                              </span>
+                              <span className="text-[10px] text-slate-500 font-mono">
+                                Date Section Grouping
+                              </span>
+                            </div>
+                          </td>
+                        </tr>
+                      )}
+                      <tr className="hover:bg-slate-50/80 transition-colors">
+                        {/* Ref ID & Date */}
+                        <td className="px-4 py-3.5 align-top">
+                          <div className="flex items-center gap-1.5">
+                            <span className="font-mono font-bold text-blue-600 text-xs">#{lead.reference}</span>
+                            <button
+                              type="button"
+                              onClick={() => handleCopyRef(lead.reference)}
+                              className="text-slate-400 hover:text-slate-700 cursor-pointer p-0.5"
+                              title="Copy Reference"
+                            >
+                              <Copy className="h-3 w-3" />
+                            </button>
+                          </div>
+                          <p className="text-[11px] text-slate-500 mt-0.5">{lead.date}</p>
+                          <Badge variant="outline" className="text-[10px] font-bold text-slate-600 mt-1">
+                            {lead.source}
+                          </Badge>
+                        </td>
+
+                        {/* Client Details */}
+                        <td className="px-4 py-3.5 align-top">
+                          <p className="font-bold text-slate-900">{lead.name}</p>
+                          <p className="text-[11px] text-slate-600 font-mono">{lead.email}</p>
+                          <p className="text-[11px] text-slate-500">{lead.phone}</p>
+                        </td>
+
+                        {/* Service Intake & Formatted Details */}
+                        <td className="px-4 py-3.5 align-top space-y-1 max-w-xs">
+                          <Badge className="bg-slate-100 text-slate-800 border-slate-200 text-[10px] font-bold">
+                            {lead.category}
+                          </Badge>
+                          <p className="font-extrabold text-slate-900 leading-snug">{lead.service}</p>
+
+                          {parsed.isJson && parsed.data ? (
+                            <div className="text-[11px] bg-slate-50 p-2 rounded-xl border border-slate-200 text-slate-700 space-y-0.5 mt-1">
+                              {parsed.data.companyName && (
+                                <p className="truncate"><strong>Company:</strong> {parsed.data.companyName}</p>
+                              )}
+                              {parsed.data.scopeType && (
+                                <p className="truncate"><strong>Scope:</strong> {parsed.data.scopeType}</p>
+                              )}
+                              {parsed.data.budget && (
+                                <p className="text-emerald-700 font-bold truncate"><strong>Budget:</strong> {parsed.data.budget}</p>
+                              )}
+                            </div>
+                          ) : (
+                            <p className="text-[11px] text-slate-500 line-clamp-2 mt-0.5">{lead.notes}</p>
+                          )}
+                        </td>
+
+                        {/* Live Pipeline Status Dropdown Control */}
+                        <td className="px-4 py-3.5 align-top">
+                          <Select
+                            disabled={isUpdating}
+                            value={lead.status}
+                            onValueChange={(val) => handleQuickStatusChange(lead.id, lead.reference, val as LeadStatus)}
+                          >
+                            <SelectTrigger
+                              className={`h-8 text-xs font-bold w-36 ${
+                                lead.status === "Completed"
+                                  ? "bg-emerald-50 text-emerald-800 border-emerald-300"
+                                  : lead.status === "In Progress" || lead.status === "In Contact"
+                                  ? "bg-blue-50 text-blue-800 border-blue-300"
+                                  : "bg-amber-50 text-amber-800 border-amber-300"
+                              }`}
+                            >
+                              <SelectValue>{lead.status}</SelectValue>
+                            </SelectTrigger>
+                            <SelectContent>
+                              <SelectItem value="New">New Intake</SelectItem>
+                              <SelectItem value="In Contact">In Contact</SelectItem>
+                              <SelectItem value="In Progress">In Progress</SelectItem>
+                              <SelectItem value="Completed">Completed</SelectItem>
+                            </SelectContent>
+                          </Select>
+                        </td>
+
+                        {/* Quick Operations Actions */}
+                        <td className="px-4 py-3.5 align-top text-right">
+                          <div className="inline-flex items-center justify-end gap-1.5 shrink-0">
+                            {lead.phone && (
+                              <a
+                                href={`https://wa.me/${lead.phone.replace(/[^0-9]/g, "")}?text=${encodeURIComponent(
+                                  `Hello ${lead.name}, regarding your One World Solutions intake #${lead.reference}...`
+                                )}`}
+                                target="_blank"
+                                rel="noreferrer"
+                                className="p-1.5 rounded-lg bg-emerald-50 text-emerald-700 hover:bg-emerald-600 hover:text-white border border-emerald-200 transition-colors font-bold text-xs inline-flex items-center gap-1"
+                                title="Chat on WhatsApp"
+                              >
+                                <MessageSquare className="h-3.5 w-3.5" /> WA
+                              </a>
+                            )}
+
+                            <a
+                              href={`mailto:${lead.email}?subject=${encodeURIComponent(
+                                `One World Solutions Update — Ref #${lead.reference}`
+                              )}`}
+                              className="p-1.5 rounded-lg bg-blue-50 text-blue-700 hover:bg-blue-600 hover:text-white border border-blue-200 transition-colors font-bold text-xs inline-flex items-center gap-1"
+                              title="Email Client"
+                            >
+                              <Mail className="h-3.5 w-3.5" /> Email
+                            </a>
+                          </div>
+                        </td>
+                      </tr>
+                    </Fragment>
+                  );
+                })}
+              </tbody>
+            </table>
+          </div>
+        )}
       </div>
     </div>
   );

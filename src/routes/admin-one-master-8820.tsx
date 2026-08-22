@@ -39,7 +39,7 @@ function AdminPage() {
       userRole="Super Admin"
       userName="Operations Director"
     >
-      {activeTab === "dashboard" && <AdminDashboard />}
+      {activeTab === "dashboard" && <AdminDashboard onNavigateTab={setActiveTab} />}
       {activeTab === "leads" && <LeadsTable initialView="pipeline" />}
       {activeTab === "vault" && <LeadsTable initialView="vault" />}
       {activeTab === "services" && <ServicesManager />}
