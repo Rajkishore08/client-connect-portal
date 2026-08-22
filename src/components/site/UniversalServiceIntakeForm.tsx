@@ -86,7 +86,7 @@ const SERVICE_CATALOG = {
     badge: "PASSPORT & VISA CONCIERGE",
     options: [
       { id: "passport-renewal", name: "Passport Renewal", desc: "Expedited passport renewal & replacement guidance" },
-      { id: "oci-card", name: "Dual Residency & Consular", desc: "Dual citizenship registration & residency cards" },
+      { id: "oci-card", name: "OCI Application", desc: "Overseas Citizenship of India registration & renewal" },
       { id: "renunciation", name: "Renunciation / Surrender", desc: "Passport surrender declaration filing" },
       { id: "emergency-24h", name: "24-Hour Emergency Rush", desc: "Same-day priority dispatch & urgent booking" },
       { id: "evisa", name: "Global E-Visa Permit", desc: "UK ETA, Brazil, Kenya & Global permit filing" },
@@ -507,6 +507,7 @@ export function UniversalServiceIntakeForm({
                 value={preferredDate}
                 onChange={setPreferredDate}
                 placeholder="Select Consultation Date"
+                disablePastDates={true}
               />
             </div>
 

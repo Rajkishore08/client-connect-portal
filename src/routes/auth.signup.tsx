@@ -267,7 +267,7 @@ function SignupPage() {
                     type="text"
                     required
                     className="h-11 pl-10 text-xs bg-slate-50/80 border-slate-200 focus:bg-white"
-                    placeholder="Rajesh Patel"
+                    placeholder="Alex Morgan"
                     value={name}
                     onChange={(e) => setName(e.target.value)}
                   />

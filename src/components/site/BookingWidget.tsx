@@ -107,7 +107,7 @@ export function BookingWidget() {
             setDate(d);
             setSlot(null);
           }}
-          disabled={{ before: new Date() }}
+          disabled={(d) => d < new Date(new Date().setHours(0, 0, 0, 0))}
           className={cn("mt-3 w-full pointer-events-auto")}
         />
 

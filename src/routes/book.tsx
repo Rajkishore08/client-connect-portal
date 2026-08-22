@@ -40,7 +40,7 @@ function BookPage() {
         <h1 className="text-3xl font-black sm:text-5xl text-foreground tracking-tight">
           Book Your Strategy Call —{" "}
           <span className="text-primary underline decoration-primary/30 underline-offset-4">
-            Or Chicago HQ Visit.
+            Online &amp; Phone Consultation.
           </span>
         </h1>
 

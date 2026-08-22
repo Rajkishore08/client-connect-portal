@@ -95,12 +95,15 @@ const defaultTier: SpeedTier = SPEED_TIERS[1] ?? {
   description: "Fast-track processing for travel within the next 1–2 weeks.",
 };
 
+import { PrintableChecklistModal } from "@/components/site/PrintableChecklistModal";
+
 export function ServiceIntakeForm({ service }: { service: ServiceConfig }) {
   const [values, setValues] = useState<Record<string, string>>({});
   const [files, setFiles] = useState<LocalFile[]>([]);
   const [selectedTier, setSelectedTier] = useState<SpeedTier>(defaultTier);
   const [status, setStatus] = useState<"idle" | "saving" | "done" | "error">("idle");
   const [reference, setReference] = useState("");
+  const [showChecklistModal, setShowChecklistModal] = useState(false);
 
   const set = (name: string, v: string) => setValues((prev) => ({ ...prev, [name]: v }));
 
@@ -128,7 +131,7 @@ export function ServiceIntakeForm({ service }: { service: ServiceConfig }) {
   };
 
   const handlePrintChecklist = () => {
-    window.print();
+    setShowChecklistModal(true);
   };
 
   if (status === "done") {
@@ -187,7 +190,7 @@ export function ServiceIntakeForm({ service }: { service: ServiceConfig }) {
               <ClipboardList className="h-5 w-5 text-primary" /> Documents You'll Need
             </h2>
             <p className="mt-1 text-sm text-muted-foreground">
-              Prepare these documents for submission or walk-in appointment.
+              Prepare these documents for online submission or virtual consultation.
             </p>
           </div>
           <Button
@@ -318,6 +321,19 @@ export function ServiceIntakeForm({ service }: { service: ServiceConfig }) {
           Submit request ({selectedTier.name})
         </Button>
       </section>
+
+      <PrintableChecklistModal
+        open={showChecklistModal}
+        onOpenChange={setShowChecklistModal}
+        serviceTitle={service.title}
+        checklistItems={service.checklist}
+        applicantInfo={{
+          name: values["fullName"],
+          email: values["email"],
+          phone: values["phoneUsa"] || values["phone"],
+          speedTier: selectedTier.name,
+        }}
+      />
     </form>
   );
 }

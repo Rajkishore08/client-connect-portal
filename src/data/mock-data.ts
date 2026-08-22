@@ -72,12 +72,14 @@ export const PASSPORT_SERVICES: ServiceConfig[] = [
   {
     slug: "passport-renewal",
     title: "Passport Renewal",
-    description: "Renew an expiring or expired passport with guided form preparation.",
+    description: "Renew an expiring or expired passport with guided form preparation and document pre-audit.",
     checklist: [
-      "Current passport (original + copy)",
-      "Passport-size photographs (white background)",
-      "Proof of address in the USA",
-      "Copies of old passports (if renewed before)",
+      "Original expiring or expired passport + Color copy of bio page & last page",
+      "Proof of legal US status (Green Card / Visa / Work Permit / I-797)",
+      "Proof of US address (Driver's License / Utility Bill / State ID / Lease)",
+      "2 Recent Passport-size Photographs (2x2 inches, white background)",
+      "Annexure E / Change of Details Declaration Form (if applicable)",
+      "Copies of old passports (if renewed previously)",
     ],
     extraFields: [
       { name: "passportNumber", label: "Current Passport Number", type: "text", required: true },
@@ -87,14 +89,16 @@ export const PASSPORT_SERVICES: ServiceConfig[] = [
   },
   {
     slug: "oci",
-    title: "Dual Residency & Consular",
-    description: "Dual citizenship registration, residency cards, and consular services.",
+    title: "OCI Application",
+    description: "Overseas Citizenship of India (OCI) card registration, renewal & consular guidance.",
     checklist: [
-      "Naturalized citizenship certificate",
-      "Former passport (all pages)",
-      "Current passport copy",
-      "Passport-size photographs",
-      "Proof of address",
+      "Current valid US/Foreign Passport (Original + Color Copy)",
+      "Original Naturalization Certificate or Foreign Citizenship Certificate",
+      "Copy of surrendered Indian Passport with official Surrender Certificate",
+      "Proof of Indian Origin (Self / Parent / Grandparent Indian passport or Nativity Cert)",
+      "2 Recent OCI Specification Photographs (2x2 inches, light background)",
+      "Proof of US Address (Driver's License / State ID / Utility Bill)",
+      "Marriage Certificate (if applying on spouse's Indian origin status)",
     ],
     extraFields: [
       { name: "countryOfOrigin", label: "Country of Origin", type: "text", required: true },
@@ -113,10 +117,12 @@ export const PASSPORT_SERVICES: ServiceConfig[] = [
     title: "Renunciation / Passport Surrender",
     description: "Surrender your former passport after acquiring new citizenship.",
     checklist: [
-      "Former passport (original + copy)",
-      "Naturalization certificate",
-      "Passport-size photographs",
-      "Official surrender declaration form",
+      "Original Indian Passport to be surrendered + Color Copy",
+      "Original Naturalization Certificate + Color Copy",
+      "Current US/Foreign Passport bio page color copy",
+      "Official Renunciation / Surrender Declaration Form (Signed)",
+      "2 Recent Passport Photos (2x2 inches, white background)",
+      "Proof of US Address (Driver's License / State ID / Utility Bill)",
     ],
     extraFields: [
       { name: "reason", label: "Reason for Renunciation", type: "textarea", required: true },
@@ -128,9 +134,11 @@ export const PASSPORT_SERVICES: ServiceConfig[] = [
     title: "Emergency Certificate",
     description: "One-way travel document for urgent international return travel.",
     checklist: [
-      "Proof of lost / damaged / expired passport",
-      "Passport-size photographs",
-      "Travel itinerary (if available)",
+      "Confirmed flight ticket / urgent travel itinerary",
+      "Photocopy of expired/lost Indian passport or official photo ID proof",
+      "Annexure L Emergency Pass Declaration Form (Signed)",
+      "3 Passport-size Photographs (2x2 inches, white background)",
+      "Proof of current address in the USA (Driver's License / Lease / Utility Bill)",
     ],
     extraFields: [
       { name: "emergencyReason", label: "Reason / Emergency Description", type: "textarea", required: true },
@@ -140,12 +148,12 @@ export const PASSPORT_SERVICES: ServiceConfig[] = [
   {
     slug: "e-visa",
     title: "E-Visa",
-    description: "Electronic visa application preparation and document review.",
+    description: "Electronic visa application preparation, document review & expedited submission.",
     checklist: [
-      "Passport bio page",
-      "Recent photograph",
-      "Travel itinerary",
-      "Proof of accommodation",
+      "Scanned color copy of Passport Bio Page (valid at least 6 months)",
+      "Recent digital passport photo (JPEG/PNG format, white background)",
+      "Round-trip flight itinerary & accommodation booking confirmation",
+      "Destination specific entry declaration (for UK ETA, Brazil, Kenya, Vietnam, China)",
     ],
     extraFields: [
       { name: "destinationCountry", label: "Destination Country", type: "text", required: true },
@@ -162,13 +170,14 @@ export const PASSPORT_SERVICES: ServiceConfig[] = [
   {
     slug: "lost-damaged-passport",
     title: "Lost / Damaged Passport",
-    description: "Replacement guidance for a lost, stolen or damaged passport.",
+    description: "Urgent replacement guidance for a lost, stolen or damaged passport.",
     urgent: true,
     checklist: [
-      "Police report copy",
-      "Passport-size photographs",
-      "Any surviving ID proof",
-      "Old passport photocopy (if available)",
+      "Original Police Report of Lost Passport (with passport number & date)",
+      "Notarized Affidavit for Lost/Damaged Passport (Form Annexure F)",
+      "Copy of lost passport (if available) or government photo ID (Driver's License)",
+      "Proof of US Residence Address & Legal US Status (Visa / Green Card)",
+      "4 Passport-size Photographs (2x2 inches, white background)",
     ],
     extraFields: [
       { name: "policeReportNumber", label: "Police Report Number", type: "text", required: true },
@@ -682,17 +691,17 @@ export interface ShippingOption {
 export const SHIPPING_OPTIONS: ShippingOption[] = [
   { id: "fedex-overnight", name: "FedEx Priority Overnight (Return)", estimatedTime: "Next Morning Delivery" },
   { id: "fedex-2day", name: "FedEx 2-Day Express", estimatedTime: "2 Business Days" },
-  { id: "office-pickup", name: "In-Office Pickup (Chicago HQ)", estimatedTime: "Same Day Ready" },
+  { id: "secure-dispatch", name: "Priority Consular Courier Dispatch", estimatedTime: "Direct Handover" },
 ];
 
 export const OFFICE_LOCATION = {
-  address: "Chicago, IL 60601, USA",
+  address: "Chicago, IL 60613, USA",
   phone: "+1 (417) 569-0711",
   whatsapp: "+1 (417) 569-0711",
   whatsappLink: "https://wa.me/14175690711",
   email: "support@oneworldsolutionsusa.com",
   hours: "Mon-Fri: 8:30 AM - 5:00 PM | Sat: 10:00 AM - 2:00 PM",
-  walkInStatus: "By Appointment & Online Intake Only (No Walk-Ins)",
+  walkInStatus: "100% Online Intake & Virtual Consultation Only (No Physical Visits)",
 };
 
 export const QUICK_SERVICE_OPTIONS = [
@@ -700,7 +709,7 @@ export const QUICK_SERVICE_OPTIONS = [
   { group: "Passport Services", slug: "new-passport", title: "New Passport Application" },
   { group: "Passport Services", slug: "child-passport", title: "Child Passport Renewal" },
   { group: "Passport Services", slug: "lost-damaged-passport", title: "Lost or Damaged Passport" },
-  { group: "Passport Services", slug: "oci", title: "Dual Residency & Consular" },
+  { group: "Passport Services", slug: "oci", title: "OCI Application" },
   { group: "Passport Services", slug: "renunciation", title: "Renunciation / Surrender" },
   { group: "Passport Services", slug: "emergency-certificate", title: "Emergency Certificate" },
   { group: "Visa Services", slug: "e-visa", title: "Global E-Visa Services" },

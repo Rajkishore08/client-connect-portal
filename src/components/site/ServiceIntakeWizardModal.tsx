@@ -78,7 +78,7 @@ const CATEGORIES = [
 const SUB_SERVICES: Record<string, { id: string; name: string; desc: string }[]> = {
   passport: [
     { id: "renovation", name: "Passport Renewal", desc: "Expedited international renewal assistance" },
-    { id: "oci", name: "Dual Residency & Consular", desc: "Dual citizenship & residency guidance" },
+    { id: "oci", name: "OCI Application", desc: "Overseas Citizenship of India registration & renewal" },
     { id: "renunciation", name: "Renunciation / Surrender", desc: "Passport surrender certificate & declaration" },
     { id: "damaged", name: "Lost / Damaged Passport", desc: "Urgent 24H replacement intake" },
     { id: "evisa", name: "E-Visa Assistance", desc: "Rush electronic visa processing" },
@@ -223,9 +223,9 @@ export function ServiceIntakeWizardModal({
 
   return (
     <Dialog open={open} onOpenChange={resetAndClose}>
-      <DialogContent className="max-w-2xl w-[95vw] p-0 overflow-hidden border border-slate-200 bg-white shadow-2xl rounded-3xl">
+      <DialogContent className="max-h-[92vh] sm:max-h-[85vh] flex flex-col max-w-2xl w-[95vw] p-0 overflow-hidden border border-slate-200 bg-white shadow-2xl rounded-3xl">
         {/* Animated Top Header */}
-        <div className="bg-slate-900 text-white p-5 sm:p-6 relative overflow-hidden">
+        <div className="bg-slate-900 text-white p-4 sm:p-6 relative overflow-hidden shrink-0">
           <div className="absolute -top-12 -right-12 h-40 w-40 rounded-full bg-blue-600/20 blur-2xl pointer-events-none" />
           <div className="relative z-10 flex items-center justify-between">
             <div className="flex items-center gap-2.5">
@@ -249,7 +249,7 @@ export function ServiceIntakeWizardModal({
           </div>
 
           {/* Stepper Progress Bar */}
-          <div className="mt-5 space-y-2 border-t border-slate-800 pt-4">
+          <div className="mt-4 space-y-2 border-t border-slate-800 pt-3">
             <div className="h-1.5 w-full rounded-full bg-slate-800 overflow-hidden">
               <div
                 className="h-full bg-gradient-to-r from-blue-500 via-primary to-emerald-400 transition-all duration-500 ease-out"
@@ -282,7 +282,7 @@ export function ServiceIntakeWizardModal({
         </div>
 
         {/* Modal Body with Smooth Slide-in Micro-Animations */}
-        <div className="p-5 sm:p-6 max-h-[72vh] overflow-y-auto space-y-6">
+        <div className="p-4 sm:p-6 flex-1 overflow-y-auto min-h-0 space-y-5 sm:space-y-6">
           {referenceNumber ? (
             /* Success Screen */
             <div className="py-6 text-center space-y-5 animate-in fade-in zoom-in-95 duration-300">
@@ -425,7 +425,7 @@ export function ServiceIntakeWizardModal({
                   <Input
                     id="wiz-name"
                     required
-                    placeholder="e.g. Rahul Sharma"
+                    placeholder="e.g. Alex Morgan"
                     value={fullName}
                     onChange={(e) => {
                       setFullName(e.target.value);
@@ -526,6 +526,7 @@ export function ServiceIntakeWizardModal({
                     value={selectedDate}
                     onChange={setSelectedDate}
                     placeholder="Pick consultation date"
+                    disablePastDates={true}
                     className="bg-white"
                   />
                 </div>
@@ -589,7 +590,7 @@ export function ServiceIntakeWizardModal({
 
         {/* Modal Footer Controls */}
         {!referenceNumber && (
-          <div className="border-t border-slate-100 bg-slate-50 p-4 sm:p-5 flex items-center justify-between gap-3">
+          <div className="shrink-0 border-t border-slate-100 bg-slate-50 p-3.5 sm:p-5 flex items-center justify-between gap-3">
             {step > 1 ? (
               <Button
                 variant="outline"

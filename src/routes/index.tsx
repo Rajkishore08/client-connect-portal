@@ -191,21 +191,7 @@ function Home() {
               </div>
 
               {/* Social Proof Ticker */}
-              <div className="pt-4 sm:pt-4 mt-3 sm:mt-0 border-t border-slate-200/80 grid grid-cols-2 sm:grid-cols-4 gap-2.5 sm:gap-3 text-left">
-                <div className="p-3 sm:p-3 rounded-xl bg-white/80 backdrop-blur-md border border-slate-200/90 shadow-2xs">
-                  <div className="flex items-center gap-1.5 sm:gap-1 text-amber-500 font-bold text-xs">
-                    <Star className="h-3.5 w-3.5 fill-amber-500" /> 4.9 / 5.0
-                  </div>
-                  <p className="text-[10px] text-slate-500 font-medium truncate mt-0.5 sm:mt-0">340+ Verified Reviews</p>
-                </div>
-
-                <div className="p-3 sm:p-3 rounded-xl bg-white/80 backdrop-blur-md border border-slate-200/90 shadow-2xs">
-                  <div className="flex items-center gap-1.5 sm:gap-1 text-slate-900 font-extrabold text-xs">
-                    <Users className="h-3.5 w-3.5 text-blue-600" /> 2,500+
-                  </div>
-                  <p className="text-[10px] text-slate-500 font-medium truncate mt-0.5 sm:mt-0">Happy Clients</p>
-                </div>
-
+              <div className="pt-4 sm:pt-4 mt-3 sm:mt-0 border-t border-slate-200/80 grid grid-cols-2 max-w-sm gap-2.5 sm:gap-3 text-left">
                 <div className="p-3 sm:p-3 rounded-xl bg-white/80 backdrop-blur-md border border-slate-200/90 shadow-2xs">
                   <div className="flex items-center gap-1.5 sm:gap-1 text-slate-900 font-extrabold text-xs">
                     <MapPin className="h-3.5 w-3.5 text-blue-600" /> 35+ States

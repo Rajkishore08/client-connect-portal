@@ -112,12 +112,8 @@ function LoginPage() {
             </p>
           </div>
 
-          {/* 3 Metric Pills */}
-          <div className="grid grid-cols-3 gap-3 max-w-lg">
-            <div className="p-3.5 rounded-2xl bg-white border border-slate-200 shadow-2xs text-left space-y-0.5">
-              <p className="text-base font-extrabold text-slate-900 font-display">2,500+</p>
-              <p className="text-[10px] text-slate-500 font-medium">Happy Clients</p>
-            </div>
+          {/* 2 Metric Pills */}
+          <div className="grid grid-cols-2 gap-3 max-w-md">
             <div className="p-3.5 rounded-2xl bg-white border border-slate-200 shadow-2xs text-left space-y-0.5">
               <p className="text-base font-extrabold text-slate-900 font-display">35+ States</p>
               <p className="text-[10px] text-slate-500 font-medium">Nationwide</p>
@@ -328,18 +324,14 @@ function LoginPage() {
             </Button>
           </div>
 
-          {/* Quick Demo Hint & Sign Up Link */}
-          <div className="text-center space-y-3">
+          {/* Sign Up Link */}
+          <div className="text-center">
             <p className="text-xs text-slate-600 font-medium">
               Don't have an account?{" "}
               <Link to="/auth/signup" className="font-bold text-blue-600 hover:underline">
                 Create an account
               </Link>
             </p>
-
-            <div className="inline-block px-3.5 py-1.5 rounded-full bg-slate-200/80 text-[10px] font-semibold text-slate-700">
-              Demo Mode: Enter any email with password <code className="bg-emerald-100 text-emerald-800 px-1.5 py-0.5 rounded font-bold font-mono">client123</code> or click Guest.
-            </div>
           </div>
         </div>
 

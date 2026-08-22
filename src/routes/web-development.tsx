@@ -10,7 +10,7 @@ import {
   Truck,
 } from "lucide-react";
 
-import { InteractiveCapabilitiesGallery } from "@/components/site/InteractiveCapabilitiesGallery";
+import { InteractiveCapabilitiesGallery, CapabilityItem } from "@/components/site/InteractiveCapabilitiesGallery";
 import { TrustBanner } from "@/components/site/SiteFooter";
 import { UniversalServiceIntakeForm } from "@/components/site/UniversalServiceIntakeForm";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
@@ -20,7 +20,6 @@ import { EngineeringGuarantees } from "@/components/web-dev/EngineeringGuarantee
 import { EngineeringStandards } from "@/components/web-dev/EngineeringStandards";
 import { EngagementModels } from "@/components/web-dev/EngagementModels";
 import { TechStackMatrix } from "@/components/web-dev/TechStackMatrix";
-import { WebDevCaseStudies } from "@/components/web-dev/WebDevCaseStudies";
 import { WebDevCoreBenefits } from "@/components/web-dev/WebDevCoreBenefits";
 import { WebDevHero } from "@/components/web-dev/WebDevHero";
 import { WebDevOfferings } from "@/components/web-dev/WebDevOfferings";
@@ -47,7 +46,7 @@ export const Route = createFileRoute("/web-development")({
   component: WebDevelopmentPage,
 });
 
-const WEB_CAPABILITIES = [
+const WEB_CAPABILITIES: CapabilityItem[] = [
   {
     id: "01",
     title: "Website Designing (UI/UX)",
@@ -55,8 +54,22 @@ const WEB_CAPABILITIES = [
     description:
       "Stunning, intuitive, and brand-aligned website interfaces that captivate users. We combine visual excellence with user experience principles to create memorable digital journeys.",
     image: "https://images.unsplash.com/photo-1507238691740-187a5b1d37b8?q=80&w=1200",
-    link: "/book",
+    link: "#intake-form",
     tag: "UI/UX Design",
+    deliverables: [
+      "Figma design system & interactive prototype",
+      "Responsive layout for mobile, tablet & desktop",
+      "Custom typography & color palette tokens",
+      "Micro-animations & interactive component states",
+      "Conversion-focused landing page layouts",
+      "Asset export & developer handover package",
+    ],
+    processSteps: [
+      { step: "Phase 1", title: "Brand & Audience Discovery", desc: "Define target audience persona, design preferences, and competitive positioning." },
+      { step: "Phase 2", title: "Wireframing & UX Architecture", desc: "Build low-fidelity site structure, content hierarchy, and navigation flow." },
+      { step: "Phase 3", title: "High-Fidelity Visual Design", desc: "Craft pixel-perfect UI screens with brand styling and micro-interactions." },
+      { step: "Phase 4", title: "Client Review & Design Handover", desc: "Interactive prototype walk-through and developer design system export." },
+    ],
   },
   {
     id: "02",
@@ -65,7 +78,21 @@ const WEB_CAPABILITIES = [
     description:
       "High-performance full-stack web applications built with Next.js, React, Node, and real-time database architecture designed for rapid growth.",
     image: "https://images.unsplash.com/photo-1555066931-4365d14bab8c?q=80&w=1200",
-    link: "/book",
+    link: "#intake-form",
+    deliverables: [
+      "Next.js / React full-stack application",
+      "Role-based authentication & user permissions",
+      "PostgreSQL / Supabase database integration",
+      "RESTful API & GraphQL webhooks",
+      "Real-time data synchronization & dashboards",
+      "Automated Vercel / AWS cloud deployment",
+    ],
+    processSteps: [
+      { step: "Phase 1", title: "Scope & Schema Architecture", desc: "Define database schemas, API endpoints, and system architecture." },
+      { step: "Phase 2", title: "Frontend & Backend Development", desc: "Sprint development of UI components, server functions, and state management." },
+      { step: "Phase 3", title: "Security & QA Testing", desc: "Penetration audit, load testing, and edge-case verification." },
+      { step: "Phase 4", title: "Production Staging & Launch", desc: "CI/CD automated pipeline setup and production release." },
+    ],
   },
   {
     id: "03",
@@ -74,7 +101,7 @@ const WEB_CAPABILITIES = [
     description:
       "Custom AI agents, RAG document search engines, and multi-agent orchestrations that automate complex business processes and client intake.",
     image: "/ai_agent_futuristic.png",
-    link: "/book",
+    link: "/agentic-ai-platform",
     tag: "AI & ML",
   },
   {
@@ -84,7 +111,21 @@ const WEB_CAPABILITIES = [
     description:
       "Bespoke internal portals, client intake dashboards, payment gateway integrations, and cloud infrastructure engineered for zero downtime.",
     image: "https://images.unsplash.com/photo-1461749280684-dccba630e2f6?q=80&w=1200",
-    link: "/book",
+    link: "#intake-form",
+    deliverables: [
+      "Custom enterprise admin portal & CRM",
+      "Stripe & payment gateway integration",
+      "Automated invoice & document generation",
+      "Audit logging & compliance security",
+      "Role-based access control (RBAC)",
+      "Multi-tenant database tenancy setup",
+    ],
+    processSteps: [
+      { step: "Phase 1", title: "Workflow Audit & Requirements", desc: "Map existing back-office operations and bottleneck automation requirements." },
+      { step: "Phase 2", title: "Custom Module Architecture", desc: "Design data pipelines, payment triggers, and user access levels." },
+      { step: "Phase 3", title: "Enterprise Build & Integration", desc: "Engineer custom internal tools with real-time analytics." },
+      { step: "Phase 4", title: "Staff Training & Cloud Launch", desc: "Onboard operational staff and launch dedicated tenant instance." },
+    ],
   },
   {
     id: "05",
@@ -93,7 +134,8 @@ const WEB_CAPABILITIES = [
     description:
       "Native and cross-platform mobile apps for iOS and Android delivering fluid 60fps animations, offline capabilities, and secure push notifications.",
     image: "https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?q=80&w=1200",
-    link: "/book",
+    link: "/whatsapp-automation-tool",
+    tag: "Workflow Automation",
   },
 ];
 
@@ -230,9 +272,6 @@ function WebDevelopmentPage() {
 
       {/* 7. Development Process Roadmap */}
       <WebDevProcessRoadmap />
-
-      {/* 8. Featured Client Work Showcase */}
-      <WebDevCaseStudies />
 
       {/* 9. Quality Guarantee — Engineering Standards */}
       <EngineeringStandards />

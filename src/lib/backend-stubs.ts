@@ -64,25 +64,37 @@ export async function submitServiceRequest(payload: SubmissionPayload) {
   const ref = `OWS-${Math.floor(100000 + Math.random() * 900000)}`;
   const dateStr = new Date().toISOString().split("T")[0];
 
+  const leadRecord = {
+    reference: ref,
+    date: dateStr,
+    name: payload.applicantName || payload.fields?.["fullName"] || "Portal Client",
+    email: payload.applicantEmail || payload.fields?.["email"] || "client@example.com",
+    phone: payload.phoneUsa || payload.fields?.["phoneUsa"] || payload.fields?.["phone"] || "",
+    category: payload.category || payload.serviceTitle || "Service Intake",
+    service: payload.service || payload.serviceTitle || payload.serviceSlug || "General Enquiry",
+    source: "Form",
+    status: "New",
+    notes: payload.fields ? JSON.stringify(payload.fields) : "",
+    documents: payload.fileUrls || payload.fileNames || [],
+    gov_form_status: "Submitted to Embassy",
+    vfs_status: "Verified",
+    courier_status: "Pending Handover",
+  };
+
+  // Save to localStorage for instant client-side lookup
+  if (typeof window !== "undefined") {
+    try {
+      const existingStr = localStorage.getItem("ows_submitted_intakes");
+      const existingList = existingStr ? JSON.parse(existingStr) : [];
+      existingList.unshift(leadRecord);
+      localStorage.setItem("ows_submitted_intakes", JSON.stringify(existingList));
+    } catch (e) {
+      console.warn("[Local Storage] Error caching intake:", e);
+    }
+  }
+
   try {
-    const { data, error } = await supabase.from("leads").insert([
-      {
-        reference: ref,
-        date: dateStr,
-        name: payload.applicantName || payload.fields?.["fullName"] || "Portal Client",
-        email: payload.applicantEmail || payload.fields?.["email"] || "client@example.com",
-        phone: payload.phoneUsa || payload.fields?.["phoneUsa"] || payload.fields?.["phone"] || "",
-        category: payload.category || payload.serviceTitle || "Service Intake",
-        service: payload.service || payload.serviceTitle || payload.serviceSlug || "General Enquiry",
-        source: "Form",
-        status: "New",
-        notes: payload.fields ? JSON.stringify(payload.fields) : "",
-        documents: payload.fileUrls || payload.fileNames || [],
-        gov_form_status: "Not Started",
-        vfs_status: "Not Started",
-        courier_status: "Not Started",
-      },
-    ]).select("reference").single();
+    const { data, error } = await supabase.from("leads").insert([leadRecord]).select("reference").single();
 
     if (error) {
       console.warn("[Supabase DB] submitServiceRequest fallback notice:", error.message);

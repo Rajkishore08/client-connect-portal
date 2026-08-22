@@ -54,7 +54,7 @@ export function SiteHeader() {
   }, []);
 
   return (
-    <header className="fixed top-2 sm:top-4 left-0 right-0 z-[100] w-full max-w-[1440px] mx-auto px-3 sm:px-6 pointer-events-none transition-all duration-300">
+    <header className="fixed top-2 sm:top-4 left-0 right-0 z-40 w-full max-w-[1440px] mx-auto px-3 sm:px-6 pointer-events-none transition-all duration-300">
       {/* Floating Glass Capsule Navbar */}
       <div className="pointer-events-auto w-full rounded-full bg-white/90 backdrop-blur-xl border border-slate-200/90 shadow-xl shadow-blue-950/5 px-4 sm:px-6 py-2 transition-all">
         <div className="flex items-center justify-between gap-3">

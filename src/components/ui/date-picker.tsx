@@ -15,6 +15,7 @@ export interface DatePickerProps {
   onChange: (value: string) => void;
   placeholder?: string;
   disabled?: boolean;
+  disablePastDates?: boolean;
   required?: boolean | undefined;
   id?: string;
   className?: string;
@@ -25,6 +26,7 @@ export function DatePicker({
   onChange,
   placeholder = "Pick a date",
   disabled = false,
+  disablePastDates = false,
   required = false,
   id,
   className,
@@ -157,6 +159,7 @@ export function DatePicker({
             onMonthChange={setMonth}
             selected={dateValid ? parsedDate : undefined}
             onSelect={handleSelectDate}
+            disabled={disablePastDates ? (d) => d < new Date(new Date().setHours(0, 0, 0, 0)) : undefined}
             className="p-0 border-none shadow-none"
           />
 

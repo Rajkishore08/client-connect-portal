@@ -39,9 +39,9 @@ const EXACT_PASSPORT_CAPABILITIES = [
   },
   {
     id: "02",
-    title: "OCI & Dual Residency",
-    subtitle: "Dual Citizenship & Residency",
-    description: "Dual citizenship registration, residency cards, and consular services.",
+    title: "OCI Application",
+    subtitle: "Overseas Citizenship of India",
+    description: "Overseas Citizenship of India (OCI) registration, renewal & consular guidance.",
     image: "https://images.unsplash.com/photo-1526772662000-3f88f10405ff?q=80&w=1200",
     link: "/passport/oci",
     tag: "Global Specialty",
@@ -102,7 +102,7 @@ function PassportIndex() {
         </h1>
         
         <p className="max-w-3xl text-base leading-relaxed text-muted-foreground sm:text-lg">
-          Double-verified form preparation, consular compliance audit, 256-bit encrypted document vault, and 24-hour emergency rush filing. Select your service below to review exact document checklists.
+          Double-verified form preparation, consular compliance audit, AES-256 SSL secure document vault, and 24-hour emergency rush filing. Select your service below to review exact document checklists.
         </p>
 
         <div className="pt-1 flex flex-wrap items-center gap-x-6 gap-y-2 text-xs font-semibold text-slate-700">

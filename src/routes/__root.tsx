@@ -150,7 +150,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
             "streetAddress": "Chicago",
             "addressLocality": "Chicago",
             "addressRegion": "IL",
-            "postalCode": "60601",
+            "postalCode": "60613",
             "addressCountry": "US"
           },
           "geo": {
