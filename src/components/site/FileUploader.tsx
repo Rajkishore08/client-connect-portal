@@ -7,6 +7,8 @@ export interface LocalFile {
   id: string;
   name: string;
   size: number;
+  file?: File;
+  dataUrl?: string;
 }
 
 function formatSize(bytes: number) {
@@ -16,8 +18,7 @@ function formatSize(bytes: number) {
 }
 
 /**
- * Drag-and-drop uploader. Files live in local state only.
- * TODO: replace with Supabase Storage upload on submit.
+ * Drag-and-drop uploader with native File object & Base64 Data URL preservation.
  */
 export function FileUploader({
   files,
@@ -32,13 +33,40 @@ export function FileUploader({
   const inputRef = useRef<HTMLInputElement>(null);
 
   const addFiles = (list: FileList | null) => {
-    if (!list) return;
-    const next = Array.from(list).map((f) => ({
-      id: `${f.name}-${f.size}-${Math.random().toString(36).slice(2, 8)}`,
-      name: f.name,
-      size: f.size,
-    }));
-    onChange([...files, ...next]);
+    if (!list || list.length === 0) return;
+    const fileArray = Array.from(list);
+    const newItems: LocalFile[] = [];
+
+    let completed = 0;
+    fileArray.forEach((f) => {
+      const reader = new FileReader();
+      reader.onload = () => {
+        newItems.push({
+          id: `${f.name}-${f.size}-${Math.random().toString(36).slice(2, 8)}`,
+          name: f.name,
+          size: f.size,
+          file: f,
+          dataUrl: reader.result as string,
+        });
+        completed++;
+        if (completed === fileArray.length) {
+          onChange([...files, ...newItems]);
+        }
+      };
+      reader.onerror = () => {
+        newItems.push({
+          id: `${f.name}-${f.size}-${Math.random().toString(36).slice(2, 8)}`,
+          name: f.name,
+          size: f.size,
+          file: f,
+        });
+        completed++;
+        if (completed === fileArray.length) {
+          onChange([...files, ...newItems]);
+        }
+      };
+      reader.readAsDataURL(f);
+    });
   };
 
   const onDrop = (e: DragEvent<HTMLDivElement>) => {

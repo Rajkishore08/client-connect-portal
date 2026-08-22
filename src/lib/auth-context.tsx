@@ -193,25 +193,38 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
         if (matched.length > 0) {
           setApplications((prev) => {
-            const existingRefs = new Set(prev.map((a) => a.trackingId));
-            const newMapped: SavedApplication[] = matched
-              .filter((item) => !existingRefs.has(item.reference))
-              .map((item) => ({
-                id: `app-${item.reference || Date.now()}`,
+            const updatedAndNew: SavedApplication[] = matched.map((item) => {
+              const refId = item.reference || `OWS-${Date.now()}`;
+              const rawStatus = item.status || "Submitted to Embassy";
+              const validStatus = (
+                rawStatus === "Completed"
+                  ? "Completed"
+                  : rawStatus === "In Progress" || rawStatus === "New"
+                  ? "Submitted to Embassy"
+                  : rawStatus
+              ) as SavedApplication["status"];
+
+              return {
+                id: `app-${refId}`,
                 serviceCategory: item.category || "General Service Intake",
                 serviceTitle: item.service || "Submitted Request",
                 applicantName: item.name || user.name,
                 applicantEmail: item.email || user.email,
                 phoneUsa: item.phone || "",
-                status: "Submitted to Embassy",
+                status: validStatus,
                 progressPercent: typeof item.progressPercent === "number" ? item.progressPercent : 45,
                 submittedAt: item.date || new Date().toISOString().split("T")[0]!,
                 lastUpdated: "Just now",
-                trackingId: item.reference || `OWS-${Date.now()}`,
+                trackingId: refId,
                 details: item.notes || "Intake application submitted and logged into vault.",
                 documents: item.documents || [],
-              }));
-            return [...newMapped, ...prev];
+              };
+            });
+
+            const existingNonMatched = prev.filter(
+              (p) => !matched.some((m) => m.reference === p.trackingId)
+            );
+            return [...updatedAndNew, ...existingNonMatched];
           });
         }
       }

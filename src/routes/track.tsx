@@ -30,7 +30,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { LEADS, type Lead, type Milestone, type TrackStatus, getDefaultMilestonesForCategory } from "@/data/mock-data";
+import { LEADS, type Lead, type Milestone, type TrackStatus, type LeadSource, type LeadStatus, getDefaultMilestonesForCategory } from "@/data/mock-data";
 import { lookupApplication } from "@/lib/backend-stubs";
 
 export const Route = createFileRoute("/track")({
@@ -249,6 +249,9 @@ function TrackPage() {
           const localCat = foundLocal.category || foundLocal.serviceCategory || "SOFTWARE & UI/UX DIVISION";
           const localSvc = foundLocal.service || foundLocal.serviceTitle || "Custom Web Application Intake";
 
+          const localStatus = foundLocal.status || "In Progress";
+          const localProgress = typeof foundLocal.progressPercent === "number" ? foundLocal.progressPercent : 25;
+
           match = {
             id: foundLocal.id || `local-${Date.now()}`,
             reference: foundLocal.reference || rawQuery,
@@ -259,13 +262,24 @@ function TrackPage() {
             category: localCat,
             service: localSvc,
             source: "Form",
-            status: "In Progress",
+            status: localStatus as LeadStatus,
+            progressPercent: localProgress,
+            milestones: foundLocal.milestones,
             notes: foundLocal.notes || "",
             documents: foundLocal.documents || [],
             tracking: {
-              governmentForm: { status: "Completed", ref: "Intake Verified" },
-              vfs: { status: "In Progress", ref: "Active Milestone Audit" },
-              courier: { status: "Not Started", ref: "SLA Handover Pending" },
+              governmentForm: {
+                status: localProgress >= 50 ? "Completed" : "In Progress",
+                ref: "Intake Audit Verified",
+              },
+              vfs: {
+                status: localProgress >= 75 ? "Completed" : localProgress >= 25 ? "In Progress" : "Not Started",
+                ref: "Milestone Audit Active",
+              },
+              courier: {
+                status: localProgress === 100 ? "Completed" : "Not Started",
+                ref: localProgress === 100 ? "Handover Completed" : "Handover Pending",
+              },
             },
           };
         }
@@ -504,8 +518,12 @@ function TrackPage() {
             <div className="grid grid-cols-1 sm:grid-cols-4 gap-3">
               {getStagesForCategory(lead.category).map((s) => {
                 const Icon = s.icon;
-                const completed = s.stage <= (lead.status === "Completed" ? 4 : lead.status === "In Progress" ? 2 : 1);
-                const active = s.stage === (lead.status === "Completed" ? 4 : lead.status === "In Progress" ? 2 : 1);
+                const progressPct = typeof lead.progressPercent === "number" ? lead.progressPercent : 25;
+                const currentActiveStage = lead.status === "Completed"
+                  ? 4
+                  : Math.min(4, Math.max(1, Math.ceil((progressPct / 100) * 4)));
+                const completed = s.stage <= currentActiveStage;
+                const active = s.stage === currentActiveStage;
                 return (
                   <div
                     key={s.stage}

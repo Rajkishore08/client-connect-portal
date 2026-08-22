@@ -152,6 +152,53 @@ export async function updateLeadInSupabase(id: string, patch: Partial<Lead>): Pr
       }
     }
 
+    // Sync updates to localStorage cached intakes so /track and /account see immediate changes
+    if (typeof window !== "undefined") {
+      try {
+        const storedStr = localStorage.getItem("ows_submitted_intakes");
+        if (storedStr) {
+          const list: any[] = JSON.parse(storedStr);
+          const updatedList = list.map((item) => {
+            const matchesId =
+              item.id === id ||
+              item.reference === id ||
+              (patch.reference && item.reference === patch.reference);
+            if (matchesId) {
+              return {
+                ...item,
+                status: patch.status || item.status,
+                progressPercent: patch.progressPercent !== undefined ? patch.progressPercent : item.progressPercent,
+                milestones: patch.milestones || item.milestones,
+                notes: patch.notes !== undefined ? patch.notes : item.notes,
+                name: patch.name || item.name,
+                email: patch.email || item.email,
+                phone: patch.phone || item.phone,
+              };
+            }
+            return item;
+          });
+          localStorage.setItem("ows_submitted_intakes", JSON.stringify(updatedList));
+        }
+
+        const lastStr = localStorage.getItem("ows_last_submitted_intake");
+        if (lastStr) {
+          const lastObj = JSON.parse(lastStr);
+          if (lastObj.id === id || lastObj.reference === id || (patch.reference && lastObj.reference === patch.reference)) {
+            const updatedLast = {
+              ...lastObj,
+              status: patch.status || lastObj.status,
+              progressPercent: patch.progressPercent !== undefined ? patch.progressPercent : lastObj.progressPercent,
+              milestones: patch.milestones || lastObj.milestones,
+              notes: patch.notes !== undefined ? patch.notes : lastObj.notes,
+            };
+            localStorage.setItem("ows_last_submitted_intake", JSON.stringify(updatedLast));
+          }
+        }
+      } catch (e) {
+        console.warn("[Local Storage Sync Error] updateLeadInSupabase:", e);
+      }
+    }
+
     const { error } = await supabase.from("leads").update(payload).eq("id", id);
     if (error) {
       console.warn("[Supabase DB] Update lead notice:", error.message);

@@ -26,6 +26,24 @@ export interface SubmissionPayload {
   fileNames?: string[];
 }
 
+function dataURLtoBlob(dataurl: string): Blob {
+  try {
+    const parts = dataurl.split(",");
+    const header = parts[0] || "";
+    const mimeMatch = header.match(/:(.*?);/);
+    const mime: string = (mimeMatch && mimeMatch[1]) ? mimeMatch[1] : "application/octet-stream";
+    const bstr = atob(parts[1] || "");
+    let n = bstr.length;
+    const u8arr = new Uint8Array(n);
+    while (n--) {
+      u8arr[n] = bstr.charCodeAt(n);
+    }
+    return new Blob([u8arr], { type: mime });
+  } catch (e) {
+    return new Blob([dataurl], { type: "application/octet-stream" });
+  }
+}
+
 export async function uploadDocuments(files: any[]): Promise<string[]> {
   if (!files || files.length === 0) return [];
   const uploadedUrls: string[] = [];
@@ -37,19 +55,33 @@ export async function uploadDocuments(files: any[]): Promise<string[]> {
       continue;
     }
 
-    if (item.dataUrl) {
-      uploadedUrls.push(item.dataUrl);
-      continue;
+    const fileName = item.name || (item.file && item.file.name) || `document_${i + 1}.pdf`;
+    let uploadBody: Blob | File | null = null;
+    let contentType = "application/octet-stream";
+
+    if (item instanceof File) {
+      uploadBody = item;
+      contentType = item.type || contentType;
+    } else if (item.file instanceof File) {
+      uploadBody = item.file;
+      contentType = item.file.type || contentType;
+    } else if (item.dataUrl && typeof item.dataUrl === "string" && item.dataUrl.startsWith("data:")) {
+      uploadBody = dataURLtoBlob(item.dataUrl);
+      contentType = uploadBody.type || contentType;
     }
 
-    const file: File = item.file || item;
-    if (file && file.name) {
+    // Attempt direct binary upload to Supabase Storage bucket
+    if (uploadBody) {
       try {
-        const fileExt = file.name.split(".").pop();
+        const fileExt = fileName.split(".").pop() || "bin";
         const filePath = `uploads/${Date.now()}_${i}.${fileExt}`;
+
         const { error: uploadError } = await supabase.storage
           .from("client-documents")
-          .upload(filePath, file, { upsert: true });
+          .upload(filePath, uploadBody, {
+            contentType: contentType,
+            upsert: true,
+          });
 
         if (!uploadError) {
           const { data } = supabase.storage.from("client-documents").getPublicUrl(filePath);
@@ -57,25 +89,19 @@ export async function uploadDocuments(files: any[]): Promise<string[]> {
             uploadedUrls.push(data.publicUrl);
             continue;
           }
+        } else {
+          console.warn("[Supabase Storage] Upload error notice:", uploadError.message);
         }
       } catch (e) {
-        console.warn("[Supabase Storage] File upload warning:", e);
+        console.warn("[Supabase Storage] Binary upload exception:", e);
       }
+    }
 
-      // Base64 Data URL fallback for instant offline/browser download capability
-      try {
-        const dataUrl = await new Promise<string>((resolve) => {
-          const reader = new FileReader();
-          reader.onloadend = () => resolve(reader.result as string);
-          reader.readAsDataURL(file);
-        });
-        uploadedUrls.push(dataUrl);
-        continue;
-      } catch {}
-
-      uploadedUrls.push(file.name);
+    // Base64 Data URL fallback for local offline resilience
+    if (item.dataUrl && typeof item.dataUrl === "string") {
+      uploadedUrls.push(item.dataUrl);
     } else {
-      uploadedUrls.push(item.name || `document_${i + 1}.pdf`);
+      uploadedUrls.push(fileName);
     }
   }
 

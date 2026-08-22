@@ -78,6 +78,24 @@ export const INITIAL_VAULT_FILES: VaultFile[] = [
   },
 ];
 
+function dataURLtoBlob(dataurl: string): Blob {
+  try {
+    const parts = dataurl.split(",");
+    const header = parts[0] || "";
+    const mimeMatch = header.match(/:(.*?);/);
+    const mime: string = (mimeMatch && mimeMatch[1]) ? mimeMatch[1] : "application/octet-stream";
+    const bstr = atob(parts[1] || "");
+    let n = bstr.length;
+    const u8arr = new Uint8Array(n);
+    while (n--) {
+      u8arr[n] = bstr.charCodeAt(n);
+    }
+    return new Blob([u8arr], { type: mime });
+  } catch (e) {
+    return new Blob([dataurl], { type: "application/octet-stream" });
+  }
+}
+
 function triggerFileDownload(url: string, fileName: string) {
   if (!url || url === "#") {
     toast.info(`Vault File Record: "${fileName}"`, {
@@ -86,7 +104,25 @@ function triggerFileDownload(url: string, fileName: string) {
     return;
   }
 
-  if (url.startsWith("data:") || url.startsWith("blob:")) {
+  if (url.startsWith("data:")) {
+    try {
+      const blob = dataURLtoBlob(url);
+      const blobUrl = URL.createObjectURL(blob);
+      const link = document.createElement("a");
+      link.href = blobUrl;
+      link.download = fileName;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      setTimeout(() => URL.revokeObjectURL(blobUrl), 2000);
+      toast.success(`Downloaded "${fileName}"`);
+      return;
+    } catch (e) {
+      console.warn("[Download Error] Base64 blob conversion warning:", e);
+    }
+  }
+
+  if (url.startsWith("blob:")) {
     const link = document.createElement("a");
     link.href = url;
     link.download = fileName;
@@ -101,6 +137,10 @@ function triggerFileDownload(url: string, fileName: string) {
   fetch(url)
     .then((res) => {
       if (!res.ok) throw new Error(`HTTP ${res.status}`);
+      const contentType = res.headers.get("content-type") || "";
+      if (contentType.includes("application/json") || contentType.includes("text/html")) {
+        throw new Error("Remote endpoint returned text error instead of binary file");
+      }
       return res.blob();
     })
     .then((blob) => {
@@ -114,7 +154,8 @@ function triggerFileDownload(url: string, fileName: string) {
       setTimeout(() => URL.revokeObjectURL(blobUrl), 2000);
       toast.success(`Downloaded "${fileName}"`, { id: "dl-toast" });
     })
-    .catch(() => {
+    .catch((err) => {
+      console.warn("[Download Warning] Remote fetch fallback:", err);
       const link = document.createElement("a");
       link.href = url;
       link.download = fileName;
@@ -122,7 +163,7 @@ function triggerFileDownload(url: string, fileName: string) {
       document.body.appendChild(link);
       link.click();
       document.body.removeChild(link);
-      toast.success(`Downloaded "${fileName}"`, { id: "dl-toast" });
+      toast.success(`Opened "${fileName}"`, { id: "dl-toast" });
     });
 }
 
