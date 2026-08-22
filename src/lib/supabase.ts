@@ -19,7 +19,7 @@ export const supabase = createClient(supabaseUrl, supabaseAnonKey);
 export async function signInWithGoogle() {
   const currentOrigin =
     typeof window !== "undefined"
-      ? window.location.origin
+      ? `${window.location.protocol}//${window.location.host}`
       : "https://oneworldsolutionsusa.com";
       
   const redirectUrl = `${currentOrigin}/account`;
