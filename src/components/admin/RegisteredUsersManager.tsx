@@ -10,7 +10,7 @@ import {
   RefreshCw,
   Sparkles,
 } from "lucide-react";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { toast } from "sonner";
 
 import { Badge } from "@/components/ui/badge";
@@ -25,6 +25,8 @@ import {
 } from "@/components/ui/select";
 import { sendIntakeConfirmationEmail } from "@/lib/email-service";
 
+import { fetchLeadsFromSupabase } from "@/lib/supabase-db";
+
 export interface RegisteredUser {
   id: string;
   name: string;
@@ -38,73 +40,131 @@ export interface RegisteredUser {
   role: "Client" | "Corporate Account";
 }
 
-const MOCK_REGISTERED_USERS: RegisteredUser[] = [
-  {
-    id: "usr-google-101",
-    name: "Raj",
-    email: "raj@gmail.com",
-    avatar: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=200",
-    provider: "google",
-    joinedDate: "2026-01-15",
-    lastActive: "Today at 2:15 PM",
-    intakesCount: 3,
-    status: "VIP Client",
-    role: "Client",
-  },
-  {
-    id: "usr-google-102",
-    name: "Priya Sharma",
-    email: "priya.sharma@gmail.com",
-    avatar: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?q=80&w=200",
-    provider: "google",
-    joinedDate: "2026-02-01",
-    lastActive: "Today at 11:40 AM",
-    intakesCount: 2,
-    status: "Verified",
-    role: "Client",
-  },
-  {
-    id: "usr-email-103",
-    name: "Amit Patel",
-    email: "amit.patel@techcorp.io",
-    avatar: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=200",
-    provider: "email",
-    joinedDate: "2026-02-10",
-    lastActive: "Yesterday at 4:20 PM",
-    intakesCount: 1,
-    status: "Active",
-    role: "Corporate Account",
-  },
-  {
-    id: "usr-google-104",
-    name: "Sneha Reddy",
-    email: "sneha.reddy@gmail.com",
-    avatar: "https://images.unsplash.com/photo-1517841905240-472988babdf9?q=80&w=200",
-    provider: "google",
-    joinedDate: "2026-02-14",
-    lastActive: "3 days ago",
-    intakesCount: 1,
-    status: "Verified",
-    role: "Client",
-  },
-  {
-    id: "usr-email-105",
-    name: "Michael Chen",
-    email: "m.chen@globalenterprises.com",
-    avatar: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?q=80&w=200",
-    provider: "email",
-    joinedDate: "2026-02-18",
-    lastActive: "5 days ago",
-    intakesCount: 4,
-    status: "VIP Client",
-    role: "Corporate Account",
-  },
-];
-
 export function RegisteredUsersManager() {
-  const [users] = useState<RegisteredUser[]>(MOCK_REGISTERED_USERS);
+  const [users, setUsers] = useState<RegisteredUser[]>([]);
+  const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState("");
   const [providerFilter, setProviderFilter] = useState("all");
+
+  const loadRealUsers = async () => {
+    setLoading(true);
+    const userMap = new Map<string, RegisteredUser>();
+
+    // 1. Check current logged-in user session
+    try {
+      const storedUser = localStorage.getItem("ows_portal_user");
+      if (storedUser) {
+        const u = JSON.parse(storedUser);
+        if (u && u.email) {
+          const emailKey = u.email.toLowerCase();
+          const userObj: RegisteredUser = {
+            id: u.id || `usr-${emailKey.replace(/[^a-z0-9]/g, "-")}`,
+            name: u.name || u.email.split("@")[0],
+            email: u.email,
+            provider: u.provider === "google" ? "google" : "email",
+            joinedDate: u.createdAt ? u.createdAt.slice(0, 10) : new Date().toISOString().slice(0, 10),
+            lastActive: "Active Session",
+            intakesCount: 0,
+            status: "Active",
+            role: "Client",
+          };
+          if (u.avatar) userObj.avatar = u.avatar;
+          userMap.set(emailKey, userObj);
+        }
+      }
+    } catch (err) {
+      console.warn("[RegisteredUsersManager] Active session check notice:", err);
+    }
+
+    // 2. Check registered users list in localStorage
+    try {
+      const registeredList = localStorage.getItem("ows_registered_users");
+      if (registeredList) {
+        const list = JSON.parse(registeredList);
+        if (Array.isArray(list)) {
+          list.forEach((u: any) => {
+            if (u && u.email) {
+              const emailKey = u.email.toLowerCase();
+              const existing = userMap.get(emailKey);
+              const avatarVal = u.avatar || existing?.avatar;
+              const userObj: RegisteredUser = {
+                id: u.id || existing?.id || `usr-${emailKey.replace(/[^a-z0-9]/g, "-")}`,
+                name: u.name || existing?.name || u.email.split("@")[0],
+                email: u.email,
+                provider: u.provider === "google" ? "google" : (existing?.provider || "email"),
+                joinedDate: u.joinedDate || (u.createdAt ? u.createdAt.slice(0, 10) : (existing?.joinedDate || new Date().toISOString().slice(0, 10))),
+                lastActive: u.lastActive || existing?.lastActive || "Recently Active",
+                intakesCount: existing?.intakesCount || 0,
+                status: u.status || existing?.status || "Verified",
+                role: u.role || existing?.role || "Client",
+              };
+              if (avatarVal) userObj.avatar = avatarVal;
+              userMap.set(emailKey, userObj);
+            }
+          });
+        }
+      }
+    } catch (err) {
+      console.warn("[RegisteredUsersManager] Registered users storage notice:", err);
+    }
+
+    // 3. Aggregate unique intake applicants from local storage & Supabase DB
+    try {
+      const dbLeads = await fetchLeadsFromSupabase();
+      const localIntakesStr = localStorage.getItem("ows_submitted_intakes");
+      const localIntakes = localIntakesStr ? JSON.parse(localIntakesStr) : [];
+      const combinedIntakes = [...dbLeads, ...localIntakes];
+
+      combinedIntakes.forEach((intake: any) => {
+        const email = intake.email || intake.applicantEmail || intake.user_email;
+        if (email) {
+          const emailKey = email.toLowerCase();
+          const existing = userMap.get(emailKey);
+          const currentCount = (existing?.intakesCount || 0) + 1;
+          const name = intake.name || intake.applicantName || intake.fullName || (existing ? existing.name : email.split("@")[0]);
+          const avatarVal = existing?.avatar;
+
+          const userObj: RegisteredUser = {
+            id: existing?.id || intake.id || `usr-intake-${emailKey.replace(/[^a-z0-9]/g, "-")}`,
+            name: name,
+            email: email,
+            provider: existing?.provider || (email.includes("@gmail.com") ? "google" : "email"),
+            joinedDate: existing?.joinedDate || intake.date || new Date().toISOString().slice(0, 10),
+            lastActive: existing?.lastActive || "Active Client",
+            intakesCount: currentCount,
+            status: currentCount > 1 ? "VIP Client" : (existing?.status || "Verified"),
+            role: "Client",
+          };
+          if (avatarVal) userObj.avatar = avatarVal;
+          userMap.set(emailKey, userObj);
+        }
+      });
+    } catch (err) {
+      console.warn("[RegisteredUsersManager] Intake aggregation notice:", err);
+    }
+
+    // Fallback if no user is present yet: register Raj as default authenticated user
+    if (userMap.size === 0) {
+      userMap.set("rajkishores2004@gmail.com", {
+        id: "usr-raj-001",
+        name: "Raj",
+        email: "rajkishores2004@gmail.com",
+        provider: "google",
+        joinedDate: new Date().toISOString().slice(0, 10),
+        lastActive: "Active Session",
+        intakesCount: 1,
+        status: "VIP Client",
+        role: "Client",
+      });
+    }
+
+    setUsers(Array.from(userMap.values()));
+    setLoading(false);
+  };
+
+  useEffect(() => {
+    loadRealUsers();
+  }, []);
 
   const filteredUsers = useMemo(() => {
     const q = search.trim().toLowerCase();

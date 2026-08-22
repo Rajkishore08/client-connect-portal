@@ -41,6 +41,17 @@ export interface BookingEmailPayload {
   serviceInterested?: string;
 }
 
+export interface EmailLog {
+  id: string;
+  recipient: string;
+  subject: string;
+  status: string;
+  sentAt: string;
+  provider: string;
+  template?: string;
+  htmlContent?: string;
+}
+
 /** 1. Send Intake Confirmation Email to Client */
 export async function sendClientIntakeEmail(payload: IntakeEmailPayload) {
   if (!resendApiKey || !resend) {
@@ -239,6 +250,47 @@ export function getEmailLogs() {
       status: "Delivered",
       sentAt: "Today at 2:15 PM",
       provider: "Resend",
+      htmlContent: `
+        <!DOCTYPE html>
+        <html>
+        <head><meta charset="utf-8"></head>
+        <body style="font-family: system-ui, -apple-system, sans-serif; background-color: #f8fafc; margin: 0; padding: 24px; color: #1e293b;">
+          <div style="max-width: 600px; margin: 0 auto; background: #ffffff; border-radius: 16px; overflow: hidden; border: 1px solid #e2e8f0; box-shadow: 0 4px 12px rgba(0,0,0,0.05);">
+            <div style="background: #0f172a; padding: 28px; text-align: center; color: #ffffff;">
+              <h1 style="margin: 0; font-size: 22px; font-weight: 800; letter-spacing: -0.5px;">ONE WORLD SOLUTIONS</h1>
+              <div style="display: inline-block; background: #2563eb; color: #ffffff; font-size: 11px; font-weight: 700; padding: 4px 14px; border-radius: 9999px; text-transform: uppercase; margin-top: 10px;">
+                Intake Application Confirmed
+              </div>
+            </div>
+            <div style="padding: 32px 28px;">
+              <h2 style="font-size: 18px; color: #0f172a; margin-top: 0;">Hello Valued Client,</h2>
+              <p style="font-size: 14px; line-height: 1.6; color: #475569;">
+                Thank you for submitting your intake application with <strong>One World Solutions</strong>. Our Chicago consular &amp; software team has received your request and is auditing your documentation.
+              </p>
+              
+              <div style="background: #f1f5f9; border-radius: 12px; padding: 20px; margin: 24px 0; border: 1px solid #cbd5e1;">
+                <p style="margin: 0 0 6px 0; font-size: 11px; font-weight: 800; text-transform: uppercase; color: #64748b; font-family: monospace;">TRACKING ID</p>
+                <div style="font-family: monospace; font-size: 20px; font-weight: 800; color: #2563eb;">REF-286014</div>
+                <p style="margin: 14px 0 4px 0; font-size: 15px; font-weight: 700; color: #0f172a;">Expedited Passport Renewal</p>
+                <p style="margin: 0; font-size: 13px; color: #475569;">Category: Passport &amp; Consular Services</p>
+              </div>
+
+              <p style="font-size: 14px; line-height: 1.6; color: #475569;">
+                You can track real-time processing milestones and view document verification status anytime using your tracking reference.
+              </p>
+
+              <div style="text-align: center; margin-top: 28px;">
+                <a href="https://oneworldsolutionsusa.com/track?id=REF-286014" style="display: inline-block; background: #2563eb; color: #ffffff; text-decoration: none; font-weight: 700; font-size: 14px; padding: 14px 28px; border-radius: 10px; box-shadow: 0 4px 12px rgba(37,99,235,0.3);">Track Application Status</a>
+              </div>
+            </div>
+            <div style="background: #f8fafc; padding: 20px; text-align: center; font-size: 12px; color: #64748b; border-top: 1px solid #e2e8f0;">
+              <p style="margin: 0 0 6px 0;"><strong>One World Solutions (A Division of ABHIPRIYA GROUPS LLC, E-Verified)</strong></p>
+              <p style="margin: 0;">Chicago, IL 60613 • Direct Hotline: +1 (417) 569-0711 • support@oneworldsolutionsusa.com</p>
+            </div>
+          </div>
+        </body>
+        </html>
+      `,
     },
     {
       id: "log-2",
@@ -247,6 +299,39 @@ export function getEmailLogs() {
       status: "Delivered",
       sentAt: "Yesterday at 11:30 AM",
       provider: "Resend",
+      htmlContent: `
+        <!DOCTYPE html>
+        <html>
+        <head><meta charset="utf-8"></head>
+        <body style="font-family: system-ui, -apple-system, sans-serif; background-color: #f8fafc; margin: 0; padding: 24px; color: #1e293b;">
+          <div style="max-width: 600px; margin: 0 auto; background: #ffffff; border-radius: 16px; overflow: hidden; border: 1px solid #e2e8f0; box-shadow: 0 4px 12px rgba(0,0,0,0.05);">
+            <div style="background: #0f172a; padding: 24px 28px; color: #ffffff;">
+              <div style="display: flex; align-items: center; justify-content: space-between;">
+                <h1 style="margin: 0; font-size: 18px; font-weight: 800;">NEW CLIENT INTAKE ALERT</h1>
+                <span style="background: #ef4444; color: #fff; font-size: 10px; font-weight: 800; padding: 4px 10px; border-radius: 6px; text-transform: uppercase;">RUSH PRIORITY</span>
+              </div>
+            </div>
+            <div style="padding: 28px;">
+              <h3 style="margin-top: 0; font-size: 16px; color: #0f172a;">OCI Application Received</h3>
+              <table style="width: 100%; font-size: 13px; border-collapse: collapse; margin-top: 16px;">
+                <tr style="border-bottom: 1px solid #f1f5f9;"><td style="padding: 8px 0; font-weight: bold; color: #64748b;">Tracking ID:</td><td style="color: #2563eb; font-weight: bold; font-family: monospace; font-size: 15px;">REF-286014</td></tr>
+                <tr style="border-bottom: 1px solid #f1f5f9;"><td style="padding: 8px 0; font-weight: bold; color: #64748b;">Applicant Name:</td><td style="font-weight: 700; color: #0f172a;">Valued Client</td></tr>
+                <tr style="border-bottom: 1px solid #f1f5f9;"><td style="padding: 8px 0; font-weight: bold; color: #64748b;">Applicant Email:</td><td>client.test@example.com</td></tr>
+                <tr style="border-bottom: 1px solid #f1f5f9;"><td style="padding: 8px 0; font-weight: bold; color: #64748b;">Direct Phone:</td><td>+1 (417) 569-0711</td></tr>
+                <tr style="border-bottom: 1px solid #f1f5f9;"><td style="padding: 8px 0; font-weight: bold; color: #64748b;">Service Category:</td><td>Passport &amp; Consular Services</td></tr>
+                <tr><td style="padding: 8px 0; font-weight: bold; color: #64748b;">Assigned SLA:</td><td>Expedited Service Intake (3-5 Days)</td></tr>
+              </table>
+              <div style="margin-top: 28px; text-align: center;">
+                <a href="https://oneworldsolutionsusa.com/admin-one-master-8820" style="display: inline-block; background: #0f172a; color: #ffffff; text-decoration: none; font-weight: 700; font-size: 13px; padding: 12px 24px; border-radius: 8px;">Open Ops Admin Dashboard</a>
+              </div>
+            </div>
+            <div style="background: #f8fafc; padding: 16px; text-align: center; font-size: 11px; color: #94a3b8; border-top: 1px solid #e2e8f0;">
+              One World Solutions • Operational Alert Telemetry • Chicago HQ
+            </div>
+          </div>
+        </body>
+        </html>
+      `,
     },
   ];
 }

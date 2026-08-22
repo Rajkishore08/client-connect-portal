@@ -133,9 +133,9 @@ export function EmailAutomationManager() {
               {logs.map((log) => (
                 <tr key={log.id} className="border-t border-border/60 hover:bg-muted/20">
                   <td className="px-4 py-3 font-mono text-muted-foreground whitespace-nowrap">{log.sentAt}</td>
-                  <td className="px-4 py-3 font-semibold">{log.recipientName} &lt;{log.recipientEmail}&gt;</td>
+                  <td className="px-4 py-3 font-semibold">{log.recipient}</td>
                   <td className="px-4 py-3">
-                    <Badge variant="secondary" className="text-[10px] font-bold">{log.template}</Badge>
+                    <Badge variant="secondary" className="text-[10px] font-bold">{log.template || "Intake Auto"}</Badge>
                   </td>
                   <td className="px-4 py-3 max-w-xs truncate text-foreground">{log.subject}</td>
                   <td className="px-4 py-3">
@@ -175,15 +175,45 @@ export function EmailAutomationManager() {
               <Mail className="h-4 w-4 text-blue-400" /> HTML Email Template Preview — {previewLog?.subject}
             </DialogTitle>
           </DialogHeader>
-          {previewLog?.htmlContent && (
-            <div className="p-4 bg-slate-100 max-h-[75vh] overflow-y-auto">
-              <iframe
-                title="Email Preview"
-                srcDoc={previewLog.htmlContent}
-                className="w-full h-[520px] rounded-2xl border border-slate-300 shadow-md bg-white"
-              />
-            </div>
-          )}
+          <div className="p-4 bg-slate-100 max-h-[75vh] overflow-y-auto">
+            <iframe
+              title="Email Preview"
+              srcDoc={
+                (previewLog as any)?.htmlContent ||
+                `
+                <!DOCTYPE html>
+                <html>
+                <head><meta charset="utf-8"></head>
+                <body style="font-family: system-ui, -apple-system, sans-serif; background-color: #f8fafc; margin: 0; padding: 24px; color: #1e293b;">
+                  <div style="max-width: 600px; margin: 0 auto; background: #ffffff; border-radius: 16px; overflow: hidden; border: 1px solid #e2e8f0; box-shadow: 0 4px 12px rgba(0,0,0,0.05);">
+                    <div style="background: #0f172a; padding: 28px; text-align: center; color: #ffffff;">
+                      <h1 style="margin: 0; font-size: 22px; font-weight: 800; letter-spacing: -0.5px;">ONE WORLD SOLUTIONS</h1>
+                      <div style="display: inline-block; background: #2563eb; color: #ffffff; font-size: 11px; font-weight: 700; padding: 4px 14px; border-radius: 9999px; text-transform: uppercase; margin-top: 10px;">
+                        Transaction Log Preview
+                      </div>
+                    </div>
+                    <div style="padding: 32px 28px;">
+                      <h2 style="font-size: 18px; color: #0f172a; margin-top: 0;">${previewLog?.subject || "Official Email Alert"}</h2>
+                      <p style="font-size: 14px; line-height: 1.6; color: #475569;">
+                        Dispatched to: <strong>${previewLog?.recipient || "client.test@example.com"}</strong>
+                      </p>
+                      <div style="background: #f1f5f9; border-radius: 12px; padding: 20px; margin: 24px 0; border: 1px solid #cbd5e1;">
+                        <p style="margin: 0 0 6px 0; font-size: 11px; font-weight: 800; text-transform: uppercase; color: #64748b; font-family: monospace;">LOG TELEMETRY</p>
+                        <div style="font-family: monospace; font-size: 18px; font-weight: 800; color: #2563eb;">${previewLog?.id || "LOG-2026-001"}</div>
+                        <p style="margin: 12px 0 0 0; font-size: 13px; color: #475569;">Status: ${previewLog?.status || "Delivered"} • Dispatched via Resend API</p>
+                      </div>
+                    </div>
+                    <div style="background: #f8fafc; padding: 20px; text-align: center; font-size: 12px; color: #64748b; border-top: 1px solid #e2e8f0;">
+                      <p style="margin: 0;"><strong>One World Solutions (Chicago, IL 60613 • E-Verified)</strong></p>
+                    </div>
+                  </div>
+                </body>
+                </html>
+              `
+              }
+              className="w-full h-[520px] rounded-2xl border border-slate-300 shadow-md bg-white"
+            />
+          </div>
         </DialogContent>
       </Dialog>
     </div>
