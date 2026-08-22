@@ -35,77 +35,12 @@ export interface NotificationItem {
   applicationId?: string;
 }
 
-const DEFAULT_MOCK_APPLICATIONS: SavedApplication[] = [
-  {
-    id: "app-101",
-    serviceTitle: "US Passport Renewal (Expedited 5-Day)",
-    serviceCategory: "Passport Services",
-    trackingId: "OWS-2026-88912",
-    status: "FedEx Dispatched",
-    progressPercent: 85,
-    submittedAt: "2026-08-01",
-    lastUpdated: "Today at 2:15 PM",
-    applicantName: "Raj",
-    details: "Expedited State Dept Processing • Waybill #7890241829",
-  },
-  {
-    id: "app-102",
-    serviceTitle: "OCI Card Application (Adult Naturalized)",
-    serviceCategory: "OCI Services",
-    trackingId: "OWS-2026-44021",
-    status: "VFS Verified",
-    progressPercent: 60,
-    submittedAt: "2026-07-20",
-    lastUpdated: "Yesterday at 11:30 AM",
-    applicantName: "Raj",
-    details: "VFS Chicago Consulate Desk • Match Code #CHI-9921",
-  },
-  {
-    id: "app-103",
-    serviceTitle: "Emergency Certificate (One-Way Return Travel)",
-    serviceCategory: "Passport Services",
-    trackingId: "OWS-2026-11093",
-    status: "Completed",
-    progressPercent: 100,
-    submittedAt: "2026-06-15",
-    lastUpdated: "2026-06-18",
-    applicantName: "Raj",
-    details: "Issued by CGI Chicago • Travel Clearance Approved",
-  },
-];
-
-const DEFAULT_NOTIFICATIONS: NotificationItem[] = [
-  {
-    id: "notif-1",
-    title: "FedEx Tracking Number Generated",
-    message: "Your expedited passport renewal document package has been picked up by FedEx. Tracking #7890241829.",
-    timestamp: "2 hours ago",
-    read: false,
-    type: "success",
-    applicationId: "app-101",
-  },
-  {
-    id: "notif-2",
-    title: "VFS Match Code Approved",
-    message: "Chicago Consulate completed document audit for your OCI application OWS-2026-44021.",
-    timestamp: "1 day ago",
-    read: false,
-    type: "info",
-    applicationId: "app-102",
-  },
-  {
-    id: "notif-3",
-    title: "Emergency Certificate Delivered",
-    message: "Your single-journey Emergency Travel Pass was successfully issued.",
-    timestamp: "2 weeks ago",
-    read: true,
-    type: "success",
-    applicationId: "app-103",
-  },
-];
+const DEFAULT_MOCK_APPLICATIONS: SavedApplication[] = [];
+const DEFAULT_NOTIFICATIONS: NotificationItem[] = [];
 
 interface AuthContextType {
   user: UserProfile | null;
+  isLoading: boolean;
   applications: SavedApplication[];
   notifications: NotificationItem[];
   unreadCount: number;
@@ -126,35 +61,55 @@ const STORAGE_KEY_NOTIFS = "ows_portal_notifs";
 
 export function AuthProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<UserProfile | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
 
   const [applications, setApplications] = useState<SavedApplication[]>(() => {
-    if (typeof window === "undefined") return DEFAULT_MOCK_APPLICATIONS;
+    if (typeof window === "undefined") return [];
     const stored = localStorage.getItem(STORAGE_KEY_APPS);
     if (stored) {
       try {
-        return JSON.parse(stored);
+        const parsed = JSON.parse(stored);
+        if (Array.isArray(parsed)) {
+          // Filter out mock data items
+          const realOnly = parsed.filter((item: any) => !item.id?.startsWith("app-10"));
+          return realOnly;
+        }
       } catch {}
     }
-    return DEFAULT_MOCK_APPLICATIONS;
+    return [];
   });
 
   const [notifications, setNotifications] = useState<NotificationItem[]>(() => {
-    if (typeof window === "undefined") return DEFAULT_NOTIFICATIONS;
+    if (typeof window === "undefined") return [];
     const stored = localStorage.getItem(STORAGE_KEY_NOTIFS);
     if (stored) {
       try {
-        return JSON.parse(stored);
+        const parsed = JSON.parse(stored);
+        if (Array.isArray(parsed)) {
+          const realOnly = parsed.filter((item: any) => !item.id?.startsWith("notif-"));
+          return realOnly;
+        }
       } catch {}
     }
-    return DEFAULT_NOTIFICATIONS;
+    return [];
   });
 
-  // Clear obsolete demo user key if present
+  // Clear obsolete demo user & mock items key if present
   useEffect(() => {
     if (typeof window !== "undefined") {
-      const stored = localStorage.getItem(STORAGE_KEY_USER);
-      if (stored && stored.includes("usr-demo-01")) {
+      const storedUser = localStorage.getItem(STORAGE_KEY_USER);
+      if (storedUser && storedUser.includes("usr-demo-01")) {
         localStorage.removeItem(STORAGE_KEY_USER);
+      }
+      const storedApps = localStorage.getItem(STORAGE_KEY_APPS);
+      if (storedApps && (storedApps.includes("app-101") || storedApps.includes("OWS-2026-88912"))) {
+        localStorage.removeItem(STORAGE_KEY_APPS);
+        setApplications([]);
+      }
+      const storedNotifs = localStorage.getItem(STORAGE_KEY_NOTIFS);
+      if (storedNotifs && storedNotifs.includes("notif-1")) {
+        localStorage.removeItem(STORAGE_KEY_NOTIFS);
+        setNotifications([]);
       }
     }
   }, []);
@@ -192,6 +147,9 @@ export function AuthProvider({ children }: { children: ReactNode }) {
           createdAt: u.created_at ? new Date(u.created_at).toISOString().split("T")[0]! : new Date().toISOString().split("T")[0]!,
         });
       }
+      setIsLoading(false);
+    }).catch(() => {
+      setIsLoading(false);
     });
 
     const { data: authListener } = supabase.auth.onAuthStateChange((_event, session) => {
@@ -209,6 +167,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       } else if (_event === "SIGNED_OUT") {
         setUser(null);
       }
+      setIsLoading(false);
     });
 
     return () => {
@@ -329,6 +288,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     <AuthContext.Provider
       value={{
         user,
+        isLoading,
         applications,
         notifications,
         unreadCount,

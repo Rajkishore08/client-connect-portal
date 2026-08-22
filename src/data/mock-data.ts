@@ -633,9 +633,9 @@ export const TRUST_COPY = {
   parentCompany: "ABHIPRIYA GROUPS LLC",
   isEverified: true,
   disclaimer:
-    "One World Solutions is an E-Verified private service-based company operating under ABHIPRIYA GROUPS LLC. We are not affiliated with, or acting on behalf of, any government department, embassy, consulate, or VFS.",
+    "One World Solutions (a division of ABHIPRIYA GROUPS LLC, E-Verified) is an independent private consultancy. We are not affiliated with any government agency, embassy, or consulate.",
   fees:
-    "We assist you with documentation, form preparation, and process guidance under ABHIPRIYA GROUPS LLC (E-Verified). Official government fees are paid separately by you.",
+    "Official government and consular processing fees are paid separately by the applicant.",
 };
 
 export const CONFIRMATION_COPY =

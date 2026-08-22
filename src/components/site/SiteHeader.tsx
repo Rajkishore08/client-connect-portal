@@ -146,10 +146,10 @@ export function SiteHeader() {
             ) : (
               <div className="flex items-center gap-1.5">
                 <Button asChild variant="ghost" size="sm" className="font-bold text-xs">
-                  <Link to="/auth/login">Sign In</Link>
+                  <Link to="/auth/login" preload="intent">Sign In</Link>
                 </Button>
                 <Button asChild size="sm" className="bg-blue-600 hover:bg-blue-700 text-white font-bold text-xs shadow-xs">
-                  <Link to="/auth/signup">Sign Up</Link>
+                  <Link to="/auth/signup" preload="intent">Sign Up</Link>
                 </Button>
               </div>
             )}

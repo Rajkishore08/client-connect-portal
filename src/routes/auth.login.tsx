@@ -59,8 +59,7 @@ function LoginPage() {
     setIsSubmitting(true);
     try {
       await loginWithGoogle();
-      navigate({ to: "/account" });
-    } finally {
+    } catch {
       setIsSubmitting(false);
     }
   };

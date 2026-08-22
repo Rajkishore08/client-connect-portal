@@ -31,8 +31,21 @@ export const Route = createFileRoute("/account")({
 
 function AccountDashboardPage() {
   const navigate = useNavigate();
-  const { user, applications, notifications, unreadCount, logout, markNotificationRead } = useAuth();
+  const { user, isLoading, applications, notifications, unreadCount, logout, markNotificationRead } = useAuth();
   const [searchQuery, setSearchQuery] = useState("");
+
+  if (isLoading) {
+    return (
+      <main className="min-h-[75vh] flex flex-col items-center justify-center px-4 py-12">
+        <div className="flex flex-col items-center space-y-4">
+          <div className="h-10 w-10 animate-spin rounded-full border-4 border-blue-600 border-t-transparent shadow-md" />
+          <p className="text-xs font-extrabold text-slate-600 tracking-wide">
+            Verifying Secure Client Session...
+          </p>
+        </div>
+      </main>
+    );
+  }
 
   if (!user) {
     return (
