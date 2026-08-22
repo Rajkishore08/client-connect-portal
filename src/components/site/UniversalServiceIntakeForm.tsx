@@ -1,5 +1,6 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { format, addDays } from "date-fns";
+import { useAuth } from "@/lib/auth-context";
 import { sendAdminIntakeAlert, sendClientIntakeEmail } from "@/lib/email-service";
 import {
   ArrowRight,
@@ -129,6 +130,8 @@ export function UniversalServiceIntakeForm({
 }: UniversalServiceIntakeProps) {
   const config = SERVICE_CATALOG[category];
 
+  const { user, addApplication } = useAuth();
+
   const [selectedService, setSelectedService] = useState<string>(
     defaultService || config.options[0]?.id || ""
   );
@@ -139,6 +142,13 @@ export function UniversalServiceIntakeForm({
   const [fullName, setFullName] = useState("");
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
+
+  useEffect(() => {
+    if (user) {
+      if (user.name && !fullName) setFullName(user.name);
+      if (user.email && !email) setEmail(user.email);
+    }
+  }, [user]);
   const [companyName, setCompanyName] = useState("");
   const [projectDetails, setProjectDetails] = useState("");
 
@@ -187,6 +197,9 @@ export function UniversalServiceIntakeForm({
         : projectDetails;
 
       await submitServiceRequest({
+        reference: referenceId,
+        category: config.badge,
+        service: serviceName,
         serviceSlug: selectedService,
         serviceTitle: `${config.badge} — ${serviceName}${engagementModel ? ` [${engagementModel}]` : ""}`,
         applicantName: fullName,
@@ -232,6 +245,22 @@ export function UniversalServiceIntakeForm({
       };
       sendClientIntakeEmail(emailPayload).catch(() => {});
       sendAdminIntakeAlert(emailPayload).catch(() => {});
+
+      // Add to Auth Context state so it renders in client account portal dashboard
+      addApplication({
+        serviceCategory: config.badge,
+        serviceTitle: serviceName,
+        applicantName: fullName,
+        applicantEmail: email,
+        phoneUsa: phone,
+        status: "Submitted to Embassy",
+        progressPercent: 25,
+        submittedAt: new Date().toISOString().split("T")[0]!,
+        lastUpdated: "Just now",
+        trackingId: referenceId,
+        documents: uploadedFileUrls,
+        details: formattedNotes || "Intake request submitted.",
+      });
 
       setSubmittedData({
         referenceId,

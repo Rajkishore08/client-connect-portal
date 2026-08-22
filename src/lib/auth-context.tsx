@@ -24,6 +24,9 @@ export interface SavedApplication {
   lastUpdated: string;
   applicantName: string;
   details: string;
+  applicantEmail?: string;
+  phoneUsa?: string;
+  documents?: string[];
 }
 
 export interface NotificationItem {
@@ -175,6 +178,47 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       authListener?.subscription.unsubscribe();
     };
   }, []);
+
+  // Automatically sync intake applications submitted under client's email into their account portal
+  useEffect(() => {
+    if (!user?.email || typeof window === "undefined") return;
+
+    try {
+      const storedStr = localStorage.getItem("ows_submitted_intakes");
+      if (storedStr) {
+        const submittedList: any[] = JSON.parse(storedStr);
+        const matched = submittedList.filter(
+          (item) => item.email && item.email.toLowerCase() === user.email.toLowerCase()
+        );
+
+        if (matched.length > 0) {
+          setApplications((prev) => {
+            const existingRefs = new Set(prev.map((a) => a.trackingId));
+            const newMapped: SavedApplication[] = matched
+              .filter((item) => !existingRefs.has(item.reference))
+              .map((item) => ({
+                id: `app-${item.reference || Date.now()}`,
+                serviceCategory: item.category || "General Service Intake",
+                serviceTitle: item.service || "Submitted Request",
+                applicantName: item.name || user.name,
+                applicantEmail: item.email || user.email,
+                phoneUsa: item.phone || "",
+                status: "Submitted to Embassy",
+                progressPercent: typeof item.progressPercent === "number" ? item.progressPercent : 45,
+                submittedAt: item.date || new Date().toISOString().split("T")[0]!,
+                lastUpdated: "Just now",
+                trackingId: item.reference || `OWS-${Date.now()}`,
+                details: item.notes || "Intake application submitted and logged into vault.",
+                documents: item.documents || [],
+              }));
+            return [...newMapped, ...prev];
+          });
+        }
+      }
+    } catch (err) {
+      console.warn("[AuthContext] Sync intake warning:", err);
+    }
+  }, [user]);
 
   const login = async (email: string, pass: string): Promise<boolean> => {
     try {

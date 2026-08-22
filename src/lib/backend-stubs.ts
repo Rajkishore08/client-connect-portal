@@ -10,6 +10,8 @@ import { supabase } from "@/lib/supabase";
 const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 
 export interface SubmissionPayload {
+  reference?: string;
+  trackingId?: string;
   category?: string;
   service?: string;
   serviceSlug?: string;
@@ -35,6 +37,11 @@ export async function uploadDocuments(files: any[]): Promise<string[]> {
       continue;
     }
 
+    if (item.dataUrl) {
+      uploadedUrls.push(item.dataUrl);
+      continue;
+    }
+
     const file: File = item.file || item;
     if (file && file.name) {
       try {
@@ -46,22 +53,37 @@ export async function uploadDocuments(files: any[]): Promise<string[]> {
 
         if (!uploadError) {
           const { data } = supabase.storage.from("client-documents").getPublicUrl(filePath);
-          uploadedUrls.push(data.publicUrl);
-          continue;
+          if (data?.publicUrl) {
+            uploadedUrls.push(data.publicUrl);
+            continue;
+          }
         }
       } catch (e) {
         console.warn("[Supabase Storage] File upload warning:", e);
       }
-    }
 
-    uploadedUrls.push(item.dataUrl || item.name || `document_${i + 1}.pdf`);
+      // Base64 Data URL fallback for instant offline/browser download capability
+      try {
+        const dataUrl = await new Promise<string>((resolve) => {
+          const reader = new FileReader();
+          reader.onloadend = () => resolve(reader.result as string);
+          reader.readAsDataURL(file);
+        });
+        uploadedUrls.push(dataUrl);
+        continue;
+      } catch {}
+
+      uploadedUrls.push(file.name);
+    } else {
+      uploadedUrls.push(item.name || `document_${i + 1}.pdf`);
+    }
   }
 
   return uploadedUrls;
 }
 
 export async function submitServiceRequest(payload: SubmissionPayload) {
-  const ref = `OWS-${Math.floor(100000 + Math.random() * 900000)}`;
+  const ref = payload.reference || payload.trackingId || `OWS-${Math.floor(100000 + Math.random() * 900000)}`;
   const dateStr = new Date().toISOString().split("T")[0];
 
   const leadRecord = {
@@ -86,8 +108,11 @@ export async function submitServiceRequest(payload: SubmissionPayload) {
     try {
       const existingStr = localStorage.getItem("ows_submitted_intakes");
       const existingList = existingStr ? JSON.parse(existingStr) : [];
-      existingList.unshift(leadRecord);
-      localStorage.setItem("ows_submitted_intakes", JSON.stringify(existingList));
+      // Remove any duplicate reference if re-submitted
+      const filtered = existingList.filter((item: any) => item.reference !== ref);
+      filtered.unshift(leadRecord);
+      localStorage.setItem("ows_submitted_intakes", JSON.stringify(filtered));
+      localStorage.setItem("ows_last_submitted_intake", JSON.stringify(leadRecord));
     } catch (e) {
       console.warn("[Local Storage] Error caching intake:", e);
     }

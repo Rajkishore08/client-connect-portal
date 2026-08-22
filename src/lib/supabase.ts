@@ -99,6 +99,7 @@ export async function saveIntakeToSupabase(payload: Record<string, any>) {
         applicant_name: payload["applicantName"] || payload["fullName"] || "Client",
         phone: payload["phone"] || null,
         details: payload["notes"] || payload["details"] || "",
+        documents: payload["documents"] || payload["fileUrls"] || [],
         tracking_id: payload["trackingId"] || `OWS-${Date.now()}`,
         status: "Submitted to Embassy",
         created_at: new Date().toISOString(),

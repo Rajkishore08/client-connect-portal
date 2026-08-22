@@ -13,8 +13,10 @@ import {
   Trash2,
   Upload,
 } from "lucide-react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { toast } from "sonner";
+
+import { fetchLeadsFromSupabase } from "@/lib/supabase-db";
 
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -76,6 +78,54 @@ export const INITIAL_VAULT_FILES: VaultFile[] = [
   },
 ];
 
+function triggerFileDownload(url: string, fileName: string) {
+  if (!url || url === "#") {
+    toast.info(`Vault File Record: "${fileName}"`, {
+      description: "Encrypted file artifact logged in Supabase Storage vault.",
+    });
+    return;
+  }
+
+  if (url.startsWith("data:") || url.startsWith("blob:")) {
+    const link = document.createElement("a");
+    link.href = url;
+    link.download = fileName;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    toast.success(`Downloaded "${fileName}"`);
+    return;
+  }
+
+  toast.loading(`Preparing "${fileName}" for download...`, { id: "dl-toast" });
+  fetch(url)
+    .then((res) => {
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+      return res.blob();
+    })
+    .then((blob) => {
+      const blobUrl = URL.createObjectURL(blob);
+      const link = document.createElement("a");
+      link.href = blobUrl;
+      link.download = fileName;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      setTimeout(() => URL.revokeObjectURL(blobUrl), 2000);
+      toast.success(`Downloaded "${fileName}"`, { id: "dl-toast" });
+    })
+    .catch(() => {
+      const link = document.createElement("a");
+      link.href = url;
+      link.download = fileName;
+      link.target = "_blank";
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      toast.success(`Downloaded "${fileName}"`, { id: "dl-toast" });
+    });
+}
+
 export function ClientDocumentVault() {
   const [files, setFiles] = useState<VaultFile[]>(INITIAL_VAULT_FILES);
   const [showUploadModal, setShowUploadModal] = useState(false);
@@ -85,6 +135,88 @@ export function ClientDocumentVault() {
     fileCategory: "Passport / ID Copy" as VaultFile["fileCategory"],
     fileName: "",
   });
+
+  // Automatically aggregate real intake documents uploaded by clients
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+
+    const realVaultFiles: VaultFile[] = [];
+
+    // 1. Gather documents from localStorage cached submitted intakes
+    try {
+      const storedStr = localStorage.getItem("ows_submitted_intakes");
+      if (storedStr) {
+        const list: any[] = JSON.parse(storedStr);
+        list.forEach((item, lIdx) => {
+          const docs: any[] = item.documents || item.fileUrls || [];
+          docs.forEach((doc, dIdx) => {
+            const isUrl = typeof doc === "string" && (doc.startsWith("http://") || doc.startsWith("https://") || doc.startsWith("data:"));
+            const fName = typeof doc === "string" ? doc.split("/").pop() || `Intake_Document_${dIdx + 1}` : `Uploaded_Doc_${dIdx + 1}`;
+            const cat = item.category || item.serviceTitle || "";
+            const isTech = cat.toLowerCase().includes("soft") || cat.toLowerCase().includes("web") || cat.toLowerCase().includes("ui") || cat.toLowerCase().includes("tech");
+
+            realVaultFiles.push({
+              id: `real-vault-${item.reference || lIdx}-${dIdx}`,
+              leadReference: item.reference || `OWS-${Date.now()}`,
+              clientName: item.name || item.applicantName || "Client User",
+              fileName: fName,
+              fileCategory: isTech ? "PRD / Tech Specs" : "Passport / ID Copy",
+              fileSizeMb: 1.8,
+              uploadedAt: item.date ? `${item.date} 10:30` : new Date().toISOString().substring(0, 16).replace("T", " "),
+              fileUrl: isUrl ? doc : "#",
+              status: "Verified",
+            });
+          });
+        });
+      }
+    } catch (err) {
+      console.warn("[Vault] Local intake load warning:", err);
+    }
+
+    // 2. Gather documents from Supabase DB leads table
+    fetchLeadsFromSupabase().then((dbLeads) => {
+      dbLeads.forEach((lead) => {
+        if (lead.documents && lead.documents.length > 0) {
+          lead.documents.forEach((doc, dIdx) => {
+            const isUrl = typeof doc === "string" && (doc.startsWith("http://") || doc.startsWith("https://") || doc.startsWith("data:"));
+            const fName = typeof doc === "string" ? doc.split("/").pop() || `Document_${dIdx + 1}` : `Uploaded_Doc_${dIdx + 1}`;
+            const isTech = lead.category.toLowerCase().includes("soft") || lead.category.toLowerCase().includes("web") || lead.category.toLowerCase().includes("ui") || lead.category.toLowerCase().includes("tech");
+
+            const fileId = `db-vault-${lead.reference}-${dIdx}`;
+            if (!realVaultFiles.some((f) => f.fileName === fName || f.id === fileId)) {
+              realVaultFiles.push({
+                id: fileId,
+                leadReference: lead.reference,
+                clientName: lead.name,
+                fileName: fName,
+                fileCategory: isTech ? "PRD / Tech Specs" : "Passport / ID Copy",
+                fileSizeMb: 2.1,
+                uploadedAt: `${lead.date} 12:00`,
+                fileUrl: isUrl ? doc : "#",
+                status: "Verified",
+              });
+            }
+          });
+        }
+      });
+
+      if (realVaultFiles.length > 0) {
+        setFiles((prev) => {
+          const existingIds = new Set(prev.map((f) => f.id));
+          const newOnly = realVaultFiles.filter((rf) => !existingIds.has(rf.id));
+          return [...newOnly, ...prev];
+        });
+      }
+    }).catch(() => {
+      if (realVaultFiles.length > 0) {
+        setFiles((prev) => {
+          const existingIds = new Set(prev.map((f) => f.id));
+          const newOnly = realVaultFiles.filter((rf) => !existingIds.has(rf.id));
+          return [...newOnly, ...prev];
+        });
+      }
+    });
+  }, []);
 
   const handleSimulatedUpload = (e: React.FormEvent) => {
     e.preventDefault();
@@ -204,12 +336,8 @@ export function ClientDocumentVault() {
                     <Button
                       variant="outline"
                       size="sm"
-                      onClick={() =>
-                        toast.info(`Downloading "${file.fileName}"`, {
-                          description: "Retrieved encrypted file from Supabase Storage.",
-                        })
-                      }
-                      className="h-8 text-[11px] font-bold cursor-pointer"
+                      onClick={() => triggerFileDownload(file.fileUrl, file.fileName)}
+                      className="h-8 text-[11px] font-bold bg-blue-50 hover:bg-blue-100 text-blue-700 border-blue-200 cursor-pointer"
                     >
                       <Download className="h-3.5 w-3.5 text-blue-600 mr-1" /> Download
                     </Button>

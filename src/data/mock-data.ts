@@ -272,7 +272,7 @@ export interface Milestone {
 export function getDefaultMilestonesForCategory(category: string): Milestone[] {
   const cat = (category || "").toLowerCase();
   
-  if (cat.includes("web") || cat.includes("software")) {
+  if (cat.includes("web") || cat.includes("software") || cat.includes("ui") || cat.includes("app") || cat.includes("tech")) {
     return [
       { id: "m-1", title: "PRD & Scope Architecture", status: "Completed", ref: "PRD-APPROVED" },
       { id: "m-2", title: "UI/UX Design & Prototype", status: "In Progress", ref: "FIGMA-V2" },

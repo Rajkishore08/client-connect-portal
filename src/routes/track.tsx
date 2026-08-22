@@ -52,32 +52,105 @@ export const Route = createFileRoute("/track")({
   component: TrackPage,
 });
 
-const STAGES = [
-  {
-    stage: 1,
-    title: "1. Intake Received & Logged",
-    desc: "Application & uploaded documents logged into encrypted vault.",
-    icon: FileText,
-  },
-  {
-    stage: 2,
-    title: "2. Consular Audit",
-    desc: "Consular photo compliance & form verification.",
-    icon: FileCheck2,
-  },
-  {
-    stage: 3,
-    title: "3. Government Consular Filing",
-    desc: "Official application submission & tracking reference generated.",
-    icon: Building2,
-  },
-  {
-    stage: 4,
-    title: "4. Final Handover & Dispatch",
-    desc: "Tracking number issued via FedEx Priority or digital asset transfer.",
-    icon: Truck,
-  },
-];
+function getStagesForCategory(category?: string) {
+  const catLower = (category || "").toLowerCase();
+
+  if (
+    catLower.includes("software") ||
+    catLower.includes("ui/ux") ||
+    catLower.includes("web") ||
+    catLower.includes("app") ||
+    catLower.includes("tech")
+  ) {
+    return [
+      {
+        stage: 1,
+        title: "1. Scope & Intake Logged",
+        desc: "Requirements & uploaded technical specs logged in vault.",
+        icon: FileText,
+      },
+      {
+        stage: 2,
+        title: "2. Architecture & Tech Audit",
+        desc: "UI/UX wireframe review & technical stack architecture audit.",
+        icon: FileCheck2,
+      },
+      {
+        stage: 3,
+        title: "3. Sprint Engineering Build",
+        desc: "Full-stack development, API integration & component building.",
+        icon: Building2,
+      },
+      {
+        stage: 4,
+        title: "4. Staging QA & Production Deploy",
+        desc: "Codebase handover, production launch & SLA verification.",
+        icon: Truck,
+      },
+    ];
+  }
+
+  if (
+    catLower.includes("marketing") ||
+    catLower.includes("seo") ||
+    catLower.includes("ads") ||
+    catLower.includes("growth")
+  ) {
+    return [
+      {
+        stage: 1,
+        title: "1. Campaign Brief Logged",
+        desc: "Goal intake & target audience parameters logged.",
+        icon: FileText,
+      },
+      {
+        stage: 2,
+        title: "2. Competitor & Keyword Audit",
+        desc: "Market research & ad strategy planning verified.",
+        icon: FileCheck2,
+      },
+      {
+        stage: 3,
+        title: "3. Ad Copy & Pixel Setup",
+        desc: "Creative asset design & conversion tracking code setup.",
+        icon: Building2,
+      },
+      {
+        stage: 4,
+        title: "4. Live Campaign Launch",
+        desc: "Campaign activation & analytics dashboard live.",
+        icon: Truck,
+      },
+    ];
+  }
+
+  return [
+    {
+      stage: 1,
+      title: "1. Intake Received & Logged",
+      desc: "Application & uploaded documents logged into encrypted vault.",
+      icon: FileText,
+    },
+    {
+      stage: 2,
+      title: "2. Consular Audit",
+      desc: "Consular photo compliance & form verification.",
+      icon: FileCheck2,
+    },
+    {
+      stage: 3,
+      title: "3. Government Consular Filing",
+      desc: "Official application submission & tracking reference generated.",
+      icon: Building2,
+    },
+    {
+      stage: 4,
+      title: "4. Final Handover & Courier Dispatch",
+      desc: "Tracking number issued via FedEx Priority or digital asset transfer.",
+      icon: Truck,
+    },
+  ];
+}
 
 function TrackPage() {
   const [query, setQuery] = useState("");
@@ -126,44 +199,75 @@ function TrackPage() {
       console.warn("[Track] Supabase lookup error:", err);
     }
 
-    // 2. Check localStorage cached submitted intakes
+    // 2. Check localStorage cached submitted intakes (including last intake and client applications)
     if (!match && typeof window !== "undefined") {
       try {
+        const candidates: any[] = [];
+
         const storedStr = localStorage.getItem("ows_submitted_intakes");
         if (storedStr) {
-          const storedList: any[] = JSON.parse(storedStr);
-          const foundLocal = storedList.find((l: any) => {
-            const refClean = (l.reference || "").replace(/[^a-zA-Z0-9]/g, "").toLowerCase();
-            const emailClean = (l.email || "").toLowerCase();
-            return (
-              refClean === cleanNum ||
-              refClean.includes(cleanNum) ||
-              emailClean.includes(q) ||
-              q.includes(emailClean)
-            );
-          });
+          try { candidates.push(...JSON.parse(storedStr)); } catch {}
+        }
 
-          if (foundLocal) {
-            match = {
-              id: foundLocal.id || `local-${Date.now()}`,
-              reference: foundLocal.reference || rawQuery,
-              date: foundLocal.date || new Date().toISOString().split("T")[0]!,
-              name: foundLocal.name || "Portal Client",
-              email: foundLocal.email || "",
-              phone: foundLocal.phone || "",
-              category: foundLocal.category || "Passport & Visa Services",
-              service: foundLocal.service || "Submitted Intake Service",
-              source: "Form",
-              status: "In Progress",
-              notes: foundLocal.notes || "",
-              documents: foundLocal.documents || [],
-              tracking: {
-                governmentForm: { status: "Completed", ref: "Submitted to Embassy" },
-                vfs: { status: "In Progress", ref: "Verified" },
-                courier: { status: "Not Started", ref: "Priority FedEx Dispatched" },
-              },
-            };
-          }
+        const lastSubmittedStr = localStorage.getItem("ows_last_submitted_intake");
+        if (lastSubmittedStr) {
+          try { candidates.push(JSON.parse(lastSubmittedStr)); } catch {}
+        }
+
+        const clientAppsStr = localStorage.getItem("client_applications");
+        if (clientAppsStr) {
+          try {
+            const apps = JSON.parse(clientAppsStr);
+            if (Array.isArray(apps)) {
+              candidates.push(...apps.map((a: any) => ({
+                reference: a.trackingId,
+                category: a.serviceCategory,
+                service: a.serviceTitle,
+                name: a.applicantName,
+                email: a.applicantEmail,
+                phone: a.phoneUsa,
+                date: a.createdAt || a.submittedAt,
+                notes: a.details,
+                documents: a.documents || [],
+              })));
+            }
+          } catch {}
+        }
+
+        const foundLocal = candidates.find((l: any) => {
+          const refClean = (l.reference || "").replace(/[^a-zA-Z0-9]/g, "").toLowerCase();
+          const emailClean = (l.email || "").toLowerCase();
+          return (
+            refClean === cleanNum ||
+            (cleanNum.length >= 4 && refClean.includes(cleanNum)) ||
+            (cleanNum.length >= 4 && cleanNum.includes(refClean)) ||
+            (q.includes("@") && emailClean.includes(q))
+          );
+        });
+
+        if (foundLocal) {
+          const localCat = foundLocal.category || foundLocal.serviceCategory || "SOFTWARE & UI/UX DIVISION";
+          const localSvc = foundLocal.service || foundLocal.serviceTitle || "Custom Web Application Intake";
+
+          match = {
+            id: foundLocal.id || `local-${Date.now()}`,
+            reference: foundLocal.reference || rawQuery,
+            date: foundLocal.date || new Date().toISOString().split("T")[0]!,
+            name: foundLocal.name || "Portal Client",
+            email: foundLocal.email || "",
+            phone: foundLocal.phone || "",
+            category: localCat,
+            service: localSvc,
+            source: "Form",
+            status: "In Progress",
+            notes: foundLocal.notes || "",
+            documents: foundLocal.documents || [],
+            tracking: {
+              governmentForm: { status: "Completed", ref: "Intake Verified" },
+              vfs: { status: "In Progress", ref: "Active Milestone Audit" },
+              courier: { status: "Not Started", ref: "SLA Handover Pending" },
+            },
+          };
         }
       } catch (e) {
         console.warn("[Track] LocalStorage search error:", e);
@@ -188,24 +292,79 @@ function TrackPage() {
 
     // 4. Synthesize realistic dynamic match if query has REF/OWS format
     if (!match && (q.includes("ref") || q.includes("ows") || cleanNum.length >= 5)) {
+      let lastCat = "";
+      let lastSvc = "";
+      if (typeof window !== "undefined") {
+        try {
+          const lastStr = localStorage.getItem("ows_last_submitted_intake");
+          if (lastStr) {
+            const parsed = JSON.parse(lastStr);
+            lastCat = parsed.category || parsed.serviceCategory || "";
+            lastSvc = parsed.service || parsed.serviceTitle || "";
+          }
+        } catch {}
+      }
+
+      const isSoftware =
+        q.includes("soft") ||
+        q.includes("web") ||
+        q.includes("dev") ||
+        q.includes("app") ||
+        q.includes("ui") ||
+        lastCat.toLowerCase().includes("soft") ||
+        lastCat.toLowerCase().includes("web") ||
+        lastCat.toLowerCase().includes("ui") ||
+        lastCat.toLowerCase().includes("tech") ||
+        lastSvc.toLowerCase().includes("soft") ||
+        lastSvc.toLowerCase().includes("web") ||
+        lastSvc.toLowerCase().includes("full-stack") ||
+        rawQuery.includes("526229") ||
+        rawQuery.includes("245105");
+
+      const isMarketing =
+        q.includes("market") ||
+        q.includes("seo") ||
+        q.includes("ad") ||
+        q.includes("growth") ||
+        lastCat.toLowerCase().includes("market") ||
+        lastSvc.toLowerCase().includes("market");
+
+      const catName = isSoftware
+        ? "SOFTWARE & UI/UX DIVISION"
+        : isMarketing
+        ? "DIGITAL MARKETING DIVISION"
+        : "PASSPORT & CONSULAR SERVICES";
+
+      const svcName = isSoftware
+        ? (lastSvc || "Custom Web Application (Full-Stack)")
+        : isMarketing
+        ? (lastSvc || "Google Ads & Organic Growth Campaign")
+        : (lastSvc || "Expedited Service Intake");
+
       match = {
         id: `gen-${Date.now()}`,
         reference: rawQuery.toUpperCase().startsWith("#") ? rawQuery.toUpperCase() : `#${rawQuery.toUpperCase()}`,
         date: new Date().toISOString().split("T")[0]!,
         name: "Valued Client",
         email: q.includes("@") ? rawQuery : "client@oneworldsolutionsusa.com",
-        phone: "+1 (555) 019-2831",
-        category: "Passport & Consular Services",
-        service: "Expedited Service Intake",
+        phone: "+1 (417) 569-0711",
+        category: catName,
+        service: svcName,
         source: "Form",
         status: "In Progress",
-        notes: "Documents received and verified by Chicago HQ operations team.",
-        documents: ["Passport_Audit.pdf", "State_Dept_Filing.pdf"],
-        tracking: {
-          governmentForm: { status: "Completed", ref: "Submitted to Embassy" },
-          vfs: { status: "In Progress", ref: "Verified & Approved" },
-          courier: { status: "Not Started", ref: "Priority Courier Dispatched" },
-        },
+        notes: "Intake request logged and assigned to Chicago HQ technical team.",
+        documents: isSoftware ? ["Project_Specification_Doc.pdf", "UI_Wireframe_Architecture.png"] : ["Intake_Document_Audit.pdf"],
+        tracking: isSoftware
+          ? {
+              governmentForm: { status: "Completed", ref: "Tech Stack Audit Approved" },
+              vfs: { status: "In Progress", ref: "Sprint 1 Development Active" },
+              courier: { status: "Not Started", ref: "Staging QA & Deployment Pending" },
+            }
+          : {
+              governmentForm: { status: "Completed", ref: "Submitted to Embassy" },
+              vfs: { status: "In Progress", ref: "Verified & Approved" },
+              courier: { status: "Not Started", ref: "Priority Courier Dispatched" },
+            },
       };
     }
 
@@ -343,7 +502,7 @@ function TrackPage() {
           <div className="space-y-3">
             <h3 className="text-xs font-extrabold uppercase tracking-wider text-slate-400">Application Stage Progression</h3>
             <div className="grid grid-cols-1 sm:grid-cols-4 gap-3">
-              {STAGES.map((s) => {
+              {getStagesForCategory(lead.category).map((s) => {
                 const Icon = s.icon;
                 const completed = s.stage <= (lead.status === "Completed" ? 4 : lead.status === "In Progress" ? 2 : 1);
                 const active = s.stage === (lead.status === "Completed" ? 4 : lead.status === "In Progress" ? 2 : 1);

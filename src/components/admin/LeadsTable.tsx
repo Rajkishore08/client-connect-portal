@@ -86,6 +86,54 @@ const STATUS_VARIANT: Record<LeadStatus, string> = {
   Archived: "bg-slate-100 text-slate-700 border-slate-300 font-bold",
 };
 
+function triggerFileDownload(url: string, fileName: string) {
+  if (!url || url === "#") {
+    toast.info(`Vault File Record: "${fileName}"`, {
+      description: "Encrypted file record logged into vault.",
+    });
+    return;
+  }
+
+  if (url.startsWith("data:") || url.startsWith("blob:")) {
+    const link = document.createElement("a");
+    link.href = url;
+    link.download = fileName;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    toast.success(`Downloaded "${fileName}"`);
+    return;
+  }
+
+  toast.loading(`Preparing "${fileName}" for download...`, { id: "dl-toast" });
+  fetch(url)
+    .then((res) => {
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+      return res.blob();
+    })
+    .then((blob) => {
+      const blobUrl = URL.createObjectURL(blob);
+      const link = document.createElement("a");
+      link.href = blobUrl;
+      link.download = fileName;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      setTimeout(() => URL.revokeObjectURL(blobUrl), 2000);
+      toast.success(`Downloaded "${fileName}"`, { id: "dl-toast" });
+    })
+    .catch(() => {
+      const link = document.createElement("a");
+      link.href = url;
+      link.download = fileName;
+      link.target = "_blank";
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      toast.success(`Downloaded "${fileName}"`, { id: "dl-toast" });
+    });
+}
+
 export function LeadsTable() {
   const [leads, setLeads] = useState<Lead[]>([]);
   const [loading, setLoading] = useState(true);
@@ -919,6 +967,48 @@ export function LeadsTable() {
                                   </Button>
                                 </div>
                               </div>
+
+                              {/* Uploaded Intake Documents & Attachments Block */}
+                              <div className="pt-3 border-t border-slate-100 space-y-2">
+                                <div className="flex items-center justify-between">
+                                  <p className="text-[11px] font-bold text-slate-700 uppercase tracking-wider flex items-center gap-1.5">
+                                    <Paperclip className="h-3.5 w-3.5 text-blue-600" />
+                                    Uploaded Intake Files &amp; Attachments
+                                  </p>
+                                  <Badge variant="outline" className="text-[10px] font-bold bg-blue-50 text-blue-700 border-blue-200">
+                                    {lead.documents && lead.documents.length > 0 ? `${lead.documents.length} File(s)` : "No Files Uploaded"}
+                                  </Badge>
+                                </div>
+
+                                {lead.documents && lead.documents.length > 0 ? (
+                                  <div className="grid grid-cols-1 gap-2">
+                                    {lead.documents.map((docUrl, idx) => {
+                                      const isUrl = typeof docUrl === "string" && (docUrl.startsWith("http://") || docUrl.startsWith("https://") || docUrl.startsWith("data:"));
+                                      const fileName = typeof docUrl === "string" ? docUrl.split("/").pop() || `Document_${idx + 1}` : `Uploaded_Doc_${idx + 1}`;
+
+                                      return (
+                                        <div key={idx} className="flex items-center justify-between p-2.5 rounded-xl bg-slate-50 border border-slate-200 text-xs">
+                                          <div className="flex items-center gap-2 min-w-0">
+                                            <FileText className="h-4 w-4 text-blue-600 shrink-0" />
+                                            <span className="font-bold text-slate-800 truncate text-[11px]">{fileName}</span>
+                                          </div>
+                                          <Button
+                                            type="button"
+                                            variant="outline"
+                                            size="sm"
+                                            onClick={() => triggerFileDownload(docUrl, fileName)}
+                                            className="h-7 text-[10px] font-bold bg-blue-50 hover:bg-blue-100 text-blue-700 border-blue-200 cursor-pointer"
+                                          >
+                                            <Download className="h-3 w-3 mr-1" /> Download
+                                          </Button>
+                                        </div>
+                                      );
+                                    })}
+                                  </div>
+                                ) : (
+                                  <p className="text-[11px] text-slate-400 italic">No document attachments uploaded during intake submission.</p>
+                                )}
+                              </div>
                             </div>
                           </div>
                         </td>
@@ -1172,6 +1262,50 @@ export function LeadsTable() {
               </div>
 
               {/* Client Tracker Link Preview */}
+              {/* Uploaded Intake Documents & Attachments Block */}
+              <div className="p-4 rounded-2xl bg-slate-50 border border-slate-200 space-y-2">
+                <div className="flex items-center justify-between">
+                  <p className="text-xs font-extrabold text-slate-800 uppercase tracking-wider flex items-center gap-1.5">
+                    <Paperclip className="h-4 w-4 text-blue-600" />
+                    Uploaded Intake Files &amp; Attachments
+                  </p>
+                  <Badge variant="outline" className="text-[10px] font-bold bg-blue-100 text-blue-800 border-blue-300">
+                    {activeManageLead.documents && activeManageLead.documents.length > 0
+                      ? `${activeManageLead.documents.length} File(s)`
+                      : "No Files Uploaded"}
+                  </Badge>
+                </div>
+
+                {activeManageLead.documents && activeManageLead.documents.length > 0 ? (
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 pt-1">
+                    {activeManageLead.documents.map((docUrl, idx) => {
+                      const isUrl = typeof docUrl === "string" && (docUrl.startsWith("http://") || docUrl.startsWith("https://") || docUrl.startsWith("data:"));
+                      const fileName = typeof docUrl === "string" ? docUrl.split("/").pop() || `Document_${idx + 1}` : `Uploaded_Doc_${idx + 1}`;
+
+                      return (
+                        <div key={idx} className="flex items-center justify-between p-2.5 rounded-xl bg-white border border-slate-200 text-xs">
+                          <div className="flex items-center gap-2 min-w-0">
+                            <FileText className="h-4 w-4 text-blue-600 shrink-0" />
+                            <span className="font-bold text-slate-800 truncate text-[11px]">{fileName}</span>
+                          </div>
+                          <Button
+                            type="button"
+                            variant="outline"
+                            size="sm"
+                            onClick={() => triggerFileDownload(docUrl, fileName)}
+                            className="h-7 text-[10px] font-bold bg-blue-50 hover:bg-blue-100 text-blue-700 border-blue-200 cursor-pointer"
+                          >
+                            <Download className="h-3 w-3 mr-1" /> Download
+                          </Button>
+                        </div>
+                      );
+                    })}
+                  </div>
+                ) : (
+                  <p className="text-[11px] text-slate-400 italic">No document attachments uploaded during intake submission.</p>
+                )}
+              </div>
+
               <div className="p-3.5 rounded-2xl bg-blue-50/70 border border-blue-200/80 flex items-center justify-between gap-3">
                 <div>
                   <p className="font-bold text-slate-900 text-xs">Live Client Track View</p>
