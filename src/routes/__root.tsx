@@ -127,73 +127,99 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
         rel: "stylesheet",
         href: "https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap",
       },
-      { rel: "icon", href: "/favicon.ico", sizes: "any" },
-      { rel: "icon", href: "/favicon.svg", type: "image/svg+xml" },
-      { rel: "icon", href: "/favicon.png", type: "image/png" },
-      { rel: "apple-touch-icon", href: "/logo-square.png" },
-      { rel: "shortcut icon", href: "/favicon.ico" },
+      { rel: "icon", href: "https://www.oneworldsolutionsusa.com/favicon-symbol.png", type: "image/png", sizes: "192x192" },
+      { rel: "icon", href: "https://www.oneworldsolutionsusa.com/logo-square.png", type: "image/png", sizes: "512x512" },
+      { rel: "icon", href: "https://www.oneworldsolutionsusa.com/favicon.png", type: "image/png" },
+      { rel: "icon", href: "https://www.oneworldsolutionsusa.com/favicon.ico", sizes: "48x48" },
+      { rel: "apple-touch-icon", href: "https://www.oneworldsolutionsusa.com/logo-square.png", sizes: "180x180" },
+      { rel: "shortcut icon", href: "https://www.oneworldsolutionsusa.com/favicon.ico" },
     ],
     scripts: [
       {
         type: "application/ld+json",
         children: JSON.stringify({
           "@context": "https://schema.org",
-          "@type": "ProfessionalService",
-          "name": "One World Solutions",
-          "url": "https://www.oneworldsolutionsusa.com",
-          "logo": "https://www.oneworldsolutionsusa.com/logo-square.png",
-          "image": "https://www.oneworldsolutionsusa.com/logo-square.png",
-          "telephone": "+1-417-569-0711",
-          "email": "support@oneworldsolutionsusa.com",
-          "address": {
-            "@type": "PostalAddress",
-            "streetAddress": "Chicago",
-            "addressLocality": "Chicago",
-            "addressRegion": "IL",
-            "postalCode": "60613",
-            "addressCountry": "US"
-          },
-          "geo": {
-            "@type": "GeoCoordinates",
-            "latitude": 41.8781,
-            "longitude": -87.6298
-          },
-          "priceRange": "$$",
-          "aggregateRating": {
-            "@type": "AggregateRating",
-            "ratingValue": "4.9",
-            "reviewCount": "2500"
-          },
-          "hasOfferCatalog": {
-            "@type": "OfferCatalog",
-            "name": "One World Solutions Services",
-            "itemListElement": [
-              {
-                "@type": "Offer",
-                "itemOffered": {
-                  "@type": "Service",
-                  "name": "Passport Services Company USA",
-                  "description": "Expedited US Passport Renewal, OCI Card Application & Consular Surrender."
-                }
+          "@graph": [
+            {
+              "@type": "Organization",
+              "@id": "https://www.oneworldsolutionsusa.com/#organization",
+              "name": "One World Solutions",
+              "url": "https://www.oneworldsolutionsusa.com",
+              "logo": {
+                "@type": "ImageObject",
+                "url": "https://www.oneworldsolutionsusa.com/logo-square.png",
+                "contentUrl": "https://www.oneworldsolutionsusa.com/logo-square.png",
+                "width": "512",
+                "height": "512"
               },
-              {
-                "@type": "Offer",
-                "itemOffered": {
-                  "@type": "Service",
-                  "name": "Web Development Company USA",
-                  "description": "Custom SaaS Platforms, AI Agents, RAG Vector Search & React Applications."
-                }
-              },
-              {
-                "@type": "Offer",
-                "itemOffered": {
-                  "@type": "Service",
-                  "name": "Digital Marketing Services USA",
-                  "description": "Technical SEO, Google/Meta PPC Ads & Conversion Rate Optimization."
-                }
+              "image": "https://www.oneworldsolutionsusa.com/logo-square.png",
+              "telephone": "+1-417-569-0711",
+              "email": "support@oneworldsolutionsusa.com"
+            },
+            {
+              "@type": "WebSite",
+              "@id": "https://www.oneworldsolutionsusa.com/#website",
+              "url": "https://www.oneworldsolutionsusa.com",
+              "name": "One World Solutions",
+              "publisher": {
+                "@id": "https://www.oneworldsolutionsusa.com/#organization"
               }
-            ]
-          }
+            },
+            {
+              "@type": "ProfessionalService",
+              "@id": "https://www.oneworldsolutionsusa.com/#service",
+              "name": "One World Solutions",
+              "url": "https://www.oneworldsolutionsusa.com",
+              "logo": "https://www.oneworldsolutionsusa.com/logo-square.png",
+              "image": "https://www.oneworldsolutionsusa.com/logo-square.png",
+              "telephone": "+1-417-569-0711",
+              "email": "support@oneworldsolutionsusa.com",
+              "address": {
+                "@type": "PostalAddress",
+                "streetAddress": "Chicago",
+                "addressLocality": "Chicago",
+                "addressRegion": "IL",
+                "postalCode": "60613",
+                "addressCountry": "US"
+              },
+              "geo": {
+                "@type": "GeoCoordinates",
+                "latitude": 41.8781,
+                "longitude": -87.6298
+              },
+              "priceRange": "$$",
+              "hasOfferCatalog": {
+                "@type": "OfferCatalog",
+                "name": "One World Solutions Services",
+                "itemListElement": [
+                  {
+                    "@type": "Offer",
+                    "itemOffered": {
+                      "@type": "Service",
+                      "name": "Passport Services Company USA",
+                      "description": "Expedited US Passport Renewal, OCI Card Application & Consular Surrender."
+                    }
+                  },
+                  {
+                    "@type": "Offer",
+                    "itemOffered": {
+                      "@type": "Service",
+                      "name": "Web Development Company USA",
+                      "description": "Custom SaaS Platforms, AI Agents, RAG Vector Search & React Applications."
+                    }
+                  },
+                  {
+                    "@type": "Offer",
+                    "itemOffered": {
+                      "@type": "Service",
+                      "name": "Digital Marketing Services USA",
+                      "description": "Technical SEO, Google/Meta PPC Ads & Conversion Rate Optimization."
+                    }
+                  }
+                ]
+              }
+            }
+          ]
         }),
       },
     ],

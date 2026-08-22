@@ -26,6 +26,7 @@ import { FaqSection } from "@/components/site/FaqSection";
 import { InteractiveCapabilitiesGallery } from "@/components/site/InteractiveCapabilitiesGallery";
 
 import { ServiceIntakeWizardModal } from "@/components/site/ServiceIntakeWizardModal";
+import { TrustBanner } from "@/components/site/SiteFooter";
 import { StepsBanner } from "@/components/site/StepsBanner";
 import { TurnaroundEstimator } from "@/components/site/TurnaroundEstimator";
 import { Badge } from "@/components/ui/badge";
