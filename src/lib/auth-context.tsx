@@ -1,6 +1,7 @@
 import { createContext, useContext, useEffect, useState, type ReactNode } from "react";
 import { toast } from "sonner";
 
+import { sendAdminIntakeAlert, sendClientIntakeEmail } from "@/lib/email-service";
 import { signInWithEmail, signInWithGoogle, signOutUser, signUpWithEmail, supabase } from "@/lib/supabase";
 
 export interface UserProfile {
@@ -269,7 +270,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     };
     setApplications((prev) => [newApp, ...prev]);
 
-    // Also push a notification
+    // Push local in-app session notification
     const newNotif: NotificationItem = {
       id: `notif-${Date.now()}`,
       title: "New Application Intake Submitted",
@@ -280,6 +281,20 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       applicationId: newApp.id,
     };
     setNotifications((prev) => [newNotif, ...prev]);
+
+    // Automatically trigger Resend transactional email notification to client and admin
+    if (user?.email) {
+      const emailPayload = {
+        clientName: user.name || app.applicantName || "Valued Client",
+        clientEmail: user.email,
+        serviceTitle: app.serviceTitle,
+        serviceCategory: app.serviceCategory,
+        trackingId: app.trackingId,
+        details: app.details,
+      };
+      sendClientIntakeEmail(emailPayload).catch(() => {});
+      sendAdminIntakeAlert(emailPayload).catch(() => {});
+    }
   };
 
   const unreadCount = notifications.filter((n) => !n.read).length;

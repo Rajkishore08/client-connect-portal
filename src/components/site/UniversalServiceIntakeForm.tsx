@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { format, addDays } from "date-fns";
+import { sendAdminIntakeAlert, sendClientIntakeEmail } from "@/lib/email-service";
 import {
   ArrowRight,
   CheckCircle2,
@@ -219,14 +220,18 @@ export function UniversalServiceIntakeForm({
         engagementModel: engagementModel,
       });
 
-      // Dispatch automated confirmation email
-      await sendIntakeConfirmationEmail({
-        email: email,
-        name: fullName,
-        service: serviceName,
-        reference: referenceId,
-        consultationSlot: preferredDate ? `${preferredDate} (${preferredSlot})` : "Pending Confirmation",
-      });
+      // Dispatch automated Resend transactional email to client and admin
+      const emailPayload = {
+        clientName: fullName,
+        clientEmail: email,
+        clientPhone: phone,
+        serviceTitle: serviceName,
+        serviceCategory: config.badge,
+        trackingId: referenceId,
+        details: formattedNotes,
+      };
+      sendClientIntakeEmail(emailPayload).catch(() => {});
+      sendAdminIntakeAlert(emailPayload).catch(() => {});
 
       setSubmittedData({
         referenceId,
