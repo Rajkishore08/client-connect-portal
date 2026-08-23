@@ -1,16 +1,12 @@
 import { Link } from "@tanstack/react-router";
 import {
   ArrowLeft,
-  CheckCircle2,
   Eye,
   EyeOff,
-  KeyRound,
   Loader2,
   Lock,
   Mail,
   ShieldCheck,
-  Sparkles,
-  UserCheck,
 } from "lucide-react";
 import { useState } from "react";
 import { toast } from "sonner";
@@ -57,15 +53,6 @@ export function AdminLogin({ onSuccess }: AdminLoginProps) {
     }
   };
 
-  const handleFillDemoCredentials = () => {
-    setEmail("admin01@oneworldsolutionsusa.com");
-    setPassword("Priyanka@OneWorld1028");
-    setError("");
-    toast.info("Demo Master Credentials Loaded", {
-      description: "Click 'Sign in to Master Console' to enter.",
-    });
-  };
-
   return (
     <main className="min-h-screen bg-slate-950 text-white flex items-center justify-center p-4 sm:p-6 relative overflow-hidden selection:bg-blue-600 selection:text-white">
       {/* Ambient Decorative Backdrop Glows */}
@@ -101,26 +88,6 @@ export function AdminLogin({ onSuccess }: AdminLoginProps) {
                 Authorized Super Admin &amp; Enterprise Lead Operations Center
               </p>
             </div>
-          </div>
-
-          {/* Quick Demo Credentials Autofill Helper */}
-          <div className="p-3.5 rounded-2xl bg-blue-950/40 border border-blue-900/60 flex items-center justify-between gap-3 text-xs">
-            <div className="flex items-center gap-2 text-blue-300 min-w-0">
-              <Sparkles className="h-4 w-4 text-blue-400 shrink-0" />
-              <div className="truncate">
-                <p className="font-bold text-[11px] text-blue-200">1-Click Auto-Fill</p>
-                <p className="text-[10px] text-blue-400/90 truncate font-mono">admin01@oneworldsolutionsusa.com</p>
-              </div>
-            </div>
-            <Button
-              type="button"
-              variant="outline"
-              size="sm"
-              onClick={handleFillDemoCredentials}
-              className="h-7 text-[10px] font-extrabold bg-blue-600/20 hover:bg-blue-600 hover:text-white border-blue-500/40 text-blue-300 shrink-0 cursor-pointer transition-all"
-            >
-              Autofill Demo
-            </Button>
           </div>
 
           {/* Login Form */}

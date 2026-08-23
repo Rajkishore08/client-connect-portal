@@ -39,6 +39,7 @@ import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { type Lead, type LeadStatus } from "@/data/mock-data";
 import { fetchLeadsFromSupabase, updateLeadInSupabase } from "@/lib/supabase-db";
+import { sendStatusUpdateEmail } from "@/lib/email-service";
 import { type AdminTab } from "@/components/admin/SaaSAdminLayout";
 
 interface IntakeNotesData {
@@ -103,10 +104,23 @@ export function AdminDashboard({ onNavigateTab }: AdminDashboardProps) {
     setUpdatingId(leadId);
     try {
       await updateLeadInSupabase(leadId, { status: newStatus });
+      
+      const targetLead = leads.find((l) => l.id === leadId || l.reference === leadRef);
+      if (targetLead && targetLead.email) {
+        sendStatusUpdateEmail({
+          clientName: targetLead.name,
+          clientEmail: targetLead.email,
+          serviceTitle: targetLead.service,
+          trackingId: targetLead.reference,
+          newStatus: newStatus,
+          statusDetails: `Your application stage has been updated to "${newStatus}" by our operations director.`,
+        }).catch(() => {});
+      }
+
       setLeads((prev) =>
         prev.map((l) => (l.id === leadId || l.reference === leadRef ? { ...l, status: newStatus } : l))
       );
-      toast.success(`Lead #${leadRef} status updated to "${newStatus}"`);
+      toast.success(`Lead #${leadRef} status updated to "${newStatus}" and Resend notification sent`);
     } catch (e) {
       toast.error("Failed to update status.");
     } finally {
