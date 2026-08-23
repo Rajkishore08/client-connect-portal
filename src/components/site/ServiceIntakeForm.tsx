@@ -25,6 +25,7 @@ import {
   type SpeedTier,
 } from "@/data/mock-data";
 import { submitServiceRequest, uploadDocuments } from "@/lib/backend-stubs";
+import { sendClientIntakeEmail, sendAdminIntakeAlert } from "@/lib/email-service";
 
 function Field({
   field,
@@ -122,6 +123,22 @@ export function ServiceIntakeForm({ service }: { service: ServiceConfig }) {
         },
         fileNames: files.map((f) => f.name),
       });
+
+      const clientEmail = values["email"] || "";
+      if (clientEmail) {
+        const emailPayload = {
+          clientName: values["fullName"] || "Valued Client",
+          clientEmail: clientEmail,
+          clientPhone: values["phoneUsa"] || values["phone"] || "",
+          serviceTitle: service.title,
+          serviceCategory: "Passport & Consular Services",
+          trackingId: res.reference,
+          details: `Speed Tier: ${selectedTier.name} | Shipping: Direct Embassy Dispatch`,
+        };
+        sendClientIntakeEmail(emailPayload).catch(() => {});
+        sendAdminIntakeAlert(emailPayload).catch(() => {});
+      }
+
       setReference(res.reference);
       setStatus("done");
       window.scrollTo({ top: 0, behavior: "smooth" });

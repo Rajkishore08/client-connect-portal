@@ -5,6 +5,7 @@
  * TODO: replace each stub with the real Supabase call.
  */
 
+import { sendClientIntakeEmail, sendAdminIntakeAlert } from "@/lib/email-service";
 import { supabase } from "@/lib/supabase";
 
 const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
@@ -194,6 +195,28 @@ export async function submitServiceRequest(payload: SubmissionPayload) {
     } catch (e) {
       console.warn("[Local Storage] Error caching intake:", e);
     }
+  }
+
+  // Trigger automated Resend email dispatches (Client confirmation + Admin alert)
+  const clientEmail = payload.applicantEmail || payload.fields?.["email"] || payload.fields?.["applicantEmail"] || "";
+  const clientName = payload.applicantName || payload.fields?.["fullName"] || payload.fields?.["name"] || "Valued Client";
+  const clientPhone = payload.phoneUsa || payload.fields?.["phoneUsa"] || payload.fields?.["phone"] || "";
+  const serviceTitle = payload.service || payload.serviceTitle || payload.serviceSlug || "General Service Intake";
+  const serviceCategory = payload.category || "General Intake";
+
+  if (clientEmail && clientEmail.includes("@")) {
+    const emailPayload = {
+      clientName,
+      clientEmail,
+      clientPhone,
+      serviceTitle,
+      serviceCategory,
+      trackingId: ref,
+      details: payload.fields ? Object.entries(payload.fields).map(([k, v]) => `${k}: ${v}`).join(" | ") : "",
+    };
+
+    sendClientIntakeEmail(emailPayload).catch((e) => console.warn("[Email Dispatch] Client email notice:", e));
+    sendAdminIntakeAlert(emailPayload).catch((e) => console.warn("[Email Dispatch] Admin email notice:", e));
   }
 
   try {

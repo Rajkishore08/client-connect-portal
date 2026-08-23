@@ -22,7 +22,7 @@ import {
   User,
   Zap,
 } from "lucide-react";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { toast } from "sonner";
 
 import { TrustBanner } from "@/components/site/SiteFooter";
@@ -33,7 +33,22 @@ import { Label } from "@/components/ui/label";
 import { LEADS, type Lead, type Milestone, type TrackStatus, type LeadSource, type LeadStatus, getDefaultMilestonesForCategory } from "@/data/mock-data";
 import { lookupApplication } from "@/lib/backend-stubs";
 
+interface TrackSearchSchema {
+  id?: string;
+  reference?: string;
+  ref?: string;
+  trackingId?: string;
+}
+
 export const Route = createFileRoute("/track")({
+  validateSearch: (search: Record<string, unknown>): TrackSearchSchema => {
+    return {
+      id: (search["id"] as string) || "",
+      reference: (search["reference"] as string) || "",
+      ref: (search["ref"] as string) || "",
+      trackingId: (search["trackingId"] as string) || "",
+    };
+  },
   head: () => ({
     meta: [
       { title: "Track My Intake & Project Status — One World Solutions Agency" },
@@ -153,26 +168,25 @@ function getStagesForCategory(category?: string) {
 }
 
 function TrackPage() {
-  const [query, setQuery] = useState("");
+  const searchParams = Route.useSearch();
+  const urlParamRef =
+    searchParams["id"] ||
+    searchParams["reference"] ||
+    searchParams["ref"] ||
+    searchParams["trackingId"] ||
+    "";
+
+  const [query, setQuery] = useState(urlParamRef);
   const [status, setStatus] = useState<"idle" | "loading" | "found" | "notfound">("idle");
   const [lead, setLead] = useState<Lead | null>(null);
 
-  useEffect(() => {
-    const handleUpdate = () => {
-      if (lead) {
-        search(undefined, lead.reference);
-      }
-    };
-    window.addEventListener("ows_lead_updated", handleUpdate);
-    return () => window.removeEventListener("ows_lead_updated", handleUpdate);
-  }, [lead]);
-
-  const search = async (e?: React.FormEvent, customRef?: string) => {
+  const performSearch = useCallback(async (customRef?: string, e?: React.FormEvent) => {
     if (e) e.preventDefault();
-    const searchQuery = customRef || query;
-    const rawQuery = searchQuery.trim();
+    const targetQuery = customRef !== undefined ? customRef : query;
+    const rawQuery = (targetQuery || "").trim();
     if (!rawQuery) return;
 
+    setQuery(rawQuery);
     setStatus("loading");
     let match: Lead | null = null;
 
@@ -416,7 +430,61 @@ function TrackPage() {
 
     setLead(match);
     setStatus(match ? "found" : "notfound");
-  };
+  }, [query]);
+
+  useEffect(() => {
+    function runAutoSearch() {
+      let ref = urlParamRef;
+      if (!ref && typeof window !== "undefined") {
+        try {
+          const href = window.location.href;
+          const urlObj = new URL(href);
+
+          ref =
+            urlObj.searchParams.get("id") ||
+            urlObj.searchParams.get("reference") ||
+            urlObj.searchParams.get("ref") ||
+            urlObj.searchParams.get("trackingId") ||
+            "";
+
+          if (!ref && window.location.hash) {
+            const hashParts = window.location.hash.split("?");
+            if (hashParts[1]) {
+              const hp = new URLSearchParams(hashParts[1]);
+              ref =
+                hp.get("id") ||
+                hp.get("reference") ||
+                hp.get("ref") ||
+                hp.get("trackingId") ||
+                "";
+            }
+          }
+        } catch (e) {
+          console.warn("[Track] URL parse notice:", e);
+        }
+      }
+
+      if (ref) {
+        const cleanRef = ref.trim();
+        setQuery(cleanRef);
+        performSearch(cleanRef);
+      }
+    }
+
+    runAutoSearch();
+    const timer = setTimeout(runAutoSearch, 100);
+    return () => clearTimeout(timer);
+  }, [urlParamRef, performSearch]);
+
+  useEffect(() => {
+    const handleUpdate = () => {
+      if (lead) {
+        performSearch(lead.reference);
+      }
+    };
+    window.addEventListener("ows_lead_updated", handleUpdate);
+    return () => window.removeEventListener("ows_lead_updated", handleUpdate);
+  }, [lead, performSearch]);
 
   const simulateSmsAlert = (stageName: string, ref: string) => {
     toast.custom((t) => (
@@ -463,12 +531,12 @@ function TrackPage() {
           Track Your Intake Status
         </h1>
         <p className="text-sm text-slate-600 font-normal leading-relaxed">
-          Enter your reference number (e.g. <button type="button" onClick={(e) => { setQuery("REF-100241"); search(e, "REF-100241"); }} className="text-primary font-bold hover:underline cursor-pointer">REF-100241</button> or <button type="button" onClick={(e) => { setQuery("REF-849201"); search(e, "REF-849201"); }} className="text-primary font-bold hover:underline cursor-pointer">REF-849201</button>) or email address to view stage progress.
+          Enter your reference number (e.g. <button type="button" onClick={() => performSearch("REF-100241")} className="text-primary font-bold hover:underline cursor-pointer">REF-100241</button> or <button type="button" onClick={() => performSearch("REF-849201")} className="text-primary font-bold hover:underline cursor-pointer">REF-849201</button>) or email address to view stage progress.
         </p>
       </div>
 
       {/* Search Input Box */}
-      <form onSubmit={(e) => search(e)} className="bg-white p-5 sm:p-7 rounded-3xl border border-slate-200/90 shadow-xl space-y-4">
+      <form onSubmit={(e) => performSearch(undefined, e)} className="bg-white p-5 sm:p-7 rounded-3xl border border-slate-200/90 shadow-xl space-y-4">
         <div className="space-y-1.5">
           <Label htmlFor="track-query" className="text-xs font-bold text-slate-700">Reference Number or Email Address</Label>
           <div className="relative">
@@ -489,14 +557,14 @@ function TrackPage() {
             <span>Quick Samples:</span>
             <button
               type="button"
-              onClick={(e) => { setQuery("REF-100241"); search(e, "REF-100241"); }}
+              onClick={() => performSearch("REF-100241")}
               className="px-2 py-1 rounded-md bg-slate-100 text-slate-700 font-mono text-[11px] hover:bg-slate-200 transition-colors cursor-pointer"
             >
               REF-100241
             </button>
             <button
               type="button"
-              onClick={(e) => { setQuery("REF-849201"); search(e, "REF-849201"); }}
+              onClick={() => performSearch("REF-849201")}
               className="px-2 py-1 rounded-md bg-slate-100 text-slate-700 font-mono text-[11px] hover:bg-slate-200 transition-colors cursor-pointer"
             >
               REF-849201

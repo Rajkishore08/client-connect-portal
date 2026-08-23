@@ -5,7 +5,7 @@ const env = import.meta.env as Record<string, string | undefined>;
 const resendApiKey =
   env["VITE_RESEND_API_KEY"] ||
   env["RESEND_API_KEY"] ||
-  (typeof process !== "undefined" ? process.env["RESEND_API_KEY"] : "");
+  "";
 
 export const resend = resendApiKey ? new Resend(resendApiKey) : null;
 
@@ -52,106 +52,231 @@ export interface EmailLog {
   htmlContent?: string;
 }
 
-/** Robust Helper to Send Emails via Resend with Automatic Sender Fallback */
+/** Unified Ultra-Premium HTML Email Layout Renderer */
+export function renderBrandedEmailHtml({
+  badgeText,
+  badgeBg = "#eff6ff",
+  badgeColor = "#2563eb",
+  badgeBorder = "#bfdbfe",
+  title,
+  subtitle,
+  cardContent,
+  ctaText,
+  ctaUrl,
+}: {
+  badgeText: string;
+  badgeBg?: string;
+  badgeColor?: string;
+  badgeBorder?: string;
+  title: string;
+  subtitle: string;
+  cardContent: string;
+  ctaText?: string;
+  ctaUrl?: string;
+}) {
+  return `
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:v="urn:schemas-microsoft-com:vml" xmlns:o="urn:schemas-microsoft-com:office:office">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="color-scheme" content="light">
+  <meta name="supported-color-schemes" content="light">
+  <!--[if mso]>
+  <noscript>
+    <xml>
+      <o:OfficeDocumentSettings>
+        <o:PixelsPerInch>96</o:PixelsPerInch>
+      </o:OfficeDocumentSettings>
+    </xml>
+  </noscript>
+  <![endif]-->
+  <style>
+    :root { color-scheme: light; }
+    body, table, td, p, a, li, blockquote { -webkit-text-size-adjust: 100%; -ms-text-size-adjust: 100%; }
+    table, td { mso-table-lspace: 0pt; mso-table-rspace: 0pt; }
+    img { -ms-interpolation-mode: bicubic; border: 0; outline: none; text-decoration: none; }
+    .header-bg { background-color: #ffffff !important; background: #ffffff !important; }
+    .card-bg { background-color: #ffffff !important; background: #ffffff !important; }
+    @media (prefers-color-scheme: dark) {
+      .header-bg { background-color: #ffffff !important; background: #ffffff !important; }
+      .card-bg { background-color: #ffffff !important; background: #ffffff !important; }
+    }
+  </style>
+</head>
+<body style="font-family: system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; background-color: #f8fafc; margin: 0; padding: 24px; color: #1e293b;">
+  <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0" style="background-color: #f8fafc; padding: 12px 0;">
+    <tr>
+      <td align="center">
+        <table role="presentation" width="600" cellspacing="0" cellpadding="0" border="0" bgcolor="#ffffff" className="card-bg" style="max-width: 600px; width: 100%; background-color: #ffffff !important; background: #ffffff !important; border-radius: 20px; overflow: hidden; border: 1px solid #e2e8f0; box-shadow: 0 10px 25px -5px rgba(0,0,0,0.05);">
+          
+          <!-- Header Banner Block with Explicit Solid White Table Cell -->
+          <tr>
+            <td align="center" bgcolor="#ffffff" className="header-bg" style="background-color: #ffffff !important; background: #ffffff !important; padding: 32px 24px; text-align: center; border-bottom: 1px solid #f1f5f9;">
+              
+              <!-- Solid White Logo Container Box -->
+              <table role="presentation" cellspacing="0" cellpadding="0" border="0" align="center" style="margin: 0 auto;">
+                <tr>
+                  <td align="center" bgcolor="#ffffff" style="background-color: #ffffff !important; background: #ffffff !important; padding: 12px 28px; border-radius: 16px; border: 1px solid #e2e8f0; box-shadow: 0 2px 8px rgba(0,0,0,0.03);">
+                    <img src="https://oneworldsolutionsusa.com/logo-rect.png" alt="ONE WORLD SOLUTIONS" width="200" style="width: 200px; height: auto; max-width: 200px; display: block; margin: 0 auto; border: 0; outline: none; text-decoration: none;" />
+                  </td>
+                </tr>
+              </table>
+
+              <!-- Context Badge -->
+              <div style="margin-top: 14px;">
+                <span style="display: inline-block; background-color: ${badgeBg} !important; background: ${badgeBg} !important; color: ${badgeColor} !important; border: 1px solid ${badgeBorder}; font-size: 11px; font-weight: 800; padding: 6px 18px; border-radius: 9999px; text-transform: uppercase; letter-spacing: 0.5px;">
+                  ${badgeText}
+                </span>
+              </div>
+
+            </td>
+          </tr>
+
+          <!-- Main Body Content -->
+          <tr>
+            <td bgcolor="#ffffff" className="card-bg" style="background-color: #ffffff !important; background: #ffffff !important; padding: 32px 28px;">
+              <h2 style="font-size: 19px; font-weight: 800; color: #0f172a; margin: 0 0 8px 0; letter-spacing: -0.3px;">${title}</h2>
+              <p style="font-size: 14px; line-height: 1.6; color: #475569; margin: 0 0 20px 0;">${subtitle}</p>
+              
+              <!-- Styled Information Card -->
+              <div style="background-color: #f8fafc; border-radius: 14px; padding: 20px; margin: 24px 0; border: 1px solid #cbd5e1;">
+                ${cardContent}
+              </div>
+
+              ${
+                ctaText && ctaUrl
+                  ? `
+              <div style="text-align: center; margin-top: 28px;">
+                <a href="${ctaUrl}" style="display: inline-block; background: #2563eb; color: #ffffff; text-decoration: none; font-weight: 800; font-size: 14px; padding: 14px 28px; border-radius: 12px; box-shadow: 0 4px 12px rgba(37,99,235,0.25); border: 1px solid #1d4ed8;">${ctaText}</a>
+              </div>
+              `
+                  : ""
+              }
+            </td>
+          </tr>
+
+          <!-- Enterprise Footer -->
+          <tr>
+            <td bgcolor="#f8fafc" style="background-color: #f8fafc; padding: 24px; text-align: center; font-size: 12px; color: #64748b; border-top: 1px solid #e2e8f0; line-height: 1.5;">
+              <p style="margin: 0 0 6px 0; font-weight: 800; color: #334155;">One World Solutions (A Division of ABHIPRIYA GROUPS LLC, E-Verified)</p>
+              <p style="margin: 0;">Chicago HQ: 3501 N Southport Ave, Chicago, IL 60613, USA</p>
+              <p style="margin: 4px 0 0 0;">Direct Hotline: +1 (417) 569-0711 • Support: support@oneworldsolutionsusa.com</p>
+            </td>
+          </tr>
+
+        </table>
+      </td>
+    </tr>
+  </table>
+</body>
+</html>
+  `.trim();
+}
+
+/** Robust Helper to Send Emails via Server API Endpoint + Resend API Fallback */
 async function safeSendResendEmail(params: {
   from?: string;
   to: string[];
   subject: string;
   html: string;
 }) {
-  if (!resendApiKey || !resend) {
-    console.info("[Email Service] Resend API Key pending. Logged payload:", params.subject);
-    return { success: true, simulated: true };
+  const primaryFrom = params.from || SENDER_EMAIL;
+
+  // 1. Try sending via server API endpoint /api/send-email
+  try {
+    const res = await fetch("/api/send-email", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        from: primaryFrom,
+        to: params.to,
+        subject: params.subject,
+        html: params.html,
+      }),
+    });
+
+    if (res.ok) {
+      const data = await res.json();
+      if (data.success) {
+        console.info(`[Email Service] Sent via /api/send-email to ${params.to.join(", ")} (ID: ${data.id})`);
+        return { success: true, data };
+      }
+    }
+  } catch (apiErr) {
+    console.warn("[Email Service] /api/send-email endpoint error, attempting direct Resend call:", apiErr);
   }
 
-  const primaryFrom = params.from || SENDER_EMAIL;
+  // 2. Direct browser call to Resend REST API
   try {
-    const data = await resend.emails.send({
-      from: primaryFrom,
-      to: params.to,
-      subject: params.subject,
-      html: params.html,
+    const resendRes = await fetch("https://api.resend.com/emails", {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${resendApiKey}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        from: primaryFrom,
+        to: params.to,
+        subject: params.subject,
+        html: params.html,
+      }),
     });
-    if ((data as any)?.error) {
-      throw new Error((data as any).error.message || JSON.stringify((data as any).error));
-    }
-    console.info(`[Email Service] Email dispatched successfully via Resend to ${params.to.join(", ")}`);
-    return { success: true, data };
-  } catch (err: any) {
-    const errMsg = err?.message || String(err);
-    console.warn(`[Email Service] Primary send attempt (${primaryFrom}) failed: ${errMsg}. Attempting fallback sender...`);
 
-    if (primaryFrom !== "One World Solutions <onboarding@resend.dev>") {
-      try {
-        const fallbackData = await resend.emails.send({
+    const resendData = await resendRes.json();
+
+    if (resendRes.ok && resendData?.id) {
+      return { success: true, data: resendData };
+    }
+
+    // 3. Fallback to onboarding@resend.dev if primary sender domain unverified
+    if (resendData?.name === "validation_error" || resendRes.status === 403) {
+      const fallbackRes = await fetch("https://api.resend.com/emails", {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${resendApiKey}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
           from: "One World Solutions <onboarding@resend.dev>",
           to: params.to,
           subject: params.subject,
           html: params.html,
-        });
-        console.info(`[Email Service] Email dispatched via Resend fallback sender to ${params.to.join(", ")}`);
+        }),
+      });
+
+      const fallbackData = await fallbackRes.json();
+      if (fallbackRes.ok && fallbackData?.id) {
         return { success: true, data: fallbackData };
-      } catch (fallbackErr: any) {
-        console.error("[Email Service] Resend fallback sender error:", fallbackErr);
-        return { success: false, error: fallbackErr.message || String(fallbackErr) };
       }
+      return { success: false, error: fallbackData?.message || "Resend API error" };
     }
 
-    return { success: false, error: errMsg };
+    return { success: false, error: resendData?.message || "Resend API error" };
+  } catch (err: any) {
+    console.error("[Email Service] Direct Resend dispatch error:", err);
+    return { success: false, error: err.message || String(err) };
   }
 }
 
 /** 1. Send Intake Confirmation Email to Client */
 export async function sendClientIntakeEmail(payload: IntakeEmailPayload) {
-  const html = `
-    <!DOCTYPE html>
-    <html>
-    <head>
-      <meta charset="utf-8">
-      <style>
-        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #f8fafc; margin: 0; padding: 20px; color: #1e293b; }
-        .container { max-width: 600px; margin: 0 auto; background: #ffffff; border-radius: 16px; overflow: hidden; border: 1px solid #e2e8f0; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05); }
-        .header { background: #ffffff; padding: 24px; text-align: center; border-bottom: 1px solid #e2e8f0; }
-        .badge { display: inline-block; background: #eff6ff; color: #2563eb; border: 1px solid #bfdbfe; font-size: 11px; font-weight: 700; padding: 4px 12px; border-radius: 9999px; text-transform: uppercase; margin-top: 8px; }
-        .content { padding: 32px 24px; }
-        .card { background: #f1f5f9; border-radius: 12px; padding: 20px; margin: 20px 0; border: 1px solid #cbd5e1; }
-        .tracking-id { font-family: monospace; font-size: 18px; font-weight: 800; color: #2563eb; }
-        .footer { background: #f8fafc; padding: 20px; text-align: center; font-size: 12px; color: #64748b; border-t: 1px solid #e2e8f0; }
-        .btn { display: inline-block; background: #2563eb; color: #ffffff; text-decoration: none; font-weight: 700; font-size: 14px; padding: 12px 24px; border-radius: 10px; margin-top: 16px; }
-      </style>
-    </head>
-    <body>
-      <div class="container">
-        <div class="header">
-          <img src="/logo-rect.webp" alt="ONE WORLD SOLUTIONS" style="height: 38px; width: auto; display: block; margin: 0 auto 10px auto;" />
-          <div class="badge">Intake Application Received</div>
-        </div>
-        <div class="content">
-          <h2>Hello ${payload.clientName},</h2>
-          <p>Thank you for submitting your intake application with <strong>One World Solutions</strong>. Our Chicago consular &amp; software team has received your request and is pre-auditing your details.</p>
-          
-          <div class="card">
-            <p style="margin: 0 0 6px 0; font-size: 12px; font-weight: 700; text-transform: uppercase; color: #64748b;">Tracking ID</p>
-            <div class="tracking-id">${payload.trackingId}</div>
-            <p style="margin: 12px 0 4px 0; font-size: 14px; font-weight: 700;">${payload.serviceTitle}</p>
-            <p style="margin: 0; font-size: 12px; color: #475569;">Category: ${payload.serviceCategory}</p>
-            ${payload.details ? `<p style="margin: 8px 0 0 0; font-size: 12px; color: #475569;">${payload.details}</p>` : ""}
-          </div>
-
-          <p>You can track real-time processing milestones and view document requirements anytime using your tracking ID or by signing into your client dashboard.</p>
-
-          <div style="text-align: center;">
-            <a href="https://oneworldsolutionsusa.com/track?id=${payload.trackingId}" class="btn">Track Application Status</a>
-          </div>
-        </div>
-        <div class="footer">
-          <p style="margin: 0 0 6px 0;"><strong>One World Solutions (A Division of ABHIPRIYA GROUPS LLC, E-Verified)</strong></p>
-          <p style="margin: 0;">Chicago, IL 60613 • Direct Hotline: +1 (417) 569-0711 • support@oneworldsolutionsusa.com</p>
-        </div>
-      </div>
-    </body>
-    </html>
+  const cardContent = `
+    <p style="margin: 0 0 6px 0; font-size: 11px; font-weight: 800; text-transform: uppercase; color: #64748b; font-family: monospace;">TRACKING REFERENCE</p>
+    <div style="font-family: monospace; font-size: 22px; font-weight: 800; color: #2563eb; letter-spacing: 0.5px;">${payload.trackingId}</div>
+    <p style="margin: 14px 0 4px 0; font-size: 15px; font-weight: 700; color: #0f172a;">${payload.serviceTitle}</p>
+    <p style="margin: 0; font-size: 13px; color: #475569;">Category: ${payload.serviceCategory}</p>
+    ${payload.details ? `<div style="margin-top: 10px; padding-top: 10px; border-top: 1px solid #e2e8f0; font-size: 12px; color: #475569;">${payload.details}</div>` : ""}
   `;
+
+  const html = renderBrandedEmailHtml({
+    badgeText: "Intake Application Confirmed",
+    title: `Hello ${payload.clientName},`,
+    subtitle: `Thank you for submitting your intake request with One World Solutions. Our Chicago consular & software team has received your application and is auditing your details.`,
+    cardContent,
+    ctaText: "Track Application Status",
+    ctaUrl: `https://oneworldsolutionsusa.com/track?id=${payload.trackingId}`,
+  });
 
   return safeSendResendEmail({
     to: [payload.clientEmail],
@@ -162,22 +287,28 @@ export async function sendClientIntakeEmail(payload: IntakeEmailPayload) {
 
 /** 2. Send Admin New Intake Alert Email */
 export async function sendAdminIntakeAlert(payload: IntakeEmailPayload) {
-  const html = `
-    <div style="font-family: sans-serif; padding: 20px; max-width: 600px; border: 1px solid #cbd5e1; border-radius: 12px;">
-      <h2 style="color: #0f172a; margin-top: 0;">New Client Intake Received</h2>
-      <table style="width: 100%; font-size: 14px; border-collapse: collapse;">
-        <tr><td style="padding: 6px; font-weight: bold;">Tracking ID:</td><td style="color: #2563eb; font-weight: bold;">${payload.trackingId}</td></tr>
-        <tr><td style="padding: 6px; font-weight: bold;">Client Name:</td><td>${payload.clientName}</td></tr>
-        <tr><td style="padding: 6px; font-weight: bold;">Client Email:</td><td>${payload.clientEmail}</td></tr>
-        <tr><td style="padding: 6px; font-weight: bold;">Phone:</td><td>${payload.clientPhone || "N/A"}</td></tr>
-        <tr><td style="padding: 6px; font-weight: bold;">Service:</td><td>${payload.serviceTitle}</td></tr>
-        <tr><td style="padding: 6px; font-weight: bold;">Category:</td><td>${payload.serviceCategory}</td></tr>
-      </table>
-      <p style="margin-top: 20px;">
-        <a href="https://oneworldsolutionsusa.com/admin-one-master-8820" style="background: #0f172a; color: #fff; padding: 10px 18px; border-radius: 8px; text-decoration: none; font-weight: bold;">Open Ops Admin Dashboard</a>
-      </p>
-    </div>
+  const cardContent = `
+    <table style="width: 100%; font-size: 13px; border-collapse: collapse;">
+      <tr style="border-bottom: 1px solid #f1f5f9;"><td style="padding: 8px 0; font-weight: bold; color: #64748b;">Tracking ID:</td><td style="color: #2563eb; font-weight: bold; font-family: monospace; font-size: 15px;">${payload.trackingId}</td></tr>
+      <tr style="border-bottom: 1px solid #f1f5f9;"><td style="padding: 8px 0; font-weight: bold; color: #64748b;">Applicant Name:</td><td style="font-weight: 700; color: #0f172a;">${payload.clientName}</td></tr>
+      <tr style="border-bottom: 1px solid #f1f5f9;"><td style="padding: 8px 0; font-weight: bold; color: #64748b;">Applicant Email:</td><td>${payload.clientEmail}</td></tr>
+      <tr style="border-bottom: 1px solid #f1f5f9;"><td style="padding: 8px 0; font-weight: bold; color: #64748b;">Direct Phone:</td><td>${payload.clientPhone || "N/A"}</td></tr>
+      <tr style="border-bottom: 1px solid #f1f5f9;"><td style="padding: 8px 0; font-weight: bold; color: #64748b;">Service Category:</td><td>${payload.serviceCategory}</td></tr>
+      <tr><td style="padding: 8px 0; font-weight: bold; color: #64748b;">Requested Service:</td><td style="font-weight: 700;">${payload.serviceTitle}</td></tr>
+    </table>
   `;
+
+  const html = renderBrandedEmailHtml({
+    badgeText: "🚨 NEW CLIENT INTAKE ALERT",
+    badgeBg: "#fef2f2",
+    badgeColor: "#dc2626",
+    badgeBorder: "#fecaca",
+    title: "New Client Intake Received",
+    subtitle: "A new client intake has been submitted and registered in the operations pipeline.",
+    cardContent,
+    ctaText: "Open Ops Admin Dashboard",
+    ctaUrl: "https://oneworldsolutionsusa.com/admin-one-master-8820",
+  });
 
   return safeSendResendEmail({
     to: [ADMIN_EMAIL],
@@ -188,20 +319,29 @@ export async function sendAdminIntakeAlert(payload: IntakeEmailPayload) {
 
 /** 3. Send Application Status Update Email to Client */
 export async function sendStatusUpdateEmail(payload: StatusUpdateEmailPayload) {
-  const html = `
-    <div style="font-family: sans-serif; padding: 24px; max-width: 600px; margin: 0 auto; border: 1px solid #e2e8f0; border-radius: 16px;">
-      <h2 style="color: #0f172a;">Application Status Updated</h2>
-      <p>Hello ${payload.clientName},</p>
-      <p>Your application <strong>${payload.trackingId}</strong> (${payload.serviceTitle}) has reached a new milestone:</p>
-      <div style="background: #2563eb; color: #fff; padding: 14px 20px; border-radius: 10px; font-size: 16px; font-weight: bold; margin: 16px 0;">
-        Current Status: ${payload.newStatus}
-      </div>
-      ${payload.statusDetails ? `<p style="color: #475569;">${payload.statusDetails}</p>` : ""}
-      <p style="margin-top: 24px;">
-        <a href="https://oneworldsolutionsusa.com/track?id=${payload.trackingId}" style="background: #0f172a; color: #fff; padding: 12px 20px; border-radius: 10px; text-decoration: none; font-weight: bold;">View Tracking Milestone</a>
-      </p>
+  const cardContent = `
+    <p style="margin: 0 0 6px 0; font-size: 11px; font-weight: 800; text-transform: uppercase; color: #64748b; font-family: monospace;">TRACKING REFERENCE</p>
+    <div style="font-family: monospace; font-size: 18px; font-weight: 800; color: #2563eb; margin-bottom: 12px;">${payload.trackingId}</div>
+    
+    <div style="background: #2563eb; color: #ffffff; padding: 12px 18px; border-radius: 10px; font-size: 15px; font-weight: 800; display: inline-block; margin-bottom: 12px;">
+      Current Status: ${payload.newStatus}
     </div>
+    
+    <p style="margin: 6px 0 0 0; font-size: 14px; font-weight: 700; color: #0f172a;">${payload.serviceTitle}</p>
+    ${payload.statusDetails ? `<p style="margin: 8px 0 0 0; font-size: 13px; color: #475569;">${payload.statusDetails}</p>` : ""}
   `;
+
+  const html = renderBrandedEmailHtml({
+    badgeText: "APPLICATION STAGE UPDATE",
+    badgeBg: "#f0fdf4",
+    badgeColor: "#166534",
+    badgeBorder: "#bbf7d0",
+    title: `Hello ${payload.clientName},`,
+    subtitle: `Your application tracking reference ${payload.trackingId} has reached a new operational milestone.`,
+    cardContent,
+    ctaText: "View Tracking Milestones",
+    ctaUrl: `https://oneworldsolutionsusa.com/track?id=${payload.trackingId}`,
+  });
 
   return safeSendResendEmail({
     to: [payload.clientEmail],
@@ -212,18 +352,27 @@ export async function sendStatusUpdateEmail(payload: StatusUpdateEmailPayload) {
 
 /** 4. Send Strategy Call Booking Confirmation Email */
 export async function sendBookingConfirmationEmail(payload: BookingEmailPayload) {
-  const html = `
-    <div style="font-family: sans-serif; padding: 24px; max-width: 600px; margin: 0 auto; border: 1px solid #e2e8f0; border-radius: 16px;">
-      <h2 style="color: #0f172a;">Strategy Consultation Confirmed</h2>
-      <p>Hello ${payload.clientName},</p>
-      <p>Your 1-on-1 virtual strategy consultation with One World Solutions has been scheduled.</p>
-      <div style="background: #f1f5f9; padding: 16px; border-radius: 12px; margin: 16px 0; border-left: 4px solid #2563eb;">
-        <p style="margin: 0 0 6px 0; font-size: 14px; font-weight: bold; color: #0f172a;">📅 Date: ${payload.bookingDate}</p>
-        <p style="margin: 0; font-size: 14px; font-weight: bold; color: #2563eb;">⏰ Time: ${payload.bookingTime}</p>
-      </div>
-      <p>Our senior specialist will call you directly at <strong>${payload.clientPhone || payload.clientEmail}</strong>.</p>
+  const cardContent = `
+    <div style="background: #f1f5f9; padding: 16px; border-radius: 12px; border-left: 4px solid #7e22ce;">
+      <p style="margin: 0 0 8px 0; font-size: 14px; font-weight: 800; color: #0f172a;">📅 Date: ${payload.bookingDate}</p>
+      <p style="margin: 0; font-size: 14px; font-weight: 800; color: #7e22ce;">⏰ Time: ${payload.bookingTime}</p>
     </div>
+    <p style="margin: 12px 0 0 0; font-size: 13px; color: #475569;">
+      Our senior specialist will contact you directly at <strong>${payload.clientPhone || payload.clientEmail}</strong>.
+    </p>
   `;
+
+  const html = renderBrandedEmailHtml({
+    badgeText: "STRATEGY CONSULTATION CONFIRMED",
+    badgeBg: "#faf5ff",
+    badgeColor: "#7e22ce",
+    badgeBorder: "#e9d5ff",
+    title: `Hello ${payload.clientName},`,
+    subtitle: `Your 1-on-1 virtual strategy consultation with One World Solutions has been scheduled.`,
+    cardContent,
+    ctaText: "Join Virtual Consultation",
+    ctaUrl: "https://oneworldsolutionsusa.com/track",
+  });
 
   return safeSendResendEmail({
     to: [payload.clientEmail],
@@ -251,96 +400,59 @@ export async function sendIntakeConfirmationEmail(arg: any) {
 }
 
 export function getEmailLogs(): EmailLog[] {
+  const sampleCardContent = `
+    <p style="margin: 0 0 6px 0; font-size: 11px; font-weight: 800; text-transform: uppercase; color: #64748b; font-family: monospace;">TRACKING REFERENCE</p>
+    <div style="font-family: monospace; font-size: 22px; font-weight: 800; color: #2563eb; letter-spacing: 0.5px;">REF-305161</div>
+    <p style="margin: 14px 0 4px 0; font-size: 15px; font-weight: 700; color: #0f172a;">Search Engine Optimization (SEO)</p>
+    <p style="margin: 0; font-size: 13px; color: #475569;">Category: Digital Growth Division</p>
+  `;
+
+  const sampleAdminCardContent = `
+    <table style="width: 100%; font-size: 13px; border-collapse: collapse;">
+      <tr style="border-bottom: 1px solid #f1f5f9;"><td style="padding: 8px 0; font-weight: bold; color: #64748b;">Tracking ID:</td><td style="color: #2563eb; font-weight: bold; font-family: monospace; font-size: 15px;">REF-305161</td></tr>
+      <tr style="border-bottom: 1px solid #f1f5f9;"><td style="padding: 8px 0; font-weight: bold; color: #64748b;">Applicant Name:</td><td style="font-weight: 700; color: #0f172a;">Raj Kishore</td></tr>
+      <tr style="border-bottom: 1px solid #f1f5f9;"><td style="padding: 8px 0; font-weight: bold; color: #64748b;">Applicant Email:</td><td>rajkishores2004@gmail.com</td></tr>
+      <tr style="border-bottom: 1px solid #f1f5f9;"><td style="padding: 8px 0; font-weight: bold; color: #64748b;">Direct Phone:</td><td>+1 (417) 569-0711</td></tr>
+      <tr style="border-bottom: 1px solid #f1f5f9;"><td style="padding: 8px 0; font-weight: bold; color: #64748b;">Service Category:</td><td>Digital Growth Division</td></tr>
+      <tr><td style="padding: 8px 0; font-weight: bold; color: #64748b;">Assigned SLA:</td><td>Search Engine Optimization (SEO)</td></tr>
+    </table>
+  `;
+
   return [
     {
       id: "log-1",
-      recipient: "client@example.com",
-      subject: "Intake Confirmed: Expedited Passport Renewal",
+      recipient: "rajkishores2004@gmail.com",
+      subject: "Intake Confirmed: Search Engine Optimization (SEO)",
       status: "Delivered",
-      sentAt: "Today at 2:15 PM",
-      provider: "Resend (re_H8NkMAWE_...)",
-      htmlContent: `
-        <!DOCTYPE html>
-        <html>
-        <head><meta charset="utf-8"></head>
-        <body style="font-family: system-ui, -apple-system, sans-serif; background-color: #f8fafc; margin: 0; padding: 24px; color: #1e293b;">
-          <div style="max-width: 600px; margin: 0 auto; background: #ffffff; border-radius: 16px; overflow: hidden; border: 1px solid #e2e8f0; box-shadow: 0 4px 12px rgba(0,0,0,0.05);">
-            <div style="background: #ffffff; padding: 28px; text-align: center; border-bottom: 1px solid #e2e8f0;">
-              <img src="/logo-rect.webp" alt="ONE WORLD SOLUTIONS" style="height: 38px; width: auto; display: block; margin: 0 auto 10px auto;" />
-              <div style="display: inline-block; background: #eff6ff; color: #2563eb; border: 1px solid #bfdbfe; font-size: 11px; font-weight: 700; padding: 4px 14px; border-radius: 9999px; text-transform: uppercase;">
-                Intake Application Confirmed
-              </div>
-            </div>
-            <div style="padding: 32px 28px;">
-              <h2 style="font-size: 18px; color: #0f172a; margin-top: 0;">Hello Valued Client,</h2>
-              <p style="font-size: 14px; line-height: 1.6; color: #475569;">
-                Thank you for submitting your intake application with <strong>One World Solutions</strong>. Our Chicago consular &amp; software team has received your request and is auditing your documentation.
-              </p>
-              
-              <div style="background: #f1f5f9; border-radius: 12px; padding: 20px; margin: 24px 0; border: 1px solid #cbd5e1;">
-                <p style="margin: 0 0 6px 0; font-size: 11px; font-weight: 800; text-transform: uppercase; color: #64748b; font-family: monospace;">TRACKING ID</p>
-                <div style="font-family: monospace; font-size: 20px; font-weight: 800; color: #2563eb;">REF-286014</div>
-                <p style="margin: 14px 0 4px 0; font-size: 15px; font-weight: 700; color: #0f172a;">Expedited Passport Renewal</p>
-                <p style="margin: 0; font-size: 13px; color: #475569;">Category: Passport &amp; Consular Services</p>
-              </div>
-
-              <p style="font-size: 14px; line-height: 1.6; color: #475569;">
-                You can track real-time processing milestones and view document verification status anytime using your tracking reference.
-              </p>
-
-              <div style="text-align: center; margin-top: 28px;">
-                <a href="https://oneworldsolutionsusa.com/track?id=REF-286014" style="display: inline-block; background: #2563eb; color: #ffffff; text-decoration: none; font-weight: 700; font-size: 14px; padding: 14px 28px; border-radius: 10px; box-shadow: 0 4px 12px rgba(37,99,235,0.3);">Track Application Status</a>
-              </div>
-            </div>
-            <div style="background: #f8fafc; padding: 20px; text-align: center; font-size: 12px; color: #64748b; border-top: 1px solid #e2e8f0;">
-              <p style="margin: 0 0 6px 0;"><strong>One World Solutions (A Division of ABHIPRIYA GROUPS LLC, E-Verified)</strong></p>
-              <p style="margin: 0;">Chicago, IL 60613 • Direct Hotline: +1 (417) 569-0711 • support@oneworldsolutionsusa.com</p>
-            </div>
-          </div>
-        </body>
-        </html>
-      `,
+      sentAt: "Just Now",
+      provider: "Resend API (support@oneworldsolutionsusa.com)",
+      htmlContent: renderBrandedEmailHtml({
+        badgeText: "Intake Application Confirmed",
+        title: "Hello Raj Kishore,",
+        subtitle: "Thank you for submitting your intake request with One World Solutions. Our Chicago team has received your request and is auditing your documentation.",
+        cardContent: sampleCardContent,
+        ctaText: "Track Application Status",
+        ctaUrl: "https://oneworldsolutionsusa.com/track?id=REF-305161",
+      }),
     },
     {
       id: "log-2",
       recipient: "support@oneworldsolutionsusa.com",
-      subject: "🚨 NEW INTAKE SUBMITTED: OCI Application",
+      subject: "🚨 NEW INTAKE SUBMITTED: Search Engine Optimization (SEO)",
       status: "Delivered",
-      sentAt: "Yesterday at 11:30 AM",
-      provider: "Resend (re_H8NkMAWE_...)",
-      htmlContent: `
-        <!DOCTYPE html>
-        <html>
-        <head><meta charset="utf-8"></head>
-        <body style="font-family: system-ui, -apple-system, sans-serif; background-color: #f8fafc; margin: 0; padding: 24px; color: #1e293b;">
-          <div style="max-width: 600px; margin: 0 auto; background: #ffffff; border-radius: 16px; overflow: hidden; border: 1px solid #e2e8f0; box-shadow: 0 4px 12px rgba(0,0,0,0.05);">
-            <div style="background: #ffffff; padding: 24px 28px; border-bottom: 1px solid #e2e8f0; text-align: center;">
-              <img src="/logo-rect.webp" alt="ONE WORLD SOLUTIONS" style="height: 38px; width: auto; display: block; margin: 0 auto 10px auto;" />
-              <div style="display: flex; align-items: center; justify-content: center; gap: 8px;">
-                <span style="background: #fef2f2; color: #dc2626; border: 1px solid #fecaca; font-size: 11px; font-weight: 800; padding: 4px 12px; border-radius: 6px; text-transform: uppercase;">NEW CLIENT INTAKE ALERT • RUSH PRIORITY</span>
-              </div>
-            </div>
-            <div style="padding: 28px;">
-              <h3 style="margin-top: 0; font-size: 16px; color: #0f172a;">OCI Application Received</h3>
-              <table style="width: 100%; font-size: 13px; border-collapse: collapse; margin-top: 16px;">
-                <tr style="border-bottom: 1px solid #f1f5f9;"><td style="padding: 8px 0; font-weight: bold; color: #64748b;">Tracking ID:</td><td style="color: #2563eb; font-weight: bold; font-family: monospace; font-size: 15px;">REF-286014</td></tr>
-                <tr style="border-bottom: 1px solid #f1f5f9;"><td style="padding: 8px 0; font-weight: bold; color: #64748b;">Applicant Name:</td><td style="font-weight: 700; color: #0f172a;">Valued Client</td></tr>
-                <tr style="border-bottom: 1px solid #f1f5f9;"><td style="padding: 8px 0; font-weight: bold; color: #64748b;">Applicant Email:</td><td>client.test@example.com</td></tr>
-                <tr style="border-bottom: 1px solid #f1f5f9;"><td style="padding: 8px 0; font-weight: bold; color: #64748b;">Direct Phone:</td><td>+1 (417) 569-0711</td></tr>
-                <tr style="border-bottom: 1px solid #f1f5f9;"><td style="padding: 8px 0; font-weight: bold; color: #64748b;">Service Category:</td><td>Passport &amp; Consular Services</td></tr>
-                <tr><td style="padding: 8px 0; font-weight: bold; color: #64748b;">Assigned SLA:</td><td>Expedited Service Intake (3-5 Days)</td></tr>
-              </table>
-              <div style="margin-top: 28px; text-align: center;">
-                <a href="https://oneworldsolutionsusa.com/admin-one-master-8820" style="display: inline-block; background: #0f172a; color: #ffffff; text-decoration: none; font-weight: 700; font-size: 13px; padding: 12px 24px; border-radius: 8px;">Open Ops Admin Dashboard</a>
-              </div>
-            </div>
-            <div style="background: #f8fafc; padding: 16px; text-align: center; font-size: 11px; color: #94a3b8; border-top: 1px solid #e2e8f0;">
-              One World Solutions • Operational Alert Telemetry • Chicago HQ
-            </div>
-          </div>
-        </body>
-        </html>
-      `,
+      sentAt: "Just Now",
+      provider: "Resend API (support@oneworldsolutionsusa.com)",
+      htmlContent: renderBrandedEmailHtml({
+        badgeText: "🚨 NEW CLIENT INTAKE ALERT",
+        badgeBg: "#fef2f2",
+        badgeColor: "#dc2626",
+        badgeBorder: "#fecaca",
+        title: "New Client Intake Received",
+        subtitle: "A new client intake has been submitted and registered in the operations pipeline.",
+        cardContent: sampleAdminCardContent,
+        ctaText: "Open Ops Admin Dashboard",
+        ctaUrl: "https://oneworldsolutionsusa.com/admin-one-master-8820",
+      }),
     },
   ];
 }
