@@ -184,31 +184,37 @@ async function safeSendResendEmail(params: {
 }) {
   const primaryFrom = params.from || SENDER_EMAIL;
 
-  // 1. Try sending via server API endpoint /api/send-email
-  try {
-    const res = await fetch("/api/send-email", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        from: primaryFrom,
-        to: params.to,
-        subject: params.subject,
-        html: params.html,
-      }),
-    });
+  // 1. In browser environment, send via /api/send-email endpoint
+  if (typeof window !== "undefined") {
+    try {
+      const origin = window.location.origin;
+      const res = await fetch(`${origin}/api/send-email`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          from: primaryFrom,
+          to: params.to,
+          subject: params.subject,
+          html: params.html,
+        }),
+      });
 
-    if (res.ok) {
-      const data = await res.json();
-      if (data.success) {
+      const data = await res.json().catch(() => null);
+
+      if (res.ok && data?.success) {
         console.info(`[Email Service] Sent via /api/send-email to ${params.to.join(", ")} (ID: ${data.id})`);
         return { success: true, data };
       }
+
+      if (data?.error) {
+        return { success: false, error: data.error };
+      }
+    } catch (apiErr: any) {
+      console.warn("[Email Service] /api/send-email fetch notice:", apiErr);
     }
-  } catch (apiErr) {
-    console.warn("[Email Service] /api/send-email endpoint error, attempting direct Resend call:", apiErr);
   }
 
-  // 2. Direct browser call to Resend REST API
+  // 2. Direct call to Resend REST API (Server side / Node environment)
   try {
     const resendRes = await fetch("https://api.resend.com/emails", {
       method: "POST",
@@ -224,14 +230,14 @@ async function safeSendResendEmail(params: {
       }),
     });
 
-    const resendData = await resendRes.json();
+    const resendData = await resendRes.json().catch(() => null);
 
     if (resendRes.ok && resendData?.id) {
       return { success: true, data: resendData };
     }
 
-    // 3. Fallback to onboarding@resend.dev if primary sender domain unverified
-    if (resendData?.name === "validation_error" || resendRes.status === 403) {
+    // 3. Fallback to onboarding@resend.dev if domain verification error
+    if (resendData?.name === "validation_error" || resendRes.status === 403 || resendRes.status === 422) {
       const fallbackRes = await fetch("https://api.resend.com/emails", {
         method: "POST",
         headers: {
@@ -246,14 +252,14 @@ async function safeSendResendEmail(params: {
         }),
       });
 
-      const fallbackData = await fallbackRes.json();
+      const fallbackData = await fallbackRes.json().catch(() => null);
       if (fallbackRes.ok && fallbackData?.id) {
         return { success: true, data: fallbackData };
       }
-      return { success: false, error: fallbackData?.message || "Resend API error" };
+      return { success: false, error: fallbackData?.message || "Resend API fallback error" };
     }
 
-    return { success: false, error: resendData?.message || "Resend API error" };
+    return { success: false, error: resendData?.message || "Resend API dispatch error" };
   } catch (err: any) {
     console.error("[Email Service] Direct Resend dispatch error:", err);
     return { success: false, error: err.message || String(err) };
