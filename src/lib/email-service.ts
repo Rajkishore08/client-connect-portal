@@ -450,7 +450,8 @@ export async function sendBookingConfirmationEmail(payload: BookingEmailPayload)
   const gcalTitle = `Strategy Consultation — One World Solutions (${payload.clientName})`;
   const gcalDetails = `30-Min Strategy Session for ${payload.serviceInterested || "Consular & Software Scoping"}.\nContact: ${payload.clientPhone || payload.clientEmail}`;
   
-  const cleanDateStr = (payload.bookingDate || new Date().toISOString().split("T")[0]).replace(/-/g, "");
+  const defaultDateStr = new Date().toISOString().split("T")[0] || "2026-08-26";
+  const cleanDateStr = (payload.bookingDate || defaultDateStr).replace(/-/g, "");
   const gcalUrl = `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${encodeURIComponent(gcalTitle)}&details=${encodeURIComponent(gcalDetails)}&location=${encodeURIComponent("Chicago HQ / Google Meet / Phone Call")}&dates=${cleanDateStr}T140000Z/${cleanDateStr}T143000Z`;
 
   const cardContent = `
