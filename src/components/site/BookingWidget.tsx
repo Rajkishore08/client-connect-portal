@@ -9,7 +9,7 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { BOOKING_SLOTS } from "@/data/mock-data";
 import { confirmBooking } from "@/lib/backend-stubs";
-import { sendBookingConfirmationEmail } from "@/lib/email-service";
+import { sendBookingConfirmationEmail, sendAdminIntakeAlert } from "@/lib/email-service";
 import { saveConsultationToSupabase } from "@/lib/supabase";
 import { cn } from "@/lib/utils";
 
@@ -41,13 +41,23 @@ export function BookingWidget() {
       topic: form.reason || "Consultation Call",
     });
 
-    sendBookingConfirmationEmail({
+    await sendBookingConfirmationEmail({
       clientName: form.name,
       clientEmail: form.email,
       clientPhone: form.phone,
       bookingDate: formattedDate,
       bookingTime: slot,
       serviceInterested: form.reason || "Consular & Software Strategy Consultation",
+    });
+
+    await sendAdminIntakeAlert({
+      clientName: form.name,
+      clientEmail: form.email,
+      clientPhone: form.phone,
+      serviceTitle: `Strategy Call: ${slot}`,
+      serviceCategory: "Virtual Strategy Consultation",
+      trackingId: `BOOK-${Date.now().toString().slice(-6)}`,
+      details: `Scheduled Date: ${formattedDate} at ${slot} | Reason: ${form.reason || "General Scoping"}`,
     }).catch(() => {});
 
     setStatus(res.ok ? "done" : "error");

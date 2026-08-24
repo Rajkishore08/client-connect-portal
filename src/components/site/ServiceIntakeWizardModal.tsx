@@ -177,6 +177,9 @@ export function ServiceIntakeWizardModal({
       const res = await submitServiceRequest({
         category: CATEGORIES.find((c) => c.id === category)?.title || category,
         service: SUB_SERVICES[category]?.find((s) => s.id === subService)?.name || subService,
+        applicantName: fullName,
+        applicantEmail: email,
+        phoneUsa: phone,
         fields: {
           fullName,
           email,
@@ -189,15 +192,6 @@ export function ServiceIntakeWizardModal({
       });
 
       setReferenceNumber(res.reference);
-
-      // Automated Email Dispatch
-      sendIntakeConfirmationEmail({
-        name: fullName,
-        email,
-        service: SUB_SERVICES[category]?.find((s) => s.id === subService)?.name || subService,
-        reference: res.reference,
-        consultationSlot: `${selectedDate} at ${selectedSlot}`,
-      });
     } catch (err) {
       console.error(err);
     } finally {

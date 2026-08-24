@@ -29,7 +29,14 @@ export function EnquiryForm({
     e.preventDefault();
     setStatus("saving");
     try {
-      const res = await submitServiceRequest({ category, service, fields: form });
+      const res = await submitServiceRequest({
+        category,
+        service,
+        applicantName: form.name,
+        applicantEmail: form.email,
+        phoneUsa: form.phone,
+        fields: form,
+      });
       setReference(res.reference);
       setStatus("done");
       onDone?.();
