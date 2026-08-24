@@ -273,6 +273,87 @@ async function safeSendResendEmail(params: {
   }
 }
 
+function formatDetailsAsHtmlTable(details?: string): string {
+  if (!details || !details.trim()) return "";
+
+  const formatKeyName = (key: string) => {
+    const maps: Record<string, string> = {
+      companyName: "Company / Organization",
+      scopeType: "Project Scope",
+      budget: "Estimated Budget",
+      timeline: "Target Timeline",
+      projectDetails: "Project Requirements",
+      preferredConsultationDate: "Preferred Date",
+      preferredConsultationSlot: "Preferred Time Slot",
+      fullName: "Full Name",
+      phone: "Phone Number",
+      notes: "Additional Notes",
+      speedTier: "Processing Speed",
+      consultationSlot: "Consultation Session",
+    };
+
+    if (maps[key]) return maps[key];
+    return key
+      .replace(/([A-Z])/g, " $1")
+      .replace(/^./, (str) => str.toUpperCase())
+      .trim();
+  };
+
+  const items: { key: string; value: string }[] = [];
+
+  if (details.includes("|")) {
+    const parts = details.split("|");
+    for (const part of parts) {
+      const idx = part.indexOf(":");
+      if (idx !== -1) {
+        const k = part.slice(0, idx).trim();
+        const v = part.slice(idx + 1).trim();
+        if (k && v) {
+          items.push({ key: formatKeyName(k), value: v });
+        }
+      } else if (part.trim()) {
+        items.push({ key: "Details", value: part.trim() });
+      }
+    }
+  } else if (details.includes("\n")) {
+    const lines = details.split("\n");
+    for (const line of lines) {
+      const idx = line.indexOf(":");
+      if (idx !== -1) {
+        const k = line.slice(0, idx).trim();
+        const v = line.slice(idx + 1).trim();
+        if (k && v) {
+          items.push({ key: formatKeyName(k), value: v });
+        }
+      } else if (line.trim()) {
+        items.push({ key: "Note", value: line.trim() });
+      }
+    }
+  } else {
+    items.push({ key: "Specification", value: details });
+  }
+
+  if (items.length === 0) return "";
+
+  return `
+    <div style="margin-top: 14px; padding-top: 14px; border-top: 1px dashed #cbd5e1;">
+      <p style="margin: 0 0 8px 0; font-size: 11px; font-weight: 800; text-transform: uppercase; color: #64748b; font-family: monospace; letter-spacing: 0.5px;">APPLICATION SPECIFICATIONS</p>
+      <table style="width: 100%; border-collapse: collapse; font-size: 12px; line-height: 1.5;">
+        ${items
+          .map(
+            (item) => `
+          <tr style="border-bottom: 1px solid #f1f5f9;">
+            <td style="padding: 6px 0; font-weight: 700; color: #475569; width: 42%; vertical-align: top;">${item.key}:</td>
+            <td style="padding: 6px 0; font-weight: 600; color: #0f172a; width: 58%; vertical-align: top; word-break: break-word;">${item.value}</td>
+          </tr>
+        `
+          )
+          .join("")}
+      </table>
+    </div>
+  `;
+}
+
 /** 1. Send Intake Confirmation Email to Client */
 export async function sendClientIntakeEmail(payload: IntakeEmailPayload) {
   const cardContent = `
@@ -280,7 +361,7 @@ export async function sendClientIntakeEmail(payload: IntakeEmailPayload) {
     <div style="font-family: monospace; font-size: 22px; font-weight: 800; color: #2563eb; letter-spacing: 0.5px;">${payload.trackingId}</div>
     <p style="margin: 14px 0 4px 0; font-size: 15px; font-weight: 700; color: #0f172a;">${payload.serviceTitle}</p>
     <p style="margin: 0; font-size: 13px; color: #475569;">Category: ${payload.serviceCategory}</p>
-    ${payload.details ? `<div style="margin-top: 10px; padding-top: 10px; border-top: 1px solid #e2e8f0; font-size: 12px; color: #475569;">${payload.details}</div>` : ""}
+    ${formatDetailsAsHtmlTable(payload.details)}
   `;
 
   const html = renderBrandedEmailHtml({
