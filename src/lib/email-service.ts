@@ -445,15 +445,26 @@ export async function sendStatusUpdateEmail(payload: StatusUpdateEmailPayload) {
   });
 }
 
-/** 4. Send Strategy Call Booking Confirmation Email */
+/** 4. Send Strategy Call Booking Confirmation Email with Google Calendar Link */
 export async function sendBookingConfirmationEmail(payload: BookingEmailPayload) {
+  const gcalTitle = `Strategy Consultation — One World Solutions (${payload.clientName})`;
+  const gcalDetails = `30-Min Strategy Session for ${payload.serviceInterested || "Consular & Software Scoping"}.\nContact: ${payload.clientPhone || payload.clientEmail}`;
+  
+  const cleanDateStr = (payload.bookingDate || new Date().toISOString().split("T")[0]).replace(/-/g, "");
+  const gcalUrl = `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${encodeURIComponent(gcalTitle)}&details=${encodeURIComponent(gcalDetails)}&location=${encodeURIComponent("Chicago HQ / Google Meet / Phone Call")}&dates=${cleanDateStr}T140000Z/${cleanDateStr}T143000Z`;
+
   const cardContent = `
-    <div style="background: #f1f5f9; padding: 16px; border-radius: 12px; border-left: 4px solid #7e22ce;">
-      <p style="margin: 0 0 8px 0; font-size: 14px; font-weight: 800; color: #0f172a;">📅 Date: ${payload.bookingDate}</p>
-      <p style="margin: 0; font-size: 14px; font-weight: 800; color: #7e22ce;">⏰ Time: ${payload.bookingTime}</p>
+    <div style="background: #faf5ff; padding: 18px; border-radius: 14px; border: 1px solid #e9d5ff; margin-bottom: 14px;">
+      <p style="margin: 0 0 6px 0; font-size: 14px; font-weight: 800; color: #5b21b6;">📅 Scheduled Date: ${payload.bookingDate}</p>
+      <p style="margin: 0 0 12px 0; font-size: 14px; font-weight: 800; color: #7e22ce;">⏰ Time Slot: ${payload.bookingTime}</p>
+      <div style="text-align: center; margin-top: 10px;">
+        <a href="${gcalUrl}" target="_blank" style="display: inline-block; background: #7e22ce; color: #ffffff; text-decoration: none; font-weight: 800; font-size: 13px; padding: 10px 20px; border-radius: 10px; box-shadow: 0 2px 8px rgba(126,34,206,0.3);">
+          📅 Add to Google Calendar
+        </a>
+      </div>
     </div>
-    <p style="margin: 12px 0 0 0; font-size: 13px; color: #475569;">
-      Our senior specialist will contact you directly at <strong>${payload.clientPhone || payload.clientEmail}</strong>.
+    <p style="margin: 8px 0 0 0; font-size: 13px; color: #475569; line-height: 1.5;">
+      Our senior specialist will reach out to you directly at <strong>${payload.clientPhone || payload.clientEmail}</strong> at the selected time.
     </p>
   `;
 
@@ -465,8 +476,8 @@ export async function sendBookingConfirmationEmail(payload: BookingEmailPayload)
     title: `Hello ${payload.clientName},`,
     subtitle: `Your 1-on-1 virtual strategy consultation with One World Solutions has been scheduled.`,
     cardContent,
-    ctaText: "Join Virtual Consultation",
-    ctaUrl: "https://oneworldsolutionsusa.com/track",
+    ctaText: "Open Calendar & Portal",
+    ctaUrl: gcalUrl,
   });
 
   return safeSendResendEmail({
