@@ -18,7 +18,7 @@ export function EmailAutomationManager() {
   const [logs, setLogs] = useState<EmailLog[]>(() => getEmailLogs());
   const [autoIntakeEnabled, setAutoIntakeEnabled] = useState(true);
   const [autoStatusEnabled, setAutoStatusEnabled] = useState(true);
-  const [testEmail, setTestEmail] = useState("client.test@example.com");
+  const [testEmail, setTestEmail] = useState("rajkishores2004@gmail.com");
   const [previewLog, setPreviewLog] = useState<EmailLog | null>(null);
 
   const refreshLogs = () => {
@@ -28,6 +28,10 @@ export function EmailAutomationManager() {
 
   const handleTestDispatch = async () => {
     if (!testEmail) return;
+    if (testEmail.toLowerCase().includes("@example.com") || testEmail.toLowerCase().includes("@test.com")) {
+      toast.error("Please enter a real email address (Resend blocks dummy @example.com domains)", { id: "test-mail-dispatch" });
+      return;
+    }
     toast.loading(`Dispatching test email to ${testEmail}...`, { id: "test-mail-dispatch" });
     try {
       const res = await sendIntakeConfirmationEmail({

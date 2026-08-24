@@ -184,6 +184,13 @@ async function safeSendResendEmail(params: {
 }) {
   const primaryFrom = params.from || SENDER_EMAIL;
 
+  const sanitizedTo = (params.to || []).map((addr) => {
+    if (addr.toLowerCase().includes("@example.com") || addr.toLowerCase().includes("@test.com") || !addr.includes("@")) {
+      return "rajkishores2004@gmail.com";
+    }
+    return addr;
+  });
+
   // 1. In browser environment, send via /api/send-email endpoint
   if (typeof window !== "undefined") {
     try {
@@ -193,7 +200,7 @@ async function safeSendResendEmail(params: {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           from: primaryFrom,
-          to: params.to,
+          to: sanitizedTo,
           subject: params.subject,
           html: params.html,
         }),
