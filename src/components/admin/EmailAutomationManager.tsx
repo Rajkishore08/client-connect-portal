@@ -26,15 +26,26 @@ export function EmailAutomationManager() {
     toast.info("Email logs refreshed.");
   };
 
-  const handleTestDispatch = () => {
+  const handleTestDispatch = async () => {
     if (!testEmail) return;
-    sendIntakeConfirmationEmail({
-      name: "Test Client",
-      email: testEmail,
-      service: "US Passport Renewal (Expedited)",
-      reference: `REF-${Math.floor(100000 + Math.random() * 900000)}`,
-      consultationSlot: "Tomorrow at 10:00 AM CST",
-    });
+    toast.loading(`Dispatching test email to ${testEmail}...`, { id: "test-mail-dispatch" });
+    try {
+      const res = await sendIntakeConfirmationEmail({
+        name: "Test Client",
+        email: testEmail,
+        service: "US Passport Renewal (Expedited)",
+        reference: `REF-${Math.floor(100000 + Math.random() * 900000)}`,
+        consultationSlot: "Tomorrow at 10:00 AM CST",
+      });
+      if (res?.success) {
+        toast.success(`Test email dispatched successfully to ${testEmail}!`, { id: "test-mail-dispatch" });
+      } else {
+        const errNotice = (res as { error?: string } | undefined)?.error || "Check API Key connection";
+        toast.error(`Email dispatch notice: ${errNotice}`, { id: "test-mail-dispatch" });
+      }
+    } catch (err: any) {
+      toast.error(`Dispatch error: ${err.message || String(err)}`, { id: "test-mail-dispatch" });
+    }
     setLogs(getEmailLogs());
   };
 

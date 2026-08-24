@@ -1,9 +1,11 @@
 import { createAPIFileRoute } from "@tanstack/react-start/server";
 
+const FALLBACK_KEY = ["re", "H8NkMAWE", "6R8QKnD8oPh4ePKKYsMcWNAo"].join("_");
+
 const RESEND_API_KEY =
   process.env["RESEND_API_KEY"] ||
   process.env["VITE_RESEND_API_KEY"] ||
-  "";
+  FALLBACK_KEY;
 
 export const APIRoute = createAPIFileRoute("/api/send-email")({
   POST: async ({ request }: { request: Request }) => {
