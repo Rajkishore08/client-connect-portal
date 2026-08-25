@@ -64,6 +64,7 @@ import { sendStatusUpdateEmail } from "@/lib/email-service";
 import { exportToCSV, exportToJSON } from "@/lib/export-utils";
 import {
   createLeadInSupabase,
+  deleteLeadInSupabase,
   fetchLeadsFromSupabase,
   updateLeadInSupabase,
 } from "@/lib/supabase-db";
@@ -236,6 +237,55 @@ export function LeadsTable({ initialView = "pipeline" }: { initialView?: "pipeli
   const [activeManageLead, setActiveManageLead] = useState<Lead | null>(null);
   const [leadModalTab, setLeadModalTab] = useState<"milestones" | "vault" | "communications">("milestones");
   const [previewDoc, setPreviewDoc] = useState<{ url: string; fileName: string } | null>(null);
+
+  // Delete Lead Confirmation Modal State
+  const [leadToDelete, setLeadToDelete] = useState<Lead | null>(null);
+
+  const handleDeleteLead = async (targetLead: Lead) => {
+    try {
+      const targetId = targetLead.id;
+      const targetRef = targetLead.reference;
+
+      // 1. Update local component state immediately
+      setLeads((prev) => prev.filter((l) => l.id !== targetId && l.reference !== targetRef));
+
+      // 2. Clear local storage records
+      if (typeof window !== "undefined") {
+        try {
+          const overridesStr = localStorage.getItem("ows_admin_lead_overrides");
+          if (overridesStr) {
+            const overrides = JSON.parse(overridesStr);
+            delete overrides[targetId];
+            delete overrides[targetRef];
+            localStorage.setItem("ows_admin_lead_overrides", JSON.stringify(overrides));
+          }
+
+          const storedStr = localStorage.getItem("ows_submitted_intakes");
+          if (storedStr) {
+            const intakes = JSON.parse(storedStr);
+            if (Array.isArray(intakes)) {
+              const updatedIntakes = intakes.filter((i: any) => i.id !== targetId && i.reference !== targetRef);
+              localStorage.setItem("ows_submitted_intakes", JSON.stringify(updatedIntakes));
+            }
+          }
+
+          window.dispatchEvent(new Event("ows_lead_updated"));
+        } catch (e) {}
+      }
+
+      // 3. Delete from Supabase PostgreSQL Database
+      await deleteLeadInSupabase(targetId);
+
+      setLeadToDelete(null);
+      if (activeManageLead?.id === targetId) setActiveManageLead(null);
+
+      toast.success("Lead Record Deleted", {
+        description: `Lead #${targetRef} (${targetLead.name}) has been permanently deleted.`,
+      });
+    } catch (err: any) {
+      toast.error("Failed to delete lead: " + (err.message || "Unknown error"));
+    }
+  };
 
   // Custom In-App Milestone Modal State (No native browser prompts!)
   const [customMilestoneModalLeadId, setCustomMilestoneModalLeadId] = useState<string | null>(null);
@@ -923,6 +973,19 @@ export function LeadsTable({ initialView = "pipeline" }: { initialView?: "pipeli
                               className={`h-4 w-4 transition-transform ${expanded === lead.id ? "rotate-180" : ""}`}
                             />
                           </Button>
+
+                          <Button
+                            variant="ghost"
+                            size="sm"
+                            title="Delete Lead Record"
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              setLeadToDelete(lead);
+                            }}
+                            className="h-8 w-8 p-0 text-red-600 hover:text-red-700 hover:bg-red-50 border border-red-200/80 rounded-xl cursor-pointer"
+                          >
+                            <Trash2 className="h-3.5 w-3.5" />
+                          </Button>
                         </div>
                       </td>
                     </tr>
@@ -1301,6 +1364,15 @@ export function LeadsTable({ initialView = "pipeline" }: { initialView?: "pipeli
                 >
                   Email
                 </a>
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={() => setLeadToDelete(activeManageLead)}
+                  className="h-8 gap-1 text-xs font-bold text-red-600 bg-red-50 hover:bg-red-100 border-red-200 cursor-pointer"
+                >
+                  <Trash2 className="h-3.5 w-3.5" />
+                  Delete Lead
+                </Button>
                 <button
                   type="button"
                   onClick={() => setActiveManageLead(null)}
@@ -2006,6 +2078,66 @@ export function LeadsTable({ initialView = "pipeline" }: { initialView?: "pipeli
                 </Button>
               </div>
             </form>
+          </div>
+        </div>
+      )}
+
+      {/* Delete Lead Confirmation Modal Dialog */}
+      {leadToDelete && (
+        <div className="fixed inset-0 z-[10000] bg-slate-900/70 backdrop-blur-xs flex items-center justify-center p-4">
+          <div className="surface-card w-full max-w-md rounded-3xl bg-white p-6 space-y-5 shadow-2xl border border-slate-200 animate-in fade-in zoom-in-95 duration-200">
+            <div className="flex items-center justify-between border-b border-slate-100 pb-3">
+              <div className="flex items-center gap-2.5">
+                <span className="h-9 w-9 rounded-xl bg-red-50 border border-red-200 text-red-600 grid place-items-center font-bold">
+                  <Trash2 className="h-5 w-5" />
+                </span>
+                <div>
+                  <h3 className="text-sm font-bold text-slate-900">Delete Lead Record</h3>
+                  <p className="text-[11px] text-slate-500">Permanent Action Warning</p>
+                </div>
+              </div>
+              <button
+                type="button"
+                onClick={() => setLeadToDelete(null)}
+                className="h-8 w-8 rounded-full text-slate-400 hover:text-slate-700 hover:bg-slate-100 grid place-items-center cursor-pointer"
+              >
+                <X className="h-4 w-4" />
+              </button>
+            </div>
+
+            <div className="space-y-3 text-xs">
+              <p className="text-slate-600 leading-relaxed font-medium">
+                Are you sure you want to permanently delete lead record <strong className="text-slate-900 font-mono">#{leadToDelete.reference}</strong> for <strong className="text-slate-900">{leadToDelete.name}</strong>?
+              </p>
+
+              <div className="p-3 rounded-xl bg-slate-50 border border-slate-200 space-y-1">
+                <p className="font-bold text-slate-800">{leadToDelete.service}</p>
+                <p className="text-slate-500">{leadToDelete.email} • {leadToDelete.phone}</p>
+              </div>
+
+              <p className="text-[11px] font-bold text-red-600">
+                ⚠️ This will remove the lead from Supabase DB, live tracking lookups, and admin views.
+              </p>
+
+              <div className="flex items-center justify-end gap-2 pt-3 border-t border-slate-100">
+                <Button
+                  type="button"
+                  variant="outline"
+                  onClick={() => setLeadToDelete(null)}
+                  className="font-bold text-xs cursor-pointer"
+                >
+                  Cancel
+                </Button>
+                <Button
+                  type="button"
+                  onClick={() => handleDeleteLead(leadToDelete)}
+                  className="bg-red-600 hover:bg-red-700 text-white font-bold text-xs shadow-xs cursor-pointer gap-1.5"
+                >
+                  <Trash2 className="h-3.5 w-3.5" />
+                  Confirm Delete
+                </Button>
+              </div>
+            </div>
           </div>
         </div>
       )}
