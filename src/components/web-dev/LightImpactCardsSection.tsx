@@ -54,8 +54,8 @@ export function LightImpactCardsSection() {
       <div className="absolute inset-0 flex items-center pointer-events-none overflow-hidden select-none opacity-20 z-0">
         <motion.div
           animate={{ x: ["0%", "-50%"] }}
-          transition={{ repeat: Infinity, duration: 35, ease: "linear" }}
-          className="flex whitespace-nowrap font-black tracking-widest text-slate-400 text-[clamp(2rem,6vw,5rem)] uppercase"
+          transition={{ repeat: Infinity, duration: 18, ease: "linear" }}
+          className="flex whitespace-nowrap font-black tracking-widest text-slate-400 text-[clamp(1.5rem,4vw,3.2rem)] uppercase"
         >
           <span className="pr-12">
             INTEGRATIONS • CLOUD SOLUTIONS • MACHINE LEARNING • DATA PLATFORMS • AI AGENTS • SAAS PIPELINES •

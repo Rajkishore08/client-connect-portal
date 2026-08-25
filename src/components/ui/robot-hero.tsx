@@ -783,12 +783,12 @@ export function RobotHero({
         style={{ zIndex: 0 }}
       >
         <motion.div
-          className="flex whitespace-nowrap font-black font-sans tracking-tighter text-slate-900/10 text-[clamp(4rem,14vw,10rem)] leading-none uppercase"
+          className="flex whitespace-nowrap font-black font-sans tracking-tighter text-slate-900/10 text-[clamp(2.5rem,8vw,5.5rem)] leading-none uppercase"
           animate={{ x: ["0%", "-50%"] }}
           transition={{
             repeat: Infinity,
             ease: "linear",
-            duration: 45,
+            duration: 20,
           }}
         >
           <span className="pr-12">
