@@ -260,7 +260,7 @@ export const WEB_SERVICES: WebService[] = [
 
 export type LeadStatus = "New" | "In Contact" | "Proposal Sent" | "Payment Pending" | "In Progress" | "Completed" | "Archived";
 export type LeadSource = "Form" | "Chat" | "Calendar";
-export type TrackStatus = "Not Started" | "In Progress" | "Completed";
+export type TrackStatus = "Not Started" | "In Progress" | "Completed" | "Pending Admin Review";
 
 export interface Milestone {
   id: string;
