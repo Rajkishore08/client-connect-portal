@@ -137,6 +137,7 @@ export function UniversalServiceIntakeForm({
   );
   const [scopeType, setScopeType] = useState<string>(config.scopeOptions[0] || "");
   const [budget, setBudget] = useState<string>(config.budgetTiers[0] || "");
+  const [customBudget, setCustomBudget] = useState<string>("$2,500");
   const [timeline, setTimeline] = useState<string>(config.timelines[0] || "");
 
   const [fullName, setFullName] = useState("");
@@ -176,6 +177,12 @@ export function UniversalServiceIntakeForm({
         uploadedFileUrls = await uploadDocuments(files, referenceId);
       }
 
+      // Compute custom or selected budget with $2,500 base fallback
+      const isCustomBudget = budget === "Custom Amount (Enter Manually)";
+      const effectiveBudget = isCustomBudget
+        ? (customBudget ? (customBudget.includes("$") ? customBudget : `$${customBudget}`) : "$2,500 USD")
+        : budget;
+
       // Detect if user selected a special Engagement Partnership Model
       const hashStr = window.location.hash || "";
       let engagementModel = "";
@@ -207,7 +214,7 @@ export function UniversalServiceIntakeForm({
         fields: {
           companyName: companyName || "",
           scopeType: scopeType || "",
-          budget: budget || "",
+          budget: effectiveBudget || "$2,500",
           timeline: timeline || "",
           projectDetails: formattedNotes,
           preferredConsultationDate: preferredDate || "",
@@ -410,19 +417,56 @@ export function UniversalServiceIntakeForm({
           </div>
 
           <div className="space-y-2">
-            <Label className="text-xs font-bold text-slate-700">Estimated Budget Range</Label>
-            <Select value={budget} onValueChange={setBudget}>
+            <div className="flex items-center justify-between">
+              <Label className="text-xs font-bold text-slate-700">Estimated Budget Range</Label>
+              {budget === "Custom Amount (Enter Manually)" && (
+                <button
+                  type="button"
+                  onClick={() => setBudget(config.budgetTiers[0] || "$2,500 – $5,000")}
+                  className="text-[10px] font-bold text-blue-600 hover:underline cursor-pointer"
+                >
+                  Reset to Tiers
+                </button>
+              )}
+            </div>
+            <Select value={budget} onValueChange={(val) => {
+              setBudget(val);
+              if (val === "Custom Amount (Enter Manually)" && !customBudget) {
+                setCustomBudget("$2,500");
+              }
+            }}>
               <SelectTrigger className="h-11 rounded-xl bg-slate-50 border-slate-200 text-xs font-semibold">
                 <SelectValue placeholder="Select Budget" />
               </SelectTrigger>
               <SelectContent>
                 {config.budgetTiers.map((opt) => (
-                  <SelectItem key={opt} value={opt} className="text-xs">
+                  <SelectItem key={opt} value={opt} className="text-xs font-medium">
                     {opt}
                   </SelectItem>
                 ))}
+                <SelectItem value="Custom Amount (Enter Manually)" className="text-xs font-extrabold text-blue-600">
+                  ✏️ Custom Amount (Enter Manually)
+                </SelectItem>
               </SelectContent>
             </Select>
+
+            {budget === "Custom Amount (Enter Manually)" && (
+              <div className="pt-1.5 animate-in fade-in slide-in-from-top-1 duration-200 space-y-1">
+                <div className="relative">
+                  <span className="absolute left-3.5 top-1/2 -translate-y-1/2 text-xs font-extrabold text-blue-600">$</span>
+                  <Input
+                    type="text"
+                    value={customBudget}
+                    onChange={(e) => setCustomBudget(e.target.value)}
+                    placeholder="2,500"
+                    className="h-11 pl-8 rounded-xl bg-blue-50/50 border-blue-300 text-xs font-black text-blue-900 focus:bg-white shadow-2xs"
+                  />
+                </div>
+                <p className="text-[10px] text-slate-500 font-medium">
+                  Base entry tier starts at $2,500 USD. Enter your exact target budget allocation.
+                </p>
+              </div>
+            )}
           </div>
 
           <div className="space-y-2">
