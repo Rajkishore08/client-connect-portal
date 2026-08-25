@@ -775,27 +775,27 @@ export function RobotHero({
     <section
       ref={containerRef}
       onClick={triggerHeartReaction}
-      className="relative w-full h-[520px] sm:h-[620px] overflow-hidden rounded-3xl border border-slate-200/90 shadow-lg cursor-pointer group select-none bg-gradient-to-b from-slate-50 via-slate-100 to-slate-200"
+      className="relative w-full h-[520px] sm:h-[620px] overflow-hidden rounded-3xl border border-slate-200/90 shadow-xl cursor-pointer group select-none bg-gradient-to-b from-slate-50 via-white to-slate-100/90"
     >
-      {/* Infinite Scrolling Marquee Services Text */}
+      {/* Background Text Positioned TOP ABOVE THE ROBOT (Matching Image 1) */}
       <div
-        className="absolute inset-0 flex items-center pointer-events-none overflow-hidden select-none"
+        className="absolute inset-x-0 top-0 pt-8 sm:pt-12 flex items-start justify-center pointer-events-none overflow-hidden select-none"
         style={{ zIndex: 0 }}
       >
         <motion.div
-          className="flex whitespace-nowrap font-black font-sans tracking-tighter text-slate-900/10 text-[clamp(3.5rem,12vw,9rem)] leading-none uppercase"
+          className="flex whitespace-nowrap font-black font-sans tracking-tighter text-slate-900/10 text-[clamp(4rem,14vw,10rem)] leading-none uppercase"
           animate={{ x: ["0%", "-50%"] }}
           transition={{
             repeat: Infinity,
             ease: "linear",
-            duration: 50,
+            duration: 45,
           }}
         >
-          <span className="pr-8">
-            CUSTOM WEB APPS • ENTERPRISE SAAS • AI AGENTS &amp; AUTOMATION • API ENGINEERING • HEADLESS CMS • PROGRESSIVE MOBILE APPS • CLOUD DEVOPS •
+          <span className="pr-12">
+            AGENTS • AI WEB APPS • ENTERPRISE SAAS • AUTOMATION •
           </span>
-          <span className="pr-8">
-            CUSTOM WEB APPS • ENTERPRISE SAAS • AI AGENTS &amp; AUTOMATION • API ENGINEERING • HEADLESS CMS • PROGRESSIVE MOBILE APPS • CLOUD DEVOPS •
+          <span className="pr-12">
+            AGENTS • AI WEB APPS • ENTERPRISE SAAS • AUTOMATION •
           </span>
         </motion.div>
       </div>
