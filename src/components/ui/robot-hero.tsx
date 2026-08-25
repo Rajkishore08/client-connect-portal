@@ -756,12 +756,19 @@ export function RobotHero({
   const isLovedRef = useRef(false);
   const timeoutRef = useRef<NodeJS.Timeout | null>(null);
 
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    const timer = setTimeout(() => setMounted(true), 50);
+    return () => clearTimeout(timer);
+  }, []);
+
   const triggerHeartReaction = () => {
     isLovedRef.current = true;
     if (timeoutRef.current) clearTimeout(timeoutRef.current);
     timeoutRef.current = setTimeout(() => {
       isLovedRef.current = false;
-    }, 2500);
+    }, 2800);
   };
 
   return (
@@ -794,7 +801,8 @@ export function RobotHero({
       </div>
 
       <div className="absolute inset-0 z-10 pointer-events-auto">
-        <Canvas shadows camera={{ position: [0, 0.2, 5.5], fov: 40 }}>
+        {mounted && (
+          <Canvas shadows camera={{ position: [0, 0.2, 5.5], fov: 40 }}>
           <ambientLight intensity={1.2} color="#ffffff" />
           <directionalLight position={[5, 6, 4]} intensity={1.6} color="#ffffff" castShadow />
           <directionalLight position={[-5, 4, -3]} intensity={0.8} color="#93c5fd" />
@@ -840,6 +848,7 @@ export function RobotHero({
             </ResponsiveGroup>
           </Suspense>
         </Canvas>
+        )}
       </div>
 
       {!hideNavbar && (

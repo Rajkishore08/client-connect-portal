@@ -1,33 +1,33 @@
 import { useEffect, useState } from "react";
+import { useRouterState } from "@tanstack/react-router";
 
 export function PageLoader() {
-  const [loading, setLoading] = useState(true);
+  const pathname = useRouterState({ select: (s) => s.location.pathname });
+  const isPending = useRouterState({ select: (s) => s.status === "pending" || s.isLoading });
+
+  const [active, setActive] = useState(true);
   const [fadeOut, setFadeOut] = useState(false);
 
   useEffect(() => {
-    const hasLoaded = sessionStorage.getItem("ow_portal_loaded");
-    if (hasLoaded) {
-      setLoading(false);
-      return;
-    }
+    setActive(true);
+    setFadeOut(false);
 
     const timer = setTimeout(() => {
       setFadeOut(true);
       setTimeout(() => {
-        setLoading(false);
-        sessionStorage.setItem("ow_portal_loaded", "true");
-      }, 200);
-    }, 350);
+        setActive(false);
+      }, 150);
+    }, 280);
 
     return () => clearTimeout(timer);
-  }, []);
+  }, [pathname]);
 
-  if (!loading) return null;
+  if (!active && !isPending) return null;
 
   return (
     <div
-      className={`fixed inset-0 z-[99999] flex flex-col items-center justify-center bg-white/80 backdrop-blur-xl text-slate-900 transition-opacity duration-300 ${
-        fadeOut ? "opacity-0 pointer-events-none" : "opacity-100"
+      className={`fixed inset-0 z-[99999] flex flex-col items-center justify-center bg-white/80 backdrop-blur-2xl text-slate-900 transition-opacity duration-200 ${
+        fadeOut && !isPending ? "opacity-0 pointer-events-none" : "opacity-100"
       }`}
     >
       <div className="relative z-10 flex flex-col items-center text-center space-y-5 px-6 max-w-sm">
@@ -38,7 +38,7 @@ export function PageLoader() {
             className="h-10 sm:h-12 w-auto object-contain"
           />
         </div>
-        
+
         {/* Brand Blue Custom Conic Loader */}
         <div className="custom-brand-loader my-1"></div>
 
