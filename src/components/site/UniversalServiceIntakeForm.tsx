@@ -252,18 +252,15 @@ export function UniversalServiceIntakeForm({
       sendClientIntakeEmail(emailPayload).catch(() => {});
       sendAdminIntakeAlert(emailPayload).catch(() => {});
 
-      const catLower = `${config.badge} ${serviceName}`.toLowerCase();
-      const isTechOrMarketing = catLower.includes("soft") || catLower.includes("web") || catLower.includes("dev") || catLower.includes("seo") || catLower.includes("market") || catLower.includes("growth") || catLower.includes("app") || catLower.includes("ui");
-
-      // Add to Auth Context state so it renders in client account portal dashboard
+      // Add to Auth Context state so it renders in client account portal dashboard with 0% initial progress
       addApplication({
         serviceCategory: config.badge,
         serviceTitle: serviceName,
         applicantName: fullName,
         applicantEmail: email,
         phoneUsa: phone,
-        status: isTechOrMarketing ? "In Progress" : "Submitted to Embassy",
-        progressPercent: 25,
+        status: "In Preparation",
+        progressPercent: 0,
         submittedAt: new Date().toISOString().split("T")[0]!,
         lastUpdated: "Just now",
         trackingId: referenceId,

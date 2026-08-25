@@ -273,8 +273,8 @@ function TrackPage() {
           const localCat = foundLocal.category || foundLocal.serviceCategory || "SOFTWARE & UI/UX DIVISION";
           const localSvc = foundLocal.service || foundLocal.serviceTitle || "Custom Web Application Intake";
 
-          const localStatus = foundLocal.status || "In Progress";
-          const localProgress = typeof foundLocal.progressPercent === "number" ? foundLocal.progressPercent : 25;
+          const localStatus = foundLocal.status || "In Preparation";
+          const localProgress = typeof foundLocal.progressPercent === "number" ? foundLocal.progressPercent : 0;
 
           match = {
             id: foundLocal.id || `local-${Date.now()}`,
@@ -293,12 +293,12 @@ function TrackPage() {
             documents: foundLocal.documents || [],
             tracking: {
               governmentForm: {
-                status: localProgress >= 50 ? "Completed" : "In Progress",
-                ref: "Intake Audit Verified",
+                status: localProgress >= 50 ? "Completed" : localProgress > 0 ? "In Progress" : "Pending Admin Review",
+                ref: localProgress > 0 ? "Intake Audit Verified" : "Awaiting Admin Processing",
               },
               vfs: {
                 status: localProgress >= 75 ? "Completed" : localProgress >= 25 ? "In Progress" : "Not Started",
-                ref: "Milestone Audit Active",
+                ref: localProgress >= 25 ? "Milestone Audit Active" : "Pending Admin Update",
               },
               courier: {
                 status: localProgress === 100 ? "Completed" : "Not Started",
