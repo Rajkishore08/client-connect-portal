@@ -202,6 +202,8 @@ export const ADVANCED_TECH_STACK: Record<
 export function TechStackMatrix() {
   const [activeTechTab, setActiveTechTab] = useState<keyof typeof ADVANCED_TECH_STACK>("Languages");
 
+  const allTechItems = Object.values(ADVANCED_TECH_STACK).flat();
+
   return (
     <section className="rounded-3xl bg-white text-slate-900 p-8 sm:p-12 space-y-8 border border-slate-200/90 shadow-sm relative overflow-hidden">
       <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
@@ -230,6 +232,39 @@ export function TechStackMatrix() {
             >
               {cat}
             </button>
+          ))}
+        </div>
+      </div>
+
+      {/* Auto-Scrollable Hero-Style Infinite Marquee Card Track */}
+      <div className="relative w-full overflow-hidden rounded-2xl bg-slate-900 p-4 border border-slate-800 shadow-xl">
+        <div className="absolute left-0 top-0 bottom-0 w-12 bg-gradient-to-r from-slate-900 to-transparent z-10 pointer-events-none"></div>
+        <div className="absolute right-0 top-0 bottom-0 w-12 bg-gradient-to-l from-slate-900 to-transparent z-10 pointer-events-none"></div>
+
+        <div className="animate-marquee flex items-center gap-4">
+          {[...allTechItems, ...allTechItems].map((tech, idx) => (
+            <div
+              key={`${tech.name}-${idx}`}
+              className="flex items-center gap-3 px-4 py-2.5 rounded-xl bg-slate-800/90 border border-slate-700/80 shrink-0 hover:bg-slate-800 hover:border-blue-500 transition-all cursor-pointer group"
+            >
+              <div className="h-8 w-8 rounded-lg bg-slate-900 border border-slate-700 p-1.5 grid place-items-center shrink-0">
+                <img
+                  src={tech.logo}
+                  alt={tech.name}
+                  className="h-5 w-5 object-contain"
+                  onError={(e) => {
+                    (e.currentTarget as HTMLImageElement).src =
+                      "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/javascript/javascript-original.svg";
+                  }}
+                />
+              </div>
+              <div>
+                <p className="text-xs font-bold text-white group-hover:text-blue-400 transition-colors whitespace-nowrap">
+                  {tech.name}
+                </p>
+                <p className="text-[10px] font-medium text-slate-400 whitespace-nowrap">{tech.badge}</p>
+              </div>
+            </div>
           ))}
         </div>
       </div>

@@ -71,6 +71,7 @@ export function SiteHeader() {
           <nav className="hidden lg:flex items-center gap-1">
             <Link
               to="/"
+              preload="intent"
               activeProps={{ className: "bg-blue-50 text-blue-600 font-bold" }}
               className="rounded-full px-3.5 py-2 text-xs font-semibold text-slate-700 transition-colors hover:bg-slate-100 whitespace-nowrap"
             >
@@ -79,6 +80,7 @@ export function SiteHeader() {
 
             <Link
               to="/passport"
+              preload="intent"
               activeProps={{ className: "bg-blue-50 text-blue-600 font-bold" }}
               className="rounded-full px-3 py-1.5 text-xs font-semibold text-slate-700 transition-colors hover:bg-slate-100 whitespace-nowrap flex items-center gap-1.5"
             >
@@ -87,6 +89,7 @@ export function SiteHeader() {
 
             <Link
               to="/web-development"
+              preload="intent"
               activeProps={{ className: "bg-blue-50 text-blue-600 font-bold" }}
               className="rounded-full px-3 py-1.5 text-xs font-semibold text-slate-700 transition-colors hover:bg-slate-100 whitespace-nowrap flex items-center gap-1.5"
             >
@@ -95,6 +98,7 @@ export function SiteHeader() {
 
             <Link
               to="/digital-marketing"
+              preload="intent"
               activeProps={{ className: "bg-blue-50 text-blue-600 font-bold" }}
               className="rounded-full px-3 py-1.5 text-xs font-semibold text-slate-700 transition-colors hover:bg-slate-100 whitespace-nowrap flex items-center gap-1.5"
             >
@@ -103,6 +107,7 @@ export function SiteHeader() {
 
             <Link
               to="/track"
+              preload="intent"
               activeProps={{ className: "bg-blue-50 text-blue-600 font-bold" }}
               className="rounded-full px-3 py-1.5 text-xs font-semibold text-slate-700 transition-colors hover:bg-slate-100 whitespace-nowrap"
             >
@@ -133,7 +138,7 @@ export function SiteHeader() {
                   </DropdownMenuLabel>
                   <DropdownMenuSeparator />
                   <DropdownMenuItem asChild>
-                    <Link to="/account" className="cursor-pointer text-xs py-2 font-semibold flex items-center gap-2">
+                    <Link to="/account" preload="intent" className="cursor-pointer text-xs py-2 font-semibold flex items-center gap-2">
                       <FileText className="h-4 w-4 text-blue-600" /> My Applications
                     </Link>
                   </DropdownMenuItem>
@@ -155,7 +160,7 @@ export function SiteHeader() {
             )}
 
             <Button asChild size="sm" className="rounded-full bg-blue-600 hover:bg-blue-700 text-white font-bold text-xs px-4 py-2 shadow-sm ml-1 cursor-pointer">
-              <Link to="/book">Book Call</Link>
+              <Link to="/book" preload="intent">Book Call</Link>
             </Button>
           </div>
 
