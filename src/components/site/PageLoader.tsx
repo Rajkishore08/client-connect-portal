@@ -8,14 +8,18 @@ export function PageLoader() {
   const [visible, setVisible] = useState(false);
 
   useEffect(() => {
+    let timer: any;
     if (isPending) {
       setVisible(true);
     } else {
-      const timer = setTimeout(() => {
+      timer = setTimeout(() => {
         setVisible(false);
       }, 120);
-      return () => clearTimeout(timer);
     }
+
+    return () => {
+      if (timer) clearTimeout(timer);
+    };
   }, [isPending, pathname]);
 
   if (!visible && !isPending) return null;
