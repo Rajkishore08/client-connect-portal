@@ -5,45 +5,41 @@ export function PageLoader() {
   const pathname = useRouterState({ select: (s) => s.location.pathname });
   const isPending = useRouterState({ select: (s) => s.status === "pending" || s.isLoading });
 
-  const [active, setActive] = useState(true);
-  const [fadeOut, setFadeOut] = useState(false);
+  const [visible, setVisible] = useState(false);
 
   useEffect(() => {
-    setActive(true);
-    setFadeOut(false);
+    if (isPending) {
+      setVisible(true);
+    } else {
+      const timer = setTimeout(() => {
+        setVisible(false);
+      }, 120);
+      return () => clearTimeout(timer);
+    }
+  }, [isPending, pathname]);
 
-    const timer = setTimeout(() => {
-      setFadeOut(true);
-      setTimeout(() => {
-        setActive(false);
-      }, 150);
-    }, 280);
-
-    return () => clearTimeout(timer);
-  }, [pathname]);
-
-  if (!active && !isPending) return null;
+  if (!visible && !isPending) return null;
 
   return (
     <div
-      className={`fixed inset-0 z-[99999] flex flex-col items-center justify-center bg-white/80 backdrop-blur-2xl text-slate-900 transition-opacity duration-200 ${
-        fadeOut && !isPending ? "opacity-0 pointer-events-none" : "opacity-100"
+      className={`fixed inset-0 z-[99999] flex flex-col items-center justify-center bg-white/85 backdrop-blur-xl text-slate-900 transition-opacity duration-150 pointer-events-none ${
+        isPending ? "opacity-100" : "opacity-0"
       }`}
     >
-      <div className="relative z-10 flex flex-col items-center text-center space-y-5 px-6 max-w-sm">
-        <div className="p-4 rounded-3xl border border-white/90 bg-white/90 shadow-2xl backdrop-blur-md">
+      <div className="relative z-10 flex flex-col items-center text-center space-y-4 px-6 max-w-sm animate-in fade-in zoom-in-95 duration-150">
+        <div className="p-3.5 rounded-3xl border border-white/90 bg-white/90 shadow-2xl backdrop-blur-md">
           <img
             src="/logo-rect.webp"
             alt="One World Solutions"
-            className="h-10 sm:h-12 w-auto object-contain"
+            className="h-9 sm:h-11 w-auto object-contain"
           />
         </div>
 
         {/* Brand Blue Custom Conic Loader */}
         <div className="custom-brand-loader my-1"></div>
 
-        <p className="text-[11px] font-mono font-bold text-blue-600 uppercase tracking-widest">
-          Loading One World Portal...
+        <p className="text-[11px] font-mono font-extrabold text-blue-600 uppercase tracking-widest">
+          Loading Page...
         </p>
       </div>
     </div>
