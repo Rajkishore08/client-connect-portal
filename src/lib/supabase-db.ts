@@ -68,7 +68,8 @@ export async function fetchLeadsFromSupabase(): Promise<Lead[]> {
     const { data, error } = await supabase
       .from("leads")
       .select("*")
-      .order("created_at", { ascending: false });
+      .order("created_at", { ascending: false })
+      .limit(100);
 
     if (!error && data && data.length > 0) {
       result = data.map(mapSupabaseRowToLead);
@@ -275,7 +276,8 @@ export async function fetchUserApplicationsFromSupabase(email: string): Promise<
       .from("leads")
       .select("*")
       .eq("email", email)
-      .order("created_at", { ascending: false });
+      .order("created_at", { ascending: false })
+      .limit(50);
 
     if (error || !data) return [];
     return data.map(mapSupabaseRowToLead);
