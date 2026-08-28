@@ -162,7 +162,7 @@ export function renderBrandedEmailHtml({
             <td bgcolor="#f8fafc" style="background-color: #f8fafc; padding: 24px; text-align: center; font-size: 12px; color: #64748b; border-top: 1px solid #e2e8f0; line-height: 1.5;">
               <p style="margin: 0 0 6px 0; font-weight: 800; color: #334155;">One World Solutions (A Division of ABHIPRIYA GROUPS LLC, E-Verified)</p>
               <p style="margin: 0;">Chicago HQ: 3501 N Southport Ave, Chicago, IL 60613, USA</p>
-              <p style="margin: 4px 0 0 0;">Direct Hotline: +1 (417) 569-0711 • Support: support@oneworldsolutionsusa.com</p>
+              <p style="margin: 4px 0 0 0;">Direct Hotline: +1 (773) 974-5045 • Support: support@oneworldsolutionsusa.com</p>
             </td>
           </tr>
 
@@ -519,7 +519,7 @@ export function getEmailLogs(): EmailLog[] {
       <tr style="border-bottom: 1px solid #f1f5f9;"><td style="padding: 8px 0; font-weight: bold; color: #64748b;">Tracking ID:</td><td style="color: #2563eb; font-weight: bold; font-family: monospace; font-size: 15px;">REF-305161</td></tr>
       <tr style="border-bottom: 1px solid #f1f5f9;"><td style="padding: 8px 0; font-weight: bold; color: #64748b;">Applicant Name:</td><td style="font-weight: 700; color: #0f172a;">Raj Kishore</td></tr>
       <tr style="border-bottom: 1px solid #f1f5f9;"><td style="padding: 8px 0; font-weight: bold; color: #64748b;">Applicant Email:</td><td>rajkishores2004@gmail.com</td></tr>
-      <tr style="border-bottom: 1px solid #f1f5f9;"><td style="padding: 8px 0; font-weight: bold; color: #64748b;">Direct Phone:</td><td>+1 (417) 569-0711</td></tr>
+      <tr style="border-bottom: 1px solid #f1f5f9;"><td style="padding: 8px 0; font-weight: bold; color: #64748b;">Direct Phone:</td><td>+1 (773) 974-5045</td></tr>
       <tr style="border-bottom: 1px solid #f1f5f9;"><td style="padding: 8px 0; font-weight: bold; color: #64748b;">Service Category:</td><td>Digital Growth Division</td></tr>
       <tr><td style="padding: 8px 0; font-weight: bold; color: #64748b;">Assigned SLA:</td><td>Search Engine Optimization (SEO)</td></tr>
     </table>

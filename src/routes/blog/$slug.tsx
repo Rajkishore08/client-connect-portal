@@ -109,7 +109,7 @@ function SingleBlogPostPage() {
             </div>
 
             <a
-              href="https://wa.me/14175690711"
+              href="https://wa.me/17739745045"
               target="_blank"
               rel="noreferrer"
               className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-emerald-50 text-emerald-800 border border-emerald-300 font-bold hover:bg-emerald-100 transition-colors"

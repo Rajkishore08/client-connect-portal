@@ -335,7 +335,7 @@ function LoginPage() {
         </div>
 
         <div className="text-center text-[11px] text-slate-400">
-          Need help logging in? Contact Chicago HQ at <a href="tel:+14175690711" className="font-bold text-slate-600 underline">+1 (417) 569-0711</a>
+          Need help logging in? Contact Chicago HQ at <a href="tel:+17739745045" className="font-bold text-slate-600 underline">+1 (773) 974-5045</a>
         </div>
       </div>
     </div>

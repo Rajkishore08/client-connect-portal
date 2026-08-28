@@ -110,12 +110,12 @@ export function BookingWidget() {
           </div>
         </div>
         <a
-          href="https://wa.me/14175690711"
+          href="https://wa.me/17739745045"
           target="_blank"
           rel="noreferrer"
           className="rounded-full bg-emerald-600 hover:bg-emerald-700 text-white px-5 py-2 font-bold text-xs shrink-0 transition-transform active:scale-95 shadow-sm"
         >
-          WhatsApp: +1 (417) 569-0711
+          WhatsApp: +1 (773) 974-5045
         </a>
       </div>
       <div className="surface-card p-4 sm:p-6">

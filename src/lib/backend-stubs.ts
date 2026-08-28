@@ -357,7 +357,7 @@ export async function sendChatMessage(message: string, history: { role: string; 
   const refMatch = trimmed.match(/\b(OWS|REF|CHI)-[A-Z0-9-]+\b/i);
   if (refMatch) {
     const refId = refMatch[0].toUpperCase();
-    return `[TRACKING STATUS] **Live Application Tracking Status for #${refId}:**\n\n• **Current Phase:** VFS / Senior Audit Completed — Document Verified\n• **Processing Hub:** Chicago, Illinois USA Operations Desk\n• **Assigned Specialist:** Senior Concierge Team\n• **Dispatch Status:** Scheduled for Direct Embassy Courier Handover\n• **Estimated Completion:** Within 24–48 Business Hours\n\n[NEXT STEPS] Have urgent updates? Chat directly with your assigned specialist on WhatsApp Business at **+1 (417) 569-0711**.`;
+    return `[TRACKING STATUS] **Live Application Tracking Status for #${refId}:**\n\n• **Current Phase:** VFS / Senior Audit Completed — Document Verified\n• **Processing Hub:** Chicago, Illinois USA Operations Desk\n• **Assigned Specialist:** Senior Concierge Team\n• **Dispatch Status:** Scheduled for Direct Embassy Courier Handover\n• **Estimated Completion:** Within 24–48 Business Hours\n\n[NEXT STEPS] Have urgent updates? Chat directly with your assigned specialist on WhatsApp Business at **+1 (773) 974-5045**.`;
   }
 
   if (text.includes("web") || text.includes("saas") || text.includes("app") || text.includes("ai") || text.includes("rag")) {
@@ -372,5 +372,5 @@ export async function sendChatMessage(message: string, history: { role: string; 
     return `[PASSPORT DIVISION] **Passport & Visa Services:**\n\n• **24-Hour Emergency Rush:** End-to-end processing & form audit within 24 hours.\n• **Renewals & Consular:** Guided passport renewals, OCI applications, and surrender certificates.\n• **Direct Embassy Shipping:** Finished passports delivered directly to your home address.\n\n[NEXT STEPS] Select your exact service on our **Passport Services** page.`;
   }
 
-  return `Hello! As the **One World Solutions AI Concierge**, I can assist you across Web Development, Digital Marketing, and Passport Services.\n\nHow can I help you today? You can also message us directly on WhatsApp Business at **+1 (417) 569-0711**.`;
+  return `Hello! As the **One World Solutions AI Concierge**, I can assist you across Web Development, Digital Marketing, and Passport Services.\n\nHow can I help you today? You can also message us directly on WhatsApp Business at **+1 (773) 974-5045**.`;
 }

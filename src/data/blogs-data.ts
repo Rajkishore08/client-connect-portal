@@ -45,7 +45,7 @@ Before filling out your online consular application, ensure you have original co
 3. **Physical Audit & Submission**: Double-check annexures and notarized affidavits.
 
 > [!TIP]
-> Need expedited emergency priority filing or error-free form preparation? Contact One World Solutions at **+1 (417) 569-0711** for end-to-end concierge assistance.
+> Need expedited emergency priority filing or error-free form preparation? Contact One World Solutions at **+1 (773) 974-5045** for end-to-end concierge assistance.
     `,
     coverImage: "https://images.unsplash.com/photo-1544717305-2782549b5136?auto=format&fit=crop&w=1200&q=80",
     author: "Elena Rostova (Senior Consular Specialist)",

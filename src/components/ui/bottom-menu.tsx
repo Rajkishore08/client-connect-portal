@@ -79,10 +79,10 @@ export function BottomMenu() {
               Speak directly with our Chicago consular specialists or tech project managers.
             </p>
             <a
-              href="tel:+14175690711"
+              href="tel:+17739745045"
               className="flex items-center justify-center gap-2 w-full py-2.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-bold text-xs shadow-md shadow-blue-600/20"
             >
-              <PhoneCall className="h-4 w-4" /> Call +1 (417) 569-0711
+              <PhoneCall className="h-4 w-4" /> Call +1 (773) 974-5045
             </a>
           </div>
         );
@@ -106,7 +106,7 @@ export function BottomMenu() {
               Instant 24-hour response for urgent passport renewals and project inquiries.
             </p>
             <a
-              href="https://wa.me/14175690711"
+              href="https://wa.me/17739745045"
               target="_blank"
               rel="noreferrer"
               className="flex items-center justify-center gap-2 w-full py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs shadow-md shadow-emerald-600/20"

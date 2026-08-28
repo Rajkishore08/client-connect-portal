@@ -153,7 +153,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
                 "height": "512"
               },
               "image": "https://www.oneworldsolutionsusa.com/logo-square.png",
-              "telephone": "+1-417-569-0711",
+              "telephone": "+1-773-974-5045",
               "email": "support@oneworldsolutionsusa.com"
             },
             {
@@ -172,7 +172,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
               "url": "https://www.oneworldsolutionsusa.com",
               "logo": "https://www.oneworldsolutionsusa.com/logo-square.png",
               "image": "https://www.oneworldsolutionsusa.com/logo-square.png",
-              "telephone": "+1-417-569-0711",
+              "telephone": "+1-773-974-5045",
               "email": "support@oneworldsolutionsusa.com",
               "address": {
                 "@type": "PostalAddress",

@@ -152,7 +152,7 @@ export function ChatWidget() {
         {
           id: crypto.randomUUID(),
           role: "assistant",
-          text: "I apologize, but I am having trouble connecting right now. Please try again or reach out on WhatsApp Business at +1 (417) 569-0711.",
+          text: "I apologize, but I am having trouble connecting right now. Please try again or reach out on WhatsApp Business at +1 (773) 974-5045.",
         },
       ]);
     }
@@ -281,7 +281,7 @@ export function ChatWidget() {
         {/* Quick Suggestions & Input Bar */}
         <div className="space-y-3 border-t border-slate-100 bg-white p-3.5">
           <a
-            href="https://wa.me/14175690711"
+            href="https://wa.me/17739745045"
             target="_blank"
             rel="noreferrer"
             className="flex items-center justify-between rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white px-3.5 py-2 text-xs font-bold transition-all shadow-sm group"
@@ -290,7 +290,7 @@ export function ChatWidget() {
               <MessageCircle className="h-4 w-4 fill-white text-emerald-600 group-hover:scale-110 transition-transform" />
               <span>Chat on WhatsApp Business</span>
             </span>
-            <span className="text-[10px] bg-emerald-800/60 px-2 py-0.5 rounded-md font-mono">+1 (417) 569-0711</span>
+            <span className="text-[10px] bg-emerald-800/60 px-2 py-0.5 rounded-md font-mono">+1 (773) 974-5045</span>
           </a>
 
           {/* Division Selector Tabs */}

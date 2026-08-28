@@ -39,7 +39,7 @@ export const APIRoute = createAPIFileRoute("/api/chat")({
       if (isRateLimited(clientIp)) {
         return new Response(
           JSON.stringify({
-            reply: "Rate limit exceeded. Please wait a minute before sending another message or contact us directly on WhatsApp Business (+1 417-569-0711).",
+            reply: "Rate limit exceeded. Please wait a minute before sending another message or contact us directly on WhatsApp Business (+1 (773) 974-5045).",
           }),
           { status: 429, headers: { "Content-Type": "application/json" } }
         );
@@ -75,7 +75,7 @@ export const APIRoute = createAPIFileRoute("/api/chat")({
 • **Dispatch Status:** Scheduled for Direct Embassy Courier Handover
 • **Estimated Completion:** Within 24–48 Business Hours
 
-[NEXT STEPS] Have urgent updates? Chat directly with your assigned specialist on WhatsApp Business at **+1 (417) 569-0711**.`;
+[NEXT STEPS] Have urgent updates? Chat directly with your assigned specialist on WhatsApp Business at **+1 (773) 974-5045**.`;
       }
       // Case B: Greetings
       else if (
@@ -103,7 +103,7 @@ We design autonomous AI agents and Retrieval-Augmented Generation (RAG) vector e
 • **Use Cases:** Automated document search, 24/7 intelligent client intake bots, multi-modal file parsing.
 • **Security:** Enterprise data privacy, strict API key isolation, and SOC-2 compliant vector indexing.
 
-[NEXT STEPS] Request an AI architecture consultation on our **Web Development** page or chat on WhatsApp at **+1 (417) 569-0711**.`;
+[NEXT STEPS] Request an AI architecture consultation on our **Web Development** page or chat on WhatsApp at **+1 (773) 974-5045**.`;
       }
       // Case D: Web Development — Tech Stack & IP Ownership
       else if (text.includes("stack") || text.includes("ownership") || text.includes("nda") || text.includes("buyout") || text.includes("ip")) {
@@ -145,7 +145,7 @@ We deliver top-tier Google rankings for high-intent business terms:
 • **Negative Keyword Filters:** Strict negative keyword filtering to eliminate wasted budget and maximize Return On Ad Spend (ROAS).
 • **Conversion Landing Pages:** Custom high-converting landing page funnels paired with live tracking pixel analytics.
 
-[NEXT STEPS] Request a PPC audit on our **Digital Marketing** page or call **+1 (417) 569-0711**.`;
+[NEXT STEPS] Request a PPC audit on our **Digital Marketing** page or call **+1 (773) 974-5045**.`;
       }
       // Case H: Digital Marketing General
       else if (text.includes("marketing") || text.includes("cro") || text.includes("funnel") || text.includes("growth") || text.includes("lead")) {
@@ -165,7 +165,7 @@ We deliver top-tier Google rankings for high-intent business terms:
 • **Lost/Stolen Passport:** Requires police report, surviving photo ID, and updated photos. Flagged for immediate priority concierge handling.
 • **Direct Embassy Dispatch:** Completed passport & visa documents are dispatched directly to your registered address by official consulate couriers.
 
-[NEXT STEPS] Start your rush filing on our **Passport Services** page or call **+1 (417) 569-0711**.`;
+[NEXT STEPS] Start your rush filing on our **Passport Services** page or call **+1 (773) 974-5045**.`;
       }
       // Case J: Passport Services — Dual Residency & OCI
       else if (text.includes("oci") || text.includes("renunciation") || text.includes("surrender")) {
@@ -195,7 +195,7 @@ We deliver top-tier Google rankings for high-intent business terms:
 • **Government & Consulate Fees:** Official government and embassy fees are paid directly to those authorities.
 • **Meeting Scheduling:** Reserve a 30-minute strategy call on our **Book Consultation** page.
 
-[NEXT STEPS] Book a free 30-minute call on our **Book Consultation** page or WhatsApp **+1 (417) 569-0711**.`;
+[NEXT STEPS] Book a free 30-minute call on our **Book Consultation** page or WhatsApp **+1 (773) 974-5045**.`;
       }
       // Default Comprehensive Response
       else {
@@ -205,7 +205,7 @@ We deliver top-tier Google rankings for high-intent business terms:
 2. **Digital Marketing:** Technical SEO, Google/Meta PPC Ads, CRO Funnels & Growth Analytics.
 3. **Passport & Visa Services:** 24-Hour Emergency Rush, Renewals, OCI & Surrender.
 
-How would you like to proceed? You can also message us directly on WhatsApp Business at **+1 (417) 569-0711**.`;
+How would you like to proceed? You can also message us directly on WhatsApp Business at **+1 (773) 974-5045**.`;
       }
 
       return new Response(
@@ -214,7 +214,7 @@ How would you like to proceed? You can also message us directly on WhatsApp Busi
       );
     } catch (err) {
       return new Response(
-        JSON.stringify({ reply: "An internal security check failed. Please retry your request or reach out on WhatsApp Business (+1 417-569-0711)." }),
+        JSON.stringify({ reply: "An internal security check failed. Please retry your request or reach out on WhatsApp Business (+1 (773) 974-5045)." }),
         { status: 500, headers: { "Content-Type": "application/json" } }
       );
     }

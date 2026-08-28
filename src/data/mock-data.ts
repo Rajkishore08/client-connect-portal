@@ -696,10 +696,10 @@ export const SHIPPING_OPTIONS: ShippingOption[] = [
 ];
 
 export const OFFICE_LOCATION = {
-  address: "Chicago, IL 60613, USA",
-  phone: "+1 (417) 569-0711",
-  whatsapp: "+1 (417) 569-0711",
-  whatsappLink: "https://wa.me/14175690711",
+  address: "3501 N Southport Ave, Chicago, IL 60613, USA",
+  phone: "+1 (773) 974-5045",
+  whatsapp: "+1 (773) 974-5045",
+  whatsappLink: "https://wa.me/17739745045",
   email: "support@oneworldsolutionsusa.com",
   hours: "Mon-Fri: 8:30 AM - 5:00 PM | Sat: 10:00 AM - 2:00 PM",
   walkInStatus: "100% Online Intake & Virtual Consultation Only (No Physical Visits)",

@@ -11,7 +11,7 @@ export interface OutboundMessagePayload {
 
 /**
  * Real Outbound Twilio SMS & WhatsApp Business Messaging Engine
- * Target Business WhatsApp: +1 (417) 569-0711
+ * Target Business WhatsApp: +1 (773) 974-5045
  */
 export async function dispatchAutomatedClientAlert(payload: OutboundMessagePayload): Promise<boolean> {
   const { toPhone, clientName, leadReference, milestoneTitle, milestoneStatus, channel } = payload;

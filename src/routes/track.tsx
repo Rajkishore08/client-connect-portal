@@ -385,7 +385,7 @@ function TrackPage() {
         date: new Date().toISOString().split("T")[0]!,
         name: "Valued Client",
         email: q.includes("@") ? rawQuery : "client@oneworldsolutionsusa.com",
-        phone: "+1 (417) 569-0711",
+        phone: "+1 (773) 974-5045",
         category: catName,
         service: svcName,
         source: "Form",
