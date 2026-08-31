@@ -234,7 +234,6 @@ function RootShell({ children }: { children: ReactNode }) {
   return (
     <html lang="en">
       <head>
-        <HeadContent />
         {/* Google Tag Manager */}
         <script
           dangerouslySetInnerHTML={{
@@ -245,6 +244,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 })(window,document,'script','dataLayer','GTM-5WJJ6NRV');`,
           }}
         />
+        <HeadContent />
         {/* Meta Pixel */}
         <script
           dangerouslySetInnerHTML={{
