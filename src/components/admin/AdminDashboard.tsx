@@ -385,7 +385,13 @@ export function AdminDashboard({ onNavigateTab }: AdminDashboardProps) {
             </span>
           </div>
           <div className="space-y-1">
-            <div className="text-3xl font-black text-slate-900">{totalLeadsCount}</div>
+            <div className="text-3xl font-black text-slate-900">
+              {loading ? (
+                <RefreshCw className="h-6 w-6 animate-spin text-blue-600 inline" />
+              ) : (
+                totalLeadsCount
+              )}
+            </div>
             <div className="text-xs font-semibold text-blue-600 flex items-center gap-1">
               <Sparkles className="h-3.5 w-3.5" /> Active Client Pipeline Records
             </div>
@@ -401,9 +407,15 @@ export function AdminDashboard({ onNavigateTab }: AdminDashboardProps) {
             </span>
           </div>
           <div className="space-y-1">
-            <div className="text-3xl font-black text-amber-600">{newLeadsCount}</div>
+            <div className="text-3xl font-black text-amber-600">
+              {loading ? (
+                <RefreshCw className="h-6 w-6 animate-spin text-amber-600 inline" />
+              ) : (
+                newLeadsCount
+              )}
+            </div>
             <div className="text-xs font-semibold text-amber-600 flex items-center gap-1">
-              {newLeadsCount > 0 ? "⚠️ Requires Staff Review" : "✓ All Intakes Triaged"}
+              {loading ? "Fetching live records..." : newLeadsCount > 0 ? "⚠️ Requires Staff Review" : "✓ All Intakes Triaged"}
             </div>
           </div>
         </div>
@@ -417,7 +429,13 @@ export function AdminDashboard({ onNavigateTab }: AdminDashboardProps) {
             </span>
           </div>
           <div className="space-y-1">
-            <div className="text-3xl font-black text-indigo-600">{inProgressCount}</div>
+            <div className="text-3xl font-black text-indigo-600">
+              {loading ? (
+                <RefreshCw className="h-6 w-6 animate-spin text-indigo-600 inline" />
+              ) : (
+                inProgressCount
+              )}
+            </div>
             <div className="text-xs font-semibold text-indigo-600 flex items-center gap-1">
               <Zap className="h-3.5 w-3.5" /> Active Service Execution
             </div>

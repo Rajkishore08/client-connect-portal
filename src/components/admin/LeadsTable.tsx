@@ -663,7 +663,7 @@ export function LeadsTable({ initialView = "pipeline" }: { initialView?: "pipeli
                 : "bg-slate-100 text-slate-700 hover:bg-slate-200"
             }`}
           >
-            <Inbox className="h-4 w-4" /> Live Enquiries &amp; Pipeline ({leads.length})
+            <Inbox className="h-4 w-4" /> Live Enquiries &amp; Pipeline {loading ? <RefreshCw className="h-3 w-3 animate-spin inline text-blue-300 ml-1" /> : `(${leads.length})`}
           </button>
 
           <button
@@ -692,13 +692,19 @@ export function LeadsTable({ initialView = "pipeline" }: { initialView?: "pipeli
       <div className="surface-card flex flex-wrap items-center justify-between gap-4 p-4 sm:p-5 rounded-2xl border border-slate-200/80 shadow-xs">
         <div className="flex items-center gap-3">
           <span className="h-10 w-10 rounded-xl bg-emerald-500/15 border border-emerald-400/30 text-emerald-600 grid place-items-center shrink-0">
-            <RefreshCw className="h-5 w-5" />
+            <RefreshCw className={`h-5 w-5 ${loading ? "animate-spin text-blue-600" : ""}`} />
           </span>
           <div>
             <p className="text-xs font-bold uppercase tracking-wider text-slate-500">Live Lead Management Engine</p>
             <p className="text-xs font-semibold text-slate-800 flex items-center gap-1.5 mt-0.5">
               <span className="h-2 w-2 rounded-full bg-emerald-500 inline-block animate-pulse" />
-              Supabase DB Connected • {leads.length} Active Client Intakes
+              {loading ? (
+                <span className="text-blue-600 font-bold flex items-center gap-1">
+                  <RefreshCw className="h-3 w-3 animate-spin" /> Fetching Live Records from Supabase DB...
+                </span>
+              ) : (
+                `Supabase DB Connected • ${leads.length} Active Client Intakes`
+              )}
             </p>
           </div>
         </div>
@@ -842,7 +848,19 @@ export function LeadsTable({ initialView = "pipeline" }: { initialView?: "pipeli
               </tr>
             </thead>
             <tbody className="divide-y divide-slate-200/80">
-              {rows.map((lead, idx) => {
+              {loading ? (
+                Array.from({ length: 5 }).map((_, i) => (
+                  <tr key={`sk-${i}`} className="animate-pulse bg-white">
+                    <td className="px-4 py-4"><div className="h-4 bg-slate-200 rounded-md w-24 mb-1.5" /><div className="h-3 bg-slate-100 rounded-md w-16" /></td>
+                    <td className="px-4 py-4"><div className="h-4 bg-slate-200 rounded-md w-32 mb-1.5" /><div className="h-3 bg-slate-100 rounded-md w-20" /></td>
+                    <td className="px-4 py-4"><div className="h-4 bg-slate-200 rounded-md w-36 mb-1.5" /><div className="h-3 bg-slate-100 rounded-md w-24" /></td>
+                    <td className="px-4 py-4"><div className="h-4 bg-slate-200 rounded-md w-40 mb-1.5" /><div className="h-3 bg-slate-100 rounded-md w-28" /></td>
+                    <td className="px-4 py-4"><div className="h-4 bg-slate-200 rounded-md w-16" /></td>
+                    <td className="px-4 py-4"><div className="h-6 bg-slate-200 rounded-full w-24" /></td>
+                    <td className="px-4 py-4 text-right"><div className="h-8 bg-slate-200 rounded-xl w-24 ml-auto" /></td>
+                  </tr>
+                ))
+              ) : rows.map((lead, idx) => {
                 const prevDate = idx > 0 ? rows[idx - 1]?.date : null;
                 const isNewDateGroup = lead.date !== prevDate;
                 const activeMilestones =
