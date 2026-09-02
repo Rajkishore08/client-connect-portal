@@ -143,13 +143,13 @@ function Home() {
 
               {/* Transformation Headline - Mobile Scaled with Breathable Spacing */}
               <h1 className="text-4xl xs:text-5xl sm:text-5xl lg:text-6xl font-black leading-[1.1] tracking-tight font-display break-words max-w-full my-3 sm:my-0">
-                <span className="bg-gradient-to-r from-blue-700 via-indigo-600 to-blue-600 bg-clip-text text-transparent">
+                <span className="bg-gradient-to-r from-slate-950 via-slate-900 to-indigo-950 bg-clip-text text-transparent">
                   Your Trusted Partner For
                 </span> <br />
-                <span className="bg-gradient-to-r from-blue-600 via-blue-500 to-indigo-600 bg-clip-text text-transparent">
+                <span className="bg-gradient-to-r from-blue-700 via-indigo-700 to-blue-800 bg-clip-text text-transparent">
                   Global Travel &amp; Businesses
                 </span> <br />
-                <span className="bg-gradient-to-r from-indigo-600 via-blue-600 to-cyan-600 bg-clip-text text-transparent">
+                <span className="bg-gradient-to-r from-slate-900 via-blue-950 to-slate-900 bg-clip-text text-transparent">
                   Scaling Worldwide.
                 </span>
               </h1>
