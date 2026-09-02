@@ -142,12 +142,16 @@ function Home() {
               </div>
 
               {/* Transformation Headline - Mobile Scaled with Breathable Spacing */}
-              <h1 className="text-4xl xs:text-5xl sm:text-5xl lg:text-6xl font-black leading-[1.1] tracking-tight text-[#0B1527] font-display break-words max-w-full my-3 sm:my-0">
-                Your Trusted Partner For <br />
+              <h1 className="text-4xl xs:text-5xl sm:text-5xl lg:text-6xl font-black leading-[1.1] tracking-tight font-display break-words max-w-full my-3 sm:my-0">
+                <span className="bg-gradient-to-r from-blue-700 via-indigo-600 to-blue-600 bg-clip-text text-transparent">
+                  Your Trusted Partner For
+                </span> <br />
                 <span className="bg-gradient-to-r from-blue-600 via-blue-500 to-indigo-600 bg-clip-text text-transparent">
                   Global Travel &amp; Businesses
                 </span> <br />
-                <span className="text-slate-900">Scaling Worldwide.</span>
+                <span className="bg-gradient-to-r from-indigo-600 via-blue-600 to-cyan-600 bg-clip-text text-transparent">
+                  Scaling Worldwide.
+                </span>
               </h1>
 
               {/* Simple Punchy Slogan for Mobile Screen & Extended Text for Desktop */}
