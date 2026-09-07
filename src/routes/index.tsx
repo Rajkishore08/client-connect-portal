@@ -28,7 +28,6 @@ import { InteractiveCapabilitiesGallery } from "@/components/site/InteractiveCap
 import { ServiceIntakeWizardModal } from "@/components/site/ServiceIntakeWizardModal";
 import { TrustBanner } from "@/components/site/SiteFooter";
 import { StepsBanner } from "@/components/site/StepsBanner";
-import { TurnaroundEstimator } from "@/components/site/TurnaroundEstimator";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Hero3DBackground } from "@/components/ui/Hero3DBackground";
@@ -529,9 +528,6 @@ function Home() {
 
         {/* 3-Step Process Banner */}
         <StepsBanner />
-
-        {/* Turnaround Speed Estimator */}
-        <TurnaroundEstimator />
 
         {/* Disclaimer Banner */}
         <TrustBanner />
