@@ -35,8 +35,8 @@ export function SiteFooter() {
   return (
     <footer className="mt-20 border-t border-border bg-card">
       <div className="mx-auto max-w-[1440px] px-4 sm:px-8 lg:px-12 py-12">
-        <div className="grid gap-10 md:grid-cols-[1.4fr_1fr_1fr_1fr]">
-          <div className="min-w-0 space-y-2.5">
+        <div className="grid grid-cols-2 gap-8 md:grid-cols-[1.4fr_1fr_1fr_1fr]">
+          <div className="col-span-2 md:col-span-1 min-w-0 space-y-2.5">
             <Link to="/" className="inline-block">
               <img src="/logo-rect.webp" alt="One World Solutions" className="h-8.5 w-auto object-contain" />
             </Link>
@@ -44,9 +44,9 @@ export function SiteFooter() {
               Connecting People. Powering Businesses.
             </p>
             <div className="pt-1">
-              <div className="inline-flex flex-wrap items-center gap-2 px-3.5 py-1.5 rounded-xl bg-slate-100/90 border border-slate-200 text-slate-800 text-[11px] font-medium shadow-2xs">
+              <div className="inline-flex flex-wrap items-center gap-2 px-3 py-1.5 rounded-xl bg-slate-100/90 border border-slate-200 text-slate-800 text-[11px] font-medium shadow-2xs">
                 <span className="font-extrabold text-slate-900">A Division of ABHIPRIYA GROUPS LLC</span>
-                <span className="text-slate-300">•</span>
+                <span className="hidden sm:inline text-slate-300">•</span>
                 <span className="flex items-center gap-1 font-bold text-blue-700">
                   <ShieldCheck className="h-3.5 w-3.5 text-blue-600 shrink-0" /> E-Verified Company
                 </span>
@@ -59,7 +59,7 @@ export function SiteFooter() {
 
           <div>
             <h3 className="text-xs font-mono font-bold text-primary uppercase tracking-wider">3 Core Pillars</h3>
-            <ul className="mt-4 space-y-2.5 text-xs font-medium text-muted-foreground">
+            <ul className="mt-3.5 space-y-2.5 text-xs font-medium text-muted-foreground">
               <li>
                 <Link to="/passport" className="hover:text-foreground">
                   01. Passport &amp; Visa Concierge
@@ -80,20 +80,20 @@ export function SiteFooter() {
 
           <div>
             <h3 className="text-xs font-mono font-bold text-primary uppercase tracking-wider">Client Portal</h3>
-            <ul className="mt-4 space-y-2.5 text-xs font-medium text-muted-foreground">
+            <ul className="mt-3.5 space-y-2.5 text-xs font-medium text-muted-foreground">
               <li>
                 <Link to="/account" className="hover:text-foreground font-semibold text-primary">
-                  My Account &amp; Previous Applications
+                  My Account
                 </Link>
               </li>
               <li>
                 <Link to="/track" className="hover:text-foreground">
-                  Track Active Intake / Project
+                  Track Active Intake
                 </Link>
               </li>
               <li>
                 <Link to="/book" className="hover:text-foreground">
-                  Book 30-Min Strategy Call
+                  Book Strategy Call
                 </Link>
               </li>
               <li>
@@ -104,9 +104,9 @@ export function SiteFooter() {
             </ul>
           </div>
 
-          <div>
+          <div className="col-span-2 sm:col-span-1">
             <h3 className="text-xs font-mono font-bold text-primary uppercase tracking-wider">Legal &amp; Policy</h3>
-            <ul className="mt-4 space-y-2.5 text-xs font-medium text-muted-foreground">
+            <ul className="mt-3.5 space-y-2.5 text-xs font-medium text-muted-foreground">
               <li>
                 <Link to="/blog" className="hover:text-foreground font-semibold text-blue-600">
                   Blog &amp; Consular Guides
@@ -126,9 +126,9 @@ export function SiteFooter() {
           </div>
         </div>
 
-        <div className="mt-12 pt-6 border-t border-border/60 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-muted-foreground">
+        <div className="mt-10 pt-6 border-t border-border/60 flex flex-col sm:flex-row items-center justify-between gap-3 text-center sm:text-left text-xs text-muted-foreground">
           <p>© {new Date().getFullYear()} One World Solutions • Operating under <strong>ABHIPRIYA GROUPS LLC</strong> (E-Verified Entity). All rights reserved.</p>
-          <p className="text-[11px]">Chicago, Illinois USA • Expedited Intake &amp; Digital Agency</p>
+          <p className="text-[11px]">Expedited Intake &amp; Digital Agency</p>
         </div>
       </div>
     </footer>

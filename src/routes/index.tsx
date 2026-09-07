@@ -134,11 +134,8 @@ function Home() {
               {/* Top Trust & Status Badge */}
               <div className="glass-pill max-w-full inline-flex items-center gap-2 px-4 py-2 text-xs font-bold text-slate-800 backdrop-blur-xl bg-white/90 border border-blue-200/90 shadow-2xs rounded-full">
                 <span className="flex items-center gap-1.5 text-emerald-600 font-extrabold">
-                  <span className="h-2 w-2 rounded-full bg-emerald-500 animate-pulse" /> Live Desk
+                  <span className="h-2 w-2 rounded-full bg-emerald-500 animate-pulse" /> E-Verified Agency
                 </span>
-                <span className="text-slate-300">|</span>
-                <Building className="h-3.5 w-3.5 text-blue-600 shrink-0" />
-                <span className="truncate font-bold text-slate-800">Chicago HQ • E-Verified Agency</span>
               </div>
 
               {/* Transformation Headline - Mobile Scaled with Breathable Spacing */}
