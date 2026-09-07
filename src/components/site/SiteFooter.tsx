@@ -52,9 +52,6 @@ export function SiteFooter() {
                 </span>
               </div>
             </div>
-            <p className="text-xs leading-relaxed text-muted-foreground">
-              {OFFICE_LOCATION.address}
-            </p>
             <p className="text-xs font-semibold text-foreground">
               Direct Hotline: {OFFICE_LOCATION.phone} (Available Today)
             </p>
