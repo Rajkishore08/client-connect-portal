@@ -30,8 +30,8 @@ function HolographicGlobe() {
     }
   });
 
-  // Generate random glowing particle points around globe
-  const particlesCount = 280;
+  // Generate random glowing particle points around globe (optimized count for 60FPS performance)
+  const particlesCount = 120;
   const positions = useMemo(() => {
     const pos = new Float32Array(particlesCount * 3);
     for (let i = 0; i < particlesCount; i++) {
@@ -49,7 +49,7 @@ function HolographicGlobe() {
     <group ref={globeRef} position={[1.4, 0, -0.5]} scale={1.1}>
       {/* Outer Holographic Glow Sphere */}
       <mesh>
-        <sphereGeometry args={[1.8, 36, 36]} />
+        <sphereGeometry args={[1.8, 24, 24]} />
         <meshBasicMaterial
           color="#0F52FF"
           wireframe={true}
@@ -60,7 +60,7 @@ function HolographicGlobe() {
 
       {/* Inner Glowing Wireframe Sphere */}
       <mesh ref={wireframeRef}>
-        <icosahedronGeometry args={[1.6, 2]} />
+        <icosahedronGeometry args={[1.6, 1]} />
         <meshBasicMaterial
           color="#60A5FA"
           wireframe={true}
@@ -71,7 +71,7 @@ function HolographicGlobe() {
 
       {/* Core Solid Blue Glow */}
       <mesh>
-        <sphereGeometry args={[1.3, 24, 24]} />
+        <sphereGeometry args={[1.3, 16, 16]} />
         <meshBasicMaterial
           color="#2563EB"
           transparent={true}
@@ -96,17 +96,17 @@ function HolographicGlobe() {
         />
       </points>
 
-      {/* Floating City Target Nodes (Chicago HQ & Global Hubs) */}
+      {/* Floating City Target Nodes */}
       <mesh position={[0.8, 0.9, 1.2]}>
-        <sphereGeometry args={[0.06, 12, 12]} />
+        <sphereGeometry args={[0.06, 8, 8]} />
         <meshBasicMaterial color="#10B981" />
       </mesh>
       <mesh position={[-1.1, 0.4, 1.0]}>
-        <sphereGeometry args={[0.05, 12, 12]} />
+        <sphereGeometry args={[0.05, 8, 8]} />
         <meshBasicMaterial color="#3B82F6" />
       </mesh>
       <mesh position={[0.2, -0.8, 1.3]}>
-        <sphereGeometry args={[0.05, 12, 12]} />
+        <sphereGeometry args={[0.05, 8, 8]} />
         <meshBasicMaterial color="#F59E0B" />
       </mesh>
     </group>
@@ -114,21 +114,21 @@ function HolographicGlobe() {
 }
 
 /**
- * 3D Canvas Background Component with fallback for mobile devices
+ * Highly optimized 3D Canvas Background Component
  */
 export function Hero3DBackground() {
   return (
     <div className="absolute inset-0 pointer-events-none z-0 overflow-hidden">
-      {/* Glowing Soft Background Gradient Mesh */}
-      <div className="absolute top-[-10%] right-[-5%] w-[600px] h-[600px] rounded-full bg-blue-500/15 blur-[120px] pointer-events-none" />
-      <div className="absolute bottom-[-10%] left-[-5%] w-[500px] h-[500px] rounded-full bg-indigo-500/12 blur-[130px] pointer-events-none" />
+      {/* Soft Background Gradient Mesh */}
+      <div className="absolute top-[-10%] right-[-5%] w-[500px] h-[500px] rounded-full bg-blue-500/10 blur-[90px] pointer-events-none" />
+      <div className="absolute bottom-[-10%] left-[-5%] w-[400px] h-[400px] rounded-full bg-indigo-500/10 blur-[90px] pointer-events-none" />
 
-      {/* Interactive Three.js 3D Holographic Globe Canvas */}
-      <div className="absolute inset-0 opacity-80 sm:opacity-100">
+      {/* Three.js 3D Holographic Globe Canvas - Hardware Accelerated */}
+      <div className="absolute inset-0 opacity-70 sm:opacity-90">
         <Canvas
           camera={{ position: [0, 0, 5], fov: 45 }}
-          gl={{ antialias: false, alpha: true, powerPreference: "high-performance" }}
-          dpr={[1, 1.5]}
+          gl={{ antialias: false, alpha: true, powerPreference: "high-performance", depth: false }}
+          dpr={[1, 1]}
           style={{ background: "transparent" }}
         >
           <ambientLight intensity={0.5} />
