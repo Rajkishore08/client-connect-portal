@@ -40,13 +40,15 @@ export const Route = createFileRoute("/whatsapp-automation-tool")({
         content:
           "whatsapp automation tool, whatsapp workflow automation, AI whatsapp agents, whatsapp CRM integration, enterprise whatsapp automation, whatsapp sales bot",
       },
-      { property: "og:title", content: "WhatsApp Automation Tool | Intelligent AI Workflow Engine" },
+      { property: "og:title", content: "WhatsApp Automation Tool | Enterprise AI Workflow & CRM Integration" },
       {
         property: "og:description",
         content:
           "WhatsApp is no longer just a chat channel. Transform it into your primary workflow interface for CRM sync, lead qualification, and instant deal closing.",
       },
+      { property: "og:url", content: "https://www.oneworldsolutionsusa.com/whatsapp-automation-tool" },
     ],
+    links: [{ rel: "canonical", href: "https://www.oneworldsolutionsusa.com/whatsapp-automation-tool" }],
   }),
   component: WhatsAppAutomationPage,
 });

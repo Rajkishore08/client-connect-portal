@@ -45,13 +45,15 @@ export const Route = createFileRoute("/agentic-ai-platform")({
         content:
           "agentic ai platform, autonomous ai agents, multi agent orchestration, enterprise ai platform, ai model builder, ai workflow automation",
       },
-      { property: "og:title", content: "Agentic AI Platform | Autonomous AI Agents for Enterprise" },
+      { property: "og:title", content: "Agentic AI Platform | Build & Deploy Autonomous AI Agents" },
       {
         property: "og:description",
         content:
           "Deploy autonomous AI agents that plan, reason, execute multi-step workflows, and deliver measurable business outcomes.",
       },
+      { property: "og:url", content: "https://www.oneworldsolutionsusa.com/agentic-ai-platform" },
     ],
+    links: [{ rel: "canonical", href: "https://www.oneworldsolutionsusa.com/agentic-ai-platform" }],
   }),
   component: AgenticAIPlatformPage,
 });

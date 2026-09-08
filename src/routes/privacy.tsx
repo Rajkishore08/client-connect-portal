@@ -13,7 +13,10 @@ export const Route = createFileRoute("/privacy")({
         content:
           "Privacy policy, data security practices, and document protection guarantees for One World Solutions.",
       },
+      { property: "og:title", content: "Privacy Policy — One World Solutions" },
+      { property: "og:url", content: "https://www.oneworldsolutionsusa.com/privacy" },
     ],
+    links: [{ rel: "canonical", href: "https://www.oneworldsolutionsusa.com/privacy" }],
   }),
   component: PrivacyPage,
 });

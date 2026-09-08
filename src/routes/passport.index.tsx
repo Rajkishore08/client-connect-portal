@@ -17,12 +17,14 @@ export const Route = createFileRoute("/passport/")({
           "Leading passport services company in USA. Expedited US passport renewal within 24 hours, OCI card application, surrender certificates & global e-visas. Top-rated Chicago agency.",
       },
       { name: "keywords", content: "passport services company usa, expedited passport renewal usa, 24 hour passport rush, oci card application, surrendered passport certificate" },
-      { property: "og:title", content: "Top Passport Services Company in USA | One World Solutions" },
+      { property: "og:title", content: "Top Passport Services Company USA | Expedited Renewal" },
       {
         property: "og:description",
         content: "Expedited US passport renewal, OCI cards & visa processing. 24-hour emergency rush intake with document pre-audit.",
       },
+      { property: "og:url", content: "https://www.oneworldsolutionsusa.com/passport" },
     ],
+    links: [{ rel: "canonical", href: "https://www.oneworldsolutionsusa.com/passport" }],
   }),
   component: PassportIndex,
 });

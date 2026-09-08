@@ -49,7 +49,9 @@ export const Route = createFileRoute("/account")({
     meta: [
       { title: "My Applications & Session Notifications | One World Solutions" },
       { name: "description", content: "View your saved passport, OCI, e-visa intake history and session notifications." },
+      { name: "robots", content: "noindex, nofollow" },
     ],
+    links: [{ rel: "canonical", href: "https://www.oneworldsolutionsusa.com/account" }],
   }),
   component: AccountDashboardPage,
 });

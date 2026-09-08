@@ -13,7 +13,10 @@ export const Route = createFileRoute("/terms")({
         content:
           "Terms and Conditions of Service for One World Solutions client intake portal and expedited document assistance.",
       },
+      { property: "og:title", content: "Terms & Conditions — One World Solutions" },
+      { property: "og:url", content: "https://www.oneworldsolutionsusa.com/terms" },
     ],
+    links: [{ rel: "canonical", href: "https://www.oneworldsolutionsusa.com/terms" }],
   }),
   component: TermsPage,
 });

@@ -109,7 +109,6 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
         content:
           "USA's premier agency for Expedited Passport Renewal, Custom Web & SaaS Development, and High-ROI Digital Marketing. Chicago HQ with nationwide service.",
       },
-      { property: "og:url", content: "https://www.oneworldsolutionsusa.com" },
       { property: "og:image", content: "https://www.oneworldsolutionsusa.com/logo-square.png" },
       { property: "og:image:alt", content: "One World Solutions Logo" },
       { property: "og:type", content: "website" },
@@ -120,7 +119,6 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { name: "twitter:image", content: "https://www.oneworldsolutionsusa.com/logo-square.png" },
     ],
     links: [
-      { rel: "canonical", href: "https://www.oneworldsolutionsusa.com" },
       { rel: "stylesheet", href: appCss },
       {
         rel: "stylesheet",

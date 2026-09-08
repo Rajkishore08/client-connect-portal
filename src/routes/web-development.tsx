@@ -35,13 +35,15 @@ export const Route = createFileRoute("/web-development")({
           "Premier web development company in USA. Specializing in custom SaaS platforms, AI agent integration, Next.js web applications, and enterprise software engineering.",
       },
       { name: "keywords", content: "web development company in usa, custom saas development usa, ai agent engineering, react nextjs developers, enterprise software development" },
-      { property: "og:title", content: "Top Web Development Company in USA | One World Solutions" },
+      { property: "og:title", content: "Top Web Development Company USA | Custom SaaS & AI Agents" },
       {
         property: "og:description",
         content:
           "Custom web apps, enterprise SaaS engineering, AI agents & RAG vector search platforms built by top USA software engineers.",
       },
+      { property: "og:url", content: "https://www.oneworldsolutionsusa.com/web-development" },
     ],
+    links: [{ rel: "canonical", href: "https://www.oneworldsolutionsusa.com/web-development" }],
   }),
   component: WebDevelopmentPage,
 });

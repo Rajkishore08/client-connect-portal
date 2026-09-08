@@ -23,14 +23,18 @@ import { getBlogBySlug, getPublishedBlogs } from "@/data/blogs-data";
 export const Route = createFileRoute("/blog/$slug")({
   head: ({ params }) => {
     const post = getBlogBySlug(params.slug);
+    const url = `https://www.oneworldsolutionsusa.com/blog/${params.slug}`;
+    const pageTitle = post ? `${post.title} — One World Solutions Agency` : "Article — One World Solutions Agency";
     return {
       meta: [
-        { title: `${post ? post.title : "Article"} — One World Solutions Agency` },
+        { title: pageTitle },
         { name: "description", content: post ? post.metaDescription : "Official guide by One World Solutions." },
-        { property: "og:title", content: post ? post.title : "Article" },
+        { property: "og:title", content: pageTitle },
         { property: "og:description", content: post ? post.summary : "" },
         { property: "og:image", content: post ? post.coverImage : "" },
+        { property: "og:url", content: url },
       ],
+      links: [{ rel: "canonical", href: url }],
     };
   },
   component: SingleBlogPostPage,

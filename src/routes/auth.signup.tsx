@@ -26,7 +26,9 @@ export const Route = createFileRoute("/auth/signup")({
     meta: [
       { title: "Create Account — Client Portal | One World Solutions" },
       { name: "description", content: "Create an account to manage your passport, visa, web development, and digital marketing intakes." },
+      { name: "robots", content: "noindex, nofollow" },
     ],
+    links: [{ rel: "canonical", href: "https://www.oneworldsolutionsusa.com/auth/signup" }],
   }),
   component: SignupPage,
 });

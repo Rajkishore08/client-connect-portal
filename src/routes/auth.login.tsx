@@ -25,7 +25,9 @@ export const Route = createFileRoute("/auth/login")({
     meta: [
       { title: "Sign In — Client Portal | One World Solutions" },
       { name: "description", content: "Sign in to track your expedited passport, visa applications, and session notifications." },
+      { name: "robots", content: "noindex, nofollow" },
     ],
+    links: [{ rel: "canonical", href: "https://www.oneworldsolutionsusa.com/auth/login" }],
   }),
   component: LoginPage,
 });

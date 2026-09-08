@@ -42,13 +42,15 @@ export const Route = createFileRoute("/")({
           "USA's premier agency for Expedited Passport Renewal, Custom Web & SaaS Development, and High-ROI Digital Marketing. Chicago HQ with nationwide service.",
       },
       { name: "keywords", content: "passport services company usa, web development company in usa, digital marketing services in usa, expedited passport renewal, custom saas development" },
-      { property: "og:title", content: "One World Solutions — Passport, Software & Digital Marketing Agency USA" },
+      { property: "og:title", content: "One World Solutions | Top Passport Services, Web Development & Digital Marketing Agency USA" },
       {
         property: "og:description",
         content:
           "USA's premier agency for Expedited Passport Renewal, Custom Web & SaaS Development, and High-ROI Digital Marketing.",
       },
+      { property: "og:url", content: "https://www.oneworldsolutionsusa.com" },
     ],
+    links: [{ rel: "canonical", href: "https://www.oneworldsolutionsusa.com" }],
   }),
   component: Home,
 });

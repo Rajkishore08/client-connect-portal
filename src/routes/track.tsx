@@ -57,12 +57,14 @@ export const Route = createFileRoute("/track")({
         content:
           "Enter your reference number or email to follow your passport renewal, web software milestone, or digital marketing campaign in real time.",
       },
-      { property: "og:title", content: "Track My Application & Project Status | One World Solutions" },
+      { property: "og:title", content: "Track My Intake & Project Status — One World Solutions Agency" },
       {
         property: "og:description",
         content: "Live status tracking for passport, web dev, and digital marketing intakes.",
       },
+      { property: "og:url", content: "https://www.oneworldsolutionsusa.com/track" },
     ],
+    links: [{ rel: "canonical", href: "https://www.oneworldsolutionsusa.com/track" }],
   }),
   component: TrackPage,
 });

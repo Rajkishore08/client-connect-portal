@@ -18,13 +18,16 @@ export const Route = createFileRoute("/passport/$service")({
       return { meta: [{ title: "Unavailable" }, { name: "robots", content: "noindex" }] };
     }
     const { service } = loaderData;
+    const url = `https://www.oneworldsolutionsusa.com/passport/${service.slug}`;
     return {
       meta: [
         { title: `${service.title} — One World Solutions` },
         { name: "description", content: service.description },
         { property: "og:title", content: `${service.title} — One World Solutions` },
         { property: "og:description", content: service.description },
+        { property: "og:url", content: url },
       ],
+      links: [{ rel: "canonical", href: url }],
     };
   },
   component: ServiceDetail,

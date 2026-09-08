@@ -32,12 +32,14 @@ export const Route = createFileRoute("/blog/")({
         content:
           "Official guides and technical articles on International Passport Renewal, Dual Residency specs, Next.js Web SaaS architecture, and PPC Growth Marketing.",
       },
-      { property: "og:title", content: "Blogs & Guides | One World Solutions" },
+      { property: "og:title", content: "Blogs & Consular Guides — One World Solutions Agency" },
       {
         property: "og:description",
         content: "Expert step-by-step guides for passport renewals, web app development, and growth marketing.",
       },
+      { property: "og:url", content: "https://www.oneworldsolutionsusa.com/blog" },
     ],
+    links: [{ rel: "canonical", href: "https://www.oneworldsolutionsusa.com/blog" }],
   }),
   component: BlogListingPage,
 });

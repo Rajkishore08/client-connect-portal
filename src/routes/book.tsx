@@ -14,12 +14,14 @@ export const Route = createFileRoute("/book")({
         content:
           "Schedule a 30-minute consultation with our Chicago specialists for expedited passport renewal, custom software scoping, or digital marketing growth.",
       },
-      { property: "og:title", content: "Book Free Consultation | One World Solutions Agency" },
+      { property: "og:title", content: "Book Free Agency Consultation — One World Solutions" },
       {
         property: "og:description",
-        content: "Choose a date and time slot for your 30-minute strategy call or Chicago HQ visit.",
+        content: "Choose a date and time slot for your 30-minute strategy call.",
       },
+      { property: "og:url", content: "https://www.oneworldsolutionsusa.com/book" },
     ],
+    links: [{ rel: "canonical", href: "https://www.oneworldsolutionsusa.com/book" }],
   }),
   component: BookPage,
 });
