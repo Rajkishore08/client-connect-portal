@@ -138,9 +138,10 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
           "@context": "https://schema.org",
           "@graph": [
             {
-              "@type": "Organization",
+              "@type": ["Organization", "LocalBusiness"],
               "@id": "https://www.oneworldsolutionsusa.com/#organization",
               "name": "One World Solutions",
+              "legalName": "ABHIPRIYA GROUPS LLC d/b/a One World Solutions",
               "url": "https://www.oneworldsolutionsusa.com",
               "logo": {
                 "@type": "ImageObject",
@@ -151,7 +152,24 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
               },
               "image": "https://www.oneworldsolutionsusa.com/logo-square.png",
               "telephone": "+1-773-974-5045",
-              "email": "support@oneworldsolutionsusa.com"
+              "email": "support@oneworldsolutionsusa.com",
+              "address": {
+                "@type": "PostalAddress",
+                "addressLocality": "Chicago",
+                "addressRegion": "IL",
+                "postalCode": "60613",
+                "addressCountry": "US"
+              },
+              "geo": {
+                "@type": "GeoCoordinates",
+                "latitude": 41.8781,
+                "longitude": -87.6298
+              },
+              "sameAs": [
+                "https://x.com/oneworldsolutions",
+                "https://www.linkedin.com/company/one-world-solutions-usa",
+                "https://www.facebook.com/oneworldsolutionsusa"
+              ]
             },
             {
               "@type": "WebSite",

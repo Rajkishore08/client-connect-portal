@@ -19,6 +19,21 @@ export const Route = createFileRoute("/passport/$service")({
     }
     const { service } = loaderData;
     const url = `https://www.oneworldsolutionsusa.com/passport/${service.slug}`;
+    const serviceSchema = {
+      "@context": "https://schema.org",
+      "@type": "GovernmentService",
+      "name": service.title,
+      "description": service.description,
+      "provider": {
+        "@type": "Organization",
+        "name": "One World Solutions",
+        "url": "https://www.oneworldsolutionsusa.com",
+        "telephone": "+1-773-974-5045"
+      },
+      "areaServed": "US",
+      "serviceType": "Expedited Passport & Consular Services"
+    };
+
     return {
       meta: [
         { title: `${service.title} — One World Solutions` },
@@ -28,6 +43,12 @@ export const Route = createFileRoute("/passport/$service")({
         { property: "og:url", content: url },
       ],
       links: [{ rel: "canonical", href: url }],
+      scripts: [
+        {
+          type: "application/ld+json",
+          children: JSON.stringify(serviceSchema),
+        },
+      ],
     };
   },
   component: ServiceDetail,

@@ -25,6 +25,36 @@ export const Route = createFileRoute("/blog/$slug")({
     const post = getBlogBySlug(params.slug);
     const url = `https://www.oneworldsolutionsusa.com/blog/${params.slug}`;
     const pageTitle = post ? `${post.title} — One World Solutions Agency` : "Article — One World Solutions Agency";
+    const articleSchema = post ? {
+      "@context": "https://schema.org",
+      "@type": "TechArticle",
+      "headline": post.title,
+      "description": post.metaDescription,
+      "image": post.coverImage,
+      "datePublished": post.date,
+      "author": {
+        "@type": "Person",
+        "name": post.author,
+        "jobTitle": "Senior Specialist",
+        "worksFor": {
+          "@type": "Organization",
+          "name": "One World Solutions"
+        }
+      },
+      "publisher": {
+        "@type": "Organization",
+        "name": "One World Solutions",
+        "logo": {
+          "@type": "ImageObject",
+          "url": "https://www.oneworldsolutionsusa.com/logo-square.png"
+        }
+      },
+      "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": url
+      }
+    } : null;
+
     return {
       meta: [
         { title: pageTitle },
@@ -35,6 +65,7 @@ export const Route = createFileRoute("/blog/$slug")({
         { property: "og:url", content: url },
       ],
       links: [{ rel: "canonical", href: url }],
+      scripts: articleSchema ? [{ type: "application/ld+json", children: JSON.stringify(articleSchema) }] : [],
     };
   },
   component: SingleBlogPostPage,

@@ -40,11 +40,10 @@ Before filling out your online consular application, ensure you have original co
 
 ## 2. Consular Step-by-Step
 
-1. **Government Application**: Fill out the official passport website application form.
+1. **Government Application**: Fill out the official passport website application form (Refer to the official [U.S. Department of State Passport Portal](https://travel.state.gov) and [VFS Global Consular Services](https://visa.vfsglobal.com) for official government guidelines).
 2. **Account Setup**: Register your reference number and generate your tracking shipping label.
 3. **Physical Audit & Submission**: Double-check annexures and notarized affidavits.
 
-> [!TIP]
 > Need expedited emergency priority filing or error-free form preparation? Contact One World Solutions at **+1 (773) 974-5045** for end-to-end concierge assistance.
     `,
     coverImage: "https://images.unsplash.com/photo-1544717305-2782549b5136?auto=format&fit=crop&w=1200&q=80",

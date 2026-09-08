@@ -51,6 +51,49 @@ export const Route = createFileRoute("/")({
       { property: "og:url", content: "https://www.oneworldsolutionsusa.com" },
     ],
     links: [{ rel: "canonical", href: "https://www.oneworldsolutionsusa.com" }],
+    scripts: [
+      {
+        type: "application/ld+json",
+        children: JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "FAQPage",
+          "mainEntity": [
+            {
+              "@type": "Question",
+              "name": "How fast can you process an urgent international passport renewal?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "With our 24-Hour Emergency Rush intake, your application is double-verified by our specialists on the same day and submitted via emergency priority channels to avoid standard government delays."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "Do I get full source code ownership for custom web & software development?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Yes, 100%! Upon project completion, all intellectual property, source code repositories, design assets, and cloud deployment credentials are fully transferred to your company with zero lock-in."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "How do you track and report digital marketing & PPC ROI?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "We provide a live dashboard and monthly performance reports tracking keyword rankings, conversion rate optimization metrics, and cost-per-acquisition across Google Ads and Meta campaign channels."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "Do you accept walk-in office visits?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "No, all services are strictly by online intake or scheduled appointment only. This ensures our specialists have dedicated, uninterrupted time to process your paperwork accurately without delay."
+              }
+            }
+          ]
+        })
+      }
+    ]
   }),
   component: Home,
 });
