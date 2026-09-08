@@ -127,20 +127,21 @@ function SingleBlogPostPage() {
         {/* Formatted Article Body */}
         <div className="surface-card p-6 sm:p-10 rounded-3xl bg-white border border-slate-200 shadow-sm space-y-6 prose prose-slate max-w-none text-slate-800 leading-relaxed text-sm sm:text-base">
           {post.content.split("\n\n").map((paragraph, idx) => {
-            if (paragraph.startsWith("# ")) {
-              return <h1 key={idx} className="text-2xl font-extrabold text-slate-900 font-display mt-4">{paragraph.replace("# ", "")}</h1>;
+            const cleanParagraph = paragraph.replace(/\[!TIP\]\s*/g, "");
+            if (cleanParagraph.startsWith("# ")) {
+              return <h2 key={idx} className="text-2xl font-extrabold text-slate-900 font-display mt-4">{cleanParagraph.replace("# ", "")}</h2>;
             }
-            if (paragraph.startsWith("## ")) {
-              return <h2 key={idx} className="text-xl font-extrabold text-slate-900 font-display mt-4">{paragraph.replace("## ", "")}</h2>;
+            if (cleanParagraph.startsWith("## ")) {
+              return <h2 key={idx} className="text-xl font-extrabold text-slate-900 font-display mt-4">{cleanParagraph.replace("## ", "")}</h2>;
             }
-            if (paragraph.startsWith("> ")) {
+            if (cleanParagraph.startsWith("> ")) {
               return (
                 <div key={idx} className="p-4 rounded-2xl bg-blue-50 border-l-4 border-blue-600 text-blue-900 font-medium text-xs sm:text-sm">
-                  {paragraph.replace("> ", "")}
+                  {cleanParagraph.replace("> ", "")}
                 </div>
               );
             }
-            return <p key={idx}>{paragraph}</p>;
+            return <p key={idx}>{cleanParagraph}</p>;
           })}
         </div>
 

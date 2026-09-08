@@ -83,15 +83,14 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
   head: () => ({
     meta: [
       { charSet: "utf-8" },
-      { name: "viewport", content: "width=device-width, initial-scale=1, maximum-scale=1" },
+      { name: "viewport", content: "width=device-width, initial-scale=1" },
       { name: "robots", content: "index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" },
       { name: "googlebot", content: "index, follow" },
       { name: "author", content: "One World Solutions / ABHIPRIYA GROUPS LLC" },
       { name: "publisher", content: "One World Solutions" },
       {
         name: "keywords",
-        content:
-          "passport services company usa, expedited passport renewal usa, 24 hour passport rush, oci card application, surrendered passport certificate, web development company in usa, custom saas development usa, ai agent engineering, react nextjs developers, enterprise software development, digital marketing services in usa, technical seo agency, google ads ppc agency usa",
+        content: "passport renewal usa, web development company usa, digital marketing agency, expedited passport services, custom saas development",
       },
       {
         name: "description",

@@ -10,7 +10,7 @@ import { Badge } from "@/components/ui/badge";
 export const Route = createFileRoute("/passport/")({
   head: () => ({
     meta: [
-      { title: "Best Passport Services Company in USA | Expedited Renewal & OCI Concierge" },
+      { title: "Top Passport Services Company USA | Expedited Renewal" },
       {
         name: "description",
         content:

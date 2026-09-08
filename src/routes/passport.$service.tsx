@@ -20,9 +20,9 @@ export const Route = createFileRoute("/passport/$service")({
     const { service } = loaderData;
     return {
       meta: [
-        { title: `${service.title} — Meridian Client Services` },
+        { title: `${service.title} — One World Solutions` },
         { name: "description", content: service.description },
-        { property: "og:title", content: `${service.title} — Meridian Client Services` },
+        { property: "og:title", content: `${service.title} — One World Solutions` },
         { property: "og:description", content: service.description },
       ],
     };
