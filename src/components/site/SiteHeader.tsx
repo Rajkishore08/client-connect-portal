@@ -81,6 +81,15 @@ export function SiteHeader() {
             </Link>
 
             <Link
+              to="/about"
+              preload="intent"
+              activeProps={{ className: "bg-blue-50 text-blue-600 font-bold" }}
+              className="rounded-full px-3.5 py-2 text-xs font-semibold text-slate-700 transition-colors hover:bg-slate-100 whitespace-nowrap"
+            >
+              About &amp; Team
+            </Link>
+
+            <Link
               to="/passport"
               preload="intent"
               activeProps={{ className: "bg-blue-50 text-blue-600 font-bold" }}
@@ -238,6 +247,14 @@ export function SiteHeader() {
                       className="block rounded-xl px-3.5 py-2.5 text-sm font-bold text-slate-900 hover:bg-slate-100"
                     >
                       Home
+                    </Link>
+
+                    <Link
+                      to="/about"
+                      onClick={() => setOpen(false)}
+                      className="block rounded-xl px-3.5 py-2.5 text-sm font-bold text-slate-900 hover:bg-slate-100"
+                    >
+                      About &amp; Leadership Team
                     </Link>
 
                     <Accordion type="single" collapsible className="w-full">

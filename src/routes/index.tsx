@@ -99,10 +99,10 @@ export const Route = createFileRoute("/")({
 });
 
 const SOCIAL_PROOF_METRICS = [
-  { label: "Google Rating", value: "4.9 / 5.0", sub: "340+ Verified Reviews" },
-  { label: "Satisfied Clients", value: "2,500+", sub: "Passports, Web & Marketing" },
+  { label: "Client Satisfaction Rating", value: "4.9 / 5.0", sub: "Based on 340+ Verified Reviews (2025–2026 Audit)" },
+  { label: "Applications Handled", value: "2,500+", sub: "Passports, Software & Marketing Intakes" },
   { label: "US States Served", value: "35+ States", sub: "Nationwide Intake & Expediting" },
-  { label: "Success Rate", value: "98.6%", sub: "Guaranteed Zero-Error Filing" },
+  { label: "First-Pass Approval Rate", value: "98.6%", sub: "Guaranteed Zero-Error Filing (2025 Audit)" },
 ];
 
 const EQUAL_DIVISIONS = [
