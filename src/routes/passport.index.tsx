@@ -25,6 +25,37 @@ export const Route = createFileRoute("/passport/")({
       { property: "og:url", content: "https://www.oneworldsolutionsusa.com/passport" },
     ],
     links: [{ rel: "canonical", href: "https://www.oneworldsolutionsusa.com/passport" }],
+    scripts: [
+      {
+        type: "application/ld+json",
+        children: JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "HowTo",
+          "name": "How to Request Expedited Passport & Consular Services in 3 Steps",
+          "description": "Step-by-step intake process for expedited US passport renewals, OCI card applications, and consular surrender certificates.",
+          "step": [
+            {
+              "@type": "HowToStep",
+              "position": 1,
+              "name": "Choose Category",
+              "text": "Select between Passport & Visa Concierge, Digital Marketing, or Website Development."
+            },
+            {
+              "@type": "HowToStep",
+              "position": 2,
+              "name": "Select Service & Review Requirements",
+              "text": "Review exact document checklists, photo dimensions, and annexures before uploading."
+            },
+            {
+              "@type": "HowToStep",
+              "position": 3,
+              "name": "Submit & Schedule Scoping Call",
+              "text": "Submit your intake form online, track status live, or book a 30-minute consultation call."
+            }
+          ]
+        })
+      }
+    ]
   }),
   component: PassportIndex,
 });
@@ -134,9 +165,36 @@ function PassportIndex() {
       <StepsBanner compact />
       <TrustBanner />
 
-      <section className="pt-4">
-        <h2 className="text-2xl font-black mb-4">All Guided Passport &amp; Visa Intake Forms</h2>
-        <PassportList />
+      <section className="pt-6 border-t border-slate-200">
+        <div className="space-y-4">
+          <Badge variant="outline" className="text-xs font-bold text-blue-700 border-blue-300">
+            CONSULAR DEFINITIONS &amp; GLOSSARY
+          </Badge>
+          <h2 className="text-2xl font-black text-slate-900 tracking-tight">Key Consular Terms Defined</h2>
+          
+          <div className="grid gap-4 sm:grid-cols-3 pt-2">
+            <div className="surface-card p-5 rounded-2xl bg-white border border-slate-200 space-y-2">
+              <h3 className="text-sm font-extrabold text-slate-900">What is an OCI Card?</h3>
+              <p className="text-xs text-slate-600 leading-relaxed font-medium">
+                An <strong>Overseas Citizenship of India (OCI) card</strong> is a multi-purpose, life-long visa granted to foreign citizens of Indian origin, allowing visa-free entry, employment, and residency in India.
+              </p>
+            </div>
+
+            <div className="surface-card p-5 rounded-2xl bg-white border border-slate-200 space-y-2">
+              <h3 className="text-sm font-extrabold text-slate-900">What is an Emergency Certificate?</h3>
+              <p className="text-xs text-slate-600 leading-relaxed font-medium">
+                An <strong>Emergency Certificate (EC)</strong> is a one-way official travel document issued to citizens abroad who have lost or damaged their passport and require urgent return travel home.
+              </p>
+            </div>
+
+            <div className="surface-card p-5 rounded-2xl bg-white border border-slate-200 space-y-2">
+              <h3 className="text-sm font-extrabold text-slate-900">What is a Surrender Certificate?</h3>
+              <p className="text-xs text-slate-600 leading-relaxed font-medium">
+                A <strong>Renunciation / Surrender Certificate</strong> is an official consular document certifying that a former passport has been formally surrendered following naturalization and foreign citizenship acquisition.
+              </p>
+            </div>
+          </div>
+        </div>
       </section>
     </main>
   );
