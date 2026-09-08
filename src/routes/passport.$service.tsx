@@ -33,6 +33,30 @@ export const Route = createFileRoute("/passport/$service")({
       "areaServed": "US",
       "serviceType": "Expedited Passport & Consular Services"
     };
+    const breadcrumbSchema = {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Home",
+          "item": "https://www.oneworldsolutionsusa.com"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Passport Services",
+          "item": "https://www.oneworldsolutionsusa.com/passport"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": service.title,
+          "item": url
+        }
+      ]
+    };
 
     return {
       meta: [
@@ -47,6 +71,10 @@ export const Route = createFileRoute("/passport/$service")({
         {
           type: "application/ld+json",
           children: JSON.stringify(serviceSchema),
+        },
+        {
+          type: "application/ld+json",
+          children: JSON.stringify(breadcrumbSchema),
         },
       ],
     };
