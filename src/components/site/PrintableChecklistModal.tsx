@@ -82,7 +82,7 @@ export function PrintableChecklistModal({
               <div class="sub-logo">Travel Concierge • Build Digitally • Grow Globally</div>
             </div>
             <div class="office-info">
-              <strong>Chicago HQ Desk:</strong> Online Direct Filing<br />
+              <strong>Support &amp; Intake Desk:</strong> 100% Online Service Portal<br />
               <strong>Direct Phone:</strong> ${OFFICE_LOCATION.phone}<br />
               <strong>Email:</strong> ${OFFICE_LOCATION.email}
             </div>
