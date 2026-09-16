@@ -82,7 +82,7 @@ export function PrintableChecklistModal({
               <div class="sub-logo">Travel Concierge • Build Digitally • Grow Globally</div>
             </div>
             <div class="office-info">
-              <strong>Chicago HQ Desk:</strong> ${OFFICE_LOCATION.address}<br />
+              <strong>Chicago HQ Desk:</strong> Online Direct Filing<br />
               <strong>Direct Phone:</strong> ${OFFICE_LOCATION.phone}<br />
               <strong>Email:</strong> ${OFFICE_LOCATION.email}
             </div>
@@ -90,7 +90,7 @@ export function PrintableChecklistModal({
 
           <div class="form-title">
             <h1>Official Consular Intake &amp; Document Checklist</h1>
-            <p>Target Service: <strong>${serviceTitle}</strong> | Office Zip Code: <strong>60613</strong></p>
+            <p>Target Service: <strong>${serviceTitle}</strong> | Processing Hub: <strong>Chicago, IL USA Operations Desk</strong></p>
           </div>
 
           <div class="section">
@@ -129,13 +129,13 @@ export function PrintableChecklistModal({
             <div class="section-header">3. Document Submission &amp; Courier Instructions</div>
             <div style="font-size: 12px; color: #334155; line-height: 1.6; background: #f8fafc; border: 1px dashed #94a3b8; padding: 12px; border-radius: 8px;">
               • <strong>100% Online Digital Upload:</strong> Upload scanned document copies directly through your online client portal intake.<br />
-              • <strong>Mail-In Courier Dispatch:</strong> Include a copy of this checklist inside your prepaid FedEx/UPS priority envelope addressed to One World Solutions Chicago Desk (Chicago, IL 60613, USA).<br />
+              • <strong>Mail-In Courier Dispatch:</strong> Include a copy of this checklist inside your prepaid FedEx/UPS priority envelope addressed to One World Solutions Chicago Desk.<br />
               • <strong>Document Security Audit:</strong> All documents undergo AES-256 SSL encrypted digital logging and pre-consular audit prior to embassy filing.
             </div>
           </div>
 
           <div class="footer-notes">
-            One World Solutions — E-Verified Private Service-Based Agency • Chicago, IL 60613, USA<br />
+            One World Solutions — E-Verified Private Service-Based Agency • Chicago, IL USA<br />
             For Support or Live Status Updates, call <strong>${OFFICE_LOCATION.phone}</strong> or visit <strong>https://oneworldsolutionsusa.com/track</strong>
           </div>
 
@@ -168,7 +168,7 @@ export function PrintableChecklistModal({
                 Official Document Checklist &amp; Form
               </DialogTitle>
               <DialogDescription className="text-xs text-slate-400 font-medium">
-                {serviceTitle} • Chicago HQ 60613 Desk
+                {serviceTitle} • Chicago Operations Desk
               </DialogDescription>
             </div>
           </div>
@@ -188,7 +188,7 @@ export function PrintableChecklistModal({
             <div>
               <p className="font-extrabold text-slate-900 text-sm">{serviceTitle}</p>
               <p className="text-[11px] text-slate-500 flex items-center gap-1 mt-0.5">
-                <MapPin className="h-3 w-3 text-blue-600" /> Chicago HQ Desk (Zip: <strong>60613</strong>)
+                <MapPin className="h-3 w-3 text-blue-600" /> Chicago Operations Desk
               </p>
             </div>
             <span className="px-3 py-1 rounded-full bg-blue-100 text-blue-800 text-[10px] font-extrabold uppercase tracking-wider">
@@ -228,7 +228,7 @@ export function PrintableChecklistModal({
               <ShieldCheck className="h-4 w-4 text-blue-600" /> Submission &amp; Storage Notice
             </p>
             <p className="text-[11px] text-slate-600 leading-relaxed">
-              All documents uploaded through our online intake system are protected with <strong>AES-256 SSL secure storage &amp; consular pre-audit</strong>. You can bring or mail this form to our Chicago desk (<strong>Chicago, IL 60613, USA</strong>).
+              All documents uploaded through our online intake system are protected with <strong>AES-256 SSL secure storage &amp; consular pre-audit</strong>. You can bring or mail this form to our Chicago operations desk.
             </p>
           </div>
         </div>

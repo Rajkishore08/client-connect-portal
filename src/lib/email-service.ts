@@ -161,7 +161,6 @@ export function renderBrandedEmailHtml({
           <tr>
             <td bgcolor="#f8fafc" style="background-color: #f8fafc; padding: 24px; text-align: center; font-size: 12px; color: #64748b; border-top: 1px solid #e2e8f0; line-height: 1.5;">
               <p style="margin: 0 0 6px 0; font-weight: 800; color: #334155;">One World Solutions (A Division of ABHIPRIYA GROUPS LLC, E-Verified)</p>
-              <p style="margin: 0;">Chicago HQ: 3501 N Southport Ave, Chicago, IL 60613, USA</p>
               <p style="margin: 4px 0 0 0;">Direct Hotline: +1 (773) 974-5045 • Support: support@oneworldsolutionsusa.com</p>
             </td>
           </tr>

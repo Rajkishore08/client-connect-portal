@@ -76,12 +76,12 @@ function AboutPage() {
 
         <div className="surface-card p-6 rounded-3xl bg-white border border-slate-200 space-y-2">
           <div className="h-10 w-10 rounded-2xl bg-emerald-100 text-emerald-700 grid place-items-center mb-3">
-            <MapPin className="h-5 w-5" />
+            <Phone className="h-5 w-5" />
           </div>
-          <h3 className="text-base font-bold text-slate-900">Chicago Headquarters</h3>
+          <h3 className="text-base font-bold text-slate-900">Direct Support &amp; Hotline</h3>
           <p className="text-xs text-slate-600 leading-relaxed font-medium">
-            Address: <strong>{OFFICE_LOCATION.address}</strong><br />
-            Phone: <strong>{OFFICE_LOCATION.phone}</strong>
+            Phone: <strong>{OFFICE_LOCATION.phone}</strong><br />
+            Email: <strong>{OFFICE_LOCATION.email}</strong>
           </p>
         </div>
 

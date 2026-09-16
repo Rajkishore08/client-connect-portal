@@ -85,10 +85,9 @@ function TermsPage() {
         </section>
 
         <section className="space-y-2 border-t border-border pt-4">
-          <h2 className="text-base font-bold text-foreground">6. Contact Information &amp; Office Location</h2>
+          <h2 className="text-base font-bold text-foreground">7. Contact Information</h2>
           <div className="text-muted-foreground space-y-1 text-xs sm:text-sm">
             <p><strong>One World Solutions Headquarters</strong></p>
-            <p>{OFFICE_LOCATION.address}</p>
             <p>Hotline: {OFFICE_LOCATION.phone}</p>
             <p>Email: {OFFICE_LOCATION.email}</p>
           </div>

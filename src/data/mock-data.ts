@@ -696,7 +696,7 @@ export const SHIPPING_OPTIONS: ShippingOption[] = [
 ];
 
 export const OFFICE_LOCATION = {
-  address: "3501 N Southport Ave, Chicago, IL 60613, USA",
+  address: "",
   phone: "+1 (773) 974-5045",
   whatsapp: "+1 (773) 974-5045",
   whatsappLink: "https://wa.me/17739745045",

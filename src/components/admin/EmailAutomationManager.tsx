@@ -219,7 +219,7 @@ export function EmailAutomationManager() {
                       </div>
                     </div>
                     <div style="background: #f8fafc; padding: 20px; text-align: center; font-size: 12px; color: #64748b; border-top: 1px solid #e2e8f0;">
-                      <p style="margin: 0;"><strong>One World Solutions (Chicago, IL 60613 • E-Verified)</strong></p>
+                      <p style="margin: 0;"><strong>One World Solutions (Chicago, IL • E-Verified)</strong></p>
                     </div>
                   </div>
                 </body>

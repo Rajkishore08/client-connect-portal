@@ -157,7 +157,6 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
                 "@type": "PostalAddress",
                 "addressLocality": "Chicago",
                 "addressRegion": "IL",
-                "postalCode": "60613",
                 "addressCountry": "US"
               },
               "geo": {
@@ -191,10 +190,8 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
               "email": "support@oneworldsolutionsusa.com",
               "address": {
                 "@type": "PostalAddress",
-                "streetAddress": "Chicago",
                 "addressLocality": "Chicago",
                 "addressRegion": "IL",
-                "postalCode": "60613",
                 "addressCountry": "US"
               },
               "geo": {

@@ -71,7 +71,7 @@ function PrivacyPage() {
           <h2 className="text-base font-bold text-foreground">5. Privacy Officer Contact</h2>
           <div className="text-muted-foreground space-y-1 text-xs sm:text-sm">
             <p><strong>One World Solutions Data Protection</strong></p>
-            <p>{OFFICE_LOCATION.address}</p>
+            <p>Direct Hotline: {OFFICE_LOCATION.phone}</p>
             <p>Email: {OFFICE_LOCATION.email}</p>
           </div>
         </section>
