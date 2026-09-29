@@ -78,13 +78,21 @@ export function AdminDashboard({ onNavigateTab }: AdminDashboardProps) {
   const [categoryFilter, setCategoryFilter] = useState("all");
   const [updatingId, setUpdatingId] = useState<string | null>(null);
 
+  const [dbError, setDbError] = useState<string | null>(null);
+
   const loadRealLeads = async () => {
     setLoading(true);
+    setDbError(null);
     try {
       const data = await fetchLeadsFromSupabase();
       setLeads(data);
-    } catch (err) {
-      console.warn("[Executive Analytics] Load leads notice:", err);
+    } catch (err: any) {
+      const errMsg = err?.message || "Database connection failed. Unable to fetch records from Supabase.";
+      console.error("[Executive Analytics] Load leads error:", err);
+      setDbError(errMsg);
+      toast.error("Database Disconnected", {
+        description: errMsg,
+      });
     } finally {
       setLoading(false);
     }
@@ -187,6 +195,33 @@ export function AdminDashboard({ onNavigateTab }: AdminDashboardProps) {
 
   return (
     <div className="space-y-6">
+      {/* DB Connection Failure Alert Banner */}
+      {dbError && (
+        <div className="p-4 rounded-2xl bg-rose-50 border-2 border-rose-500/50 text-rose-900 shadow-md flex items-start gap-3.5 animate-in fade-in zoom-in-95">
+          <div className="h-9 w-9 rounded-xl bg-rose-500/20 text-rose-700 grid place-items-center shrink-0 border border-rose-300">
+            <AlertTriangle className="h-5 w-5 text-rose-600" />
+          </div>
+          <div className="flex-1 space-y-1">
+            <h4 className="text-xs font-black uppercase tracking-wider text-rose-900 flex items-center justify-between">
+              <span>DATABASE DISCONNECTED (503 / Connection Failure)</span>
+              <button
+                type="button"
+                onClick={loadRealLeads}
+                className="px-2.5 py-1 rounded-lg bg-rose-600 hover:bg-rose-700 text-white font-bold text-[10px] cursor-pointer transition-all flex items-center gap-1 shadow-2xs"
+              >
+                <RefreshCw className="h-3 w-3" /> Retry Connection
+              </button>
+            </h4>
+            <p className="text-xs font-semibold text-rose-800 leading-relaxed">
+              {dbError}
+            </p>
+            <p className="text-[11px] text-rose-600 font-medium">
+              Mock fallbacks have been disabled per system safety policy. Please check your Supabase project status.
+            </p>
+          </div>
+        </div>
+      )}
+
       {/* Top Banner with Real Telemetry Controls */}
       <div className="surface-card p-6 rounded-3xl border border-border shadow-sm flex flex-wrap items-center justify-between gap-4 bg-white">
         <div className="space-y-1">

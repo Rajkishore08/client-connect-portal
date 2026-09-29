@@ -63,87 +63,77 @@ function mapSupabaseRowToLead(row: Record<string, any>): Lead {
 
 /** Fetch All Leads Live from Supabase PostgreSQL Database + Local Submitted Intakes */
 export async function fetchLeadsFromSupabase(): Promise<Lead[]> {
-  try {
-    let result: Lead[] = [];
+  const { data, error } = await supabase
+    .from("leads")
+    .select("*")
+    .order("created_at", { ascending: false })
+    .limit(100);
 
-    const { data, error } = await supabase
-      .from("leads")
-      .select("*")
-      .order("created_at", { ascending: false })
-      .limit(100);
-
-    if (!error && data && data.length > 0) {
-      result = data.map(mapSupabaseRowToLead);
-    }
-
-    // Merge locally submitted intakes from client forms (ows_submitted_intakes)
-    if (typeof window !== "undefined") {
-      try {
-        const storedStr = localStorage.getItem("ows_submitted_intakes");
-        if (storedStr) {
-          const submittedList: any[] = JSON.parse(storedStr);
-          if (Array.isArray(submittedList) && submittedList.length > 0) {
-            const formattedSubmitted: Lead[] = submittedList.map((item: any) => ({
-              id: item.id || item.reference || `sub-${Date.now()}`,
-              reference: item.reference || item.trackingId || "REF-000000",
-              date: item.date || new Date().toISOString().split("T")[0]!,
-              name: item.name || item.applicantName || "Client",
-              email: item.email || item.applicantEmail || "",
-              phone: item.phone || item.phoneUsa || "",
-              category: item.category || "General Intake",
-              service: item.service || item.serviceTitle || "General Service",
-              source: item.source || "Form",
-              status: item.status || "New",
-              notes: item.notes || "",
-              documents: item.documents || item.fileUrls || [],
-              progressPercent: item.progressPercent !== undefined ? item.progressPercent : 0,
-              tracking: item.tracking || {
-                governmentForm: { status: item.gov_form_status || "Not Started", ref: item.gov_form_ref || "" },
-                vfs: { status: item.vfs_status || "Not Started", ref: item.vfs_ref || "" },
-                courier: { status: item.courier_status || "Not Started", ref: item.courier_ref || "" },
-              },
-            }));
-
-            // Prepend submitted intakes not already present in result
-            const existingRefs = new Set(result.map((l) => l.reference));
-            const newSubmitted = formattedSubmitted.filter((l) => !existingRefs.has(l.reference));
-            result = [...newSubmitted, ...result];
-          }
-        }
-      } catch (e) {
-        console.warn("[DB Merge] Submitted intakes parse notice:", e);
-      }
-    }
-
-    // If both DB and submitted intakes are empty, fall back to initial seed LEADS
-    if (result.length === 0) {
-      result = LEADS;
-    }
-
-    // Apply local admin lead overrides if present
-    if (typeof window !== "undefined") {
-      try {
-        const overridesStr = localStorage.getItem("ows_admin_lead_overrides");
-        if (overridesStr) {
-          const overrides: Record<string, Partial<Lead>> = JSON.parse(overridesStr);
-          result = result.map((l) => {
-            const patch = overrides[l.id] || overrides[l.reference] || overrides[l.reference.replace("#", "")];
-            if (patch) {
-              return { ...l, ...patch };
-            }
-            return l;
-          });
-        }
-      } catch (e) {
-        console.warn("[Vault] Overrides parse notice:", e);
-      }
-    }
-
-    return result;
-  } catch (err) {
-    console.warn("[Supabase DB Error] fetchLeadsFromSupabase fallback:", err);
-    return LEADS;
+  if (error) {
+    console.error("[Supabase DB Error] fetchLeadsFromSupabase:", error);
+    throw new Error(`Database is disconnected or query failed: ${error.message}`);
   }
+
+  let result: Lead[] = data ? data.map(mapSupabaseRowToLead) : [];
+
+  // Merge locally submitted intakes from client forms (ows_submitted_intakes)
+  if (typeof window !== "undefined") {
+    try {
+      const storedStr = localStorage.getItem("ows_submitted_intakes");
+      if (storedStr) {
+        const submittedList: any[] = JSON.parse(storedStr);
+        if (Array.isArray(submittedList) && submittedList.length > 0) {
+          const formattedSubmitted: Lead[] = submittedList.map((item: any) => ({
+            id: item.id || item.reference || `sub-${Date.now()}`,
+            reference: item.reference || item.trackingId || "REF-000000",
+            date: item.date || new Date().toISOString().split("T")[0]!,
+            name: item.name || item.applicantName || "Client",
+            email: item.email || item.applicantEmail || "",
+            phone: item.phone || item.phoneUsa || "",
+            category: item.category || "General Intake",
+            service: item.service || item.serviceTitle || "General Service",
+            source: item.source || "Form",
+            status: item.status || "New",
+            notes: item.notes || "",
+            documents: item.documents || item.fileUrls || [],
+            progressPercent: item.progressPercent !== undefined ? item.progressPercent : 0,
+            tracking: item.tracking || {
+              governmentForm: { status: item.gov_form_status || "Not Started", ref: item.gov_form_ref || "" },
+              vfs: { status: item.vfs_status || "Not Started", ref: item.vfs_ref || "" },
+              courier: { status: item.courier_status || "Not Started", ref: item.courier_ref || "" },
+            },
+          }));
+
+          const existingRefs = new Set(result.map((l) => l.reference));
+          const newSubmitted = formattedSubmitted.filter((l) => !existingRefs.has(l.reference));
+          result = [...newSubmitted, ...result];
+        }
+      }
+    } catch (e) {
+      console.warn("[DB Merge] Submitted intakes parse notice:", e);
+    }
+  }
+
+  // Apply local admin lead overrides if present
+  if (typeof window !== "undefined") {
+    try {
+      const overridesStr = localStorage.getItem("ows_admin_lead_overrides");
+      if (overridesStr) {
+        const overrides: Record<string, Partial<Lead>> = JSON.parse(overridesStr);
+        result = result.map((l) => {
+          const patch = overrides[l.id] || overrides[l.reference] || overrides[l.reference.replace("#", "")];
+          if (patch) {
+            return { ...l, ...patch };
+          }
+          return l;
+        });
+      }
+    } catch (e) {
+      console.warn("[Vault] Overrides parse notice:", e);
+    }
+  }
+
+  return result;
 }
 
 /** Create New Lead Record in Supabase PostgreSQL Database */
