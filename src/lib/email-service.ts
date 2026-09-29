@@ -11,7 +11,11 @@ const resendApiKey =
 export const resend = resendApiKey ? new Resend(resendApiKey) : null;
 
 export const SENDER_EMAIL = "One World Solutions <support@oneworldsolutionsusa.com>";
-export const ADMIN_EMAIL = "support@oneworldsolutionsusa.com";
+export const ADMIN_EMAILS = [
+  "support@oneworldsolutionsusa.com",
+  "oneworldsolutions20@gmail.com",
+];
+export const ADMIN_EMAIL = ADMIN_EMAILS[0]!;
 
 export interface IntakeEmailPayload {
   clientName: string;
@@ -405,7 +409,7 @@ export async function sendAdminIntakeAlert(payload: IntakeEmailPayload) {
   });
 
   return safeSendResendEmail({
-    to: [ADMIN_EMAIL],
+    to: ADMIN_EMAILS,
     subject: `🚨 NEW INTAKE SUBMITTED: ${payload.serviceTitle} (${payload.trackingId})`,
     html,
   });
