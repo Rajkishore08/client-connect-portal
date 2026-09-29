@@ -1,5 +1,6 @@
 import {
   Activity,
+  AlertTriangle,
   ArrowUpRight,
   BarChart3,
   BookOpen,
