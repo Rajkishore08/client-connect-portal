@@ -1,0 +1,28 @@
+name: Keep Supabase Database Active
+
+on:
+  schedule:
+    # Runs every 4 days at 00:00 UTC (well within Supabase 7-day inactivity pause limit)
+    - cron: '0 0 */4 * *'
+  workflow_dispatch: # Allows manual trigger from GitHub Actions UI
+
+jobs:
+  ping-supabase:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Ping Supabase Database Direct REST
+        run: |
+          echo "Pinging Supabase database to prevent inactivity pause..."
+          HTTP_STATUS=$(curl -s -o response.txt -w "%{http_code}" \
+            -H "apikey: ${{ secrets.VITE_SUPABASE_ANON_KEY || 'sb_publishable_neWJgg-i95e6JSxp_1UMzw_h3jNk3Ga' }}" \
+            -H "Authorization: Bearer ${{ secrets.VITE_SUPABASE_ANON_KEY || 'sb_publishable_neWJgg-i95e6JSxp_1UMzw_h3jNk3Ga' }}" \
+            "${{ secrets.VITE_SUPABASE_URL || 'https://bpldaxxwbbcdgsbjbaki.supabase.co' }}/rest/v1/leads?select=id&limit=1" || true)
+
+          echo "Supabase HTTP status: $HTTP_STATUS"
+          cat response.txt || true
+
+      - name: Ping Web App Keep-Alive Endpoint
+        run: |
+          echo "Pinging production web app keep-alive endpoint..."
+          curl -s -f "https://www.oneworldsolutionsusa.com/api/keep-alive" || \
+          curl -s -f "https://client-connect-portal.vercel.app/api/keep-alive" || true

@@ -311,6 +311,16 @@ function RootComponent() {
   useEffect(() => {
     if (typeof window !== "undefined") {
       window.scrollTo(0, 0);
+
+      // Opportunistic Keep-Alive: Ping DB at most once per 24 hours per browser session
+      try {
+        const lastPing = localStorage.getItem("ows_db_last_ping");
+        const oneDayAgo = Date.now() - 24 * 60 * 60 * 1000;
+        if (!lastPing || parseInt(lastPing, 10) < oneDayAgo) {
+          localStorage.setItem("ows_db_last_ping", String(Date.now()));
+          fetch("/api/keep-alive").catch(() => {});
+        }
+      } catch (e) {}
     }
   }, [pathname]);
 
