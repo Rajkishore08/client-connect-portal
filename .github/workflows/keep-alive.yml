@@ -9,14 +9,17 @@ on:
 jobs:
   ping-supabase:
     runs-on: ubuntu-latest
+    env:
+      SUPABASE_URL: ${{ secrets.VITE_SUPABASE_URL != '' && secrets.VITE_SUPABASE_URL || 'https://bpldaxxwbbcdgsbjbaki.supabase.co' }}
+      SUPABASE_KEY: ${{ secrets.VITE_SUPABASE_ANON_KEY != '' && secrets.VITE_SUPABASE_ANON_KEY || 'sb_publishable_neWJgg-i95e6JSxp_1UMzw_h3jNk3Ga' }}
     steps:
       - name: Ping Supabase Database Direct REST
         run: |
           echo "Pinging Supabase database to prevent inactivity pause..."
           HTTP_STATUS=$(curl -s -o response.txt -w "%{http_code}" \
-            -H "apikey: ${{ secrets.VITE_SUPABASE_ANON_KEY || 'sb_publishable_neWJgg-i95e6JSxp_1UMzw_h3jNk3Ga' }}" \
-            -H "Authorization: Bearer ${{ secrets.VITE_SUPABASE_ANON_KEY || 'sb_publishable_neWJgg-i95e6JSxp_1UMzw_h3jNk3Ga' }}" \
-            "${{ secrets.VITE_SUPABASE_URL || 'https://bpldaxxwbbcdgsbjbaki.supabase.co' }}/rest/v1/leads?select=id&limit=1" || true)
+            -H "apikey: $SUPABASE_KEY" \
+            -H "Authorization: Bearer $SUPABASE_KEY" \
+            "$SUPABASE_URL/rest/v1/leads?select=id&limit=1" || true)
 
           echo "Supabase HTTP status: $HTTP_STATUS"
           cat response.txt || true
