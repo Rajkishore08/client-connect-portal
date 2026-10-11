@@ -9,13 +9,13 @@ on:
 jobs:
   ping-supabase:
     runs-on: ubuntu-latest
-    env:
-      SUPABASE_URL: ${{ secrets.VITE_SUPABASE_URL != '' && secrets.VITE_SUPABASE_URL || 'https://bpldaxxwbbcdgsbjbaki.supabase.co' }}
-      SUPABASE_KEY: ${{ secrets.VITE_SUPABASE_ANON_KEY != '' && secrets.VITE_SUPABASE_ANON_KEY || 'sb_publishable_neWJgg-i95e6JSxp_1UMzw_h3jNk3Ga' }}
     steps:
       - name: Ping Supabase Database Direct REST
         run: |
           echo "Pinging Supabase database to prevent inactivity pause..."
+          SUPABASE_URL="${SUPABASE_SECRET_URL:-https://bpldaxxwbbcdgsbjbaki.supabase.co}"
+          SUPABASE_KEY="${SUPABASE_SECRET_KEY:-sb_publishable_neWJgg-i95e6JSxp_1UMzw_h3jNk3Ga}"
+
           HTTP_STATUS=$(curl -s -o response.txt -w "%{http_code}" \
             -H "apikey: $SUPABASE_KEY" \
             -H "Authorization: Bearer $SUPABASE_KEY" \
@@ -23,6 +23,9 @@ jobs:
 
           echo "Supabase HTTP status: $HTTP_STATUS"
           cat response.txt || true
+        env:
+          SUPABASE_SECRET_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_SECRET_KEY: ${{ secrets.SUPABASE_ANON_KEY }}
 
       - name: Ping Web App Keep-Alive Endpoint
         run: |
